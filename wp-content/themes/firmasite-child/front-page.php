@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>CCommunity</title>
+<title>CECommunity</title>
 
 <link href="<?php bloginfo('stylesheet_directory'); ?>/assets/css/login_page.css" rel="stylesheet" type="text/css" />
 <script src="<?php bloginfo('stylesheet_directory'); ?>/assets/js/jquery.js" type="text/javascript"></script>

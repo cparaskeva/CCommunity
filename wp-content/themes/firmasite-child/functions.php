@@ -22,10 +22,8 @@ if ( !defined('FIRMASITE_DESIGNER') )
 	
 if ( !defined('FIRMASITE_CDN') )
 	define('FIRMASITE_CDN', false);
-
-
 	
-// Redirect User to specific site based on the roles	
+//Redirect User to specific site based on the roles	
 add_filter("login_redirect","bpdev_redirect_to_profile",10,3);
 
 
@@ -50,6 +48,8 @@ else
 
 return $redirect_to_calculated; /*if site admin or not logged in,do not do anything much*/
 
-
-
 }
+
+
+
+	
