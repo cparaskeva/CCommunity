@@ -1,0 +1,14 @@
+/*
+ Theme Name:     CCommunity Theme
+ Theme URI:      http://example.com/twenty-thirteen-child/
+ Description:    A custom made child-theme based on FirmaSiteTheme
+ Author:         Ubitech
+ Author URI:     http://www.ubitech.eu
+ Template:       firmasite
+ Version:        1.0.0
+*/
+
+@import url("../firmasite/style.css");
+
+/* =Theme customization starts here
+-------------------------------------------------------------- */ 
