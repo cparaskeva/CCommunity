@@ -36,7 +36,7 @@
   <input type="text" class="username" value="" name="log">
   <input type="password" class="password" value="" name="pwd">
   <input name="text" type="checkbox" class="checkbox" name="rememberme" value="forever" />
-  <input type="hidden" name="testcookie" value="1" />
+  <!-- <input type="hidden" name="redirect_to" value="members/"> -->
   <span class="remember"> Remember Me </span>
   </p>
 <button class="btn" title="Login">Login	</button>

@@ -22,3 +22,34 @@ if ( !defined('FIRMASITE_DESIGNER') )
 	
 if ( !defined('FIRMASITE_CDN') )
 	define('FIRMASITE_CDN', false);
+
+
+	
+// Redirect User to specific site based on the roles	
+add_filter("login_redirect","bpdev_redirect_to_profile",10,3);
+
+
+
+function bpdev_redirect_to_profile($redirect_to_calculated,$redirect_url_specified,$user)
+
+{
+
+if(empty($redirect_to_calculated))
+
+$redirect_to_calculated=admin_url();
+
+
+
+/*if the user is not site admin,redirect to his/her profile*/
+
+if(!is_site_admin($user->user_login))
+
+return bp_core_get_user_domain($user->ID );
+
+else
+
+return $redirect_to_calculated; /*if site admin or not logged in,do not do anything much*/
+
+
+
+}
