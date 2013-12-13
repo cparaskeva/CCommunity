@@ -1,5 +1,5 @@
 <?php   
-      add_action("firmasite_settings_close", "firmasite_custom_container_size");
+    add_action("firmasite_settings_close", "firmasite_custom_container_size");
     function firmasite_custom_container_size(){
     global $firmasite_settings;
     switch ($firmasite_settings["layout"]) {
@@ -12,6 +12,9 @@
     $firmasite_settings["layout_secondary_class"] = "col-xs-12 col-md-3";	
     break;	
     }
+    //Register Form Layout
+    $firmasite_settings["layout_register_class"] = "col-xs-12 col-md-5";		
+    
     }
     
     
@@ -25,8 +28,6 @@ if ( !defined('FIRMASITE_CDN') )
 	
 //Redirect User to specific site based on the roles	
 add_filter("login_redirect","bpdev_redirect_to_profile",10,3);
-
-
 
 function bpdev_redirect_to_profile($redirect_to_calculated,$redirect_url_specified,$user)
 
