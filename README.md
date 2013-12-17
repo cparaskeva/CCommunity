@@ -1,4 +1,4 @@
-CCommunity
+CECommunity
 ==========
 
 The central community project
@@ -16,7 +16,7 @@ the web server.
 
 /etc/apache2/sites-enabled/000-default or /etc/httpd/conf/httpd.conf
 
-        <Directory /var/www/ccommunity/>
+        <Directory /var/www/cecommunity/>
           Options Indexes FollowSymLinks
           AllowOverride All
           Order allow,deny
