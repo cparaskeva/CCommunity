@@ -9,7 +9,8 @@
 
 			<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 
-				<h2><?php _e( 'Register an Organization', 'firmasite' ); ?></h2>
+				<h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/step2.jpg" height="60" width="60">        
+<?php _e( 'Register an Organization', 'firmasite' ); ?></h2>
 
 				<?php do_action( 'template_notices' ); ?>
 
@@ -206,9 +207,7 @@
 
 						<?php endwhile; ?>
 
-						<input type="hidden" name="signup_profile_field_ids" id="signup_profile_field_ids" value="<?php bp_the_profile_group_field_ids(); ?>" />
-
-						<?php endwhile; endif; endif; ?>
+												<?php endwhile; endif; endif; ?>
 
 					</div><!-- #profile-details-section -->
 
