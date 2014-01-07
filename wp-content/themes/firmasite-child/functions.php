@@ -1,4 +1,11 @@
 <?php   
+
+
+
+ //Implemantation of AJAX Calls need fo the registration process of a user
+  require(get_stylesheet_directory() . "/registration/register_functions.php"); 
+
+
     add_action("firmasite_settings_close", "firmasite_custom_container_size");
     function firmasite_custom_container_size(){
     global $firmasite_settings;
@@ -49,8 +56,9 @@ else
 
 return $redirect_to_calculated; /*if site admin or not logged in,do not do anything much*/
 
+
 }
 
-
+ 
 
 	

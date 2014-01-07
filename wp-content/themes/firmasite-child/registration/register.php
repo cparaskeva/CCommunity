@@ -9,17 +9,13 @@ get_header('buddypress');
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="page" id="register-page">
-                    <form action="" name="signup_form" id="signup_form" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
+                    <form name="signup_form" id="register_step1" class="standard-form form-horizontal" method="post" enctype="multipart/form-data" action="">
                         <?php
-                        //echo get_stylesheet_directory_uri();
-                        //echo (get_template_directory());
-//Main registration code
+                        //Main registration code
                         //Check if registration is allowed!
                         if (!get_option('users_can_register')) {
                             _e('User registration is currently not allowed.', 'firmasite');
                         } else {
-                            // _e('User registration is currently  allowed.', 'firmasite');
-
                             _e("<h2>  <img src=\"" . get_stylesheet_directory_uri() . "/assets/img/step1.jpg\" height=\"60\" width=\"60\">        
                            Create an Account</h2>");
                             _e("<div class=\"register-section\" id=\"basic-details-section\">");
@@ -28,7 +24,7 @@ get_header('buddypress');
 
 
                             <div class="register-section" id="basic-details-section">
-
+                                  <input type="hidden" class="form-control" name="register_step" id="register_step" value="step1"/>
                                 <?php /*                                 * *** Basic Account Details ***** */ ?>
                                 <?php do_action('template_notices'); ?>
                                 <h4 class="page-header"><?php _e('Account Details', 'firmasite'); ?></h4>
@@ -65,8 +61,14 @@ get_header('buddypress');
                                         <input type="password" class="form-control" name="signup_password_confirm" id="signup_password_confirm" value="" <?php if (bp_get_the_profile_field_is_required()) : ?>aria-required="true"<?php endif; ?>/>
                                     </div>
                                 </div>
+                              
 
                             </div><!-- #basic-details-section -->
+
+                            <div align="right" class="submit" >
+                                <input type="submit" class="btn  btn-primary" name="signup_submit" id="signup_submit" value="<?php _e('Submit', 'firmasite'); ?>" />
+                            </div>
+                          
                         </form>
 
 
@@ -79,14 +81,18 @@ get_header('buddypress');
     </div>
 </div>
 </div>
+<div id="step1_errors">
+    
+
+</div>
 
 
 <?php
-//Load CECommunity Footer
-get_footer('buddypress');
+
 //Load JavaScript Files
-//include("/home/demonas/IDEs_Projects/NetBeansProjects/CCommunity/wp-content/themes/firmasite-child/registration/register.js" );
-include(get_stylesheet_directory()."/registration/register.js");
+include(get_stylesheet_directory() . "/registration/register_assist.js");
+//Load CECommunity Footer
+get_footer('buddypress');      
 ?>
 
 
