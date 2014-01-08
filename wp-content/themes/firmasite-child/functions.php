@@ -20,7 +20,7 @@
     break;	
     }
     //Register Form Layout
-    $firmasite_settings["layout_register_class"] = "col-xs-12 col-md-5";		
+    $firmasite_settings["layout_register_class"] = "col-xs-12 col-md-9";		
     
     }
     

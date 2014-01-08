@@ -9,7 +9,7 @@ jQuery("#register_step1").submit(function(event) {
     event.preventDefault();
 
     /* Clear errors div*/
-    jQuery("#step1_errors").html('');
+    jQuery("#current-step-errors").html('');
 
     /* Get some values from elements on the page: */
     var values =  "action=custom_register_user&"+jQuery(this).serialize();
@@ -22,10 +22,23 @@ jQuery("#register_step1").submit(function(event) {
         //dataType: "json",
         success: function(response){
           //alert(response);
+          
            errors = response.split('|');
-           for (var i=0; i< errors.length;i++){
-              jQuery("#step1_errors").append("<br>"+ errors[i]);  
+           
+            if (errors == "step1_done"){
+                
+                //Hide Step1 Form
+                document.getElementById("register_step1").style.setProperty("display", "none");
+                //Show Step2 Form
+                document.getElementById("register-page-step2").style.setProperty("display", "block");
+                alert("Done!");
+            }
+           else{
+               jQuery("#current-step-errors").append("<h4 style=\"color:gray\">The following errors were occured: </h4><hr/>"); 
+            for (var i=0; i< errors.length;i++){
+              jQuery("#current-step-errors").append("<br>"+ errors[i]);  
            }
+       }
            //jQuery("#step1_errors").html(response);
     
         },
@@ -40,12 +53,9 @@ jQuery("#register_step1").submit(function(event) {
     jQuery(document).ready(function() {
         
         
-        document.getElementById("nav-main").style.setProperty("visibility", "hidden")
-        if (jQuery('div#blog-details').length && !jQuery('div#blog-details').hasClass('show'))
-            jQuery('div#blog-details').toggle();
-
-        jQuery('input#signup_with_blog').click(function() {
-            jQuery('div#blog-details').fadeOut().toggle();
-        });
+        document.getElementById("nav-main").style.setProperty("visibility", "hidden");
+        document.getElementById("register-page-step2").style.setProperty("display", "none");
+        
+       
     });
 </script>

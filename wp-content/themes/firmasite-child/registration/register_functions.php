@@ -11,7 +11,7 @@ function custom_register_user() {
 
 
         //Validate Username
-        if (empty($_POST['signup_username']) || empty($_POST['signup_email']))
+        if (empty($_POST['signup_username']))
             $errors[] = 'You must provide a username|';
         else {
             $user_login = esc_attr($_POST['signup_username']);
@@ -48,12 +48,32 @@ function custom_register_user() {
                 $errors[] = "Confirmation password not match the password|";
         }
 
+
+
+        //Validate Profile Name
+        if (empty($_POST['profile_name']))
+            $errors[] = 'Profile name is required|';
+        else {
+            $profile_name = $_POST['profile_name'];
+            if (preg_match("/[^A-Za-z'-]/", $profile_name))
+                $errors[] = 'Invalid first name|';
+        }
+
+        //Validate Profile Surname
+        if (!empty($_POST['profile_surname'])) {
+            if (preg_match("/[^A-Za-z'-]/", $_POST['profile_surname']))
+                $errors[] = 'Invalid last name|';
+        }
+
+
         if (!empty($errors)) {
 
             foreach ($errors as &$value) {
                 echo($value);
             }
         } else {
+            echo("step1_done");
+
             $user_id = wp_create_user($sanitized_user_login, $user_pass, $user_email);
             if (!$user_id):
                 $errors[] = 'Registration failed';
@@ -64,6 +84,10 @@ function custom_register_user() {
                 //TODO: Create a function in order to change the user_status
                 global $wpdb;
                 $wpdb->update($wpdb->users, array(sanitize_key("user_status") => 2), array('ID' => $user_id));
+
+                //Buddypress xprofile data 
+                xprofile_set_field_data('Name', $user_id, $profile_name);
+                xprofile_set_field_data('Surname', $user_id,  $_POST['profile_surname']);
 
                 if ($user_id && !is_wp_error($user_id)) {
                     $key = sha1($user_id . time());
@@ -76,6 +100,11 @@ function custom_register_user() {
 
         //End Of Step1
         exit();
+    }
+
+
+    if (isset($_POST['register_step']) && $_POST['register_step'] == 'step2') {
+        
     }
 }
 
