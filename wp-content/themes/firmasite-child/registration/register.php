@@ -4,6 +4,8 @@ global $firmasite_settings;
 get_header('buddypress');
 ?>
 
+
+
 <div id="primary" class="content-area-register <?php echo $firmasite_settings["layout_register_class"]; ?>">
     <div class="padder">
         <div class="panel panel-default">
@@ -18,8 +20,7 @@ get_header('buddypress');
                     } else {
 
                         //Registration Step1 
-                        include(get_stylesheet_directory() . "/registration/register_steps/step1.php");
-
+                        //include(get_stylesheet_directory() . "/registration/register_steps/step1.php");
                         //Registration Step2 
                         include(get_stylesheet_directory() . "/registration/register_steps/step2.php");
 

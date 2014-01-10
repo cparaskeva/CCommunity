@@ -35,7 +35,7 @@
                 <div class="col-xs-12 col-md-9">
                     <input type="password" class="form-control" name="signup_password" id="signup_password" value="" <?php if (bp_get_the_profile_field_is_required()) : ?>aria-required="true"<?php endif; ?>/>
                     <p class="field-visibility-settings-toggle text-muted" id="password-info">
-                        <?php printf(__('Password must be at least 6')); ?>
+                        <?php printf(__('Password must be at least 6 characters')); ?>
                     </p>    
                 </div>
             </div>
@@ -69,7 +69,7 @@
         <div class="form-group">
             <label class="control-label col-xs-12 col-md-3" for="profile_surname"><?php _e('Surname', 'firmasite'); ?></label>
             <div class="col-xs-12 col-md-9">
-                <input type="text" class="form-control" name="profile_surname" id="profile_surname" value="<?php bp_signup_username_value(); ?> "aria-required="false"/>
+                <input type="text" class="form-control" name="profile_surname" id="profile_surname" value="<?php bp_signup_username_value();?>" aria-required="false"/>
                 <p class="field-visibility-settings-toggle text-muted" id="xprofile-surname">
                     <?php printf(__('Display on profile page')); ?>
                 </p>   

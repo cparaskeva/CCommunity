@@ -1,0 +1,35 @@
+# Ignore configuration files #
+#############################
+wp-config.php
+temp
+
+
+# Folders to exclude #
+#####################
+#wp-content/plugins-20120409/  
+#wp-content/plugins-20121107/
+#wp-content/plugins/old/
+#wp-content/plugins/old.old/
+
+
+#Temp Plug-in#
+#############
+wp-content/plugins/test-plugin
+wp-content/plugins/wp-minify
+
+
+# Other Files #
+##############
+
+test.php
+.gitignore
+
+
+#LinkedIn #
+
+
+nbproject/private/private.properties
+nbproject/project.properties
+nbproject/project.xml
+nbproject
+
