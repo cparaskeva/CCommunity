@@ -19,17 +19,119 @@
             <h4 class="page-header"><?php _e('Organization Details', 'firmasite'); ?></h4>
 
             <div class="form-group">
-                <label class="control-label col-xs-12 col-md-3" for="signup_username"><?php _e('Name', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
+                <label class="control-label col-xs-12 col-md-3" for="organization_name"><?php _e('Company Name', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                 <div class="col-xs-12 col-md-9">
-                    <input type="text" class="form-control" name="signup_username" id="organization_name" value="" aria-required="true"/>
-                    <p class="field-visibility-settings-toggle text-muted" id="">
-                     <a id="organization_link" href="http://www.google.com" target="_blank" >Visit</a>&nbsp;&nbsp;&nbsp;<?php printf(__('Type in the name of your company as registered in LinkedIn')); ?>
+                    <input type="hidden" class="form-control" name="organization_id" id="organization_id" value=""/>
+                    <input type="text" class="form-control" name="organization_name" id="organization_name" value="" aria-required="true"/>
+                    <p style="margin:5px" class="field-visibility-settings-toggle text-muted" id="">
+
+                        <input id="organization_import" type="hidden" value = "Import!"class="btn  btn-primary">&nbsp;
+                        <a hidden="true" id="organization_link" href="http://www.google.com" target="_blank" >Visit</a>&nbsp;&nbsp;&nbsp;<?php printf(__('Type in the name of your company as registered in LinkedIn')); ?>
                     </p>    
                 </div>
             </div>
 
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_description"><?php _e('Company Description', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <input type="text" class="form-control" name="organization_description" id="organization_description" value="" aria-required="false"/>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_specialities"><?php _e('Specialities', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <input type="text" class="form-control" name="organization_specialities" id="organization_specialities" value="" aria-required="false"/>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_website"><?php _e('Organization Website', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <input type="url" class="form-control" name="organization_website" id="organization_website" value="" aria-required="false"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_country"><?php _e('Country', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <select  class="form-control" name="organization_country" id="organization_country" value="select" aria-required="false">
+                        <!-- <option value="aa">aitem1</option>
+                        <option>bitem2</option>
+                        <option>bitem3</option>
+                        <option>ditem4</option>
+                        <option>eitem5</option> -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_size"><?php _e('Organization Size', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <select  class="form-control" name="organization_size" id="organization_size" value="select" aria-required="false">
+                        <!-- <option value="aa">aitem1</option>
+                        <option>bitem2</option>
+                        <option>bitem3</option>
+                        <option>ditem4</option>
+                        <option>eitem5</option> -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <select  class="form-control" name="organization_type" id="organization_type" value="select" aria-required="false">
+                        <!-- <option value="aa">aitem1</option>
+                        <option>bitem2</option>
+                        <option>bitem3</option>
+                        <option>ditem4</option>
+                        <option>eitem5</option> -->
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_collaboration"><?php _e('Available for collaboration', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <input type="radio" checked="yes"  name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+                    <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n" value="select" aria-required="false"> &nbsp;<strong>No</strong>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_transaction"><?php _e('Available for transaction', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+                    <input type="radio" checked="yes" name="organization_transaction_n" id="organization_transaction_n" value="select" aria-required="false"> &nbsp;<strong>No</strong>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <select  class="form-control" name="organization_sector" id="organization_sector" value="select" aria-required="false">
+                        <!-- <option value="aa">aitem1</option>
+                        <option>bitem2</option>
+                        <option>bitem3</option>
+                        <option>ditem4</option>
+                        <option>eitem5</option> -->
+                    </select>
+                </div>
+            </div>
+
+
+
         </div>
 
-    </form>
+</div>
+
+</form>
 
 </div>

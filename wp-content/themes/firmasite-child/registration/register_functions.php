@@ -6,7 +6,7 @@
  * This class contains LinkedIn Application & User Tokens 
  * thus is excluded form github repository  
  */
-require_once 'linkedin.php';
+include_once 'linkedin.php';
 
 function custom_register_user() {
 
@@ -128,15 +128,11 @@ function linkedin_api() {
      *   Linked Companies Serach
      */
     if (isset($_GET['operation']) && $_GET['operation'] == 'autocomplete') {
- $tmp = "{\"values\": [ {\"id\": 1362084,\"name\": \"UBI Assicurazioni\" }, {\"id\": 3017386,\"name\": \"Ubi Interactive\"}]}";
-
+        
         if (!empty($_GET['keyword']))
             echo $_GET["callback"] . "(" . LinkedIn::getLinkedInCompanies($_GET['keyword']) . ")";
         
             
-            
-          //echo $_GET["callback"] . "(" . ($tmp) . ")";
-
         //End of Autocomplete
         exit();
     }

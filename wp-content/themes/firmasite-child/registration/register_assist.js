@@ -28,9 +28,7 @@ jQuery("#register_step1").submit(function(event) {
         url: ajaxURL,
         type: "post",
         data: values,
-        //dataType: "json",
         success: function(response) {
-            //alert(response);
 
             errors = response.split('|');
 
@@ -53,29 +51,15 @@ jQuery("#register_step1").submit(function(event) {
         },
         error: function() {
             alert("Unresolved error happened. Please try again!");
-            //jQuery("#result").html('There is error while submit');
         }
     });
 });
 
 
-/* Ajax Call Implementation for linkedin companies autocomplete field*/
-/*jQuery('#organization_name').on('keypress', function() {
-    
-    //Get the length of the input
-    var value = jQuery(this).val(),
-    nameLength = value.length+1;
-    
-    //Fire an ajax call when are enough characters to make a serach
-    if (nameLength >=3){
-        console.log('change');
-*/
 
-
-         
+ //Implementation of the autocomplete input for the linkedin companies        
  jQuery("#organization_name").autocomplete({
-      
-      
+                                 
         minLength: 3, 
         
         source: function (request, response) {
@@ -92,61 +76,108 @@ jQuery("#register_step1").submit(function(event) {
                     operation: "autocomplete"
                 },
                 success: function(data) {
-                    //alert(data.companies.values);
-                    response( jQuery.map( jQuery.makeArray(data.companies.values), function( item ) {
-                        
-                       // if (item != null && item !== undefined)
-                            document.getElementById("organization_link").style.setProperty("visibility", "visible"); 
-                        
+                    
+                 //Check if the resultset contains any linkedin companies   
+                 if (data.companies._total == 0){
+                     jQuery("#organization_link").hide();
+                     jQuery("#organization_import").hide();
+                 }
+                     //document.getElementById("organization_link").style.setProperty("visibility", "hidden"); 
+                 else{
+                    jQuery("#organization_link").show();
+                    jQuery("#organization_import").attr("type","button");
+                    jQuery("#organization_import").show();
+                }
+                 //TODO: Proper handle of response in case that companies haven't found
+                 
+                    response( jQuery.map( jQuery.makeArray(data.companies.values), function( item ) {                     
+                                             
                        return {
-                         label: item.name,
-                         value: item.name
+                         label: item.name +" ("+item.websiteUrl+")" ,
+                         value: item.name,
+                         id: item.id
                        }
                      }));
-                    
-                      
               },
                 
                error: function() {
-                    alert("Unresolved error happened. Please try again!");                
+                    document.getElementById("organization_link").style.setProperty("visibility", "hidden"); 
+                    alert("Unresolved error happened. Please try again!");   
+
                }
             });
-        }
+        },
+        
+        select: function( event, ui ) {
+           jQuery("#organization_link").attr("href", "http://www.linkedin.com/companies/"+ui.item.id);
+           jQuery("#organization_name").val(ui.item.value);
+           jQuery("#organization_id").val(ui.item.id);
+        return false;
+      }
+        
               
     }); 
+        
+ 
 
-   
+/*
+ * Retrieve the information of a linkedin company profile 
+ * and autocomplete the respectively fields
+ */
+ jQuery( "#organization_import" ).click(function() {
+     var organizationID=jQuery("#organization_id");
+     
+     //Check if a valid organization id is set
+     if(organizationID == null || organizationID <=0)
+        alert("Organization could not be impoerted. Please try again!");
+    else
+    //Implementation of importing a linkedin company
+    {
+        
+    }
+});
+    
+    
+    
+    
+/*
+ * Radio buttons check for Yes/No fields
+ * 
+ */    
 
-/*jQuery("#organization_name").autocomplete({
-      source: function( request, response ) {
-        jQuery.ajax({
-          url: "http://ws.geonames.org/searchJSON",
-          dataType: "jsonp",
-          data: {
-            featureClass: "P",
-            style: "full",
-            maxRows: 12,
-            name_startsWith: request.term
-          },
-          success: function( data ) {
-            response( jQuery.map( data.geonames, function( val ) {
-              return {
-                label: val.name + (val.adminName1 ? ", " + val.adminName1 : "") + ", " + val.countryName,
-                value: val.name
-              }
-            }));
-          }
-        });
-      }
-});*/
+
+//Collaboration Radio Buttons
+jQuery("#organization_collaboration_y").click(function(){
+jQuery("#organization_collaboration_n").attr("checked", false);
+});
+
+jQuery("#organization_collaboration_n").click(function(){
+jQuery("#organization_collaboration_y").attr("checked", false);
+});
+
+
+//Transaction Radio Buttons
+jQuery("#organization_transaction_y").click(function(){
+jQuery("#organization_transaction_n").attr("checked", false);
+});
+
+jQuery("#organization_transaction_n").click(function(){
+jQuery("#organization_transaction_y").attr("checked", false);
+});
+    
+    
+
 /*
  * Hide the forms of registration step2 & step3 when document is loaded.
  */
 jQuery(document).ready(function() {
+    
+
+
 
 
     document.getElementById("nav-main").style.setProperty("visibility", "hidden");
-    document.getElementById("organization_link").style.setProperty("visibility", "hidden");
+   // document.getElementById("organization_link").style.setProperty("visibility", "hidden");
     
     //document.getElementById("register-page-step2").style.setProperty("display", "none");
 

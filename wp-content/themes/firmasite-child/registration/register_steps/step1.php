@@ -17,7 +17,6 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-md-3" for="signup_username"><?php _e('Username', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                 <div class="col-xs-12 col-md-9">
-                    <?php do_action('bp_signup_username_errors'); ?>
                     <input type="text" class="form-control" name="signup_username" id="signup_username" value="<?php bp_signup_username_value(); ?>" <?php if (bp_get_the_profile_field_is_required()) : ?>aria-required="true"<?php endif; ?>/>
                 </div>
             </div>
