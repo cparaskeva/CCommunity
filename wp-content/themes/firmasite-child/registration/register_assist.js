@@ -5,6 +5,11 @@
  .ui-autocomplete-loading {
     background: white url('<?php echo get_stylesheet_directory_uri() . "/assets/img/imgloader.gif" ?>') right center no-repeat;    }
 </style>
+<script src='<?php echo get_stylesheet_directory_uri()."/assets/bootstrapformhelpers/js/bootstrap-formhelpers.js" ?>'></script>
+
+
+
+
 <script type = "text/javascript" >
 
 
@@ -19,6 +24,7 @@ jQuery("#register_step1").submit(function(event) {
 
     /* Clear errors div*/
     jQuery("#current-step-errors").html('');
+    jQuery("#current-step-errors").hide();
 
     /* Get some values from elements on the page: */
     var values = "action=custom_register_user&" + jQuery(this).serialize();
@@ -41,6 +47,7 @@ jQuery("#register_step1").submit(function(event) {
                 alert("Done!");
             }
             else {
+                jQuery("#current-step-errors").show();
                 jQuery("#current-step-errors").append("<h4 style=\"color:gray\">The following errors were occured: </h4><hr/>");
                 for (var i = 0; i < errors.length; i++) {
                     jQuery("#current-step-errors").append("<br>" + errors[i]);
@@ -136,9 +143,15 @@ jQuery("#register_step1").submit(function(event) {
         
     }
 });
-    
-    
-    
+     
+ /*    
+ jQuery( "#lang_id" ).click(function() {
+    alert(jQuery(".bfh-selectbox").val());    
+
+});*/     
+     
+     
+     
     
 /*
  * Radio buttons check for Yes/No fields
@@ -172,13 +185,8 @@ jQuery("#organization_transaction_y").attr("checked", false);
  */
 jQuery(document).ready(function() {
     
-
-
-
-
     document.getElementById("nav-main").style.setProperty("visibility", "hidden");
    // document.getElementById("organization_link").style.setProperty("visibility", "hidden");
-    
     //document.getElementById("register-page-step2").style.setProperty("display", "none");
 
 

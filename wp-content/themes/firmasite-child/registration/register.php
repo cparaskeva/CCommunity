@@ -4,6 +4,8 @@ global $firmasite_settings;
 get_header('buddypress');
 ?>
 
+<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri()."/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css";?>"/>
+
 
 
 <div id="primary" class="content-area-register <?php echo $firmasite_settings["layout_register_class"]; ?>">
@@ -21,6 +23,7 @@ get_header('buddypress');
 
                         //Registration Step1 
                         //include(get_stylesheet_directory() . "/registration/register_steps/step1.php");
+                        
                         //Registration Step2 
                         include(get_stylesheet_directory() . "/registration/register_steps/step2.php");
 
@@ -40,7 +43,7 @@ get_header('buddypress');
 </div>
 </div>
 
-<div id="current-step-errors" style="color:red"></div>
+<div hidden="true" id="current-step-errors" class="alert alert-danger col-md-3" style="color:red"></div>
 
 <?php
 //Load JavaScript Files
