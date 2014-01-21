@@ -76,6 +76,7 @@
         </div>
 
         <div align="right" class="submit" >
+            <hr>
             <input type="submit" class="btn  btn-primary" name="signup_submit" id="signup_submit" value="<?php _e('Submit', 'firmasite'); ?>" />
         </div>
 

@@ -1,20 +1,21 @@
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"> 
+
+<link rel="stylesheet" href='<?php echo get_stylesheet_directory_uri()."/assets/css/jquery-ui.css" ?>'> 
 <style>
  .ui-autocomplete-loading {
     background: white url('<?php echo get_stylesheet_directory_uri() . "/assets/img/imgloader.gif" ?>') right center no-repeat;    }
 </style>
 <script src='<?php echo get_stylesheet_directory_uri()."/assets/bootstrapformhelpers/js/bootstrap-formhelpers.js" ?>'></script>
-
-
-
-
+<script src='<?php echo get_stylesheet_directory_uri()."/assets/js/jquery-ui.js" ?>'></script>
 <script type = "text/javascript" >
 
-
 //Define Global Variables
-var ajaxURL = "<?php bloginfo('wpurl'); ?>/wp-admin/admin-ajax.php";
+//var ajaxURL = "<?php bloginfo('wpurl'); ?>/wp-admin/admin-ajax.php";
+
+
+
+/*
+ *  AJAX CALL FUCNTIONS  
+ */
 
 /* Ajax Call Implementation for registration step1 */
 jQuery("#register_step1").submit(function(event) {
@@ -31,7 +32,7 @@ jQuery("#register_step1").submit(function(event) {
 
     /* Send the data using post and put the results in a div */
     jQuery.ajax({
-        url: ajaxURL,
+        url: ajaxurl,
         type: "post",
         data: values,
         success: function(response) {
@@ -63,10 +64,13 @@ jQuery("#register_step1").submit(function(event) {
 });
 
 
+/* Ajax Call Implementation for registration step2 */
 
- //Implementation of the autocomplete input for the linkedin companies        
+/* Implementation of the autocomplete input for the linkedin companies */
  jQuery("#organization_name").autocomplete({
-                                 
+        
+        disabled: true,
+        
         minLength: 3, 
         
         source: function (request, response) {
@@ -74,7 +78,7 @@ jQuery("#register_step1").submit(function(event) {
                 featureClass: "P",
                 style: "full",
                 maxRows: 12,
-                url: ajaxURL,
+                url: ajaxurl,
                 dataType: "jsonp",
                 data: {
                     action: "linkedin",
@@ -125,21 +129,79 @@ jQuery("#register_step1").submit(function(event) {
               
     }); 
         
- 
 
 /*
  * Retrieve the information of a linkedin company profile 
  * and autocomplete the respectively fields
+ * (id,name,description,specialties,website-url,employee-count-range,company-type)
  */
  jQuery( "#organization_import" ).click(function() {
-     var organizationID=jQuery("#organization_id");
-     
+     var organizationID=jQuery("#organization_id").val();
+
      //Check if a valid organization id is set
      if(organizationID == null || organizationID <=0)
-        alert("Organization could not be impoerted. Please try again!");
+        alert("Organization could not be imported. Please select a proper organization");
     else
     //Implementation of importing a linkedin company
     {
+        var btn = jQuery(this);
+        btn.button('loading');
+        
+        /* Ajax call to retrieve the linkedin company information */
+        jQuery.ajax({
+            url: ajaxurl,
+            type: "post",
+            data: {
+                    action: "linkedin",
+                    format: "json",
+                    companyID: organizationID,
+                    operation: "getCompany"
+            },
+            
+            success: function(response) {
+                btn.button('reset');
+                //Parse the JSON  response to an Object
+                var organization = JSON.parse(response);               
+                
+                /*Complete the form fields using the imported LinkedIn Company Ptofile*/
+                
+                //Check if organization description is provided
+                if (!(organization.description === undefined))
+                    jQuery("#organization_description").val(organization.description);
+                else
+                    jQuery("#organization_description").val("");
+                
+                //Check if a website is provided
+                if (!(organization.websiteUrl === undefined))
+                    jQuery("#organization_website").val(organization.websiteUrl);
+                else
+                    jQuery("#organization_website").val("");
+                
+                //Check if specialties are available
+                if (!(organization.specialties === undefined)){
+                    var specialties= organization.specialties.values.join(",");
+                    jQuery("#organization_specialties").val(specialties);                  
+                }
+                else
+                    jQuery("#organization_specialties").val("");    
+                        
+                //Check if organization size field is provided
+                if (!(organization.employeeCountRange === undefined))
+                    jQuery("#organization_size").val(organization.employeeCountRange.code);
+                else
+                    jQuery("#organization_size").val("none");
+                                
+                //Check if organization type field is provided                
+                if (!(organization.companyType === undefined))
+                    jQuery("#organization_type").val(organization.companyType.code);  
+                else
+                    jQuery("#organization_type").val("none");
+            },
+            error: function() {
+                btn.button('reset');
+                alert("Unresolved error happened. Please try again!");
+            }
+        });
         
     }
 });
@@ -149,33 +211,53 @@ jQuery("#register_step1").submit(function(event) {
     alert(jQuery(".bfh-selectbox").val());    
 
 });*/     
-     
-     
+
+
+/*
+ * Checkbox buttons for autocomplete LinkedIn Company Profile Activation
+ */
+
+jQuery("#linkedin").click(function(){
+    
+    //Activate Linked Autocomplete Functionality
+    if (jQuery(this).is(":checked")){
+        jQuery("#organization_name").attr("placeholder","Type in the name of your company as registered in LinkedIn");
+        jQuery("#organization_name" ).autocomplete({ disabled: false });
+    }
+    //Deactivate Linked Autocomplete Functionality
+    else{
+        jQuery("#organization_name").attr("placeholder","Type in the name of your company");
+        jQuery("#organization_name").val("");
+        jQuery("#organization_link").hide();
+        jQuery("#organization_import").hide();
+        jQuery("#organization_name" ).autocomplete({ disabled: true });
+    }
+            
+});         
      
     
 /*
  * Radio buttons check for Yes/No fields
- * 
  */    
 
 
 //Collaboration Radio Buttons
 jQuery("#organization_collaboration_y").click(function(){
-jQuery("#organization_collaboration_n").attr("checked", false);
+    jQuery("#organization_collaboration_n").attr("checked", false);
 });
 
 jQuery("#organization_collaboration_n").click(function(){
-jQuery("#organization_collaboration_y").attr("checked", false);
+    jQuery("#organization_collaboration_y").attr("checked", false);
 });
 
 
 //Transaction Radio Buttons
 jQuery("#organization_transaction_y").click(function(){
-jQuery("#organization_transaction_n").attr("checked", false);
+    jQuery("#organization_transaction_n").attr("checked", false);
 });
 
 jQuery("#organization_transaction_n").click(function(){
-jQuery("#organization_transaction_y").attr("checked", false);
+    jQuery("#organization_transaction_y").attr("checked", false);
 });
     
     
@@ -188,7 +270,6 @@ jQuery(document).ready(function() {
     document.getElementById("nav-main").style.setProperty("visibility", "hidden");
    // document.getElementById("organization_link").style.setProperty("visibility", "hidden");
     //document.getElementById("register-page-step2").style.setProperty("display", "none");
-
 
 });
 

@@ -24,9 +24,12 @@
                     <input type="hidden" class="form-control" name="organization_id" id="organization_id" value=""/>
                     <input type="text" placeholder="Type the name of your organization" class="form-control" name="organization_name" id="organization_name" value="" aria-required="true"/>
                     <p style="margin:5px" class="field-visibility-settings-toggle text-muted" id="">
-
-                        <input id="organization_import" type="hidden" value = "Import!"class="btn  btn-primary">&nbsp;
-                        <a hidden="true" id="organization_link" href="http://www.google.com" target="_blank" >Visit</a>&nbsp;&nbsp;&nbsp;<?php printf(__('Type in the name of your company as registered in LinkedIn')); ?>
+                        <input id="organization_import"  data-loading-text="Importing..." type="hidden" value = "Import!"class="btn  btn-primary">&nbsp;
+                        <a hidden="true" id="organization_link" href="" target="_blank" >Visit!</a>&nbsp;&nbsp;
+                        <label>
+                            <input id="linkedin" type="checkbox" value="">
+                            Use your oganisation information as present on LinkedIn
+                        </label>
                     </p>    
                 </div>
             </div>
@@ -41,9 +44,9 @@
 
 
             <div class="form-group">
-                <label class="control-label col-xs-12 col-md-3" for="organization_specialities"><?php _e('Specialities', 'firmasite'); ?> </label>
+                <label class="control-label col-xs-12 col-md-3" for="organization_specialties"><?php _e('Specialities', 'firmasite'); ?> </label>
                 <div class="col-xs-12 col-md-9">
-                    <input type="text" class="form-control" name="organization_specialities" id="organization_specialities" value="" aria-required="false"/>
+                    <input type="text" placeholder="Type the specialties of your organization" class="form-control" name="organization_specialties" id="organization_specialties" value="" aria-required="false"/>
                 </div>
             </div>
 
@@ -51,53 +54,87 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-md-3" for="organization_website"><?php _e('Organization Website', 'firmasite'); ?> </label>
                 <div class="col-xs-12 col-md-9">
-                    <input type="url" class="form-control" name="organization_website" id="organization_website" value="" aria-required="false"/>
+                    <input  class="form-control" name="organization_website" id="organization_website" value="" aria-required="false"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-xs-12 col-md-3" for="organization_country"><?php _e('Country', 'firmasite'); ?> </label>
+                <label class="control-label col-xs-12 col-md-3" for="organization_country"><?php _e('Country', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                 <div class="col-xs-12 col-md-9">
                     <!--<select  class="form-control bfh-countries" name="organization_country" data-flags="true" data-country="US" id="organization_country" value="select" aria-required="false">
                     </select> -->
-                    <div id="organization_country" class="bfh-selectbox bfh-countries" data-country="US" data-flags="true"> </div>
-                    
+                    <div id="organization_country" class="bfh-selectbox bfh-countries" data-country="GR" data-flags="true"> </div>
                 </div>
             </div>
 
-
-
-            <!-- <form>
-            <select class="form-control bfh-countries" data-country="US" ></select>
-            </form> -->
-
-
             <div class="form-group">
-                <label class="control-label col-xs-12 col-md-3" for="organization_size"><?php _e('Organization Size', 'firmasite'); ?> </label>
+                <label class="control-label col-xs-12 col-md-3" for="organization_size"><?php _e('Organization Size', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                 <div class="col-xs-12 col-md-9">
                     <select  class="form-control" name="organization_size" id="organization_size" value="select" aria-required="false">
-                        <!-- <option value="aa">aitem1</option>
-                        <option>bitem2</option>
-                        <option>bitem3</option>
-                        <option>ditem4</option>
-                        <option>eitem5</option> -->
+                        <option value="none">Please select...</option>
+                        <?php
+                        //Fetch Organization Size form DB
+                        $results = Organization::getOrganizationSize();
+                        if (is_array($results)) {
+                            foreach ($results as $org_size) {
+                                $minus = "-";
+                                $max = $org_size->max;
+                                $min = $org_size->min;
+                                if ($max == "0") {
+                                    $max = $max - 1;
+                                    $max = "+";
+                                    $minus = "";
+                                } elseif ($min == $max) {
+                                    $minus = "";
+                                    $max = "";
+                                }
+                                echo "<option value = '{$org_size->id }'>$min$minus$max</option>";
+                            }
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-xs-12 col-md-3" for="organization_type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
+                <label class="control-label col-xs-12 col-md-3" for="organization_type"><?php _e('Type of Organization', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                 <div class="col-xs-12 col-md-9">
-                    <select  class="form-control" name="organization_type" id="organization_type" value="select" aria-required="false">
-                        <!-- <option value="aa">aitem1</option>
-                        <option>bitem2</option>
-                        <option>bitem3</option>
-                        <option>ditem4</option>
-                        <option>eitem5</option> -->
+                    <select  class="form-control" name="organization_type" id="organization_type" aria-required="false">
+                        <option value="none">Please select...</option>
+                        <?php
+                        //Fetch Organization Types form DB
+                        $results = Organization::getOrganizationType();
+                        if (is_array($results)) {
+
+                            foreach ($results as $org_type) {
+                                echo "<option value = '{$org_type->id }'>{$org_type->description}</option>";
+                            }
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
 
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="organization_sector"><?php _e('Sector', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
+                <div class="col-xs-12 col-md-9">
+                    <select  class="form-control" name="organization_sector" id="organization_sector" value="select" aria-required="false">
+                        <option value="none">Please select...</option>
+                        <?php
+                        //Fetch Organization Sectos form DB
+                        $results = Organization::getOrganizationSector();
+                        if (is_array($results)) {
+
+                            foreach ($results as $org_sector) {
+                                echo "<option style='background-color:{$org_sector->color}'  value = '{$org_sector->id }'>{$org_sector->description}</option>";
+                            }
+                        }
+                        ?>
+
+                    </select>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="control-label col-xs-12 col-md-3" for="organization_collaboration"><?php _e('Available for collaboration', 'firmasite'); ?> </label>
@@ -117,20 +154,10 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-md-3" for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
-                <div class="col-xs-12 col-md-9">
-                    <select  class="form-control" name="organization_sector" id="organization_sector" value="select" aria-required="false">
-                        <!-- <option value="aa">aitem1</option>
-                        <option>bitem2</option>
-                        <option>bitem3</option>
-                        <option>ditem4</option>
-                        <option>eitem5</option> -->
-                    </select>
-                </div>
+            <div align="right" class="submit" >
+                <hr>
+                    <input type="button" class="btn  btn-primary" name="register_step2" id="register_step2" value="<?php _e('Submit', 'firmasite'); ?>" >
             </div>
-
-
 
         </div>
 

@@ -16,10 +16,7 @@ if (is_user_logged_in()) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>CECommunity</title>
-
         <link href="<?php bloginfo('stylesheet_directory'); ?>/assets/css/login_page.css" rel="stylesheet" type="text/css" />
-        <script src="<?php bloginfo('stylesheet_directory'); ?>/assets/js/jquery.js" type="text/javascript"></script>
-
     </head>
 <?php flush(); ?>
 

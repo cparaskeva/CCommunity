@@ -2,10 +2,10 @@
 //Load CECommunity Header
 global $firmasite_settings;
 get_header('buddypress');
+require(get_stylesheet_directory() . "/organization/organization.php");
 ?>
 
-<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri()."/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css";?>"/>
-
+<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . "/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css"; ?>"/>
 
 
 <div id="primary" class="content-area-register <?php echo $firmasite_settings["layout_register_class"]; ?>">
@@ -23,7 +23,6 @@ get_header('buddypress');
 
                         //Registration Step1 
                         //include(get_stylesheet_directory() . "/registration/register_steps/step1.php");
-                        
                         //Registration Step2 
                         include(get_stylesheet_directory() . "/registration/register_steps/step2.php");
 
@@ -47,7 +46,7 @@ get_header('buddypress');
 
 <?php
 //Load JavaScript Files
-include(get_stylesheet_directory() . "/registration/register_assist.js");
+include(get_stylesheet_directory() . "/registration/registerJS.js");
 //Load CECommunity Footer
 get_footer('buddypress');
 ?>

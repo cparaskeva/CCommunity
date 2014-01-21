@@ -124,15 +124,35 @@ add_action('wp_ajax_nopriv_custom_register_user', 'custom_register_user');
 //LinkedIn AJAX Call Functions
 function linkedin_api() {
 
-    /*
+    /**
      *   Linked Companies Serach
+     *   @param string keyword User input
+     *   @return json_string Companies id,name and website url of companies found 
      */
     if (isset($_GET['operation']) && $_GET['operation'] == 'autocomplete') {
-        
+
         if (!empty($_GET['keyword']))
             echo $_GET["callback"] . "(" . LinkedIn::getLinkedInCompanies($_GET['keyword']) . ")";
-        
-            
+
+
+        //End of Autocomplete
+        exit();
+    }
+
+    /**
+     *   Linked Company Profile Retrieval
+     *   @param int companyID Company profile identificational number
+     *   @return json_string Company profile fields(id,name,description,website,specialities,type,size)
+     */
+    if (isset($_POST['operation']) && $_POST['operation'] == 'getCompany') {
+
+        if (!(isset($_POST['companyID'])))
+            exit();
+        else {
+            $companyID = $_POST['companyID'];
+            echo LinkedIn::getLinkedInCompanyInfo($companyID);
+        }
+
         //End of Autocomplete
         exit();
     }
