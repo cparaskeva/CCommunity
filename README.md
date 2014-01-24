@@ -1,4 +1,4 @@
-CCommunity
+CECommunity
 ==========
 
 The central community project

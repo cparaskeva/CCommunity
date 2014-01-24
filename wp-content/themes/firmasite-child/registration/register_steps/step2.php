@@ -1,8 +1,5 @@
 <div class="page" id="register-page-step2">
-
-    <form action="" name="register_organization_form" id="register_organization_form" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
-
-
+    <form action="" name="organization_form" id="register_step2" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
         <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/step2.jpg" height="60" width="60">        
             <?php _e('Register an Organization', 'firmasite'); ?></h2>
 
@@ -13,6 +10,8 @@
         <?php do_action('bp_before_account_details_fields'); ?>
 
         <div class="register-section" id="basic-details-section">
+            <!-- Define the current step of the registration process-->
+            <input type="hidden" class="form-control" name="register_step" id="register_step" value="step2"/>
 
             <?php /*             * *** Basic Account Details ***** */ ?>
 
@@ -52,7 +51,7 @@
 
 
             <div class="form-group">
-                <label class="control-label col-xs-12 col-md-3" for="organization_website"><?php _e('Organization Website', 'firmasite'); ?> </label>
+                <label class="control-label col-xs-12 col-md-3" for="organization_website"><?php _e('Organization Website', 'firmasite'); ?><?php _e('(required)', 'firmasite'); ?> </label>
                 <div class="col-xs-12 col-md-9">
                     <input  class="form-control" name="organization_website" id="organization_website" value="" aria-required="false"/>
                 </div>
@@ -61,8 +60,6 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-md-3" for="organization_country"><?php _e('Country', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                 <div class="col-xs-12 col-md-9">
-                    <!--<select  class="form-control bfh-countries" name="organization_country" data-flags="true" data-country="US" id="organization_country" value="select" aria-required="false">
-                    </select> -->
                     <div id="organization_country" class="bfh-selectbox bfh-countries" data-country="GR" data-flags="true"> </div>
                 </div>
             </div>
@@ -140,7 +137,7 @@
                 <label class="control-label col-xs-12 col-md-3" for="organization_collaboration"><?php _e('Available for collaboration', 'firmasite'); ?> </label>
                 <div class="col-xs-12 col-md-9">
                     <input type="radio" checked="yes"  name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
-                    <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n" value="select" aria-required="false"> &nbsp;<strong>No</strong>
+                    <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
                     </select>
                 </div>
             </div>
@@ -149,20 +146,19 @@
                 <label class="control-label col-xs-12 col-md-3" for="organization_transaction"><?php _e('Available for transaction', 'firmasite'); ?> </label>
                 <div class="col-xs-12 col-md-9">
                     <input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
-                    <input type="radio" checked="yes" name="organization_transaction_n" id="organization_transaction_n" value="select" aria-required="false"> &nbsp;<strong>No</strong>
+                    <input type="radio" checked="yes" name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
                     </select>
                 </div>
             </div>
 
             <div align="right" class="submit" >
                 <hr>
-                    <input type="button" class="btn  btn-primary" name="register_step2" id="register_step2" value="<?php _e('Submit', 'firmasite'); ?>" >
+                <input type="submit" class="btn  btn-primary" name="organization_submit" id="organization_submit" value="<?php _e('Submit', 'firmasite'); ?>" >
             </div>
 
         </div>
-
+    </form>
 </div>
 
-</form>
 
-</div>
+

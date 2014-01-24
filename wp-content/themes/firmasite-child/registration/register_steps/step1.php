@@ -1,4 +1,4 @@
-<div class="page" id="register-page-step1">
+<div class="page" id="register-page-step1"> 
     <form name="signup_form" id="register_step1" class="standard-form form-horizontal" method="post" enctype="multipart/form-data" action="">
         <?php
         _e("<h2>  <img src=\"" . get_stylesheet_directory_uri() . "/assets/img/step1.jpg\" height=\"60\" width=\"60\">        
@@ -79,6 +79,5 @@
             <hr>
             <input type="submit" class="btn  btn-primary" name="signup_submit" id="signup_submit" value="<?php _e('Submit', 'firmasite'); ?>" />
         </div>
-
     </form>
 </div>

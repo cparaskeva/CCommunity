@@ -15,7 +15,7 @@ function custom_register_user() {
      */
     if (isset($_POST['register_step']) && $_POST['register_step'] == 'step1') {
 
-        //Register Step1
+        //Register Step1 Errors
         $errors = array();
 
         //Validate Username
@@ -29,7 +29,6 @@ function custom_register_user() {
             elseif (username_exists($sanitized_user_login))
                 $errors[] = 'User name already exists|';
         }
-
         //Validate Email
         if (empty($_POST['signup_email']))
             $errors[] = 'Email address is required!|';
@@ -41,7 +40,6 @@ function custom_register_user() {
             elseif (email_exists($user_email))
                 $errors[] = 'This email is already registered|';
         }
-
         //Validate Password
         if (empty($_POST['signup_password']) || empty($_POST['signup_password_confirm']))
             $errors[] = 'Password fields canot be empty|';
@@ -55,9 +53,6 @@ function custom_register_user() {
             if (strcmp($user_pass, $password_confirm) != 0)
                 $errors[] = "Confirmation password not match the password|";
         }
-
-
-
         //Validate Profile Name
         if (empty($_POST['profile_name']))
             $errors[] = 'Profile name is required|';
@@ -66,7 +61,6 @@ function custom_register_user() {
             if (preg_match("/[^A-Za-z'-]/", $profile_name))
                 $errors[] = 'Invalid first name|';
         }
-
         //Validate Profile Surname
         if (!empty($_POST['profile_surname'])) {
             if (preg_match("/[^A-Za-z'-]/", $_POST['profile_surname']))
@@ -113,10 +107,76 @@ function custom_register_user() {
     }
 
 
+    /*
+     *  Registration Step2
+     *  AJAX CALL PARAMETERS  
+     * (organization_id/name/description/specialties/website/size/type/
+     * sector/country/collaboration/transaction)
+     */
+
     if (isset($_POST['register_step']) && $_POST['register_step'] == 'step2') {
-        
+
+        //Register Step2 Errors
+        $errors = array();
+               
+        //Map the POST paramters to an array
+        $organization = array(
+            'name' => rawurldecode($_POST['organization_name']),
+            'description' => rawurldecode($_POST['organization_description']),
+            'specialties' => rawurldecode($_POST['organization_specialties']),
+            'website' => $_POST['organization_website'],
+            'size' => $_POST['organization_size'],
+            'type' => $_POST['organization_type'],
+            'sector' => $_POST['organization_sector'],
+            'collaboration' => $_POST['organization_collaboration_y'],
+            'transaction' => $_POST['organization_transaction_y'],
+            'country' => $_POST['organization_country'],
+        );
+
+        //Validate Organization Name 
+        if (empty($organization['name']))
+            $errors[] = 'You must provide the name of the organization you belong|';
+        //Validate Organization Website
+        if (empty($organization['website']))
+            $errors[] = 'You must provide the website of your organization|';
+        //Validate Organization Size
+        if (empty($organization['size']) || $organization['size'] == 'none' || !($organization['size'] >= 'A' && $organization['size'] <= 'I'))
+            $errors[] = 'You must select the size of your organization|';
+        //Validate Organization Type
+        if (empty($organization['type']) || $organization['type'] == 'none' || !(preg_match("(C|D|E|G|N|O|P|S)", $organization['type'])))
+            $errors[] = 'You must select the type of your organization|';
+
+        if (empty($organization['sector']) || $organization['sector'] == 'none' || !($organization['sector'] >= 1 && $organization['sector'] <= 10))
+            $errors[] = 'You must select the sector of your organization|';
+
+
+        //Formalize Collaboration Value to 0/1
+        if ($organization['collaboration'] == 'on')
+            $organization['collaboration'] = 1;
+        else
+            $organization['collaboration'] = 0;
+        //Formalize Transaction Value to 0/1
+        if ($organization['transaction'] == 'on')
+            $organization['transaction'] = 1;
+        else
+            $organization['transaction'] = 0;
+
+
+        if (!empty($errors)) {
+
+            foreach ($errors as &$value) {
+                echo($value);
+            }
+        } else {
+            echo("step2_done");
+        }
+
+        //End Of Step2
+        exit();
     }
+    
 }
+
 
 add_action('wp_ajax_custom_register_user', 'custom_register_user');
 add_action('wp_ajax_nopriv_custom_register_user', 'custom_register_user');

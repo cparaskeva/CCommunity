@@ -12,7 +12,6 @@
 //var ajaxURL = "<?php bloginfo('wpurl'); ?>/wp-admin/admin-ajax.php";
 
 
-
 /*
  *  AJAX CALL FUCNTIONS  
  */
@@ -45,16 +44,17 @@ jQuery("#register_step1").submit(function(event) {
                 document.getElementById("register_step1").style.setProperty("display", "none");
                 //Show Step2 Form
                 document.getElementById("register-page-step2").style.setProperty("display", "block");
-                alert("Done!");
+               //Change Progress Bar Status
+                jQuery("#progress_bar").css("width","80%");
+                document.getElementById("progress_bar").style.setProperty("width", "67%");
             }
             else {
                 jQuery("#current-step-errors").show();
                 jQuery("#current-step-errors").append("<h4 style=\"color:gray\">The following errors were occured: </h4><hr/>");
                 for (var i = 0; i < errors.length; i++) {
-                    jQuery("#current-step-errors").append("<br>" + errors[i]);
+                    jQuery("#current-step-errors").append(errors[i]+"<br>");
                 }
             }
-            //jQuery("#step1_errors").html(response);
 
         },
         error: function() {
@@ -63,8 +63,52 @@ jQuery("#register_step1").submit(function(event) {
     });
 });
 
-
 /* Ajax Call Implementation for registration step2 */
+jQuery("#register_step2").submit(function(event) {
+
+    /* Stop form from submitting normally */
+    event.preventDefault();
+
+    /* Clear errors div*/
+    jQuery("#current-step-errors").html('');
+    jQuery("#current-step-errors").hide();
+
+    /* Get some values from elements on the page: */
+    var values = "action=custom_register_user&" + jQuery(this).serialize()+"&organization_country="+jQuery(".bfh-selectbox").val()+jQuery("#register_step1").serialize();
+
+    /* Send the data using post and put the results in a div */
+    jQuery.ajax({
+        url: ajaxurl,
+        type: "post",
+        data: values,
+        success: function(response) {
+
+            errors = response.split('|');
+
+            if (errors == "step2_done") {
+
+                //Hide Step2 Form
+                document.getElementById("register-page-step2").style.setProperty("display", "none");
+                //Show Step3 Form
+                document.getElementById("register-page-step3").style.setProperty("display", "block");
+                //Change Progress Bar Status
+                document.getElementById("progress_bar").style.setProperty("width", "100%");
+            }
+            else {
+                jQuery("#current-step-errors").show();
+                jQuery("#current-step-errors").append("<h4 style=\"color:gray\">The following errors were occured: </h4><hr/>");
+                for (var i = 0; i < errors.length; i++) {
+                    jQuery("#current-step-errors").append("<br>" + errors[i]);
+                }
+            }
+
+        },
+        error: function() {
+            alert("Unresolved error happened. Please try again!");
+        }
+    });
+});
+
 
 /* Implementation of the autocomplete input for the linkedin companies */
  jQuery("#organization_name").autocomplete({
@@ -206,11 +250,11 @@ jQuery("#register_step1").submit(function(event) {
     }
 });
      
- /*    
+     
  jQuery( "#lang_id" ).click(function() {
     alert(jQuery(".bfh-selectbox").val());    
 
-});*/     
+});     
 
 
 /*
@@ -266,11 +310,9 @@ jQuery("#organization_transaction_n").click(function(){
  * Hide the forms of registration step2 & step3 when document is loaded.
  */
 jQuery(document).ready(function() {
-    
-    document.getElementById("nav-main").style.setProperty("visibility", "hidden");
-   // document.getElementById("organization_link").style.setProperty("visibility", "hidden");
-    //document.getElementById("register-page-step2").style.setProperty("display", "none");
-
+    document.getElementById("mainmenu").style.setProperty("display", "none");
+    document.getElementById("register-page-step2").style.setProperty("display", "none");
+    document.getElementById("register-page-step3").style.setProperty("display", "none");
 });
 
 </script>
