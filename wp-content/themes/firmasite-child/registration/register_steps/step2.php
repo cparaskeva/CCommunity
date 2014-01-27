@@ -10,8 +10,8 @@
         <?php do_action('bp_before_account_details_fields'); ?>
 
         <div class="register-section" id="basic-details-section">
-            <!-- Define the current step of the registration process-->
-            <input type="hidden" class="form-control" name="register_step" id="register_step" value="step2"/>
+            <!-- Define the current step of the registration process
+            <input type="hidden" class="form-control" name="register_step" id="register_step" value="step2"/>-->
 
             <?php /*             * *** Basic Account Details ***** */ ?>
 
@@ -20,6 +20,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-md-3" for="organization_name"><?php _e('Company Name', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                 <div class="col-xs-12 col-md-9">
+                    <input type="hidden" class="form-control" name="cecom_organization_id" id="cecom_organization_id" value="undefined"/>
                     <input type="hidden" class="form-control" name="organization_id" id="organization_id" value=""/>
                     <input type="text" placeholder="Type the name of your organization" class="form-control" name="organization_name" id="organization_name" value="" aria-required="true"/>
                     <p style="margin:5px" class="field-visibility-settings-toggle text-muted" id="">
@@ -71,7 +72,7 @@
                         <option value="none">Please select...</option>
                         <?php
                         //Fetch Organization Size form DB
-                        $results = Organization::getOrganizationSize();
+                        $results = CECOM_Organization::getOrganizationSize();
                         if (is_array($results)) {
                             foreach ($results as $org_size) {
                                 $minus = "-";
@@ -100,7 +101,7 @@
                         <option value="none">Please select...</option>
                         <?php
                         //Fetch Organization Types form DB
-                        $results = Organization::getOrganizationType();
+                        $results = CECOM_Organization::getOrganizationType();
                         if (is_array($results)) {
 
                             foreach ($results as $org_type) {
@@ -120,7 +121,7 @@
                         <option value="none">Please select...</option>
                         <?php
                         //Fetch Organization Sectos form DB
-                        $results = Organization::getOrganizationSector();
+                        $results = CECOM_Organization::getOrganizationSector();
                         if (is_array($results)) {
 
                             foreach ($results as $org_sector) {

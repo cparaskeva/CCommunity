@@ -75,31 +75,6 @@ function custom_register_user() {
             }
         } else {
             echo("step1_done");
-            /*
-              $user_id = wp_create_user($sanitized_user_login, $user_pass, $user_email);
-              if (!$user_id):
-              $errors[] = 'Registration failed';
-              else:
-              echo("User: " . $user_id . " registered with password:\"" . $user_pass . "\"|");
-
-              //Force user to active the account
-              //TODO: Create a function in order to change the user_status
-              global $wpdb;
-              $wpdb->update($wpdb->users, array(sanitize_key("user_status") => 2), array('ID' => $user_id));
-
-              //Buddypress xprofile data
-              xprofile_set_field_data('Name', $user_id, $profile_name);
-              xprofile_set_field_data('Surname', $user_id,  $_POST['profile_surname']);
-
-              if ($user_id && !is_wp_error($user_id)) {
-              $key = sha1($user_id . time());
-              $activation_link = bp_get_activation_page() . "?key=$key";
-              add_user_meta($user_id, 'activation_key', $key, true);
-              wp_mail($user_email, 'CECommunity ACTIVATION', 'You have succesfuly register to CECommunity platform.\n Activate your account using this link: ' . $activation_link);
-              }
-              endif;
-             * 
-             */
         }
 
         //End Of Step1
@@ -118,9 +93,10 @@ function custom_register_user() {
 
         //Register Step2 Errors
         $errors = array();
-               
+
         //Map the POST paramters to an array
         $organization = array(
+            'id' => ($_POST['cecom_organization_id']),
             'name' => rawurldecode($_POST['organization_name']),
             'description' => rawurldecode($_POST['organization_description']),
             'specialties' => rawurldecode($_POST['organization_specialties']),
@@ -131,6 +107,11 @@ function custom_register_user() {
             'collaboration' => $_POST['organization_collaboration_y'],
             'transaction' => $_POST['organization_transaction_y'],
             'country' => $_POST['organization_country'],
+            'email' => $_POST['signup_email'],
+            'password' => $_POST['signup_password'],
+            'username' => $_POST['signup_username'],
+            'firstname' => $_POST['profile_name'],
+            'surname' => $_POST['profile_surname'],
         );
 
         //Validate Organization Name 
@@ -168,15 +149,15 @@ function custom_register_user() {
                 echo($value);
             }
         } else {
+
+            do_action_ref_array("register_organization", array(&$organization));
             echo("step2_done");
         }
 
         //End Of Step2
         exit();
     }
-    
 }
-
 
 add_action('wp_ajax_custom_register_user', 'custom_register_user');
 add_action('wp_ajax_nopriv_custom_register_user', 'custom_register_user');

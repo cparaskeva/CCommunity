@@ -47,6 +47,9 @@ jQuery("#register_step1").submit(function(event) {
                //Change Progress Bar Status
                 jQuery("#progress_bar").css("width","80%");
                 document.getElementById("progress_bar").style.setProperty("width", "67%");
+               //Change registratio status to Step2
+                jQuery("#register_step").val("step2");
+                
             }
             else {
                 jQuery("#current-step-errors").show();
@@ -74,7 +77,7 @@ jQuery("#register_step2").submit(function(event) {
     jQuery("#current-step-errors").hide();
 
     /* Get some values from elements on the page: */
-    var values = "action=custom_register_user&" + jQuery(this).serialize()+"&organization_country="+jQuery(".bfh-selectbox").val()+jQuery("#register_step1").serialize();
+    var values = "action=custom_register_user&" + jQuery(this).serialize()+"&organization_country="+jQuery(".bfh-selectbox").val()+"&"+jQuery("#register_step1").serialize();
 
     /* Send the data using post and put the results in a div */
     jQuery.ajax({

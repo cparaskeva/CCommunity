@@ -50,7 +50,7 @@ if (!class_exists('CECommunity')) :
                 //self::$instance->setup_globals();
                 //self::$instance->legacy_constants();
                 self::$instance->includes();
-                //self::$instance->setup_actions();
+                self::$instance->setup_actions();
             }
             return self::$instance;
         }
@@ -69,8 +69,7 @@ if (!class_exists('CECommunity')) :
         }
 
         private function setup_actions() {
-            echo "setup actions";
-            do_action("cecom_setup_components");
+          //  do_action("cecom_setup_components");
         }
 
     }

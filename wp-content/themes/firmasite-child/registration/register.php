@@ -2,21 +2,14 @@
 //Load CECommunity Header
 global $firmasite_settings;
 get_header('buddypress');
-require(get_stylesheet_directory() . "/organization/organization.php");
 ?>
+
+<?php 
+do_action("do_dummy");
+?>
+
 
 <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . "/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css"; ?>"/>
-<?php do_action('dummyprint');
-
-global $cecom;
-
-
-if (isset($cecom->organization))
-    echo ("is not null");
-
-
-?>
-
 <div id="primary" class="content-area-register <?php echo $firmasite_settings["layout_register_class"]; ?>">
     <!-- Registration progress bar -->
     <div class="progress progress-striped">
