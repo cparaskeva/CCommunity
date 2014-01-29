@@ -4,9 +4,6 @@
 if (is_user_logged_in()) {
     global $bp;
     $redirection_url = $bp->loggedin_user->domain;
-    /* print "<script type=\"text/javascript\">";
-      print "alert('User is already logged-in: $temp')";
-      print "</script>"; */
     wp_redirect($redirection_url);
     exit;
 }

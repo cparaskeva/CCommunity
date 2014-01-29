@@ -88,8 +88,13 @@ jQuery("#register_step2").submit(function(event) {
 
             errors = response.split('|');
 
-            if (errors == "step2_done") {
-
+            //Fatal error 
+            if (errors == 1){
+                alert("Unresolved error happened. Please repeat the registration process...");
+                location.reload(); 
+            }
+            //Registration Step2 is success
+            if (errors == 0) {
                 //Hide Step2 Form
                 document.getElementById("register-page-step2").style.setProperty("display", "none");
                 //Show Step3 Form

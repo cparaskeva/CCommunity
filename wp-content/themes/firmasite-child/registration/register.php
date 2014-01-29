@@ -2,12 +2,9 @@
 //Load CECommunity Header
 global $firmasite_settings;
 get_header('buddypress');
-?>
 
-<?php 
-do_action("do_dummy");
-?>
 
+?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . "/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css"; ?>"/>
 <div id="primary" class="content-area-register <?php echo $firmasite_settings["layout_register_class"]; ?>">

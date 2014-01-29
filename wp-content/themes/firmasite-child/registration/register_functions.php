@@ -150,8 +150,8 @@ function custom_register_user() {
             }
         } else {
 
-            do_action_ref_array("register_organization", array(&$organization));
-            echo("step2_done");
+           return do_action_ref_array("register_organization", array(&$organization));
+           
         }
 
         //End Of Step2
