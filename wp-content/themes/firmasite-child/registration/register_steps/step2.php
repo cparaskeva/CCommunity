@@ -18,6 +18,28 @@
             <h4 class="page-header"><?php _e('Organization Details', 'firmasite'); ?></h4>
 
             <div class="form-group">
+                <label class="control-label col-xs-12 col-md-3" for="registered_organizations"><?php _e('Registered Organisations', 'firmasite'); ?> </label>
+                <div class="col-xs-12 col-md-9">
+                    <select  class="form-control" name="registered_organizations" id="registered_organizations" aria-required="false">
+                        <option value="none">Select your organisation...</option>
+                        <?php
+                        //Fetch registered Organizations form DB
+                        $results = CECOM_Organization::getRegisteredOrganizations();
+                        if (is_array($results)) {
+
+                            foreach ($results as $organization) {
+                                echo "<option value = '{$organization->gid }'>{$organization->name}&nbsp;&nbsp;({$organization->website})</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            
+            <div hidden="true"> 
+
+
+            <div class="form-group">
                 <label class="control-label col-xs-12 col-md-3" for="organization_name"><?php _e('Company Name', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                 <div class="col-xs-12 col-md-9">
                     <input type="hidden" class="form-control" name="cecom_organization_id" id="cecom_organization_id" value="undefined"/>
@@ -151,6 +173,7 @@
                     </select>
                 </div>
             </div>
+                </div>
 
             <div align="right" class="submit" >
                 <hr>

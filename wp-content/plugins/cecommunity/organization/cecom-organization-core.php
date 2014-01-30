@@ -51,6 +51,15 @@ class CECOM_Organization {
         return $organization_sector;
     }
 
+    //Fetch registered organizations
+    public static function getRegisteredOrganizations() {
+        global $wpdb;
+        $organizations = $wpdb->get_results("SELECT gid,name,website FROM ext_organization");
+        if (!is_array($organizations))
+            return nil;
+        return $organizations;
+    }
+
 }
 
 //Initialize Organization object
@@ -82,8 +91,8 @@ function registerOrganization($organization) {
         $wpdb->update($wpdb->users, array(sanitize_key("user_status") => 2), array('ID' => $user_id));
 
         //Buddypress xprofile data
-        xprofile_set_field_data('Name', $user_id,  $organization['firstname']);
-        xprofile_set_field_data('Surname', $user_id,  $organization['surname']);
+        xprofile_set_field_data('Name', $user_id, $organization['firstname']);
+        xprofile_set_field_data('Surname', $user_id, $organization['surname']);
 
 
         //Send confirmation email to the user
@@ -91,7 +100,7 @@ function registerOrganization($organization) {
             $key = sha1($user_id . time());
             $activation_link = bp_get_activation_page() . "?key=$key";
             add_user_meta($user_id, 'activation_key', $key, true);
-            wp_mail( $organization['email'], 'CECommunity ACTIVATION', 'You have succesfuly registered to CECommunity platform. Activate your account using this link: ' . $activation_link);
+            wp_mail($organization['email'], 'CECommunity ACTIVATION', 'You have succesfuly registered to CECommunity platform. Activate your account using this link: ' . $activation_link);
         }
 
         /* Create buddypress group */
@@ -99,16 +108,16 @@ function registerOrganization($organization) {
         $group = array(
             'creator_id' => $user_id,
             'name' => $organization['name'],
-            'slug' => 'organization'.$user_id,
+            'slug' => 'organization' . $user_id,
             'description' => $organization['description'],
             'status' => 'private',
             'enable_forum' => 0,
             'date_created' => bp_core_current_time()
         );
-        
+
         //Create a new group and get the group id
         $group_id = groups_create_group($group);
-        
+
         //Check if group creation is success
         if ($group_id < 1)
             return -1;
@@ -138,13 +147,13 @@ function registerOrganization($organization) {
             //Something gone really bad... (Possible Action: trying to overwrite an existing organization)
             if ($status < 1)
                 return -1;
-            
+
             //Registration has been successful...
-            return 0;
+            return 1;
         }
         //Oganization already exist 
         else {
-            
+
             //TODO: Sent an an invitation to the admin of the organization in order to accept new member
         }
 

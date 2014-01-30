@@ -89,12 +89,13 @@ jQuery("#register_step2").submit(function(event) {
             errors = response.split('|');
 
             //Fatal error 
-            if (errors == 1){
+            if (errors == -1){
                 alert("Unresolved error happened. Please repeat the registration process...");
-                location.reload(); 
+                document.location.reload(true); 
+                return;
             }
             //Registration Step2 is success
-            if (errors == 0) {
+            if (errors == 1) {
                 //Hide Step2 Form
                 document.getElementById("register-page-step2").style.setProperty("display", "none");
                 //Show Step3 Form
@@ -319,7 +320,7 @@ jQuery("#organization_transaction_n").click(function(){
  */
 jQuery(document).ready(function() {
     document.getElementById("mainmenu").style.setProperty("display", "none");
-    document.getElementById("register-page-step2").style.setProperty("display", "none");
+    //document.getElementById("register-page-step2").style.setProperty("display", "none");
     document.getElementById("register-page-step3").style.setProperty("display", "none");
 });
 

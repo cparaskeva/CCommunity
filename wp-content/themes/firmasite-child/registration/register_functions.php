@@ -157,6 +157,11 @@ function custom_register_user() {
         //End Of Step2
         exit();
     }
+    
+    //Reject any other request
+    echo "-1";
+    exit();
+    
 }
 
 add_action('wp_ajax_custom_register_user', 'custom_register_user');
