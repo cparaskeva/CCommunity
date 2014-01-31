@@ -27,7 +27,7 @@ get_header('buddypress');
                     } else {
 
                         //Registration Step1 
-                        //include(get_stylesheet_directory() . "/registration/register_steps/step1.php");
+                        include(get_stylesheet_directory() . "/registration/register_steps/step1.php");
                         //Registration Step2 
                         include(get_stylesheet_directory() . "/registration/register_steps/step2.php");
                         //Registration Step3 

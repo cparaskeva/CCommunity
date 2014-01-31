@@ -112,56 +112,62 @@ function custom_register_user() {
             'username' => $_POST['signup_username'],
             'firstname' => $_POST['profile_name'],
             'surname' => $_POST['profile_surname'],
+            'notlisted' => $_POST['organization_listed'],
         );
 
-        //Validate Organization Name 
-        if (empty($organization['name']))
-            $errors[] = 'You must provide the name of the organization you belong|';
-        //Validate Organization Website
-        if (empty($organization['website']))
-            $errors[] = 'You must provide the website of your organization|';
-        //Validate Organization Size
-        if (empty($organization['size']) || $organization['size'] == 'none' || !($organization['size'] >= 'A' && $organization['size'] <= 'I'))
-            $errors[] = 'You must select the size of your organization|';
-        //Validate Organization Type
-        if (empty($organization['type']) || $organization['type'] == 'none' || !(preg_match("(C|D|E|G|N|O|P|S)", $organization['type'])))
-            $errors[] = 'You must select the type of your organization|';
+        //Check if user is selecting an already registered organisation
+        if ($organization['notlisted'] == "false") {
+            //User has not selected an organization from the list
+            if ($organization['id'] == "undefined")
+                $errors[] = "Please select your organization..";
+        }
+        else {
 
-        if (empty($organization['sector']) || $organization['sector'] == 'none' || !($organization['sector'] >= 1 && $organization['sector'] <= 10))
-            $errors[] = 'You must select the sector of your organization|';
+            //Validate Organization Name 
+            if (empty($organization['name']))
+                $errors[] = 'You must provide the name of the organization you belong|';
+            //Validate Organization Website
+            if (empty($organization['website']))
+                $errors[] = 'You must provide the website of your organization|';
+            //Validate Organization Size
+            if (empty($organization['size']) || $organization['size'] == 'none' || !($organization['size'] >= 'A' && $organization['size'] <= 'I'))
+                $errors[] = 'You must select the size of your organization|';
+            //Validate Organization Type
+            if (empty($organization['type']) || $organization['type'] == 'none' || !(preg_match("(C|D|E|G|N|O|P|S)", $organization['type'])))
+                $errors[] = 'You must select the type of your organization|';
 
-
-        //Formalize Collaboration Value to 0/1
-        if ($organization['collaboration'] == 'on')
-            $organization['collaboration'] = 1;
-        else
-            $organization['collaboration'] = 0;
-        //Formalize Transaction Value to 0/1
-        if ($organization['transaction'] == 'on')
-            $organization['transaction'] = 1;
-        else
-            $organization['transaction'] = 0;
+            if (empty($organization['sector']) || $organization['sector'] == 'none' || !($organization['sector'] >= 1 && $organization['sector'] <= 10))
+                $errors[] = 'You must select the sector of your organization|';
 
 
+            //Formalize Collaboration Value to 0/1
+            if ($organization['collaboration'] == 'on')
+                $organization['collaboration'] = 1;
+            else
+                $organization['collaboration'] = 0;
+            //Formalize Transaction Value to 0/1
+            if ($organization['transaction'] == 'on')
+                $organization['transaction'] = 1;
+            else
+                $organization['transaction'] = 0;
+        }
+
+        //Print the errors (if found)
         if (!empty($errors)) {
 
             foreach ($errors as &$value) {
                 echo($value);
             }
-        } else {
-
-           return do_action_ref_array("register_organization", array(&$organization));
-           
-        }
+        } else
+            do_action_ref_array("register_organization", array(&$organization));
 
         //End Of Step2
         exit();
     }
-    
+
     //Reject any other request
     echo "-1";
     exit();
-    
 }
 
 add_action('wp_ajax_custom_register_user', 'custom_register_user');

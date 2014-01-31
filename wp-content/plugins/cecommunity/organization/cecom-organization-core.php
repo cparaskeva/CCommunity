@@ -60,6 +60,12 @@ class CECOM_Organization {
         return $organizations;
     }
 
+    //Returns the group ID which is associated with the organization
+    public static function getGroupID($organization_id) {
+        global $wpdb;
+        $wpdb->get_var('select gid from ext_organization where id=' . $organization_id);
+    }
+
 }
 
 //Initialize Organization object
@@ -75,15 +81,18 @@ function registerOrganization($organization) {
     $sanitized_user_login = $organization['username'];
 
     //Someone is doing nasty things... Abort Immediately
-    if (username_exists($sanitized_user_login))
-        return -1;
+    if (username_exists($sanitized_user_login)) {
+        echo "-1";
+        return;
+    }
 
     global $wpdb;
 
     $user_id = wp_create_user($sanitized_user_login, $organization['password'], $organization['email']);
     if (!$user_id):
         //Something gone wrong... Abort Registration
-        return -1;
+        echo "-1";
+        return;
     else:
 
         //Force user to active the account
@@ -103,30 +112,35 @@ function registerOrganization($organization) {
             wp_mail($organization['email'], 'CECommunity ACTIVATION', 'You have succesfuly registered to CECommunity platform. Activate your account using this link: ' . $activation_link);
         }
 
-        /* Create buddypress group */
+        $group_id = $organization['id'];
 
-        $group = array(
-            'creator_id' => $user_id,
-            'name' => $organization['name'],
-            'slug' => 'organization' . $user_id,
-            'description' => $organization['description'],
-            'status' => 'private',
-            'enable_forum' => 0,
-            'date_created' => bp_core_current_time()
-        );
+        if ($group_id == "undefined") {
 
-        //Create a new group and get the group id
-        $group_id = groups_create_group($group);
+            /* Create buddypress group */
 
-        //Check if group creation is success
-        if ($group_id < 1)
-            return -1;
+            $group = array(
+                'creator_id' => $user_id,
+                'name' => $organization['name'],
+                'slug' => 'organization' . $user_id,
+                'description' => $organization['description'],
+                'status' => 'private',
+                'enable_forum' => 0,
+                'date_created' => bp_core_current_time()
+            );
 
+            //Create a new group and get the group id
+            $group_id = groups_create_group($group);
 
-        /* Register organization */
+            //Check if group creation is success
+            if ($group_id < 1) {
+                echo "-1";
+                return;
+            }
 
-        //Oganization does not exist
-        if ($organization['id'] == "undefined") {
+            /* Register organization */
+
+            //Oganization does not exist
+
             $wpdb->show_errors();
             $status = $wpdb->insert('ext_organization', array(
                 'gid' => $group_id,
@@ -146,15 +160,16 @@ function registerOrganization($organization) {
 
             //Something gone really bad... (Possible Action: trying to overwrite an existing organization)
             if ($status < 1)
-                return -1;
-
+                echo -1;
+            else
             //Registration has been successful...
-            return 1;
+                echo 1;
         }
         //Oganization already exist 
         else {
-
-            //TODO: Sent an an invitation to the admin of the organization in order to accept new member
+            //groups_join_group($group_id, $user_id);
+            groups_send_membership_request($user_id,$group_id);
+            echo 1;
         }
 
     endif;

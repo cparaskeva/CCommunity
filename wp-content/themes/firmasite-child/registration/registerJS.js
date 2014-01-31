@@ -8,10 +8,6 @@
 <script src='<?php echo get_stylesheet_directory_uri()."/assets/js/jquery-ui.js" ?>'></script>
 <script type = "text/javascript" >
 
-//Define Global Variables
-//var ajaxURL = "<?php bloginfo('wpurl'); ?>/wp-admin/admin-ajax.php";
-
-
 /*
  *  AJAX CALL FUCNTIONS  
  */
@@ -75,9 +71,16 @@ jQuery("#register_step2").submit(function(event) {
     /* Clear errors div*/
     jQuery("#current-step-errors").html('');
     jQuery("#current-step-errors").hide();
-
+    
+    /*  Get the value of the checkbox that defines if user selected an already registered organization or not */
+    var isOrganizationListed = "&organization_listed=" +jQuery("#organization_details_checkbox").is(":checked");
+    
     /* Get some values from elements on the page: */
-    var values = "action=custom_register_user&" + jQuery(this).serialize()+"&organization_country="+jQuery(".bfh-selectbox").val()+"&"+jQuery("#register_step1").serialize();
+    var values = "action=custom_register_user&" 
+                 +jQuery(this).serialize()+"&organization_country="
+                 +jQuery(".bfh-selectbox").val()+"&"
+                 +jQuery("#register_step1").serialize()
+                 +isOrganizationListed;
 
     /* Send the data using post and put the results in a div */
     jQuery.ajax({
@@ -260,10 +263,10 @@ jQuery("#register_step2").submit(function(event) {
 });
      
      
- jQuery( "#lang_id" ).click(function() {
+ /*jQuery( "#lang_id" ).click(function() {
     alert(jQuery(".bfh-selectbox").val());    
 
-});     
+});*/     
 
 
 /*
@@ -286,7 +289,25 @@ jQuery("#linkedin").click(function(){
         jQuery("#organization_name" ).autocomplete({ disabled: true });
     }
             
-});         
+});
+
+
+/*
+ * Checkbox button for showing organization details
+ */
+
+jQuery("#organization_details_checkbox").click(function(){
+    if (jQuery(this).is(":checked")){
+        jQuery("#organization_details").show();
+        jQuery("#cecom_organization_id" ).prop("disabled",true)
+        jQuery("#cecom_organization_id").val("undefined"); //Reset the value of the organization ID
+    }
+    else{
+        jQuery("#organization_details").hide();
+        jQuery("#cecom_organization_id" ).prop("disabled",false);
+    }
+            
+});
      
     
 /*
@@ -312,6 +333,21 @@ jQuery("#organization_transaction_y").click(function(){
 jQuery("#organization_transaction_n").click(function(){
     jQuery("#organization_transaction_y").attr("checked", false);
 });
+
+
+
+/*
+ * Registered organizations list
+ */
+
+jQuery("#registered_organizations_list").click(function(){
+    event.preventDefault();
+    alert("selected");
+});
+
+
+
+
     
     
 
@@ -320,7 +356,7 @@ jQuery("#organization_transaction_n").click(function(){
  */
 jQuery(document).ready(function() {
     document.getElementById("mainmenu").style.setProperty("display", "none");
-    //document.getElementById("register-page-step2").style.setProperty("display", "none");
+    document.getElementById("register-page-step2").style.setProperty("display", "none");
     document.getElementById("register-page-step3").style.setProperty("display", "none");
 });
 
