@@ -85,6 +85,7 @@ do_action('bp_before_group_header');
         <?php bp_group_description(); ?>
         <div>
             <strong>Specialties</strong> <br/><?php echo $cecom->organization->details['specialties'] ?><br/><br/>
+            <b>Sector</b> <?php echo "<br/><span style=\"background-color:";echo $cecom->organization->details['sector_color']."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>"; echo "&nbsp;&nbsp;".$cecom->organization->details['sector_desc']?><br/><br/>
             <i>Organization is available for collaboration</i>&nbsp;  <?php if ($cecom->organization->details['collaboration']) : echo "<span class=\"glyphicon glyphicon-ok\"></span>";
         else : echo "<span class=\"glyphicon glyphicon-remove\"></span>";
         endif; ?></br>

@@ -510,6 +510,8 @@ function groups_screen_group_admin() {
 
 function groups_screen_group_admin_edit_details() {
 
+
+
 	if ( 'edit-details' != bp_get_group_current_admin_tab() )
 		return false;
 
@@ -519,16 +521,26 @@ function groups_screen_group_admin_edit_details() {
 
 		// If the edit form has been submitted, save the edited details
 		if ( isset( $_POST['save'] ) ) {
+                                        
 			// Check the nonce
 			if ( !check_admin_referer( 'groups_edit_group_details' ) )
 				return false;
 
 			$group_notify_members = isset( $_POST['group-notify-members'] ) ? (int) $_POST['group-notify-members'] : 0;
+                        
+                        /* BuddyPress Hacking
+                         *
+                         * Inject Organization Edit Fields
+                         * 
+                         * Wrap the default function groups_edit_base_group_details
+                         * within edit_organization_details() 
+                         *                          */
 
+                            
 			if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $group_notify_members ) ) {
-				bp_core_add_message( __( 'There was an error updating group details, please try again.', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error updating organisation details, please try again.', 'buddypress' ), 'error' );
 			} else {
-				bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
+				bp_core_add_message( __( 'Organisation details were successfully updated.', 'buddypress' ) );
 			}
 
 			do_action( 'groups_group_details_edited', $bp->groups->current_group->id );

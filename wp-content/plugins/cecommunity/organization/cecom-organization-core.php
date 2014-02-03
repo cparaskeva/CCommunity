@@ -14,7 +14,9 @@ class CECOM_Organization {
         'website' => '',
         'country' => '',
         'size_min' => '',
-        'size_max' => ''
+        'size_max' => '',
+        'sector_desc' => '',
+        'sector_color' => ''
     );
 
     public static function instance() {
@@ -52,6 +54,8 @@ class CECOM_Organization {
         self::$instance->details['country'] = $org_details->country_id;
         self::$instance->details['size_min'] = $org_details->size_min;
         self::$instance->details['size_max'] = $org_details->size_max;
+        self::$instance->details['sector_desc'] = $org_details->sector_desc;
+        self::$instance->details['sector_color'] = $org_details->sector_color;
         //print_r ($org_details);
     }
 
@@ -95,6 +99,10 @@ class CECOM_Organization {
     public static function getGroupID($organization_id) {
         global $wpdb;
         $wpdb->get_var('select gid from ext_organization where id=' . $organization_id);
+    }
+    
+    public static function edit_organization_details(){
+        
     }
 
 }
