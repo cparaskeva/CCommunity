@@ -75,12 +75,20 @@ jQuery("#register_step2").submit(function(event) {
     /*  Get the value of the checkbox that defines if user selected an already registered organization or not */
     var isOrganizationListed = "&organization_listed=" +jQuery("#organization_details_checkbox").is(":checked");
     
+    
+    /* Check if user register an organization which is not listed */
+    var organizationFlag="";
+    if (jQuery("#cecom_organization_id").is(':disabled'))
+        organizationFlag = "&cecom_organization_id="+jQuery("#cecom_organization_id").val();
+                
     /* Get some values from elements on the page: */
     var values = "action=custom_register_user&" 
                  +jQuery(this).serialize()+"&organization_country="
                  +jQuery(".bfh-selectbox").val()+"&"
                  +jQuery("#register_step1").serialize()
-                 +isOrganizationListed;
+                 +isOrganizationListed
+                 +organizationFlag;
+                
 
     /* Send the data using post and put the results in a div */
     jQuery.ajax({

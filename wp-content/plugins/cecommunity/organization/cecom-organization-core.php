@@ -4,6 +4,18 @@ class CECOM_Organization {
     /* Singleton pattern  */
 
     private static $instance;
+    public $details = array('country' => 'temp',
+        'type' => '',
+        'size' => '',
+        'sector' => '',
+        'collaboration' => '',
+        'transaction' => '',
+        'sepcialties' => '',
+        'website' => '',
+        'country' => '',
+        'size_min' => '',
+        'size_max' => ''
+    );
 
     public static function instance() {
         if (!isset(self::$instance)) {
@@ -23,6 +35,25 @@ class CECOM_Organization {
     }
 
     /* Static Functions */
+
+    //Get all the organization details
+
+
+    public function getOrganizationDetails($group_id) {
+        global $wpdb;
+        $org_details = $wpdb->get_row("select website,specialties,min size_min, max size_max, collaboration,transaction, sector.description sector_desc, sector.color sector_color, type.description type_desc, country_id from ext_organization org, ext_organization_size size, ext_organization_sector sector, ext_organization_type type where org.gid =" . $group_id . " and sector_id = sector.id and type_id=type.id and size_id = size.id ");
+        self::$instance->details['specialties'] = $org_details->specialties;
+        self::$instance->details['website'] = $org_details->website;
+        //self::$instance->details['type'] = $org_details->type;
+        //self::$instance->details['size'] = $org_details->type;
+        self::$instance->details['collaboration'] = $org_details->collaboration;
+        self::$instance->details['transaction'] = $org_details->transaction;
+        self::$instance->details['type'] = $org_details->type_desc;
+        self::$instance->details['country'] = $org_details->country_id;
+        self::$instance->details['size_min'] = $org_details->size_min;
+        self::$instance->details['size_max'] = $org_details->size_max;
+        //print_r ($org_details);
+    }
 
     //Fetch the available types for an organization
     public static function getOrganizationType() {
@@ -87,7 +118,7 @@ function registerOrganization($organization) {
     }
 
     global $wpdb;
-
+    $wpdb->show_errors();
     $user_id = wp_create_user($sanitized_user_login, $organization['password'], $organization['email']);
     if (!$user_id):
         //Something gone wrong... Abort Registration
@@ -168,7 +199,7 @@ function registerOrganization($organization) {
         //Oganization already exist 
         else {
             //groups_join_group($group_id, $user_id);
-            groups_send_membership_request($user_id,$group_id);
+            groups_send_membership_request($user_id, $group_id);
             echo 1;
         }
 
