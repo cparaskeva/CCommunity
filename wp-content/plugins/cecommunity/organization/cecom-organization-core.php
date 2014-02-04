@@ -34,6 +34,7 @@ class CECOM_Organization {
      */
     private function setup_actions() {
         add_action("register_organization", "registerOrganization");
+        add_action("check_organization_exist", "checkOrganization");
     }
 
     /* Static Functions */
@@ -100,9 +101,27 @@ class CECOM_Organization {
         global $wpdb;
         $wpdb->get_var('select gid from ext_organization where id=' . $organization_id);
     }
-    
-    public static function edit_organization_details(){
-        
+
+    //TODO: Add actual subector ID
+    //
+    //
+    //Update Organization Profile 
+    public static function edit_organization_details($group_id, $desc, $name, $specialties, $website, $country, $type, $size, $sector, $subsector, $collaboration, $transaction) {
+        global $wpdb;
+        $wpdb->show_errors();
+        $wpdb->query($wpdb->prepare("UPDATE ext_organization  SET "
+                        . "description   = %s ,"
+                        . "name          = %s ,"
+                        . "size_id       = %s ,"
+                        . "type_id       = %s ,"
+                        . "country_id    = %s ,"
+                        . "sector_id     = %d ,"
+                        . "subsector_id  = %d ,"
+                        . "website       = %s ,"
+                        . "specialties   = %s ,"
+                        . "collaboration = %d ,"
+                        . "transaction   = %d "
+                        . "WHERE gid     = %d ", $desc, $name, $size, $type, $country, $sector, $subsector, $website, $specialties, $collaboration, $transaction, $group_id));
     }
 
 }
@@ -126,7 +145,7 @@ function registerOrganization($organization) {
     }
 
     global $wpdb;
-    $wpdb->show_errors();
+    //$wpdb->show_errors();
     $user_id = wp_create_user($sanitized_user_login, $organization['password'], $organization['email']);
     if (!$user_id):
         //Something gone wrong... Abort Registration
@@ -179,8 +198,7 @@ function registerOrganization($organization) {
             /* Register organization */
 
             //Oganization does not exist
-
-            $wpdb->show_errors();
+            //$wpdb->show_errors();
             $status = $wpdb->insert('ext_organization', array(
                 'gid' => $group_id,
                 'name' => $organization['name'],
@@ -212,6 +230,12 @@ function registerOrganization($organization) {
         }
 
     endif;
+}
+
+//TODO: Check for a matached subdomain
+function checkOrganization($email) {
+    global $wp;
+    $domain = explode('@', $email);
 }
 
 ?>

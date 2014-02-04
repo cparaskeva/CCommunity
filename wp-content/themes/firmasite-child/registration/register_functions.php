@@ -75,6 +75,8 @@ function custom_register_user() {
             }
         } else {
             echo("step1_done");
+            //Check if an organization already exist (based on the subdomain of the users' email)
+            do_action("check_organization_exist",$user_email);
         }
 
         //End Of Step1

@@ -77,6 +77,7 @@
 
         <div align="right" class="submit" >
             <hr>
+            <div align="left"><a align="left" href="<?php bloginfo('wpurl'); ?>" title="Are you lost?">&larr; Back to CECommunity</a></div>
             <input type="submit" class="btn  btn-primary" name="signup_submit" id="signup_submit" value="<?php _e('Submit', 'firmasite'); ?>" />
         </div>
     </form>

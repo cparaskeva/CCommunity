@@ -19,7 +19,7 @@ get_header( 'buddypress' ); ?>
 
 		<form action="" method="post" id="groups-directory-form" class="dir-form">
 
-			<h3 class="page-header"><?php _e( 'Groups Directory', 'firmasite' ); ?><?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?> &nbsp;<a class="button btn btn-default" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create' ); ?>"><?php _e( 'Create a Group', 'firmasite' ); ?></a><?php endif; ?></h3>
+			<h3 class="page-header"><?php _e( 'Organisations Directory', 'firmasite' ); ?><?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?> &nbsp;<a class="button btn btn-default" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create' ); ?>"><?php _e( 'Create a Group', 'firmasite' ); ?></a><?php endif; ?></h3>
 
 			<?php do_action( 'bp_before_directory_groups_content' ); ?>
 

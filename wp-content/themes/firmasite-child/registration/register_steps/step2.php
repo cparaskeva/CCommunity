@@ -1,5 +1,16 @@
 <div class="page" id="register-page-step2">
+    
     <form action="" name="organization_form" id="register_step2" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
+        
+            
+<?php 
+//do_action("check_organization_exist",$_POST['signup_email']);
+global $cecom;
+echo "Email ". $_POST['action'] . "   session based ".$_SESSION['test'].$_POST['test'];
+echo $_REQUEST['signup_email'];
+
+?>
+        
         <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/step2.jpg" height="60" width="60">        
             <?php _e('Register an Organization', 'firmasite'); ?></h2>
 
@@ -180,6 +191,7 @@
 
             <div align="right" class="submit" >
                 <hr>
+                 <div align="left"><a align="left" href="<?php bloginfo('wpurl'); ?>" title="Are you lost?">&larr; Back to CECommunity</a></div>
                 <input type="submit" class="btn  btn-primary" name="organization_submit" id="organization_submit" value="<?php _e('Submit', 'firmasite'); ?>" >
             </div>
 

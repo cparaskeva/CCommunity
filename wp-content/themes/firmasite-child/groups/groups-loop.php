@@ -77,7 +77,7 @@
 <?php else: ?>
 
 	<div class="clearfix"></div><div id="message" class="info alert alert-info">
-		<p><?php _e( 'There were no groups found.', 'firmasite' ); ?></p>
+		<p><?php _e( 'There were no organisations found.', 'firmasite' ); ?></p>
 	</div>
 
 <?php endif; ?>

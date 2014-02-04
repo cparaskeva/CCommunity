@@ -2,8 +2,6 @@
 //Load CECommunity Header
 global $firmasite_settings;
 get_header('buddypress');
-
-
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . "/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css"; ?>"/>
