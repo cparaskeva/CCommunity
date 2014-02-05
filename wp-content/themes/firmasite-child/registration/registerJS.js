@@ -46,6 +46,7 @@ jQuery("#register_step1").submit(function(event) {
                 jQuery("#register_step").val("step2");
                 
                 //Check if an already registered organization is found
+                    //errors[1]-> group ID, errors[2] -> organization name, errors[3] -> organization website
                 if (errors[1] > 0 && errors[2].length>0 && errors[3].length>0){
                     jQuery("#organization_exist_div").show();
                     jQuery("#organization_exist_warning").append("The organisation <b>"

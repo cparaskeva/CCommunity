@@ -546,7 +546,7 @@ function groups_screen_group_admin_edit_details() {
                 if (isset($_POST['organization_transaction_y']))
                     $transaction = 1;
 
-                $cecom->organization->edit_organization_details($_POST['group-id'], $_POST['group-desc'], $_POST['group-name'], $_POST['organization_specialties'], $_POST['organization_website'], $_POST['organization_countryID'], $_POST['organization_type'], $_POST['organization_size'], $_POST['organization_sector'],0, $collaboration, $transaction);
+                $cecom->organization->edit_organization_details($_POST['group-id'], $_POST['group-desc'], $_POST['group-name'], $_POST['organization_specialties'], $_POST['organization_website'], $_POST['organization_countryID'], $_POST['organization_type'], $_POST['organization_size'], $_POST['organization_sector'],2, $collaboration, $transaction);
                 bp_core_add_message(__('Organisation details were successfully updated.', 'buddypress'));
             }
 
