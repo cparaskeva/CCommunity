@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" href='<?php echo get_stylesheet_directory_uri()."/assets/css/jquery-ui.css" ?>'> 
 <style>
  .ui-autocomplete-loading {
@@ -34,8 +33,8 @@ jQuery("#register_step1").submit(function(event) {
 
             errors = response.split('|');
 
-            if (errors == "step1_done") {
-
+            if (errors[0] == "step1_done") {
+                
                 //Hide Step1 Form
                 document.getElementById("register_step1").style.setProperty("display", "none");
                 //Show Step2 Form
@@ -45,6 +44,17 @@ jQuery("#register_step1").submit(function(event) {
                 document.getElementById("progress_bar").style.setProperty("width", "67%");
                //Change registratio status to Step2
                 jQuery("#register_step").val("step2");
+                
+                //Check if an already registered organization is found
+                if (errors[1] > 0 && errors[2].length>0 && errors[3].length>0){
+                    jQuery("#organization_exist_div").show();
+                    jQuery("#organization_exist_warning").append("The organisation <b>"
+                            +errors[2] + "( <a target=\"_blank\" href=\""+ errors[3] +"\">"+ errors[3]+"</a> )" + "</b> is already registered in the platform."
+                            +" Therefore if you belong to this organisation click the submit button or choose you organisation from the list below."
+                            +"<br/><br/><p><strong><em>Please note that if your organisation is not listed you can registered it either manually or "
+                            +"using your LinkedIn Company Profile.</em></strong></p>");
+                    jQuery("#cecom_organization_id").val(errors[1]);
+                }
                 
             }
             else {
@@ -309,6 +319,7 @@ jQuery("#organization_details_checkbox").click(function(){
         jQuery("#organization_details").show();
         jQuery("#cecom_organization_id" ).prop("disabled",true)
         jQuery("#cecom_organization_id").val("undefined"); //Reset the value of the organization ID
+        jQuery("#organization_exist_div").hide();
     }
     else{
         jQuery("#organization_details").hide();

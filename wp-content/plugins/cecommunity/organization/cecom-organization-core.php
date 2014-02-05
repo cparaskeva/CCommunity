@@ -234,8 +234,16 @@ function registerOrganization($organization) {
 
 //TODO: Check for a matached subdomain
 function checkOrganization($email) {
-    global $wp;
+    global $wpdb;
     $domain = explode('@', $email);
+    //Check if subdomain is set
+    if (isset($domain[1])){
+        $result= $wpdb->get_row("select gid,website,name from ext_organization where website like '%". $domain[1]. "' limit 1");
+        echo "|".$result->gid."|".$result->name."|".$result->website ;
+    }
+            
+    
+    //select gid,website,name from ext_organization where website like '%mywebsite.com' limit 1;
 }
 
 ?>

@@ -1,16 +1,7 @@
 <div class="page" id="register-page-step2">
-    
-    <form action="" name="organization_form" id="register_step2" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
-        
-            
-<?php 
-//do_action("check_organization_exist",$_POST['signup_email']);
-global $cecom;
-echo "Email ". $_POST['action'] . "   session based ".$_SESSION['test'].$_POST['test'];
-echo $_REQUEST['signup_email'];
 
-?>
-        
+    <form action="" name="organization_form" id="register_step2" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
+
         <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/step2.jpg" height="60" width="60">        
             <?php _e('Register an Organization', 'firmasite'); ?></h2>
 
@@ -21,10 +12,14 @@ echo $_REQUEST['signup_email'];
         <?php do_action('bp_before_account_details_fields'); ?>
 
         <div class="register-section" id="basic-details-section">
-            <?php /*             **** Organization Details ***** */ ?>
+            <?php /*             * *** Organization Details ***** */ ?>
 
             <h4 class="page-header"><?php _e('Organization Details', 'firmasite'); ?></h4>
 
+            <div hidden="true" id="organization_exist_div">
+                <span class="label label-warning">Organisation Exist!</span>
+                <div id="organization_exist_warning" class="alert alert-warning"></div>
+            </div>
             <div class="form-group">
                 <label class="control-label col-xs-12 col-md-3" for="registered_organizations"><?php _e('Registered Organisations', 'firmasite'); ?> </label>
                 <div class="col-xs-12 col-md-9">
@@ -191,7 +186,7 @@ echo $_REQUEST['signup_email'];
 
             <div align="right" class="submit" >
                 <hr>
-                 <div align="left"><a align="left" href="<?php bloginfo('wpurl'); ?>" title="Are you lost?">&larr; Back to CECommunity</a></div>
+                <div align="left"><a align="left" href="<?php bloginfo('wpurl'); ?>" title="Are you lost?">&larr; Back to CECommunity</a></div>
                 <input type="submit" class="btn  btn-primary" name="organization_submit" id="organization_submit" value="<?php _e('Submit', 'firmasite'); ?>" >
             </div>
 
