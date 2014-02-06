@@ -88,9 +88,9 @@
             </select>
             <br/>
             <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
-            <select   name="organization_sector" id="organization_sector" >
+            <select  onchange="setSubsctorValues()" name="organization_sector" id="organization_sector" >
                 <?php
-                //Fetch Organization Sectos form DB
+                //Fetch Organization Sectors form DB
                 $results = CECOM_Organization::getOrganizationSector();
                 if (is_array($results)) {
 
@@ -105,6 +105,23 @@
 
             </select>
             <br/>
+            <label  for="organization_subsector"><?php _e('Subector', 'firmasite'); ?> </label>
+            <select name="organization_subsector" id="organization_subsector" >
+                <?php
+                //Fetch Organization Subsectors form DB
+                $results = CECOM_Organization::getOrganizationSubsector($cecom->organization->details['sector_id']);
+                if (is_array($results)) {
+
+                    foreach ($results as $org_subsector) {
+                        if ($cecom->organization->details['subsector_id'] == $org_subsector->id)
+                            echo "<option selected=\"selected\" value = '{$org_subsector->id }'>{$org_subsector->description}</option>";
+                        else
+                            echo "<option value = '{$org_subsector->id }'>{$org_subsector->description}</option>";
+                    }
+                }
+                ?>
+
+            </select><br/>
             <label  for="organization_collaboration"><?php _e('Available for collaboration', 'firmasite'); ?> </label>
             <input type="radio" <?php if ($cecom->organization->details['collaboration']) echo "checked=\"yes\""; ?>  name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
             <input type="radio" <?php if (!$cecom->organization->details['collaboration']) echo "checked=\"yes\""; ?> name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
@@ -477,30 +494,29 @@
 
 <script type = "text/javascript">
 
-   
-/*
- * Radio buttons check for Yes/No fields
- */    
+    /*
+     * Radio buttons check for Yes/No fields
+     */
 
 
 //Collaboration Radio Buttons
-jQuery("#organization_collaboration_y").click(function(){
-    jQuery("#organization_collaboration_n").attr("checked", false);
-});
+    jQuery("#organization_collaboration_y").click(function() {
+        jQuery("#organization_collaboration_n").attr("checked", false);
+    });
 
-jQuery("#organization_collaboration_n").click(function(){
-    jQuery("#organization_collaboration_y").attr("checked", false);
-});
+    jQuery("#organization_collaboration_n").click(function() {
+        jQuery("#organization_collaboration_y").attr("checked", false);
+    });
 
 
 //Transaction Radio Buttons
-jQuery("#organization_transaction_y").click(function(){
-    jQuery("#organization_transaction_n").attr("checked", false);
-});
+    jQuery("#organization_transaction_y").click(function() {
+        jQuery("#organization_transaction_n").attr("checked", false);
+    });
 
-jQuery("#organization_transaction_n").click(function(){
-    jQuery("#organization_transaction_y").attr("checked", false);
-});
+    jQuery("#organization_transaction_n").click(function() {
+        jQuery("#organization_transaction_y").attr("checked", false);
+    });
 
 
 
@@ -509,4 +525,8 @@ jQuery("#organization_transaction_n").click(function(){
         jQuery("#organization_countryID").val(jQuery("#organization_country").val());
 
     }
+
+
+
+
 </script>

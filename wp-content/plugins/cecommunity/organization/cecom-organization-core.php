@@ -15,8 +15,11 @@ class CECOM_Organization {
         'country' => '',
         'size_min' => '',
         'size_max' => '',
+        'sector_id' => '',
         'sector_desc' => '',
-        'sector_color' => ''
+        'sector_color' => '',
+        'subsector_id' => '',
+        'subsector_desc' => ''
     );
 
     public static function instance() {
@@ -44,19 +47,23 @@ class CECOM_Organization {
 
     public function getOrganizationDetails($group_id) {
         global $wpdb;
-        $org_details = $wpdb->get_row("select website,specialties,min size_min, max size_max, collaboration,transaction, sector.description sector_desc, sector.color sector_color, type.description type_desc, country_id from ext_organization org, ext_organization_size size, ext_organization_sector sector, ext_organization_type type where org.gid =" . $group_id . " and sector_id = sector.id and type_id=type.id and size_id = size.id ");
+        $wpdb->show_errors();
+        $org_details = $wpdb->get_row("select website,specialties,min size_min, max size_max, collaboration,transaction,subsector.id subsector_id,subsector.description subsector_desc,  sector.id sector_id, sector.description sector_desc, sector.color sector_color, type.description type_desc, country_id " 
+                ." from ext_organization org, ext_organization_size size, ext_organization_sector sector,ext_organization_subsector subsector, ext_organization_type type ".
+                "where org.gid =" . $group_id . " and subsector_id = subsector.id and sector_id = sector.id and type_id=type.id and size_id = size.id ");
         self::$instance->details['specialties'] = $org_details->specialties;
         self::$instance->details['website'] = $org_details->website;
-        //self::$instance->details['type'] = $org_details->type;
-        //self::$instance->details['size'] = $org_details->type;
         self::$instance->details['collaboration'] = $org_details->collaboration;
         self::$instance->details['transaction'] = $org_details->transaction;
         self::$instance->details['type'] = $org_details->type_desc;
         self::$instance->details['country'] = $org_details->country_id;
         self::$instance->details['size_min'] = $org_details->size_min;
         self::$instance->details['size_max'] = $org_details->size_max;
+        self::$instance->details['sector_id'] = $org_details->sector_id;
         self::$instance->details['sector_desc'] = $org_details->sector_desc;
         self::$instance->details['sector_color'] = $org_details->sector_color;
+        self::$instance->details['subsector_desc'] = $org_details->subsector_desc;
+        self::$instance->details['subsector_id'] = $org_details->subsector_id;
         //print_r ($org_details);
     }
 
@@ -87,6 +94,15 @@ class CECOM_Organization {
         return $organization_sector;
     }
 
+    //Fetch the prossible number of employees  for an organization
+    public static function getOrganizationSubsector($sectorID) {
+        global $wpdb;
+        $organization_subsector = $wpdb->get_results("SELECT * FROM ext_organization_subsector where sid=" . $sectorID . " order by description asc");
+        if (!is_array($organization_subsector))
+            return nil;
+        return $organization_subsector;
+    }
+
     //Fetch registered organizations
     public static function getRegisteredOrganizations() {
         global $wpdb;
@@ -108,7 +124,7 @@ class CECOM_Organization {
     //Update Organization Profile 
     public static function edit_organization_details($group_id, $desc, $name, $specialties, $website, $country, $type, $size, $sector, $subsector, $collaboration, $transaction) {
         global $wpdb;
-        $wpdb->show_errors();
+        //$wpdb->show_errors();
         $wpdb->query($wpdb->prepare("UPDATE ext_organization  SET "
                         . "description   = %s ,"
                         . "name          = %s ,"
@@ -206,7 +222,7 @@ function registerOrganization($organization) {
                 'type_id' => $organization['type'],
                 'country_id' => $organization['country'],
                 'sector_id' => $organization['sector'],
-                'subsector_id' => '1',
+                'subsector_id' => $organization['subsector'],
                 'collaboration' => $organization['collaboration'],
                 'transaction' => $organization['transaction'],
                 'website' => $organization['website'],
@@ -232,18 +248,15 @@ function registerOrganization($organization) {
     endif;
 }
 
-//TODO: Check for a matached subdomain
+//Check for a matached subdomain based on the users' registering email
 function checkOrganization($email) {
     global $wpdb;
     $domain = explode('@', $email);
     //Check if subdomain is set
-    if (isset($domain[1])){
-        $result= $wpdb->get_row("select gid,website,name from ext_organization where website like '%". $domain[1]. "' limit 1");
-        echo "|".$result->gid."|".$result->name."|".$result->website ;
+    if (isset($domain[1])) {
+        $result = $wpdb->get_row("select gid,website,name from ext_organization where website like '%" . $domain[1] . "' limit 1");
+        echo "|" . $result->gid . "|" . $result->name . "|" . $result->website;
     }
-            
-    
-    //select gid,website,name from ext_organization where website like '%mywebsite.com' limit 1;
 }
 
 ?>

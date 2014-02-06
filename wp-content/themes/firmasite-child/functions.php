@@ -1,12 +1,16 @@
 <?php
 
-//Adding specific CSS
-/*function wpb_adding_scripts() {
-    wp_register_script('bootstrap-formhelpers', get_template_directory()."/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css");
-    wp_enqueue_script('bootstrap-formhelpers');
+/**
+ * Enqueue stylesheets(CSS) & javascripts(JS)
+ */
+function custom_java_scripts() {
+    wp_register_script('cecommunity-functions', get_stylesheet_directory_uri() . '/assets/js//cecommunity-functions.js');
+    wp_enqueue_script("cecommunity-functions");
+    //wp_register_script('bootstrap-formhelpers', get_template_directory() . "/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css");
+    //wp_enqueue_script('bootstrap-formhelpers');
 }
 
-add_action('wp_enqueue_scripts', 'wpb_adding_scripts');*/
+add_action('wp_enqueue_scripts', 'custom_java_scripts');
 
 
 //Implemantation of AJAX Calls need fo the registration process of a user

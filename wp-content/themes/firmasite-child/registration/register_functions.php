@@ -76,7 +76,7 @@ function custom_register_user() {
         } else {
             echo("step1_done");
             //Check if an organization already exist (based on the subdomain of the users' email)
-            do_action("check_organization_exist",$user_email);
+            do_action("check_organization_exist", $user_email);
         }
 
         //End Of Step1
@@ -106,6 +106,7 @@ function custom_register_user() {
             'size' => $_POST['organization_size'],
             'type' => $_POST['organization_type'],
             'sector' => $_POST['organization_sector'],
+            'subsector' => $_POST['organization_subsector'],
             'collaboration' => $_POST['organization_collaboration_y'],
             'transaction' => $_POST['organization_transaction_y'],
             'country' => $_POST['organization_country'],
@@ -137,9 +138,13 @@ function custom_register_user() {
             //Validate Organization Type
             if (empty($organization['type']) || $organization['type'] == 'none' || !(preg_match("(C|D|E|G|N|O|P|S)", $organization['type'])))
                 $errors[] = 'You must select the type of your organization|';
-
+            //Validate Sector 
             if (empty($organization['sector']) || $organization['sector'] == 'none' || !($organization['sector'] >= 1 && $organization['sector'] <= 10))
                 $errors[] = 'You must select the sector of your organization|';
+            //Validate Subsector  
+            if (empty($organization['subsector']) || $organization['subsector'] == 'none' || !($organization['subsector'] >= 1 && $organization['subsector'] <= 100))
+                $errors[] = 'You must select a subsector for your organization|';
+
 
 
             //Formalize Collaboration Value to 0/1
@@ -166,6 +171,19 @@ function custom_register_user() {
         //End Of Step2
         exit();
     }
+
+    /* Subsector fields autload AJAX CALL based on Sector ID */
+
+    if (isset($_GET['operation']) && $_GET['operation'] == 'load_subsector') {
+
+        //Check if the sector id is valid
+        if (!isset($_GET['sector_id']) || $_GET['sector_id'] == "") {
+            exit();
+        }
+        echo $_GET["callback"] . "(" . json_encode(CECOM_Organization::getOrganizationSubsector($_GET['sector_id'])) . ")";
+        exit();
+    }
+
 
     //Reject any other request
     echo "-1";

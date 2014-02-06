@@ -57,6 +57,10 @@ jQuery("#register_step1").submit(function(event) {
                     jQuery("#cecom_organization_id").val(errors[1]);
                 }
                 
+                
+                //Set subsector list values
+                setSubsctorValues();
+               
             }
             else {
                 jQuery("#current-step-errors").show();
@@ -365,10 +369,6 @@ jQuery("#registered_organizations_list").click(function(){
     alert("selected");
 });
 
-
-
-
-    
     
 
 /*

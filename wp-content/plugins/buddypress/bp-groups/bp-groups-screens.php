@@ -537,17 +537,20 @@ function groups_screen_group_admin_edit_details() {
                 bp_core_add_message(__('There was an error updating organisation details, please try again.', 'buddypress'), 'error');
             } else {
                 //Buddypress has checked for data validation, time to validate CEComunity Organization fields
-                global $cecom;
+                if ($_POST['organization_subsector'] == "none")
+                    bp_core_add_message(__('Please select a subsector for your organization.', 'buddypress'), 'error');
+                else {
+                    global $cecom;
+                    $collaboration = 0;
+                    $transaction = 0;
+                    if (isset($_POST['organization_collaboration_y']))
+                        $collaboration = 1;
+                    if (isset($_POST['organization_transaction_y']))
+                        $transaction = 1;
 
-                $collaboration = 0;
-                $transaction = 0;
-                if (isset($_POST['organization_collaboration_y']))
-                    $collaboration = 1;
-                if (isset($_POST['organization_transaction_y']))
-                    $transaction = 1;
-
-                $cecom->organization->edit_organization_details($_POST['group-id'], $_POST['group-desc'], $_POST['group-name'], $_POST['organization_specialties'], $_POST['organization_website'], $_POST['organization_countryID'], $_POST['organization_type'], $_POST['organization_size'], $_POST['organization_sector'],2, $collaboration, $transaction);
-                bp_core_add_message(__('Organisation details were successfully updated.', 'buddypress'));
+                    $cecom->organization->edit_organization_details($_POST['group-id'], $_POST['group-desc'], $_POST['group-name'], $_POST['organization_specialties'], $_POST['organization_website'], $_POST['organization_countryID'], $_POST['organization_type'], $_POST['organization_size'], $_POST['organization_sector'], $_POST['organization_subsector'], $collaboration, $transaction);
+                    bp_core_add_message(__('Organisation details were successfully updated.', 'buddypress'));
+                }
             }
 
             do_action('groups_group_details_edited', $bp->groups->current_group->id);
