@@ -35,10 +35,9 @@
                 case "simple":
            ?>
                   <div class="hidden-md hidden-lg">
-                      <a class="navbar-toggle" data-toggle="collapse" data-target=".main-menu-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                      <a class="navbar-toggle btn btn-default btn-sm" data-toggle="collapse" data-target=".main-menu-collapse">
+                        <span class="icon-reorder"></span>
+                        <b class="caret"></b>
                       </a>
                   </div>                 
                   <nav id="mainmenu" class="collapse navbar-collapse main-menu-collapse" role="navigation">

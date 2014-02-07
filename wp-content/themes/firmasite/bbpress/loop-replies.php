@@ -23,7 +23,7 @@
 				<?php bbp_user_favorites_link(); ?>
                 </li>
 				<li class="next">
-				<?php bbp_user_subscribe_link(array('before' => '')); ?>
+				<?php bbp_topic_subscription_link(array('before' => '')); ?>
                 </li>
 
 			<?php else : ?>

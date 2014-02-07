@@ -17,11 +17,11 @@
 
 			<?php if ( bbp_is_favorites() ) : ?>
 
-				<span class="bbp-topic-action">
+				<span class="bbp-row-actions">
 
 					<?php do_action( 'bbp_theme_before_topic_favorites_action' ); ?>
 
-					<?php bbp_user_favorites_link( array( 'mid' => '+', 'post' => '' ), array( 'pre' => '', 'mid' => '&times;', 'post' => '' ) ); ?>
+					<?php bbp_topic_favorite_link( array( 'mid' => '+', 'post' => '' ), array( 'pre' => '', 'mid' => '&times;', 'post' => '' ) ); ?>
 
 					<?php do_action( 'bbp_theme_after_topic_favorites_action' ); ?>
 
@@ -29,11 +29,11 @@
 
 			<?php elseif ( bbp_is_subscriptions() ) : ?>
 
-				<span class="bbp-topic-action">
+				<span class="bbp-row-actions">
 
 					<?php do_action( 'bbp_theme_before_topic_subscription_action' ); ?>
 
-					<?php bbp_user_subscribe_link( array( 'before' => '', 'subscribe' => '+', 'unsubscribe' => '&times;' ) ); ?>
+					<?php bbp_topic_subscription_link( array( 'before' => '', 'subscribe' => '+', 'unsubscribe' => '&times;' ) ); ?>
 
 					<?php do_action( 'bbp_theme_after_topic_subscription_action' ); ?>
 

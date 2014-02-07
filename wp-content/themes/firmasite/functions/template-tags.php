@@ -23,7 +23,7 @@ function firmasite_content_nav( $nav_id ) {
 	}
 
 	// Don't print empty markup in archives if there's only one page.
-	if ( $wp_query->max_num_pages < 2 && ( is_home() || is_archive() || is_search() ) )
+	if ( $wp_query->max_num_pages < 2 && ( is_front_page() || is_archive() || is_search() ) )
 		return;
 
 	$nav_class = 'site-navigation paging-navigation';
@@ -38,7 +38,7 @@ function firmasite_content_nav( $nav_id ) {
 		<?php next_post_link( '<li class="'.$nav_id.' nav-next pull-right">%link</li>', '%title <span class="meta-nav">' . _x( '<i class="icon-arrow-right"></i>', 'Next post link', 'firmasite' ) . '</span>' ); ?>
 		<?php previous_post_link( '<li class="'.$nav_id.' nav-previous pull-left">%link</li>', '<span class="meta-nav">' . _x( '<i class="icon-arrow-left"></i>', 'Previous post link', 'firmasite' ) . '</span> %title' ); ?>
 
-	<?php elseif ( $wp_query->max_num_pages > 1 && ( is_home() || is_archive() || is_search() ) ) : // navigation links for home, archive, and search pages ?>
+	<?php elseif ( $wp_query->max_num_pages > 1 && ( is_front_page() || is_archive() || is_search() ) ) : // navigation links for home, archive, and search pages ?>
 		<?php 
 		// http://codex.wordpress.org/Function_Reference/paginate_links
 		global $wp_query;

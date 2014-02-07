@@ -1,4 +1,4 @@
-<div class="<?php echo get_post_format(); ?>">
+<div class="real_item <?php echo get_post_format(); ?>">
 	<?php if ( has_post_thumbnail()){ ?>
         <?php the_post_thumbnail("medium"); ?>
     <?php } ?>

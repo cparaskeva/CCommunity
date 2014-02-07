@@ -55,7 +55,7 @@ if (isset($firmasite_settings["promotionbar-where"]) && 'remove' == $firmasite_s
 			global $firmasite_promotionbar,$firmasite_settings,$post;
 			?>  
 			<div class="hidden-xs">
-				<div class="carousel slide carousel-mini" id="firmasite-promotionbar" data-rel="carousel">
+				<div class="carousel slide carousel-mini <?php echo $firmasite_settings["promotionbar-location"]; ?>" id="firmasite-promotionbar" data-rel="carousel">
                     <?php if(isset($firmasite_settings["promotionbar-title"])){ ?>
                     <h4>
                         <?php echo $firmasite_settings["promotionbar-title"]; ?>  

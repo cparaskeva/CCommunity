@@ -506,8 +506,6 @@ function groups_screen_group_admin() {
 
 function groups_screen_group_admin_edit_details() {
 
-
-
     if ('edit-details' != bp_get_group_current_admin_tab())
         return false;
 
@@ -517,7 +515,6 @@ function groups_screen_group_admin_edit_details() {
 
         // If the edit form has been submitted, save the edited details
         if (isset($_POST['save'])) {
-
             // Check the nonce
             if (!check_admin_referer('groups_edit_group_details'))
                 return false;
@@ -530,7 +527,8 @@ function groups_screen_group_admin_edit_details() {
              * 
              * Wrap the default function groups_edit_base_group_details
              * within edit_organization_details() 
-             *                          */
+             *                         
+             */
 
 
             if (!groups_edit_base_group_details($_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $group_notify_members)) {
@@ -950,7 +948,7 @@ function groups_screen_notification_settings() {
                 <td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php checked($group_request, 'no', true) ?>/></td>
             </tr>
 
-            <?php do_action('groups_screen_notification_settings'); ?>
+    <?php do_action('groups_screen_notification_settings'); ?>
 
         </tbody>
     </table>
@@ -1032,7 +1030,7 @@ class BP_Groups_Theme_Compat {
         // Setup our templates based on priority
         $new_templates = apply_filters('bp_template_hierarchy_groups_directory', array(
             'groups/index-directory.php'
-        ));
+                ));
 
         // Merge new templates with existing stack
         // @see bp_get_theme_compat_templates()
@@ -1063,7 +1061,7 @@ class BP_Groups_Theme_Compat {
             'post_content' => '',
             'post_type' => 'bp_group',
             'post_status' => 'publish',
-            'is_archive' => true,
+            'is_page' => true,
             'comment_status' => 'closed'
         ));
     }
@@ -1093,7 +1091,7 @@ class BP_Groups_Theme_Compat {
         // Setup our templates based on priority
         $new_templates = apply_filters('bp_template_hierarchy_groups_create', array(
             'groups/index-create.php'
-        ));
+                ));
 
         // Merge new templates with existing stack
         // @see bp_get_theme_compat_templates()
@@ -1124,7 +1122,7 @@ class BP_Groups_Theme_Compat {
             'post_content' => '',
             'post_type' => 'bp_group',
             'post_status' => 'publish',
-            'is_archive' => true,
+            'is_page' => true,
             'comment_status' => 'closed'
         ));
     }
@@ -1161,7 +1159,7 @@ class BP_Groups_Theme_Compat {
             'groups/single/index-action-' . sanitize_file_name(bp_current_action()) . '.php',
             'groups/single/index-status-' . sanitize_file_name($group->status) . '.php',
             'groups/single/index.php'
-        ));
+                ));
 
         // Merge new templates with existing stack
         // @see bp_get_theme_compat_templates()
@@ -1184,7 +1182,7 @@ class BP_Groups_Theme_Compat {
             'post_content' => '',
             'post_type' => 'bp_group',
             'post_status' => 'publish',
-            'is_archive' => true,
+            'is_page' => true,
             'comment_status' => 'closed'
         ));
     }

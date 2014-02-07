@@ -11,10 +11,9 @@
                     case "simple":
                ?>
                       <div class="hidden-lg">
-                          <a class="navbar-toggle" data-toggle="collapse" data-target=".footer-menu-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
+                          <a class="navbar-toggle btn btn-default btn-sm" data-toggle="collapse" data-target=".footer-menu-collapse">
+                            <span class="icon-reorder"></span>
+                            <b class="caret"></b>
                           </a>
                       </div>                 
                       <nav id="nav-footer" class="collapse navbar-collapse footer-menu-collapse dropup" role="navigation">

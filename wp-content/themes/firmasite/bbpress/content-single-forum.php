@@ -13,6 +13,12 @@
 
 	<?php bbp_breadcrumb(); ?>
 
+	<ul class="pager">
+		<li class="next">
+		<?php bbp_forum_subscription_link(); ?>
+		</li>
+	</ul>
+
 	<?php do_action( 'bbp_template_before_single_forum' ); ?>
 
     <?php ob_start(); ?>

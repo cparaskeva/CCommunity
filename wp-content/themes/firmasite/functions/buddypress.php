@@ -142,7 +142,7 @@ function firmasite_social_buddypress_scripts() {
 
 add_filter('bp_members_signup_error_message', "firmasite_bp_members_signup_error_message");
 function firmasite_bp_members_signup_error_message($string){
-	return '<div class="alert alert-error">' . $string . '</div>';
+	return '<div class="alert alert-danger">' . $string . '</div>';
 }
 
 
@@ -170,7 +170,7 @@ function firmasite_buddypress_author_profile_nav() {
 	else 
 		$author_id = false;
 
-	if(!empty($author_id)){
+	if(isset($author_id) && !empty($author_id)){
 		$args = array( 'author' => $author_id, 'post_type' => 'post' );
 		$firmasite_buddypress_author_posts = new WP_Query($args); 
 	
@@ -247,7 +247,7 @@ function firmasite_buddypress_author_profile_screen_content() {
 	
 	endif;
 	$wp_query = $temp;
-    wp_reset_postdata(); // reset the query
+    wp_reset_query(); // reset the query
 }
 
 
