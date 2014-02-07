@@ -9,7 +9,7 @@
   Plugin URI: http://
   Description: Manages the various actions of the CECommunity platform.
   Author: Demonas
-  Version: 0.1
+  Version: 0.3
  */
 if (!class_exists('CECommunity')) :
 
