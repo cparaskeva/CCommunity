@@ -51,7 +51,7 @@ class BP_Offers_Component extends BP_Component {
 
 		parent::start(
 			'offers',
-			__( 'Offers', 'bp-example' ),
+			__( 'Offers', 'cecom-offers' ),
 			BP_OFFERS_PLUGIN_DIR
 		);
 
@@ -88,21 +88,21 @@ class BP_Offers_Component extends BP_Component {
 	 *           $includes = array( 'notifications.php', 'filters.php' );
 	 *       BP_Component::includes() will try to load these files (assuming a typical WP
 	 *       setup):
-	 *           /wp-content/plugins/bp-example/notifications.php
-	 *           /wp-content/plugins/bp-example/filters.php
+	 *           /wp-content/plugins/cecom-offers/notifications.php
+	 *           /wp-content/plugins/cecom-offers/filters.php
 	 *       Our includes function, listed below, uses a variation on this method, by specifying
 	 *       the 'includes' directory in our $includes array.
 	 *   (2) $this->path . '/bp-' . $this->id . '/' . $file - Assuming the same $includes array
 	 *       as above, BP will look for the following files:
-	 *           /wp-content/plugins/bp-example/bp-example/notifications.php
-	 *           /wp-content/plugins/bp-example/bp-example/filters.php
+	 *           /wp-content/plugins/cecom-offers/cecom-offers/notifications.php
+	 *           /wp-content/plugins/cecom-offers/cecom-offers/filters.php
 	 *   (3) $this->path . '/bp-' . $this->id . '/' . 'bp-' . $this->id . '-' . $file . '.php' -
 	 *       This is the format that BuddyPress core components use to load their files. Given
 	 *       an $includes array like
 	 *           $includes = array( 'notifications', 'filters' );
 	 *       BP looks for files at:
-	 *           /wp-content/plugins/bp-example/bp-example/bp-example-notifications.php
-	 *           /wp-content/plugins/bp-example/bp-example/bp-example-filters.php
+	 *           /wp-content/plugins/cecom-offers/cecom-offers/cecom-offers-notifications.php
+	 *           /wp-content/plugins/cecom-offers/cecom-offers/cecom-offers-filters.php
 	 *
 	 * If you'd prefer not to use any of these naming or organizational schemas, you are not
 	 * required to use parent::includes(); your own includes() method can require the files
@@ -149,16 +149,16 @@ class BP_Offers_Component extends BP_Component {
 
 		// Files to include
 		$includes = array(
-			'includes/bp-example-actions.php',
-			'includes/bp-example-screens.php',
-			'includes/bp-example-filters.php',
-			'includes/bp-example-classes.php',
-			'includes/bp-example-activity.php',
-			'includes/bp-example-template.php',
-			'includes/bp-example-functions.php',
-			'includes/bp-example-notifications.php',
-			'includes/bp-example-cssjs.php',
-			'includes/bp-example-ajax.php'
+			'includes/cecom-offers-actions.php',
+			'includes/cecom-offers-screens.php',
+			'includes/cecom-offers-filters.php',
+			'includes/cecom-offers-classes.php',
+			'includes/cecom-offers-activity.php',
+			'includes/cecom-offers-template.php',
+			'includes/cecom-offers-functions.php',
+			'includes/cecom-offers-notifications.php',
+			'includes/cecom-offers-cssjs.php',
+			'includes/cecom-offers-ajax.php'
 		);
 
 		parent::includes( $includes );
@@ -166,7 +166,7 @@ class BP_Offers_Component extends BP_Component {
 		// As an example of how you might do it manually, let's include the functions used
 		// on the WordPress Dashboard conditionally:
 		if ( is_admin() || is_network_admin() ) {
-			include( BP_OFFERS_PLUGIN_DIR . '/includes/bp-example-admin.php' );
+			include( BP_OFFERS_PLUGIN_DIR . '/includes/cecom-offers-admin.php' );
 		}
 	}
 
@@ -258,7 +258,7 @@ class BP_Offers_Component extends BP_Component {
 	function setup_nav() {
 		// Add 'Example' to the main navigation
 		$main_nav = array(
-			'name' 		      => __( 'Offers', 'bp-example' ),
+			'name' 		      => __( 'Offers', 'cecom-offers' ),
 			'slug' 		      => bp_get_example_slug(),
 			'position' 	      => 80,
 			'screen_function'     => 'bp_example_screen_one',
@@ -269,7 +269,7 @@ class BP_Offers_Component extends BP_Component {
 
 		// Add a few subnav items under the main Example tab
 		$sub_nav[] = array(
-			'name'            =>  __( 'Screen One', 'bp-example' ),
+			'name'            =>  __( 'Screen One', 'cecom-offers' ),
 			'slug'            => 'screen-one',
 			'parent_url'      => $example_link,
 			'parent_slug'     => bp_get_example_slug(),
@@ -279,7 +279,7 @@ class BP_Offers_Component extends BP_Component {
 
 		// Add the subnav items to the friends nav item
 		$sub_nav[] = array(
-			'name'            =>  __( 'Screen Two', 'bp-example' ),
+			'name'            =>  __( 'Screen Two', 'cecom-offers' ),
 			'slug'            => 'screen-two',
 			'parent_url'      => $example_link,
 			'parent_slug'     => bp_get_example_slug(),
@@ -294,7 +294,7 @@ class BP_Offers_Component extends BP_Component {
 		// if your component needs a subsection under a user's Settings menu, add
 		// it like this. See bp_example_screen_settings_menu() for more info
 		bp_core_new_subnav_item( array(
-			'name' 		  => __( 'Offers', 'bp-example' ),
+			'name' 		  => __( 'Offers', 'cecom-offers' ),
 			'slug' 		  => 'example-admin',
 			'parent_slug'     => bp_get_settings_slug(),
 			'parent_url' 	  => trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() ),
@@ -318,13 +318,13 @@ class BP_Offers_Component extends BP_Component {
 	function register_post_types() {
 		// Set up some labels for the post type
 		$labels = array(
-			'name'	   => __( 'High Fives', 'bp-example' ),
-			'singular' => __( 'High Five', 'bp-example' )
+			'name'	   => __( 'High Fives', 'cecom-offers' ),
+			'singular' => __( 'High Five', 'cecom-offers' )
 		);
 
 		// Set up the argument array for register_post_type()
 		$args = array(
-			'label'	   => __( 'High Fives', 'bp-example' ),
+			'label'	   => __( 'High Fives', 'cecom-offers' ),
 			'labels'   => $labels,
 			'public'   => false,
 			'show_ui'  => true,

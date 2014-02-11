@@ -61,7 +61,7 @@ define ( 'BP_EXAMPLE_DB_VERSION', '1' );
 function bp_offers_init() {
 	// Because our loader file uses BP_Component, it requires BP 1.5 or greater.
 	if ( version_compare( BP_VERSION, '1.3', '>' ) )
-		require( dirname( __FILE__ ) . '/includes/bp-offers-loader.php' );
+		require( dirname( __FILE__ ) . '/includes/cecom-offers-loader.php' );
 }
 add_action( 'bp_include', 'bp_offers_init' );
 
