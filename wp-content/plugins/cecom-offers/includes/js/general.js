@@ -1,4 +1,4 @@
-/*jQuery(document).ready( function() {
+jQuery(document).ready( function() {
 	// Put your JS in here, and it will run after the DOM has loaded.
 	
 	// jQuery.post( ajaxurl, {
@@ -9,6 +9,5 @@
 	// function(response) { 
 	// 	... 
 	// } );
-        alert("Test!");
 
-});*/
+});

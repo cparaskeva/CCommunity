@@ -16,19 +16,17 @@
  * @since 1.6
  */
 function bp_example_directory_setup() {
-	if ( bp_is_example_component() && !bp_current_action() && !bp_current_item() ) {
+          if (bp_is_example_component() && !bp_current_action() && !bp_current_item() ){           
 		// This wrapper function sets the $bp->is_directory flag to true, which help other
 		// content to display content properly on your directory.
-		bp_update_is_directory( true, 'example' );
+		bp_update_is_directory( true, 'offers' );
 
 		// Add an action so that plugins can add content or modify behavior
 		do_action( 'bp_example_directory_setup' );
-
-		bp_core_load_template( apply_filters( 'example_directory_template', 'example/index' ) );
+		bp_core_load_template( apply_filters( 'example_directory_template', 'offers/index' ) );
 	}
 }
-add_action( 'bp_screens', 'bp_example_directory_setup' );
-
+add_action( 'bp_screens', 'bp_example_directory_setup',2 );
 
 /**
  * bp_example_screen_one()
@@ -88,9 +86,8 @@ function bp_example_screen_one() {
 	 */
 
 	/* This is going to look in wp-content/plugins/[plugin-name]/includes/templates/ first */
-	//bp_core_load_template( apply_filters( 'bp_example_template_screen_one', 'example/screen-one' ) );
-        bp_core_load_template( apply_filters( 'bp_example_template_screen_one', 'members/single/home') );
-        
+	bp_core_load_template( apply_filters( 'bp_example_template_screen_one', 'members/single/home' ) );
+
 	/****
 	 * OPTION 2 (NOT USED FOR THIS SCREEN):
 	 * If your component is simple, and you just want to insert some HTML into the user's active theme
@@ -220,8 +217,8 @@ function bp_example_screen_two() {
 		<h4><?php _e( 'Welcome to Screen Two', 'bp-example' ) ?></h4>
 
 		<?php
-			$accept_link = '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->example->slug . '/screen-two/accept', 'bp_example_accept_terms' ) . '">' . __( 'Accept', 'bp-example' ) . '</a>';
-			$reject_link = '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->example->slug . '/screen-two/reject', 'bp_example_reject_terms' ) . '">' . __( 'Reject', 'bp-example' ) . '</a>';
+			$accept_link = '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->offers->slug . '/screen-two/accept', 'bp_example_accept_terms' ) . '">' . __( 'Accept', 'bp-example' ) . '</a>';
+			$reject_link = '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->offers->slug . '/screen-two/reject', 'bp_example_reject_terms' ) . '">' . __( 'Reject', 'bp-example' ) . '</a>';
 		?>
 
 		<p><?php printf( __( 'You must %s or %s the terms of use policy.', 'bp-example' ), $accept_link, $reject_link ) ?></p>

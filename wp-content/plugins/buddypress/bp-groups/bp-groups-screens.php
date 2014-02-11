@@ -948,7 +948,7 @@ function groups_screen_notification_settings() {
                 <td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php checked($group_request, 'no', true) ?>/></td>
             </tr>
 
-    <?php do_action('groups_screen_notification_settings'); ?>
+            <?php do_action('groups_screen_notification_settings'); ?>
 
         </tbody>
     </table>
@@ -1030,7 +1030,7 @@ class BP_Groups_Theme_Compat {
         // Setup our templates based on priority
         $new_templates = apply_filters('bp_template_hierarchy_groups_directory', array(
             'groups/index-directory.php'
-                ));
+        ));
 
         // Merge new templates with existing stack
         // @see bp_get_theme_compat_templates()
@@ -1091,7 +1091,7 @@ class BP_Groups_Theme_Compat {
         // Setup our templates based on priority
         $new_templates = apply_filters('bp_template_hierarchy_groups_create', array(
             'groups/index-create.php'
-                ));
+        ));
 
         // Merge new templates with existing stack
         // @see bp_get_theme_compat_templates()
@@ -1159,7 +1159,7 @@ class BP_Groups_Theme_Compat {
             'groups/single/index-action-' . sanitize_file_name(bp_current_action()) . '.php',
             'groups/single/index-status-' . sanitize_file_name($group->status) . '.php',
             'groups/single/index.php'
-                ));
+        ));
 
         // Merge new templates with existing stack
         // @see bp_get_theme_compat_templates()

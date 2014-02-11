@@ -25,7 +25,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-class BP_Example_Component extends BP_Component {
+class BP_Offers_Component extends BP_Component {
 
 	/**
 	 * Constructor method
@@ -50,9 +50,9 @@ class BP_Example_Component extends BP_Component {
 		global $bp;
 
 		parent::start(
-			'example',
-			__( 'Example', 'bp-example' ),
-			BP_EXAMPLE_PLUGIN_DIR
+			'offers',
+			__( 'Offers', 'bp-example' ),
+			BP_OFFERS_PLUGIN_DIR
 		);
 
 		/**
@@ -157,7 +157,6 @@ class BP_Example_Component extends BP_Component {
 			'includes/bp-example-template.php',
 			'includes/bp-example-functions.php',
 			'includes/bp-example-notifications.php',
-			'includes/bp-example-widgets.php',
 			'includes/bp-example-cssjs.php',
 			'includes/bp-example-ajax.php'
 		);
@@ -167,7 +166,7 @@ class BP_Example_Component extends BP_Component {
 		// As an example of how you might do it manually, let's include the functions used
 		// on the WordPress Dashboard conditionally:
 		if ( is_admin() || is_network_admin() ) {
-			include( BP_EXAMPLE_PLUGIN_DIR . '/includes/bp-example-admin.php' );
+			include( BP_OFFERS_PLUGIN_DIR . '/includes/bp-example-admin.php' );
 		}
 	}
 
@@ -219,8 +218,8 @@ class BP_Example_Component extends BP_Component {
 		global $bp;
 
 		// Defining the slug in this way makes it possible for site admins to override it
-		if ( !defined( 'BP_EXAMPLE_SLUG' ) )
-			define( 'BP_EXAMPLE_SLUG', $this->id );
+		if ( !defined( 'BP_OFFERS_SLUG' ) )
+			define( 'BP_OFFERS_SLUG', $this->id );
 
 		// Global tables for the example component. Build your table names using
 		// $bp->table_prefix (instead of hardcoding 'wp_') to ensure that your component
@@ -231,11 +230,11 @@ class BP_Example_Component extends BP_Component {
 
 		// Set up the $globals array to be passed along to parent::setup_globals()
 		$globals = array(
-			'slug'                  => BP_EXAMPLE_SLUG,
-			'root_slug'             => isset( $bp->pages->{$this->id}->slug ) ? $bp->pages->{$this->id}->slug : BP_EXAMPLE_SLUG,
+			'slug'                  => BP_OFFERS_SLUG,
+			'root_slug'             => isset( $bp->pages->{$this->id}->slug ) ? $bp->pages->{$this->id}->slug : BP_OFFERS_SLUG,
 			'has_directory'         => true, // Set to false if not required
 			'notification_callback' => 'bp_example_format_notifications',
-			'search_string'         => __( 'Search Examples...', 'buddypress' ),
+			'search_string'         => __( 'Search Offers...', 'buddypress' ),
 			'global_tables'         => $global_tables
 		);
 
@@ -259,7 +258,7 @@ class BP_Example_Component extends BP_Component {
 	function setup_nav() {
 		// Add 'Example' to the main navigation
 		$main_nav = array(
-			'name' 		      => __( 'Example', 'bp-example' ),
+			'name' 		      => __( 'Offers', 'bp-example' ),
 			'slug' 		      => bp_get_example_slug(),
 			'position' 	      => 80,
 			'screen_function'     => 'bp_example_screen_one',
@@ -295,7 +294,7 @@ class BP_Example_Component extends BP_Component {
 		// if your component needs a subsection under a user's Settings menu, add
 		// it like this. See bp_example_screen_settings_menu() for more info
 		bp_core_new_subnav_item( array(
-			'name' 		  => __( 'Example', 'bp-example' ),
+			'name' 		  => __( 'Offers', 'bp-example' ),
 			'slug' 		  => 'example-admin',
 			'parent_slug'     => bp_get_settings_slug(),
 			'parent_url' 	  => trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() ),
@@ -372,9 +371,9 @@ class BP_Example_Component extends BP_Component {
 function bp_example_load_core_component() {
 	global $bp;
 
-	$bp->example = new BP_Example_Component;
+	$bp->offers = new BP_Offers_Component;
 }
-add_action( 'bp_loaded', 'bp_example_load_core_component' );
+add_action( 'bp_loaded', 'bp_example_load_core_component',1 );
 
 
 ?>

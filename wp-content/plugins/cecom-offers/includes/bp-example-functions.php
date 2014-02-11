@@ -27,7 +27,7 @@ function bp_example_load_template_filter( $found_template, $templates ) {
 	/**
 	 * Only filter the template location when we're on the example component pages.
 	 */
-	if ( $bp->current_component != $bp->example->slug )
+	if ( $bp->current_component != $bp->offers->slug )
 		return $found_template;
 
 	foreach ( (array) $templates as $template ) {
@@ -195,7 +195,7 @@ function bp_example_send_highfive( $to_user_id, $from_user_id ) {
 	 * Remember, like activity streams we need to tell the activity stream component how to format
 	 * this notification in bp_example_format_notifications() using the 'new_high_five' action.
 	 */
-	bp_core_add_notification( $from_user_id, $to_user_id, $bp->example->slug, 'new_high_five' );
+	bp_core_add_notification( $from_user_id, $to_user_id, $bp->offers->slug, 'new_high_five' );
 
 	/* Now record the new 'new_high_five' activity item */
 	$to_user_link = bp_core_get_userlink( $to_user_id );

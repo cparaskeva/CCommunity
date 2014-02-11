@@ -2,8 +2,8 @@
 
 /**
  *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
+ * @package CECommunity Offers Component
+ * 
  */
 
 ?>

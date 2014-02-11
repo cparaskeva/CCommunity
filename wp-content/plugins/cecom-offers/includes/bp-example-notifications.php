@@ -88,7 +88,7 @@ function bp_example_remove_screen_notifications() {
 	 * When clicking on a screen notification, we need to remove it from the menu.
 	 * The following command will do so.
  	 */
-	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->example->slug, 'new_high_five' );
+	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->offers->slug, 'new_high_five' );
 }
 add_action( 'bp_example_screen_one', 'bp_example_remove_screen_notifications' );
 add_action( 'xprofile_screen_display_profile', 'bp_example_remove_screen_notifications' );
@@ -120,7 +120,7 @@ function bp_example_format_notifications( $action, $item_id, $secondary_item_id,
 			 * notification is rendered differently.
 			 */
 			if ( (int)$total_items > 1 ) {
-				return apply_filters( 'bp_example_multiple_new_high_five_notification', '<a href="' . $bp->loggedin_user->domain . $bp->example->slug . '/screen-one/" title="' . __( 'Multiple high-fives', 'bp-example' ) . '">' . sprintf( __( '%d new high-fives, multi-five!', 'bp-example' ), (int)$total_items ) . '</a>', $total_items );
+				return apply_filters( 'bp_example_multiple_new_high_five_notification', '<a href="' . $bp->loggedin_user->domain . $bp->offers->slug . '/screen-one/" title="' . __( 'Multiple high-fives', 'bp-example' ) . '">' . sprintf( __( '%d new high-fives, multi-five!', 'bp-example' ), (int)$total_items ) . '</a>', $total_items );
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $item_id, false );
 				$user_url = bp_core_get_user_domain( $item_id );
@@ -159,7 +159,7 @@ function bp_example_send_high_five_notification( $to_user_id, $from_user_id ) {
 
 	/* Now we need to construct the URL's that we are going to use in the email */
 	$sender_profile_link = site_url( BP_MEMBERS_SLUG . '/' . $sender_ud->user_login . '/' . $bp->profile->slug );
-	$sender_highfive_link = site_url( BP_MEMBERS_SLUG . '/' . $sender_ud->user_login . '/' . $bp->example->slug . '/screen-one' );
+	$sender_highfive_link = site_url( BP_MEMBERS_SLUG . '/' . $sender_ud->user_login . '/' . $bp->offers->slug . '/screen-one' );
 	$reciever_settings_link = site_url( BP_MEMBERS_SLUG . '/' . $reciever_ud->user_login . '/settings/notifications' );
 
 	/* Set up and send the message */

@@ -63,7 +63,7 @@ class BP_Example_Highfive {
 	function populate() {
 		global $wpdb, $bp, $creds;
 
-		if ( $row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->example->table_name} WHERE id = %d", $this->id ) ) ) {
+		if ( $row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->offers->table_name} WHERE id = %d", $this->id ) ) ) {
 			$this->high_fiver_id = $row->high_fiver_id;
 			$this->recipient_id  = $row->recipient_id;
 			$this->date 	     = $row->date;

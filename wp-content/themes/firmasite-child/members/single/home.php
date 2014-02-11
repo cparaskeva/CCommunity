@@ -79,8 +79,9 @@ get_header('buddypress');
              * CECommunity Platform Extensions
              */
 
-            elseif (bp_is_current_component('example')) :
-                locate_template(array('example/screen-one.php'), true);
+            /* CECommunity Offers Component */ 
+            elseif (bp_is_current_component('offers')) :
+                locate_template(array('offers/screen-one.php'), true);
 
             // If nothing sticks, load a generic template
             else :

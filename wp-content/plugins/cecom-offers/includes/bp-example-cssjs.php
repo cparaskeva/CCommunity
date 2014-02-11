@@ -14,8 +14,8 @@
 function bp_example_add_js() {
 	global $bp;
 
-	if ( $bp->current_component == $bp->example->slug )
-		wp_enqueue_script( 'bp-example-js', plugins_url( '/bp-example/js/general.js' ) );
+	if ( $bp->current_component == $bp->offers->slug )
+		wp_enqueue_script( 'bp-example-js', plugins_url( '/cecom-offers/includes/js/general.js' ) );
 }
 add_action( 'template_redirect', 'bp_example_add_js', 1 );
 

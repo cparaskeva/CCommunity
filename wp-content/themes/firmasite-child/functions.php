@@ -44,7 +44,7 @@ if (!defined('FIRMASITE_CDN'))
     define('FIRMASITE_CDN', false);
 
 //Redirect User to specific site based on the roles	
-add_filter("login_redirect", "bpdev_redirect_to_profile", 10, 3);
+//add_filter("login_redirect", "bpdev_redirect_to_profile", 10, 3);
 
 function bpdev_redirect_to_profile($redirect_to_calculated, $redirect_url_specified, $user) {
 
@@ -60,3 +60,5 @@ function bpdev_redirect_to_profile($redirect_to_calculated, $redirect_url_specif
     else
         return $redirect_to_calculated; /* if site admin or not logged in,do not do anything much */
 }
+
+

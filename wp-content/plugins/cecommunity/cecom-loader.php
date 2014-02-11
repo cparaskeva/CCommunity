@@ -5,10 +5,10 @@
  * @version 1.0
  *
   /*
-  Plugin Name: CECommunity
+  Plugin Name: CECommunity Organisation
   Plugin URI: http://
-  Description: Manages the various actions of the CECommunity platform.
-  Author: Demonas
+  Description: Manages the organisation profiles of the CECommunity platform.
+  Author: Chris Paraskeva
   Version: 0.3
  */
 if (!class_exists('CECommunity')) :
