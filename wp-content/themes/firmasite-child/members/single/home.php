@@ -81,7 +81,7 @@ get_header('buddypress');
 
             /* CECommunity Offers Component */ 
             elseif (bp_is_current_component('offers')) :
-                locate_template(array('offers/screen-one.php'), true);
+                locate_template(array('members/single/offers.php'), true);
 
             // If nothing sticks, load a generic template
             else :

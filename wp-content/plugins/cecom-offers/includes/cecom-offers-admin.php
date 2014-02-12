@@ -11,29 +11,29 @@
  */
 
 /**
- * bp_example_add_admin_menu()
+ * bp_offers_add_admin_menu()
  *
  * This function will add a WordPress wp-admin admin menu for your component under the
  * "BuddyPress" menu.
  */
-function bp_example_add_admin_menu() {
+function bp_offers_add_admin_menu() {
 	global $bp;
 
 	if ( !is_super_admin() )
 		return false;
 
-	add_submenu_page( 'bp-general-settings', __( 'Example Admin', 'bp-example' ), __( 'Example Admin', 'bp-example' ), 'manage_options', 'bp-example-settings', 'bp_example_admin' );
+	add_submenu_page( 'bp-general-settings', __( 'Example Admin', 'bp-example' ), __( 'Example Admin', 'bp-example' ), 'manage_options', 'bp-example-settings', 'bp_offers_admin' );
 }
 // The bp_core_admin_hook() function returns the correct hook (admin_menu or network_admin_menu),
 // depending on how WordPress and BuddyPress are configured
-add_action( bp_core_admin_hook(), 'bp_example_add_admin_menu' );
+add_action( bp_core_admin_hook(), 'bp_offers_add_admin_menu' );
 
 /**
- * bp_example_admin()
+ * bp_offers_admin()
  *
  * Checks for form submission, saves component settings and outputs admin screen HTML.
  */
-function bp_example_admin() {
+function bp_offers_admin() {
 	global $bp;
 
 	/* If the form has been submitted and the admin referrer checks out, save the settings */
@@ -96,7 +96,7 @@ function bp_example_admin() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_install_tables() {
+function bp_offers_install_tables() {
 	global $wpdb;
 
 	if ( !is_super_admin() )
@@ -116,7 +116,7 @@ function bp_example_install_tables() {
 	 * tables by adding SQL to the $sql array.
 	 */
 	$sql = array();
-	$sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}bp_example (
+	$sql[] = "CREATE TABLE IF NOT EXISTS {$wpdb->base_prefix}bp_offers (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  		high_fiver_id bigint(20) NOT NULL,
 		  		recipient_id bigint(20) NOT NULL,
@@ -136,5 +136,5 @@ function bp_example_install_tables() {
 
 	update_site_option( 'bp-example-db-version', BP_EXAMPLE_DB_VERSION );
 }
-//add_action( 'admin_init', 'bp_example_install_tables' );
+//add_action( 'admin_init', 'bp_offers_install_tables' );
 ?>

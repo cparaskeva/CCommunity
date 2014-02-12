@@ -11,12 +11,12 @@
 
 
 /**
- * bp_example_screen_notification_settings()
+ * bp_offers_screen_notification_settings()
  *
  * Adds notification settings for the component, so that a user can turn off email
  * notifications set on specific component actions.
  */
-function bp_example_screen_notification_settings() {
+function bp_offers_screen_notification_settings() {
 	global $current_user;
 
 	/**
@@ -67,21 +67,21 @@ function bp_example_screen_notification_settings() {
 			<td class="no"><input type="radio" name="notifications[notification_example_action_two]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_example_action_two', true ) ) { ?>checked="checked" <?php } ?>/></td>
 		</tr>
 
-		<?php do_action( 'bp_example_notification_settings' ); ?>
+		<?php do_action( 'bp_offers_notification_settings' ); ?>
 
 		</tbody>
 	</table>
 <?php
 }
-add_action( 'bp_notification_settings', 'bp_example_screen_notification_settings' );
+add_action( 'bp_notification_settings', 'bp_offers_screen_notification_settings' );
 
 
 /**
- * bp_example_remove_screen_notifications()
+ * bp_offers_remove_screen_notifications()
  *
  * Remove a screen notification for a user.
  */
-function bp_example_remove_screen_notifications() {
+function bp_offers_remove_screen_notifications() {
 	global $bp;
 
 	/**
@@ -90,12 +90,12 @@ function bp_example_remove_screen_notifications() {
  	 */
 	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->offers->slug, 'new_high_five' );
 }
-add_action( 'bp_example_screen_one', 'bp_example_remove_screen_notifications' );
-add_action( 'xprofile_screen_display_profile', 'bp_example_remove_screen_notifications' );
+add_action( 'bp_offers_screen_one', 'bp_offers_remove_screen_notifications' );
+add_action( 'xprofile_screen_display_profile', 'bp_offers_remove_screen_notifications' );
 
 
 /**
- * bp_example_format_notifications()
+ * bp_offers_format_notifications()
  *
  * The format notification function will take DB entries for notifications and format them
  * so that they can be displayed and read on the screen.
@@ -107,7 +107,7 @@ add_action( 'xprofile_screen_display_profile', 'bp_example_remove_screen_notific
  * The recording is done by using bp_core_add_notification() which you can search for in this file for
  * examples of usage.
  */
-function bp_example_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
+function bp_offers_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
 
 	switch ( $action ) {
@@ -120,16 +120,16 @@ function bp_example_format_notifications( $action, $item_id, $secondary_item_id,
 			 * notification is rendered differently.
 			 */
 			if ( (int)$total_items > 1 ) {
-				return apply_filters( 'bp_example_multiple_new_high_five_notification', '<a href="' . $bp->loggedin_user->domain . $bp->offers->slug . '/screen-one/" title="' . __( 'Multiple high-fives', 'bp-example' ) . '">' . sprintf( __( '%d new high-fives, multi-five!', 'bp-example' ), (int)$total_items ) . '</a>', $total_items );
+				return apply_filters( 'bp_offers_multiple_new_high_five_notification', '<a href="' . $bp->loggedin_user->domain . $bp->offers->slug . '/screen-one/" title="' . __( 'Multiple high-fives', 'bp-example' ) . '">' . sprintf( __( '%d new high-fives, multi-five!', 'bp-example' ), (int)$total_items ) . '</a>', $total_items );
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $item_id, false );
 				$user_url = bp_core_get_user_domain( $item_id );
-				return apply_filters( 'bp_example_single_new_high_five_notification', '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __( '%s sent you a high-five!', 'bp-example' ), $user_fullname ) . '</a>', $user_fullname );
+				return apply_filters( 'bp_offers_single_new_high_five_notification', '<a href="' . $user_url . '?new" title="' . $user_fullname .'\'s profile">' . sprintf( __( '%s sent you a high-five!', 'bp-example' ), $user_fullname ) . '</a>', $user_fullname );
 			}
 		break;
 	}
 
-	do_action( 'bp_example_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
+	do_action( 'bp_offers_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 
 	return false;
 }
@@ -142,7 +142,7 @@ function bp_example_format_notifications( $action, $item_id, $secondary_item_id,
  * You should use your own custom actions to determine when an email notification should be sent.
  */
 
-function bp_example_send_high_five_notification( $to_user_id, $from_user_id ) {
+function bp_offers_send_high_five_notification( $to_user_id, $from_user_id ) {
 	global $bp;
 
 	/* Let's grab both user's names to use in the email. */
@@ -181,6 +181,6 @@ To send %s a high five: %s
 	// Send it!
 	wp_mail( $to, $subject, $message );
 }
-add_action( 'bp_example_send_high_five', 'bp_example_send_high_five_notification', 10, 2 );
+add_action( 'bp_offers_send_high_five', 'bp_offers_send_high_five_notification', 10, 2 );
 
 ?>

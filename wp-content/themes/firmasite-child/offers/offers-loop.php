@@ -1,82 +1,78 @@
 <?php
-
 /**
  *
  * @package CECommunity Offers Component
  * 
  */
-
 ?>
 
-<?php do_action( 'bp_before_example_loop' ); ?>
+<?php do_action('bp_before_example_loop'); ?>
 
-<?php if ( bp_example_has_items( bp_ajax_querystring( 'example' ) ) ) : ?>
-<?php // global $items_template; var_dump( $items_template ) ?>
-	<div id="pag-top" class="pagination">
+<?php if (bp_offers_has_items(bp_ajax_querystring('example'))) : ?>
+    <div id="pag-top" class="pagination">
 
-		<div class="pag-count" id="example-dir-count-top">
+        <div class="pag-count" id="example-dir-count-top">
 
-			<?php  bp_example_pagination_count(); ?>
 
-		</div>
+        </div>
 
-		<div class="pagination-links" id="example-dir-pag-top">
+        <div class="pagination-links" id="example-dir-pag-top">
 
-			<?php bp_example_item_pagination(); ?>
+            <?php bp_offers_item_pagination(); ?>
 
-		</div>
+        </div>
 
-	</div>
+    </div>
 
-	<?php  do_action( 'bp_before_directory_example_list' ); ?>
+    <?php do_action('bp_before_directory_example_list'); ?>
 
-	<ul id="example-list" class="item-list" role="main">
+    <ul id="example-list" class="item-list" role="main">
 
-	<?php while ( bp_example_has_items() ) : bp_example_the_item(); ?>
+        <?php while (bp_offers_has_items()) : bp_offers_the_item(); ?>
 
-		<li>
-			<div class="item-avatar">
-				<?php bp_example_high_fiver_avatar( 'type=thumb&width=50&height=50' ); ?>
-			</div>
+            <li>
+                <div class="item-avatar">
+                    <?php bp_offers_high_fiver_avatar('type=thumb&width=50&height=50'); ?>
+                </div>
 
-			<div class="item">
-				<div class="item-title"><?php bp_example_high_five_title() ?></div>
+                <div class="item">
+                    <div class="item-title"><?php bp_offers_high_five_title() ?></div>
 
-				<?php do_action( 'bp_directory_example_item' ); ?>
+                    <?php do_action('bp_directory_example_item'); ?>
 
-			</div>
+                </div>
 
-			<div class="clear"></div>
-		</li>
+                <div class="clear"></div>
+            </li>
 
-	<?php endwhile; ?>
+        <?php endwhile; ?>
 
-	</ul>
+    </ul>
 
-	<?php do_action( 'bp_after_directory_example_list' ); ?>
+    <?php do_action('bp_after_directory_example_list'); ?>
 
-	<div id="pag-bottom" class="pagination">
+    <div id="pag-bottom" class="pagination">
 
-		<div class="pag-count" id="example-dir-count-bottom">
+        <div class="pag-count" id="example-dir-count-bottom">
 
-			<?php bp_example_pagination_count(); ?>
+            <?php bp_offers_pagination_count(); ?>
 
-		</div>
+        </div>
 
-		<div class="pagination-links" id="example-dir-pag-bottom">
+        <div class="pagination-links" id="example-dir-pag-bottom">
 
-			<?php bp_example_item_pagination(); ?>
+            <?php bp_offers_item_pagination(); ?>
 
-		</div>
+        </div>
 
-	</div>
+    </div>
 
 <?php else: ?>
 
-	<div id="message" class="info">
-		<p><?php _e( 'There were no high-fives found.', 'buddypress' ); ?></p>
-	</div>
+    <div id="message" class="info">
+        <p><?php _e('There were no high-fives found.', 'buddypress'); ?></p>
+    </div>
 
 <?php endif; ?>
 
-<?php do_action( 'bp_after_example_loop' ); ?>
+<?php do_action('bp_after_example_loop'); ?>

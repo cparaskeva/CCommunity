@@ -131,7 +131,7 @@ class BP_Offers_Component extends BP_Component {
 	 *   - -template.php	  - Template tags. These are functions that are called from your
 	 *			    templates, or from your screen functions. If your plugin
 	 *			    contains its own version of the WordPress Loop (such as
-	 *			    bp_example_has_items()), those functions should go in this file.
+	 *			    bp_offers_has_items()), those functions should go in this file.
 	 *   - -functions.php     - Miscellaneous utility functions required by your component.
 	 *   - -notifications.php - Functions related to email notification, as well as the
 	 *			    BuddyPress notifications that show up in the admin bar.
@@ -225,7 +225,7 @@ class BP_Offers_Component extends BP_Component {
 		// $bp->table_prefix (instead of hardcoding 'wp_') to ensure that your component
 		// works with $wpdb, multisite, and custom table prefixes.
 		$global_tables = array(
-			'table_name'      => $bp->table_prefix . 'bp_example'
+			'table_name'      => $bp->table_prefix . 'bp_offers'
 		);
 
 		// Set up the $globals array to be passed along to parent::setup_globals()
@@ -233,7 +233,7 @@ class BP_Offers_Component extends BP_Component {
 			'slug'                  => BP_OFFERS_SLUG,
 			'root_slug'             => isset( $bp->pages->{$this->id}->slug ) ? $bp->pages->{$this->id}->slug : BP_OFFERS_SLUG,
 			'has_directory'         => true, // Set to false if not required
-			'notification_callback' => 'bp_example_format_notifications',
+			'notification_callback' => 'bp_offers_format_notifications',
 			'search_string'         => __( 'Search Offers...', 'buddypress' ),
 			'global_tables'         => $global_tables
 		);
@@ -258,32 +258,32 @@ class BP_Offers_Component extends BP_Component {
 	function setup_nav() {
 		// Add 'Example' to the main navigation
 		$main_nav = array(
-			'name' 		      => __( 'Offers', 'cecom-offers' ),
-			'slug' 		      => bp_get_example_slug(),
+			'name' 		      => __( 'Collaboration Offers', 'cecom-offers' ),
+			'slug' 		      => bp_get_offers_slug(),
 			'position' 	      => 80,
-			'screen_function'     => 'bp_example_screen_one',
+			'screen_function'     => 'bp_offers_screen_one',
 			'default_subnav_slug' => 'screen-one'
 		);
 
-		$example_link = trailingslashit( bp_loggedin_user_domain() . bp_get_example_slug() );
+		$example_link = trailingslashit( bp_loggedin_user_domain() . bp_get_offers_slug() );
 
 		// Add a few subnav items under the main Example tab
 		$sub_nav[] = array(
-			'name'            =>  __( 'Screen One', 'cecom-offers' ),
+			'name'            =>  __( 'My Collaboration Offers', 'cecom-offers' ),
 			'slug'            => 'screen-one',
 			'parent_url'      => $example_link,
-			'parent_slug'     => bp_get_example_slug(),
-			'screen_function' => 'bp_example_screen_one',
+			'parent_slug'     => bp_get_offers_slug(),
+			'screen_function' => 'bp_offers_screen_one',
 			'position'        => 10
 		);
 
 		// Add the subnav items to the friends nav item
 		$sub_nav[] = array(
-			'name'            =>  __( 'Screen Two', 'cecom-offers' ),
-			'slug'            => 'screen-two',
+			'name'            =>  __( 'Offer Collaboration', 'cecom-offers' ),
+			'slug'            => 'create-offer',
 			'parent_url'      => $example_link,
-			'parent_slug'     => bp_get_example_slug(),
-			'screen_function' => 'bp_example_screen_two',
+			'parent_slug'     => bp_get_offers_slug(),
+			'screen_function' => 'bp_offers_create_offer',
 			'position'        => 20
 		);
 
@@ -292,13 +292,13 @@ class BP_Offers_Component extends BP_Component {
 		// If your component needs additional navigation menus that are not handled by
 		// BP_Component::setup_nav(), you can register them manually here. For example,
 		// if your component needs a subsection under a user's Settings menu, add
-		// it like this. See bp_example_screen_settings_menu() for more info
+		// it like this. See bp_offers_screen_settings_menu() for more info
 		bp_core_new_subnav_item( array(
 			'name' 		  => __( 'Offers', 'cecom-offers' ),
 			'slug' 		  => 'example-admin',
 			'parent_slug'     => bp_get_settings_slug(),
 			'parent_url' 	  => trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() ),
-			'screen_function' => 'bp_example_screen_settings_menu',
+			'screen_function' => 'bp_offers_screen_settings_menu',
 			'position' 	  => 40,
 			'user_has_access' => bp_is_my_profile() // Only the logged in user can access this on his/her profile
 		) );
@@ -358,22 +358,22 @@ class BP_Offers_Component extends BP_Component {
  * routine. Using print_r( $bp->example ) or var_dump( $bp->example ) at the end of this function
  * will therefore only give you a partial picture of your component. If you need to dump the content
  * of your component for troubleshooting, try doing it at bp_init, ie
- *   function bp_example_var_dump() {
+ *   function bp_offers_var_dump() {
  *   	  global $bp;
  *	  var_dump( $bp->example );
  *   }
- *   add_action( 'bp_init', 'bp_example_var_dump' );
+ *   add_action( 'bp_init', 'bp_offers_var_dump' );
  * It goes without saying that you should not do this on a production site!
  *
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_load_core_component() {
+function bp_offers_load_core_component() {
 	global $bp;
 
 	$bp->offers = new BP_Offers_Component;
 }
-add_action( 'bp_loaded', 'bp_example_load_core_component',1 );
+add_action( 'bp_loaded', 'bp_offers_load_core_component',1 );
 
 
 ?>

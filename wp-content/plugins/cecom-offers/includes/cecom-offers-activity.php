@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bp_example_record_activity()
+ * bp_offers_record_activity()
  *
  * If the activity stream component is installed, this function will record activity items for your
  * component.
@@ -27,10 +27,10 @@
  *
  * Example usage would be:
  *
- *   bp_example_record_activity( array( 'type' => 'new_highfive', 'action' => 'Andy high-fived John', 'user_id' => $bp->loggedin_user->id, 'item_id' => $bp->displayed_user->id ) );
+ *   bp_offers_record_activity( array( 'type' => 'new_highfive', 'action' => 'Andy high-fived John', 'user_id' => $bp->loggedin_user->id, 'item_id' => $bp->displayed_user->id ) );
  *
  */
-function bp_example_record_activity( $args = '' ) {
+function bp_offers_record_activity( $args = '' ) {
 	global $bp;
 
 	if ( !function_exists( 'bp_activity_add' ) )

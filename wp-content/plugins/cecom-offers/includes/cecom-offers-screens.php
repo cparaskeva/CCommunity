@@ -15,25 +15,25 @@
  * @package BuddyPress_Template_Pack
  * @since 1.6
  */
-function bp_example_directory_setup() {
-          if (bp_is_example_component() && !bp_current_action() && !bp_current_item() ){           
+function bp_offers_directory_setup() {
+          if (bp_is_offer_component() && !bp_current_action() && !bp_current_item() ){           
 		// This wrapper function sets the $bp->is_directory flag to true, which help other
 		// content to display content properly on your directory.
 		bp_update_is_directory( true, 'offers' );
 
 		// Add an action so that plugins can add content or modify behavior
-		do_action( 'bp_example_directory_setup' );
+		do_action( 'bp_offers_directory_setup' );
 		bp_core_load_template( apply_filters( 'example_directory_template', 'offers/index' ) );
 	}
 }
-add_action( 'bp_screens', 'bp_example_directory_setup',2 );
+add_action( 'bp_screens', 'bp_offers_directory_setup',2 );
 
 /**
- * bp_example_screen_one()
+ * bp_offers_screen_one()
  *
  * Sets up and displays the screen output for the sub nav item "example/screen-one"
  */
-function bp_example_screen_one() {
+function bp_offers_screen_one() {
 	global $bp;
 
 	/**
@@ -65,7 +65,7 @@ function bp_example_screen_one() {
 	 */
 
 	/* Add a do action here, so your component can be extended by others. */
-	do_action( 'bp_example_screen_one' );
+	do_action( 'bp_offers_screen_one' );
 
 	/****
 	 * Displaying Content
@@ -76,7 +76,7 @@ function bp_example_screen_one() {
 	 * You've got a few options for displaying content. Your first option is to bundle template files
 	 * with your plugin that will be used to output content.
 	 *
-	 * In an earlier function bp_example_load_template_filter() we set up a filter on the core BP template
+	 * In an earlier function bp_offers_load_template_filter() we set up a filter on the core BP template
 	 * loading function that will make it first look in the plugin directory for template files.
 	 * If it doesn't find any matching templates it will look in the active theme directory.
 	 *
@@ -86,7 +86,7 @@ function bp_example_screen_one() {
 	 */
 
 	/* This is going to look in wp-content/plugins/[plugin-name]/includes/templates/ first */
-	bp_core_load_template( apply_filters( 'bp_example_template_screen_one', 'members/single/home' ) );
+	bp_core_load_template( apply_filters( 'bp_offers_template_screen_one', 'members/single/home' ) );
 
 	/****
 	 * OPTION 2 (NOT USED FOR THIS SCREEN):
@@ -105,8 +105,8 @@ function bp_example_screen_one() {
 	 * work better with a wider variety of themes.
  	 */
 
-//	add_action( 'bp_template_title', 'bp_example_screen_one_title' );
-//	add_action( 'bp_template_content', 'bp_example_screen_one_content' );
+//	add_action( 'bp_template_title', 'bp_offers_screen_one_title' );
+//	add_action( 'bp_template_content', 'bp_offers_screen_one_content' );
 
 //	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
@@ -114,21 +114,21 @@ function bp_example_screen_one() {
 	 * The second argument of each of the above add_action() calls is a function that will
 	 * display the corresponding information. The functions are presented below:
 	 */
-	function bp_example_screen_one_title() {
+	function bp_offers_screen_one_title() {
 		_e( 'Screen One', 'bp-example' );
 	}
 
-	function bp_example_screen_one_content() {
+	function bp_offers_screen_one_content() {
 		global $bp;
 
-		$high_fives = bp_example_get_highfives_for_user( $bp->displayed_user->id );
+		$high_fives = bp_offers_get_highfives_for_user( $bp->displayed_user->id );
 
 		/**
 		 * For security reasons, we MUST use the wp_nonce_url() function on any actions.
 		 * This will stop naughty people from tricking users into performing actions without their
 		 * knowledge or intent.
 		 */
-		$send_link = wp_nonce_url( $bp->displayed_user->domain . $bp->current_component . '/screen-one/send-h5', 'bp_example_send_high_five' );
+		$send_link = wp_nonce_url( $bp->displayed_user->domain . $bp->current_component . '/screen-one/send-h5', 'bp_offers_send_high_five' );
 	?>
 		<h4><?php _e( 'Welcome to Screen One', 'bp-example' ) ?></h4>
 		<p><?php printf( __( 'Send %s a <a href="%s" title="Send high-five!">high-five!</a>', 'bp-example' ), $bp->displayed_user->fullname, $send_link ) ?></p>
@@ -149,21 +149,21 @@ function bp_example_screen_one() {
 	}
 
 /**
- * bp_example_screen_two()
+ * bp_offers_create_offer()
  *
- * Sets up and displays the screen output for the sub nav item "example/screen-two"
+ * Sets up and displays the screen output for the sub nav item "example/create-offer"
  */
-function bp_example_screen_two() {
+function bp_offers_create_offer() {
 	global $bp;
 
 	/**
 	 * On the output for this second screen, as an example, there are terms and conditions with an
-	 * "Accept" link (directs to http://example.org/members/andy/example/screen-two/accept)
-	 * and a "Reject" link (directs to http://example.org/members/andy/example/screen-two/reject)
+	 * "Accept" link (directs to http://example.org/members/andy/example/create-offer/accept)
+	 * and a "Reject" link (directs to http://example.org/members/andy/example/create-offer/reject)
 	 */
 
-	if ( bp_is_example_component() && bp_is_current_action( 'screen-two' ) && bp_is_action_variable( 'accept', 0 ) ) {
-		if ( bp_example_accept_terms() ) {
+	if ( bp_is_offer_component() && bp_is_current_action( 'create-offer' ) && bp_is_action_variable( 'accept', 0 ) ) {
+		if ( bp_offers_accept_terms() ) {
 			/* Add a success message, that will be displayed in the template on the next page load */
 			bp_core_add_message( __( 'Terms were accepted!', 'bp-example' ) );
 		} else {
@@ -175,11 +175,11 @@ function bp_example_screen_two() {
 		 * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
 		 * just by refreshing the browser.
 		 */
-		bp_core_redirect( bp_loggedin_user_domain() . bp_get_example_slug() );
+		bp_core_redirect( bp_loggedin_user_domain() . bp_get_offers_slug() );
 	}
 
-	if ( bp_is_example_component() && bp_is_current_action( 'screen-two' ) && bp_is_action_variable( 'reject', 0 ) ) {
-		if ( bp_example_reject_terms() ) {
+	if ( bp_is_offer_component() && bp_is_current_action( 'create-offer' ) && bp_is_action_variable( 'reject', 0 ) ) {
+		if ( bp_offers_reject_terms() ) {
 			/* Add a success message, that will be displayed in the template on the next page load */
 			bp_core_add_message( __( 'Terms were rejected!', 'bp-example' ) );
 		} else {
@@ -191,34 +191,39 @@ function bp_example_screen_two() {
 		 * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
 		 * just by refreshing the browser.
 		 */
-		bp_core_redirect( bp_loggedin_user_domain() . bp_get_example_slug() );
+		bp_core_redirect( bp_loggedin_user_domain() . bp_get_offers_slug() );
 	}
 
 	/**
 	 * If the user has not Accepted or Rejected anything, then the code above will not run,
 	 * we can continue and load the template.
 	 */
-	do_action( 'bp_example_screen_two' );
+	do_action( 'bp_offers_create_offer' );
 
-	add_action( 'bp_template_title', 'bp_example_screen_two_title' );
-	add_action( 'bp_template_content', 'bp_example_screen_two_content' );
+	add_action( 'bp_template_title', 'bp_offers_create_offer_title' );
+	add_action( 'bp_template_content', 'bp_offers_create_offer_content' );
 
 	/* Finally load the plugin template file. */
-	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+        bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'offers/create' ) );
+	//bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
 
-	function bp_example_screen_two_title() {
+	function bp_offers_create_offer_title() {
 		_e( 'Screen Two', 'bp-example' );
 	}
 
-	function bp_example_screen_two_content() {
-		global $bp; ?>
+	function bp_offers_create_offer_content() {
+		global $bp;     
+                
+               //bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'offers/create' ) ); 
+                
+                ?>
 
 		<h4><?php _e( 'Welcome to Screen Two', 'bp-example' ) ?></h4>
 
 		<?php
-			$accept_link = '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->offers->slug . '/screen-two/accept', 'bp_example_accept_terms' ) . '">' . __( 'Accept', 'bp-example' ) . '</a>';
-			$reject_link = '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->offers->slug . '/screen-two/reject', 'bp_example_reject_terms' ) . '">' . __( 'Reject', 'bp-example' ) . '</a>';
+			$accept_link = '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->offers->slug . '/create-offer/accept', 'bp_offers_accept_terms' ) . '">' . __( 'Accept', 'bp-example' ) . '</a>';
+			$reject_link = '<a href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->offers->slug . '/create-offer/reject', 'bp_offers_reject_terms' ) . '">' . __( 'Reject', 'bp-example' ) . '</a>';
 		?>
 
 		<p><?php printf( __( 'You must %s or %s the terms of use policy.', 'bp-example' ), $accept_link, $reject_link ) ?></p>
@@ -228,7 +233,7 @@ function bp_example_screen_two() {
 /**
  * The following screen functions are called when the Settings subpanel for this component is viewed
  */
-function bp_example_screen_settings_menu() {
+function bp_offers_screen_settings_menu() {
 	global $bp, $current_user, $bp_settings_updated, $pass_error;
 
 	if ( isset( $_POST['submit'] ) ) {
@@ -244,22 +249,22 @@ function bp_example_screen_settings_menu() {
 		update_user_meta( $bp->loggedin_user->id, 'bp-example-option-one', attribute_escape( $_POST['bp-example-option-one'] ) );
 	}
 
-	add_action( 'bp_template_content_header', 'bp_example_screen_settings_menu_header' );
-	add_action( 'bp_template_title', 'bp_example_screen_settings_menu_title' );
-	add_action( 'bp_template_content', 'bp_example_screen_settings_menu_content' );
+	add_action( 'bp_template_content_header', 'bp_offers_screen_settings_menu_header' );
+	add_action( 'bp_template_title', 'bp_offers_screen_settings_menu_title' );
+	add_action( 'bp_template_content', 'bp_offers_screen_settings_menu_content' );
 
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
 
-	function bp_example_screen_settings_menu_header() {
+	function bp_offers_screen_settings_menu_header() {
 		_e( 'Example Settings Header', 'bp-example' );
 	}
 
-	function bp_example_screen_settings_menu_title() {
+	function bp_offers_screen_settings_menu_title() {
 		_e( 'Example Settings', 'bp-example' );
 	}
 
-	function bp_example_screen_settings_menu_content() {
+	function bp_offers_screen_settings_menu_content() {
 		global $bp, $bp_settings_updated; ?>
 
 		<?php if ( $bp_settings_updated ) { ?>

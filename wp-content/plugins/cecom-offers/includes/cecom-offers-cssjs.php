@@ -6,17 +6,17 @@
  */
 
 /**
- * bp_example_add_js()
+ * bp_offers_add_js()
  *
  * This function will enqueue the components javascript file, so that you can make
  * use of any javascript you bundle with your component within your interface screens.
  */
-function bp_example_add_js() {
+function bp_offers_add_js() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->offers->slug )
 		wp_enqueue_script( 'bp-example-js', plugins_url( '/cecom-offers/includes/js/general.js' ) );
 }
-add_action( 'template_redirect', 'bp_example_add_js', 1 );
+add_action( 'template_redirect', 'bp_offers_add_js', 1 );
 
 ?>

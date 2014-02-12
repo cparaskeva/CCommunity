@@ -6,8 +6,8 @@
  *
  * It's a general practice in WordPress that template tag functions have two versions, one that
  * returns the requested value, and one that echoes the value of the first function. The naming
- * convention is usually something like 'bp_example_get_item_name()' for the function that returns
- * the value, and 'bp_example_item_name()' for the function that echoes.
+ * convention is usually something like 'bp_offers_get_item_name()' for the function that returns
+ * the value, and 'bp_offers_item_name()' for the function that echoes.
  */
 
 /**
@@ -38,7 +38,7 @@
  * purpose. See bp-example-classes.php for more details.
  *
  */
-function bp_example_has_items($args = '') {
+function bp_offers_has_items($args = '') {
     global $bp, $items_template;
 
     // This keeps us from firing the query more than once
@@ -70,27 +70,27 @@ function bp_example_has_items($args = '') {
         $r = wp_parse_args($args, $defaults);
         extract($r, EXTR_SKIP);
 
-        $items_template = new BP_Example_Highfive();
+        $items_template = new BP_Offer();
         $items_template->get($r);
     }
 
     return $items_template->have_posts();
 }
 
-function bp_example_the_item() {
+function bp_offers_the_item() {
     global $items_template;
     return $items_template->query->the_post();
 }
 
-function bp_example_item_name() {
-    echo bp_example_get_item_name();
+function bp_offers_item_name() {
+    echo bp_offers_get_item_name();
 }
 
 /* Always provide a "get" function for each template tag, that will return, not echo. */
 
-function bp_example_get_item_name() {
+function bp_offers_get_item_name() {
     global $items_template;
-    echo apply_filters('bp_example_get_item_name', $items_template->item->name); // Example: $items_template->item->name;
+    echo apply_filters('bp_offers_get_item_name', $items_template->item->name); // Example: $items_template->item->name;
 }
 
 /**
@@ -99,8 +99,8 @@ function bp_example_get_item_name() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_pagination_count() {
-    echo bp_example_get_pagination_count();
+function bp_offers_pagination_count() {
+    echo bp_offers_get_pagination_count();
 }
 
 /**
@@ -109,12 +109,12 @@ function bp_example_pagination_count() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_get_pagination_count() {
+function bp_offers_get_pagination_count() {
     global $items_template;
 
     $pagination_count = sprintf(__('Viewing page %1$s of %2$s', 'bp-example'), $items_template->query->query_vars['paged'], $items_template->query->max_num_pages);
 
-    return apply_filters('bp_example_get_pagination_count', $pagination_count);
+    return apply_filters('bp_offers_get_pagination_count', $pagination_count);
 }
 
 /**
@@ -123,8 +123,8 @@ function bp_example_get_pagination_count() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_item_pagination() {
-    echo bp_example_get_item_pagination();
+function bp_offers_item_pagination() {
+    echo bp_offers_get_item_pagination();
 }
 
 /**
@@ -133,9 +133,9 @@ function bp_example_item_pagination() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_get_item_pagination() {
+function bp_offers_get_item_pagination() {
     global $items_template;
-    return apply_filters('bp_example_get_item_pagination', $items_template->pag_links);
+    return apply_filters('bp_offers_get_item_pagination', $items_template->pag_links);
 }
 
 /**
@@ -144,8 +144,8 @@ function bp_example_get_item_pagination() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_high_fiver_avatar($args = array()) {
-    echo bp_example_get_high_fiver_avatar($args);
+function bp_offers_high_fiver_avatar($args = array()) {
+    echo bp_offers_get_high_fiver_avatar($args);
 }
 
 /**
@@ -157,7 +157,7 @@ function bp_example_high_fiver_avatar($args = array()) {
  * @param mixed $args Accepts WP style arguments - either a string of URL params, or an array
  * @return str The HTML for a user avatar
  */
-function bp_example_get_high_fiver_avatar($args = array()) {
+function bp_offers_get_high_fiver_avatar($args = array()) {
     $defaults = array(
         'item_id' => get_the_author_meta('ID'),
         'object' => 'user'
@@ -174,8 +174,8 @@ function bp_example_get_high_fiver_avatar($args = array()) {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_high_five_title() {
-    echo bp_example_get_high_five_title();
+function bp_offers_high_five_title() {
+    echo bp_offers_get_high_five_title();
 }
 
 /**
@@ -187,25 +187,25 @@ function bp_example_high_five_title() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_get_high_five_title() {
+function bp_offers_get_high_five_title() {
     // First, set up the high fiver's information
     $high_fiver_link = bp_core_get_userlink(get_the_author_meta('ID'));
 
     // Next, get the information for the high five recipient
-    $recipient_id = get_post_meta(get_the_ID(), 'bp_example_recipient_id', true);
+    $recipient_id = get_post_meta(get_the_ID(), 'bp_offers_recipient_id', true);
     $recipient_link = bp_core_get_userlink($recipient_id);
 
     // Use sprintf() to make a translatable message
     $title = sprintf(__('%1$s gave %2$s a high-five!', 'bp-example'), $high_fiver_link, $recipient_link);
 
-    return apply_filters('bp_example_get_high_five_title', $title, $high_fiver_link, $recipient_link);
+    return apply_filters('bp_offers_get_high_five_title', $title, $high_fiver_link, $recipient_link);
 }
 
 /**
  * Is this page part of the Example component?
  *
  * Having a special function just for this purpose makes our code more readable elsewhere, and also
- * allows us to place filter 'bp_is_example_component' for other components to interact with.
+ * allows us to place filter 'bp_is_offer_component' for other components to interact with.
  *
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
@@ -214,12 +214,12 @@ function bp_example_get_high_five_title() {
  * @uses apply_filters() to allow this value to be filtered
  * @return bool True if it's the example component, false otherwise
  */
-/* function bp_is_example_component() {
+/* function bp_is_offer_component() {
   $is_example_component = bp_is_current_component( 'offers' );
 
-  return apply_filters( 'bp_is_example_component', $is_example_component );
+  return apply_filters( 'bp_is_offer_component', $is_example_component );
   } */
-function bp_is_example_component() {
+function bp_is_offer_component() {
     if (bp_is_current_component('offers'))
         return true;
 
@@ -232,8 +232,8 @@ function bp_is_example_component() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_slug() {
-    echo bp_get_example_slug();
+function bp_offers_slug() {
+    echo bp_get_offers_slug();
 }
 
 /**
@@ -245,16 +245,16 @@ function bp_example_slug() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  *
- * @uses apply_filters() Filter 'bp_get_example_slug' to change the output
+ * @uses apply_filters() Filter 'bp_get_offers_slug' to change the output
  * @return str $example_slug The slug from $bp->example->slug, if it exists
  */
-function bp_get_example_slug() {
+function bp_get_offers_slug() {
     global $bp;
 
     // Avoid PHP warnings, in case the value is not set for some reason
     $example_slug = isset($bp->offers->slug) ? $bp->offers->slug : '';
 
-    return apply_filters('bp_get_example_slug', $example_slug);
+    return apply_filters('bp_get_offers_slug', $example_slug);
 }
 
 /**
@@ -263,8 +263,8 @@ function bp_get_example_slug() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_root_slug() {
-    echo bp_get_example_root_slug();
+function bp_offers_root_slug() {
+    echo bp_get_offers_root_slug();
 }
 
 /**
@@ -276,16 +276,16 @@ function bp_example_root_slug() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  *
- * @uses apply_filters() Filter 'bp_get_example_root_slug' to change the output
+ * @uses apply_filters() Filter 'bp_get_offers_root_slug' to change the output
  * @return str $example_root_slug The slug from $bp->example->root_slug, if it exists
  */
-function bp_get_example_root_slug() {
+function bp_get_offers_root_slug() {
     global $bp;
 
     // Avoid PHP warnings, in case the value is not set for some reason
     $example_root_slug = isset($bp->offers->root_slug) ? $bp->offers->root_slug : '';
 
-    return apply_filters('bp_get_example_root_slug', $example_root_slug);
+    return apply_filters('bp_get_offers_root_slug', $example_root_slug);
 }
 
 /**
@@ -294,8 +294,8 @@ function bp_get_example_root_slug() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_total_high_five_count() {
-    echo bp_example_get_total_high_five_count();
+function bp_offers_total_high_five_count() {
+    echo bp_offers_get_total_high_five_count();
 }
 
 /**
@@ -310,11 +310,11 @@ function bp_example_total_high_five_count() {
  *
  * @return int
  */
-function bp_example_get_total_high_five_count() {
-    $high_fives = new BP_Example_Highfive();
+function bp_offers_get_total_high_five_count() {
+    $high_fives = new BP_Offer();
     $high_fives->get();
 
-    return apply_filters('bp_example_get_total_high_five_count', $high_fives->query->found_posts, $high_fives);
+    return apply_filters('bp_offers_get_total_high_five_count', $high_fives->query->found_posts, $high_fives);
 }
 
 /**
@@ -323,8 +323,8 @@ function bp_example_get_total_high_five_count() {
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_example_total_high_five_count_for_user($user_id = false) {
-    echo bp_example_get_total_high_five_count_for_user($user_id = false);
+function bp_offers_total_high_five_count_for_user($user_id = false) {
+    echo bp_offers_get_total_high_five_count_for_user($user_id = false);
 }
 
 /**
@@ -339,7 +339,7 @@ function bp_example_total_high_five_count_for_user($user_id = false) {
  *
  * @return int
  */
-function bp_example_get_total_high_five_count_for_user($user_id = false) {
+function bp_offers_get_total_high_five_count_for_user($user_id = false) {
     // If no explicit user id is passed, fall back on the loggedin user
     if (!$user_id) {
         $user_id = bp_loggedin_user_id();
@@ -349,10 +349,21 @@ function bp_example_get_total_high_five_count_for_user($user_id = false) {
         return 0;
     }
 
-    $high_fives = new BP_Example_Highfive();
+    $high_fives = new BP_Offer();
     $high_fives->get(array('recipient_id' => $user_id));
 
-    return apply_filters('bp_example_get_total_high_five_count', $high_fives->query->found_posts, $high_fives);
+    return apply_filters('bp_offers_get_total_high_five_count', $high_fives->query->found_posts, $high_fives);
 }
 
+
+
+
+
+
+/* Return the number of offers that a member owns */
+function bp_get_total_offers_count_for_user($user_id = 0) {
+    return apply_filters('bp_get_total_offers_count_for_user', offers_total_offers_for_user($user_id), $user_id);
+}
+
+add_filter('bp_get_total_offers_count_for_user', 'bp_core_number_format');
 ?>

@@ -14,10 +14,10 @@
  * will be maximally compatible with WordPress's security and performance optimization features, in
  * addition to making your plugin easier to extend for other developers. The suggested
  * implementation here (where the WP_Query object is set as the query property on the
- * BP_Example_Highfive object in get()) is one suggested implementation.
+ * BP_Offer object in get()) is one suggested implementation.
  */
 
-class BP_Example_Highfive {
+class BP_Offer {
 	var $id;
 	var $high_fiver_id;
 	var $recipient_id;
@@ -25,7 +25,7 @@ class BP_Example_Highfive {
 	var $query;
 
 	/**
-	 * bp_example_tablename()
+	 * bp_offers_tablename()
 	 *
 	 * This is the constructor, it is auto run when the class is instantiated.
 	 * It will either create a new empty object if no ID is set, or fill the object
@@ -96,12 +96,12 @@ class BP_Example_Highfive {
 		 *   add_filter( 'example_data_fieldname1_before_save', 'wp_filter_kses' );
 		 */
 
-		$this->high_fiver_id = apply_filters( 'bp_example_data_high_fiver_id_before_save', $this->high_fiver_id, $this->id );
-		$this->recipient_id  = apply_filters( 'bp_example_data_recipient_id_before_save', $this->recipient_id, $this->id );
-		$this->date	     = apply_filters( 'bp_example_data_date_before_save', $this->date, $this->id );
+		$this->high_fiver_id = apply_filters( 'bp_offers_data_high_fiver_id_before_save', $this->high_fiver_id, $this->id );
+		$this->recipient_id  = apply_filters( 'bp_offers_data_recipient_id_before_save', $this->recipient_id, $this->id );
+		$this->date	     = apply_filters( 'bp_offers_data_date_before_save', $this->date, $this->id );
 
 		// Call a before save action here
-		do_action( 'bp_example_data_before_save', $this );
+		do_action( 'bp_offers_data_before_save', $this );
 
 		if ( $this->id ) {
 			// Set up the arguments for wp_insert_post()
@@ -116,7 +116,7 @@ class BP_Example_Highfive {
 
 			// We'll store the reciever's ID as postmeta
 			if ( $result ) {
-				update_post_meta( $result, 'bp_example_recipient_id', $this->recipient_id );
+				update_post_meta( $result, 'bp_offers_recipient_id', $this->recipient_id );
 			}
 		} else {
 			// Set up the arguments for wp_insert_post()
@@ -132,12 +132,12 @@ class BP_Example_Highfive {
 
 			// We'll store the reciever's ID as postmeta
 			if ( $result ) {
-				update_post_meta( $result, 'bp_example_recipient_id', $this->recipient_id );
+				update_post_meta( $result, 'bp_offers_recipient_id', $this->recipient_id );
 			}
 		}
 
 		/* Add an after save action here */
-		do_action( 'bp_example_data_after_save', $this );
+		do_action( 'bp_offers_data_after_save', $this );
 
 		return $result;
 	}
@@ -179,7 +179,7 @@ class BP_Example_Highfive {
 			// We can filter by postmeta by adding a meta_query argument. Note that
 			if ( $recipient_id ) {
 				$query_args['meta_query'][] = array(
-					'key'	  => 'bp_example_recipient_id',
+					'key'	  => 'bp_offers_recipient_id',
 					'value'	  => (array)$recipient_id,
 					'compare' => 'IN' // Allows $recipient_id to be an array
 				);
@@ -203,7 +203,7 @@ class BP_Example_Highfive {
 	}
 
 	/**
-	 * Part of our bp_example_has_high_fives() loop
+	 * Part of our bp_offers_has_high_fives() loop
 	 *
 	 * @package BuddyPress_Skeleton_Component
 	 * @since 1.6
@@ -213,7 +213,7 @@ class BP_Example_Highfive {
 	}
 
 	/**
-	 * Part of our bp_example_has_high_fives() loop
+	 * Part of our bp_offers_has_high_fives() loop
 	 *
 	 * @package BuddyPress_Skeleton_Component
 	 * @since 1.6
@@ -247,6 +247,29 @@ class BP_Example_Highfive {
 	function delete_by_user_id() {
 
 	}
+        
+        
+        
+	/**
+	 * Get the count of offers of which the specified user has.
+	 *
+	 * @param int $user_id Optional. Default: ID of the displayed user.
+	 * @return int Offers count.
+	 */
+	public static function total_offers_count( $user_id = 0 ) {
+		global $bp, $wpdb;
+
+		if ( empty( $user_id ) )
+			$user_id = bp_displayed_user_id();
+
+		if ( $user_id != bp_loggedin_user_id() && !bp_current_user_can( 'bp_moderate' ) ) {
+			return null;//return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
+		} else {
+			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
+		}
+	}
+        
+        
 }
 
 ?>

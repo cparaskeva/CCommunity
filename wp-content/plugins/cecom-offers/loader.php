@@ -72,7 +72,7 @@ function bp_offers_activate() {
 register_activation_hook( __FILE__, 'bp_offers_activate' );
 
 /* On deacativation, clean up anything your component has added. */
-function bp_example_deactivate() {
+function bp_offers_deactivate() {
 	/* You might want to delete any options or tables that your component created. */
 }
 register_deactivation_hook( __FILE__, 'bp_offers_deactivate' );
