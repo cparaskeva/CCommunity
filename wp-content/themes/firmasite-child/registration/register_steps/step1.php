@@ -5,7 +5,7 @@
                            Create an Account</h2>");
         _e("<div class=\"register-section\" id=\"basic-details-section\">");
         ?>    
-        <p><?php _e('The registering process will guide you among the nessecary steps in order to create an account and have access to the platform. <strong>First step complete all the required fields to create an account. </Strong>', 'firmasite'); ?></p>
+        <p><?php _e(' <strong>Registering for this site is easy: just fill in the boxes below and a new account will be created.', 'firmasite'); ?></p>
 
 
         <div class="register-section" id="basic-details-section">

@@ -41,7 +41,7 @@ get_header('buddypress');
 <div  hidden="true" id="current-step-errors" class="alert alert-danger col-md-3" style="color:red"></div>
 <?php
 //Load JavaScript Files
-include(get_stylesheet_directory() . "/registration/registerJS.js");
+include(get_stylesheet_directory() . "/registration/register.js");
 //Load CECommunity Footer
 get_footer('buddypress');
 ?>

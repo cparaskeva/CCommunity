@@ -39,7 +39,7 @@
                     <p style="margin:5px" class="field-visibility-settings-toggle text-muted" id="">
                         <label>
                             <input id="organization_details_checkbox" type="checkbox" value="">
-                            My Organisation is not listed!
+                            My organisation is not in the list, i want to add it!
                         </label>
                     </p>    
                 </div>
@@ -188,7 +188,7 @@
 
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_collaboration"><?php _e('Available for collaboration', 'firmasite'); ?> </label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>
                     <div class="col-xs-12 col-md-9">
                         <input type="radio" checked="yes"  name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                         <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
@@ -197,7 +197,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_transaction"><?php _e('Available for transaction', 'firmasite'); ?> </label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_transaction"><?php _e('Is the organisation available for transaction?', 'firmasite'); ?> </label>
                     <div class="col-xs-12 col-md-9">
                         <input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                         <input type="radio" checked="yes" name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>

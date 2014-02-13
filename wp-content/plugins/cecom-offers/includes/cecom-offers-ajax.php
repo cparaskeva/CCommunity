@@ -1,6 +1,6 @@
 <?php
 
-/***
+/* * *
  * You can hook in ajax functions in WordPress/BuddyPress by using the 'wp_ajax' action.
  * 
  * When you post your ajax call from javascript using jQuery, you can define the action
@@ -11,10 +11,10 @@
  * In Javascript we can post an action with some parameters via jQuery:
  * 
  * 			jQuery.post( ajaxurl, {
- *				action: 'my_example_action',
- *				'cookie': encodeURIComponent(document.cookie),
- *				'parameter_1': 'some_value'
- *			}, function(response) { ... } );
+ * 				action: 'my_example_action',
+ * 				'cookie': encodeURIComponent(document.cookie),
+ * 				'parameter_1': 'some_value'
+ * 			}, function(response) { ... } );
  *
  * Notice the action 'my_example_action', this is the part that will hook into the wp_ajax action.
  * 
@@ -26,36 +26,44 @@
  * Below is an example of the addremove_friend AJAX action in the friends component.
  */
 
-/***
+/* * *
  * NOTE:
  * Try and avoid returning HTML layout in your ajax functions.
  */
 
 function example_friends_ajax_addremove_friend() {
-	global $bp;
+    global $bp;
 
-	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
+    if ('is_friend' == BP_Friends_Friendship::check_is_friend($bp->loggedin_user->id, $_POST['fid'])) {
 
-		if ( !friends_remove_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
-			echo __( 'Friendship could not be canceled.', 'bp-component' );
-		} else {
-			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'bp-component' ) . '" href="' . $bp->loggedin_user->domain . $bp['friends']['slug'] . '/add-friend/' . $_POST['fid'] . '">' . __( 'Add Friend', 'bp-component' ) . '</a>';
-		}
+        if (!friends_remove_friend($bp->loggedin_user->id, $_POST['fid'])) {
+            echo __('Friendship could not be canceled.', 'bp-component');
+        } else {
+            echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __('Add Friend', 'bp-component') . '" href="' . $bp->loggedin_user->domain . $bp['friends']['slug'] . '/add-friend/' . $_POST['fid'] . '">' . __('Add Friend', 'bp-component') . '</a>';
+        }
+    } else if ('not_friends' == BP_Friends_Friendship::check_is_friend($bp->loggedin_user->id, $_POST['fid'])) {
 
-	} else if ( 'not_friends' == BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
+        if (!friends_add_friend($bp->loggedin_user->id, $_POST['fid'])) {
+            echo __('Friendship could not be requested.', 'bp-component');
+        } else {
+            echo '<a href="' . $bp->loggedin_user->domain . $bp['friends']['slug'] . '" class="requested">' . __('Friendship Requested', 'bp-component') . '</a>';
+        }
+    } else {
+        echo __('Request Pending', 'bp-component');
+    }
 
-		if ( !friends_add_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
-			echo __( 'Friendship could not be requested.', 'bp-component');
-		} else {
-			echo '<a href="' . $bp->loggedin_user->domain . $bp['friends']['slug'] . '" class="requested">' . __( 'Friendship Requested', 'bp-component' ) . '</a>';
-		}
-
-	} else {
-		echo __( 'Request Pending', 'bp-component' );
-	}
-	
-	return false;
+    return false;
 }
-//add_action( 'wp_ajax_addremove_friend', 'friends_ajax_addremove_friend' );
 
+function offers_create_offer_collaboration() {
+
+    echo "ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL";
+    bp_core_add_message(__('Succesfully updated.', 'buddypress'));
+    exit();
+}
+
+add_action('wp_ajax_create_offer', 'offers_create_offer_collaboration');
+
+
+//add_action( 'wp_ajax_addremove_friend', 'friends_ajax_addremove_friend' );
 ?>
