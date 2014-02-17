@@ -8,9 +8,9 @@
 global $firmasite_settings;
 get_header('buddypress');
 
- $group = groups_get_user_groups($bp->loggedin_user->id);
+ /* $group = groups_get_user_groups($bp->loggedin_user->id);
  $gid = $group['groups'][0]; 
- echo $gid;
+ echo $gid; */
 
 ?>
 

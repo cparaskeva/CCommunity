@@ -1,26 +1,26 @@
 <?php
 
 /**
- * This function should include all classes and functions that access the database.
+ * This function include all classes and functions that access the database.
  * In most BuddyPress components the database access classes are treated like a model,
  * where each table has a class that can be used to create an object populated with a row
  * from the corresponding database table.
  *
- * By doing this you can easily save, update and delete records using the class, you're also
+ * Doing this in order to easily save, update and delete records using the class, also
  * abstracting database access.
- *
- * This function uses WP_Query and wp_insert_post() to fetch and store data, using WordPress custom
- * post types. This method for data storage is highly recommended, as it assures that your data
- * will be maximally compatible with WordPress's security and performance optimization features, in
- * addition to making your plugin easier to extend for other developers. The suggested
- * implementation here (where the WP_Query object is set as the query property on the
- * BP_Offer object in get()) is one suggested implementation.
+ * 
  */
 class BP_Offer {
 
     var $id;
-    var $high_fiver_id;
-    var $recipient_id;
+    var $uid; //User ID
+    var $gid; //Group ID
+    var $type_id; //Offer type ID
+    var $collaboration_id;
+    var $description;
+    var $partner_type_id;
+    var $country_id;
+    var $program_id;
     var $date;
     var $query;
 
@@ -35,8 +35,14 @@ class BP_Offer {
         // Set some defaults
         $defaults = array(
             'id' => 0,
-            'high_fiver_id' => 0,
-            'recipient_id' => 0,
+            'uid' => 0, //User ID
+            'gid' => 0, //Group ID
+            'type_id' => 0, //Offer type ID
+            'collaboration_id' => 0,
+            'description' => "",
+            'partner_type_id' => Null,
+            'country_id' => Null,
+            'program_id' => Null,
             'date' => date('Y-m-d H:i:s')
         );
 
@@ -44,11 +50,13 @@ class BP_Offer {
         $r = wp_parse_args($args, $defaults);
         extract($r);
 
+        //An actual ID is given fetch data from DB
         if ($id) {
             $this->id = $id;
             $this->populate($this->id);
         } else {
             foreach ($r as $key => $value) {
+                echo "Key: " . $key . " Value: " . $value;
                 $this->{$key} = $value;
             }
         }
@@ -61,11 +69,21 @@ class BP_Offer {
      * ID passed to the constructor.
      */
     function populate() {
-        global $wpdb, $bp, $creds;
+        global $wpdb, $bp;
 
-        if ($row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$bp->offers->table_name} WHERE id = %d", $this->id))) {
-            $this->high_fiver_id = $row->high_fiver_id;
-            $this->recipient_id = $row->recipient_id;
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$bp->offers->table_name} WHERE id = %d", $this->id));
+
+        //If query returned a result assign the values 
+        if ($row) {
+            $this->id = $row->id;
+            $this->uid = $row->uid; //User ID
+            $this->gid = $row->gid; //Group ID
+            $this->type_id = $row->type_id; //Offer type ID
+            $this->collaboration_id = $row->collaboration_id;
+            $this->description = $row->description;
+            $this->partner_type_id = $row->partner_type_id;
+            $this->country_id = $row->country_id;
+            $this->program_id = $row->program_id;
             $this->date = $row->date;
         }
     }
@@ -91,25 +109,40 @@ class BP_Offer {
          *
          * It's very important that for number 2 above, you add a call like this for each
          * filter to 'bp-example-filters.php'
-         *
-         *   add_filter( 'example_data_fieldname1_before_save', 'wp_filter_kses' );
          */
 
-        $this->high_fiver_id = apply_filters('bp_offers_data_high_fiver_id_before_save', $this->high_fiver_id, $this->id);
-        $this->recipient_id = apply_filters('bp_offers_data_recipient_id_before_save', $this->recipient_id, $this->id);
-        $this->date = apply_filters('bp_offers_data_date_before_save', $this->date, $this->id);
+        /* Filter all values before saving to DB */
 
+        $this->id = apply_filters('bp_offers_data_before_save', $this->id);
+        $this->uid = apply_filters('bp_offers_data_before_save', $this->uid);
+        $this->gid = apply_filters('bp_offers_data_before_save', $this->gid);
+        $this->type_id = apply_filters('bp_offers_data_before_save', $this->type_id);
+        $this->collaboration_id = apply_filters('bp_offers_data_before_save', $this->collaboration_id);
+        $this->description = apply_filters('bp_offers_data_before_save', $this->description);
+        $this->partner_type_id = apply_filters('bp_offers_data_before_save', $this->partner_type_id);
+        $this->country_id = apply_filters('bp_offers_data_before_save', $this->country_id);
+        $this->program_id = apply_filters('bp_offers_data_before_save', $this->program_id);
+        $this->date = apply_filters('bp_offers_data_before_save', $this->date);
+
+        //$wpdb->show_errors(); /* <=== Uncomment for query debug */
         // Call a before save action here
-        do_action('bp_offers_data_before_save', $this);
-
+        //do_action('bp_offers_data_before_save', $this);
+        //Offer already exist, Update the current offer
         if ($this->id) {
-            // Set up the arguments for wp_insert_post()
-            $wp_update_post_args = array(
-                'ID' => $this->id,
-                'post_author' => $this->high_fiver_id,
-                'post_title' => sprintf(__('%1$s high-fives %2$s', 'bp-example'), bp_core_get_user_displayname($this->high_fiver_id), bp_core_get_user_displayname($this->recipient_id))
+
+            $status = $wpdb->update($bp->offers->table_name, array(
+                'type_id' => $this->type_id, //Offer type ID
+                'collaboration_id' => $this->collaboration_id,
+                'description' => $this->description,
+                'partner_type_id' => $this->partner_type_id,
+                'country_id' => ($this->country_id ==0 ? Null:$this->country_id),
+                'program_id' => ($this->program_id == 0? Null: $this->program_id),
+                'date' => $this->date), array('%d', '%d', '%s', '%d', '%d', '%d', '%s')
             );
 
+
+            echo "update";
+            die();
             // Save the post
             $result = wp_update_post($wp_update_post_args);
 
@@ -117,26 +150,25 @@ class BP_Offer {
             if ($result) {
                 update_post_meta($result, 'bp_offers_recipient_id', $this->recipient_id);
             }
-        } else {
-            // Set up the arguments for wp_insert_post()
-            $wp_insert_post_args = array(
-                'post_status' => 'publish',
-                'post_type' => 'example',
-                'post_author' => $this->high_fiver_id,
-                'post_title' => sprintf(__('%1$s high-fives %2$s', 'bp-example'), bp_core_get_user_displayname($this->high_fiver_id), bp_core_get_user_displayname($this->recipient_id))
+        } else { //Insert the new offer in the database
+            print_r($result);
+            $wpdb->show_errors(); /* <=== Uncomment for query debug */
+            $wpdb->insert($bp->offers->table_name, array(
+                'uid' => $this->uid, //User ID
+                'gid' => $this->gid, //Group ID
+                'type_id' => $this->type_id, //Offer type ID
+                'collaboration_id' => $this->collaboration_id,
+                'description' => $this->description,
+                'partner_type_id' => "",
+                'country_id' => ($this->country_id ==0 ? "Null":$this->country_id),
+                'program_id' => ($this->program_id == 0? "Null": $this->program_id),
+                'date' => $this->date), array('%d', '%d', '%d', '%d', '%s', '%s', '%d', '%d', '%s')
             );
-
-            // Save the post
-            $result = wp_insert_post($wp_insert_post_args);
-
-            // We'll store the reciever's ID as postmeta
-            if ($result) {
-                update_post_meta($result, 'bp_offers_recipient_id', $this->recipient_id);
-            }
+            die();
         }
 
         /* Add an after save action here */
-        do_action('bp_offers_data_after_save', $this);
+        // do_action('bp_offers_data_after_save', $this);
 
         return $result;
     }

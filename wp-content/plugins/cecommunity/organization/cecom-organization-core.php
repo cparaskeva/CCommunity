@@ -48,8 +48,8 @@ class CECOM_Organization {
     public function getOrganizationDetails($group_id) {
         global $wpdb;
         $wpdb->show_errors();
-        $org_details = $wpdb->get_row("select website,specialties,min size_min, max size_max, collaboration,transaction,subsector.id subsector_id,subsector.description subsector_desc,  sector.id sector_id, sector.description sector_desc, sector.color sector_color, type.description type_desc, country_id " 
-                ." from ext_organization org, ext_organization_size size, ext_organization_sector sector,ext_organization_subsector subsector, ext_organization_type type ".
+        $org_details = $wpdb->get_row("select website,specialties,min size_min, max size_max, collaboration,transaction,subsector.id subsector_id,subsector.description subsector_desc,  sector.id sector_id, sector.description sector_desc, sector.color sector_color, type.description type_desc, country_id "
+                . " from ext_organization org, ext_organization_size size, ext_organization_sector sector,ext_organization_subsector subsector, ext_organization_type type " .
                 "where org.gid =" . $group_id . " and subsector_id = subsector.id and sector_id = sector.id and type_id=type.id and size_id = size.id ");
         self::$instance->details['specialties'] = $org_details->specialties;
         self::$instance->details['website'] = $org_details->website;
@@ -111,7 +111,7 @@ class CECOM_Organization {
             return nil;
         return $organizations;
     }
-    
+
     //Fetch All countries
     public static function getAllCountries() {
         global $wpdb;
@@ -120,12 +120,21 @@ class CECOM_Organization {
             return nil;
         return $organizations;
     }
-    
 
     //Returns the group ID which is associated with the organization
-    public static function getGroupID($organization_id) {
+    public static function getUserGroupID($organization_id = 0) {
         global $wpdb;
-        $wpdb->get_var('select gid from ext_organization where id=' . $organization_id);
+        if ($organization_id > 0)
+           return $wpdb->get_var('select gid from ext_organization where id=' . $organization_id);
+            else{
+                global $bp;
+                //Get the groupd id  of the group that the user is member
+                return $wpdb->get_var('select group_id from wp_bp_groups_members where user_id=' . $bp->loggedin_user->id);
+                /* Uncomment for retrieving groupID whiout using a query - Debug purposes only!
+                $group = groups_get_user_groups($bp->loggedin_user->id);
+                $gid = $group['groups'][0];
+                echo  "First groupID ".$gid .  " of User ID: ".$bp->loggedin_user->id;*/
+            }
     }
 
     //TODO: Add actual subector ID
@@ -134,7 +143,7 @@ class CECOM_Organization {
     //Update Organization Profile 
     public static function edit_organization_details($group_id, $desc, $name, $specialties, $website, $country, $type, $size, $sector, $subsector, $collaboration, $transaction) {
         global $wpdb;
-        //$wpdb->show_errors();
+        //$wpdb->show_errors(); /* <=== Uncomment for query debug */
         $wpdb->query($wpdb->prepare("UPDATE ext_organization  SET "
                         . "description   = %s ,"
                         . "name          = %s ,"

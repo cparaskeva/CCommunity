@@ -14,6 +14,20 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *		define ( 'BP_EXAMPLE_CONSTANT', 'some value' // or some value without quotes if integer );
  */
 
+/**
+ * You should try hard to support translation in your component. It's actually very easy.
+ * Make sure you wrap any rendered text in __() or _e() and it will then be translatable.
+ *
+ * You must also provide a text domain, so translation files know which bits of text to translate.
+ * Throughout this example the text domain used is 'bp-example', you can use whatever you want.
+ * Put the text domain as the second parameter:
+ *
+ * __( 'This text will be translatable', 'bp-example' ); // Returns the first parameter value
+ * _e( 'This text will be translatable', 'bp-example' ); // Echos the first parameter value
+ */
+
+if ( file_exists( dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' ) )
+	load_textdomain( 'bp-example', dirname( __FILE__ ) . '/bp-example/languages/' . get_locale() . '.mo' );
 
 /**
  * Implementation of BP_Component
@@ -25,7 +39,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-class BP_Offers_Component extends BP_Component {
+class BP_Example_Component extends BP_Component {
 
 	/**
 	 * Constructor method
@@ -50,9 +64,9 @@ class BP_Offers_Component extends BP_Component {
 		global $bp;
 
 		parent::start(
-			'offers',
-			__( 'Offers', 'cecom-offers' ),
-			BP_OFFERS_PLUGIN_DIR
+			'example',
+			__( 'Example', 'bp-example' ),
+			BP_EXAMPLE_PLUGIN_DIR
 		);
 
 		/**
@@ -88,21 +102,21 @@ class BP_Offers_Component extends BP_Component {
 	 *           $includes = array( 'notifications.php', 'filters.php' );
 	 *       BP_Component::includes() will try to load these files (assuming a typical WP
 	 *       setup):
-	 *           /wp-content/plugins/cecom-offers/notifications.php
-	 *           /wp-content/plugins/cecom-offers/filters.php
+	 *           /wp-content/plugins/bp-example/notifications.php
+	 *           /wp-content/plugins/bp-example/filters.php
 	 *       Our includes function, listed below, uses a variation on this method, by specifying
 	 *       the 'includes' directory in our $includes array.
 	 *   (2) $this->path . '/bp-' . $this->id . '/' . $file - Assuming the same $includes array
 	 *       as above, BP will look for the following files:
-	 *           /wp-content/plugins/cecom-offers/cecom-offers/notifications.php
-	 *           /wp-content/plugins/cecom-offers/cecom-offers/filters.php
+	 *           /wp-content/plugins/bp-example/bp-example/notifications.php
+	 *           /wp-content/plugins/bp-example/bp-example/filters.php
 	 *   (3) $this->path . '/bp-' . $this->id . '/' . 'bp-' . $this->id . '-' . $file . '.php' -
 	 *       This is the format that BuddyPress core components use to load their files. Given
 	 *       an $includes array like
 	 *           $includes = array( 'notifications', 'filters' );
 	 *       BP looks for files at:
-	 *           /wp-content/plugins/cecom-offers/cecom-offers/cecom-offers-notifications.php
-	 *           /wp-content/plugins/cecom-offers/cecom-offers/cecom-offers-filters.php
+	 *           /wp-content/plugins/bp-example/bp-example/bp-example-notifications.php
+	 *           /wp-content/plugins/bp-example/bp-example/bp-example-filters.php
 	 *
 	 * If you'd prefer not to use any of these naming or organizational schemas, you are not
 	 * required to use parent::includes(); your own includes() method can require the files
@@ -131,7 +145,7 @@ class BP_Offers_Component extends BP_Component {
 	 *   - -template.php	  - Template tags. These are functions that are called from your
 	 *			    templates, or from your screen functions. If your plugin
 	 *			    contains its own version of the WordPress Loop (such as
-	 *			    bp_offers_has_items()), those functions should go in this file.
+	 *			    bp_example_has_items()), those functions should go in this file.
 	 *   - -functions.php     - Miscellaneous utility functions required by your component.
 	 *   - -notifications.php - Functions related to email notification, as well as the
 	 *			    BuddyPress notifications that show up in the admin bar.
@@ -149,16 +163,17 @@ class BP_Offers_Component extends BP_Component {
 
 		// Files to include
 		$includes = array(
-			'includes/cecom-offers-actions.php',
-			'includes/cecom-offers-screens.php',
-			'includes/cecom-offers-filters.php',
-			'includes/cecom-offers-classes.php',
-			'includes/cecom-offers-activity.php',
-			'includes/cecom-offers-template.php',
-			'includes/cecom-offers-functions.php',
-			'includes/cecom-offers-notifications.php',
-			'includes/cecom-offers-cssjs.php',
-			'includes/cecom-offers-ajax.php'
+			'includes/bp-example-actions.php',
+			'includes/bp-example-screens.php',
+			'includes/bp-example-filters.php',
+			'includes/bp-example-classes.php',
+			'includes/bp-example-activity.php',
+			'includes/bp-example-template.php',
+			'includes/bp-example-functions.php',
+			'includes/bp-example-notifications.php',
+			'includes/bp-example-widgets.php',
+			'includes/bp-example-cssjs.php',
+			'includes/bp-example-ajax.php'
 		);
 
 		parent::includes( $includes );
@@ -166,7 +181,7 @@ class BP_Offers_Component extends BP_Component {
 		// As an example of how you might do it manually, let's include the functions used
 		// on the WordPress Dashboard conditionally:
 		if ( is_admin() || is_network_admin() ) {
-			include( BP_OFFERS_PLUGIN_DIR . '/includes/cecom-offers-admin.php' );
+			include( BP_EXAMPLE_PLUGIN_DIR . '/includes/bp-example-admin.php' );
 		}
 	}
 
@@ -218,23 +233,23 @@ class BP_Offers_Component extends BP_Component {
 		global $bp;
 
 		// Defining the slug in this way makes it possible for site admins to override it
-		if ( !defined( 'BP_OFFERS_SLUG' ) )
-			define( 'BP_OFFERS_SLUG', $this->id );
+		if ( !defined( 'BP_EXAMPLE_SLUG' ) )
+			define( 'BP_EXAMPLE_SLUG', $this->id );
 
 		// Global tables for the example component. Build your table names using
 		// $bp->table_prefix (instead of hardcoding 'wp_') to ensure that your component
 		// works with $wpdb, multisite, and custom table prefixes.
 		$global_tables = array(
-			'table_name'      =>   'ext_offer' //$bp->table_prefix . 'bp_offers'
+			'table_name'      => $bp->table_prefix . 'bp_example'
 		);
 
 		// Set up the $globals array to be passed along to parent::setup_globals()
 		$globals = array(
-			'slug'                  => BP_OFFERS_SLUG,
-			'root_slug'             => isset( $bp->pages->{$this->id}->slug ) ? $bp->pages->{$this->id}->slug : BP_OFFERS_SLUG,
+			'slug'                  => BP_EXAMPLE_SLUG,
+			'root_slug'             => isset( $bp->pages->{$this->id}->slug ) ? $bp->pages->{$this->id}->slug : BP_EXAMPLE_SLUG,
 			'has_directory'         => true, // Set to false if not required
-			'notification_callback' => 'bp_offers_format_notifications',
-			'search_string'         => __( 'Search Offers...', 'buddypress' ),
+			'notification_callback' => 'bp_example_format_notifications',
+			'search_string'         => __( 'Search Examples...', 'buddypress' ),
 			'global_tables'         => $global_tables
 		);
 
@@ -258,32 +273,32 @@ class BP_Offers_Component extends BP_Component {
 	function setup_nav() {
 		// Add 'Example' to the main navigation
 		$main_nav = array(
-			'name' 		      => __( 'Collaboration Offers', 'cecom-offers' ),
-			'slug' 		      => bp_get_offers_slug(),
+			'name' 		      => __( 'Example', 'bp-example' ),
+			'slug' 		      => bp_get_example_slug(),
 			'position' 	      => 80,
-			'screen_function'     => 'bp_offers_screen_one',
+			'screen_function'     => 'bp_example_screen_one',
 			'default_subnav_slug' => 'screen-one'
 		);
 
-		$example_link = trailingslashit( bp_loggedin_user_domain() . bp_get_offers_slug() );
+		$example_link = trailingslashit( bp_loggedin_user_domain() . bp_get_example_slug() );
 
 		// Add a few subnav items under the main Example tab
 		$sub_nav[] = array(
-			'name'            =>  __( 'My Collaboration Offers', 'cecom-offers' ),
+			'name'            =>  __( 'Screen One', 'bp-example' ),
 			'slug'            => 'screen-one',
 			'parent_url'      => $example_link,
-			'parent_slug'     => bp_get_offers_slug(),
-			'screen_function' => 'bp_offers_screen_one',
+			'parent_slug'     => bp_get_example_slug(),
+			'screen_function' => 'bp_example_screen_one',
 			'position'        => 10
 		);
 
 		// Add the subnav items to the friends nav item
 		$sub_nav[] = array(
-			'name'            =>  __( 'Offer Collaboration', 'cecom-offers' ),
-			'slug'            => 'create-offer',
+			'name'            =>  __( 'Screen Two', 'bp-example' ),
+			'slug'            => 'screen-two',
 			'parent_url'      => $example_link,
-			'parent_slug'     => bp_get_offers_slug(),
-			'screen_function' => 'bp_offers_create_offer',
+			'parent_slug'     => bp_get_example_slug(),
+			'screen_function' => 'bp_example_screen_two',
 			'position'        => 20
 		);
 
@@ -292,13 +307,13 @@ class BP_Offers_Component extends BP_Component {
 		// If your component needs additional navigation menus that are not handled by
 		// BP_Component::setup_nav(), you can register them manually here. For example,
 		// if your component needs a subsection under a user's Settings menu, add
-		// it like this. See bp_offers_screen_settings_menu() for more info
+		// it like this. See bp_example_screen_settings_menu() for more info
 		bp_core_new_subnav_item( array(
-			'name' 		  => __( 'Offers', 'cecom-offers' ),
+			'name' 		  => __( 'Example', 'bp-example' ),
 			'slug' 		  => 'example-admin',
 			'parent_slug'     => bp_get_settings_slug(),
 			'parent_url' 	  => trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() ),
-			'screen_function' => 'bp_offers_screen_settings_menu',
+			'screen_function' => 'bp_example_screen_settings_menu',
 			'position' 	  => 40,
 			'user_has_access' => bp_is_my_profile() // Only the logged in user can access this on his/her profile
 		) );
@@ -318,13 +333,13 @@ class BP_Offers_Component extends BP_Component {
 	function register_post_types() {
 		// Set up some labels for the post type
 		$labels = array(
-			'name'	   => __( 'High Fives', 'cecom-offers' ),
-			'singular' => __( 'High Five', 'cecom-offers' )
+			'name'	   => __( 'High Fives', 'bp-example' ),
+			'singular' => __( 'High Five', 'bp-example' )
 		);
 
 		// Set up the argument array for register_post_type()
 		$args = array(
-			'label'	   => __( 'High Fives', 'cecom-offers' ),
+			'label'	   => __( 'High Fives', 'bp-example' ),
 			'labels'   => $labels,
 			'public'   => false,
 			'show_ui'  => true,
@@ -358,22 +373,22 @@ class BP_Offers_Component extends BP_Component {
  * routine. Using print_r( $bp->example ) or var_dump( $bp->example ) at the end of this function
  * will therefore only give you a partial picture of your component. If you need to dump the content
  * of your component for troubleshooting, try doing it at bp_init, ie
- *   function bp_offers_var_dump() {
+ *   function bp_example_var_dump() {
  *   	  global $bp;
  *	  var_dump( $bp->example );
  *   }
- *   add_action( 'bp_init', 'bp_offers_var_dump' );
+ *   add_action( 'bp_init', 'bp_example_var_dump' );
  * It goes without saying that you should not do this on a production site!
  *
  * @package BuddyPress_Skeleton_Component
  * @since 1.6
  */
-function bp_offers_load_core_component() {
+function bp_example_load_core_component() {
 	global $bp;
 
-	$bp->offers = new BP_Offers_Component;
+	$bp->example = new BP_Example_Component;
 }
-add_action( 'bp_loaded', 'bp_offers_load_core_component',1 );
+add_action( 'bp_loaded', 'bp_example_load_core_component' );
 
 
 ?>

@@ -170,8 +170,42 @@ function bp_offers_create_offer() {
             if ($_POST['collaboration-type'] == "none" || strlen($_POST['collaboration-description']) < 1 ||
                     (($_POST['collaboration-partner-sought'] == none || $_POST['collaboration-countries'] == 'none' ) && ($_POST['collaboration-programs'] == 'none')))
                 bp_core_add_message(__('Error puplishing your proposal. Please fill in all the required fields.', 'bp-example'), 'error');
-            else
-                bp_core_add_message(__('No errors!!', 'bp-example'),'success');
+            else {
+                //Validation Success Save the offer to DB               
+                $group_id = CECOM_Organization::getUserGroupID();
+                $user_id = bp_current_user_id();
+
+                $offer_new = array(
+                    'id' => 0,
+                    'uid' => $user_id, //User ID
+                    'gid' => $group_id, //Group ID
+                    'type_id' => $_POST['offer-type'], //Offer type ID
+                    'collaboration_id' => $_POST['collaboration-type'],
+                    'description' => $_POST['collaboration-description'],
+                    'partner_type_id' => $_POST['collaboration-partner-sought'],
+                    'country_id' => $_POST['collaboration-countries'],
+                    'program_id' => $_POST['collaboration-programs'],
+                    'date' => date('Y-m-d H:i:s')
+                );
+
+                if ($offer_new['type_id'] == 1)
+                    $offer_new['program_id'] = 0;
+
+                else {
+                    $offer_new['partner_type_id'] = 0;
+                    $offer_new['country_id'] = 0;
+                }
+
+                bp_offers_publish_offer($offer_new);
+                bp_core_add_message(__('Your offer has been succesfuly posted!', 'bp-example'), 'success');
+            }
+
+
+            /**
+             * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
+             * just by refreshing the browser.
+             */
+            bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug() . "/" . $bp->current_action);
         }
 
 
@@ -179,7 +213,7 @@ function bp_offers_create_offer() {
          * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
          * just by refreshing the browser.
          */
-        //bp_core_redirect( bp_loggedin_user_domain() . bp_get_offers_slug() );
+        // bp_core_redirect( bp_loggedin_user_domain() . bp_get_offers_slug() );
     }
 
     if (bp_is_offer_component() && bp_is_current_action('create-offer') && bp_is_action_variable('reject', 0)) {
@@ -195,7 +229,7 @@ function bp_offers_create_offer() {
          * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
          * just by refreshing the browser.
          */
-        bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug());
+        // bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug());
     }
 
     /**

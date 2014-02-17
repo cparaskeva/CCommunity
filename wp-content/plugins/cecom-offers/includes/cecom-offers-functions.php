@@ -21,29 +21,30 @@
  * This will become clearer in the function bp_offers_screen_one() when you want to load
  * a template file.
  */
-function bp_offers_load_template_filter( $found_template, $templates ) {
-	global $bp;
+function bp_offers_load_template_filter($found_template, $templates) {
+    global $bp;
 
-	/**
-	 * Only filter the template location when we're on the example component pages.
-	 */
-	if ( $bp->current_component != $bp->offers->slug )
-		return $found_template;
+    /**
+     * Only filter the template location when we're on the example component pages.
+     */
+    if ($bp->current_component != $bp->offers->slug)
+        return $found_template;
 
-	foreach ( (array) $templates as $template ) {
-		if ( file_exists( STYLESHEETPATH . '/' . $template ) )
-			$filtered_templates[] = STYLESHEETPATH . '/' . $template;
-		else
-			$filtered_templates[] = dirname( __FILE__ ) . '/templates/' . $template;
-	}
+    foreach ((array) $templates as $template) {
+        if (file_exists(STYLESHEETPATH . '/' . $template))
+            $filtered_templates[] = STYLESHEETPATH . '/' . $template;
+        else
+            $filtered_templates[] = dirname(__FILE__) . '/templates/' . $template;
+    }
 
-	$found_template = $filtered_templates[0];
+    $found_template = $filtered_templates[0];
 
-	return apply_filters( 'bp_offers_load_template_filter', $found_template );
+    return apply_filters('bp_offers_load_template_filter', $found_template);
 }
-add_filter( 'bp_located_template', 'bp_offers_load_template_filter', 10, 2 );
 
-/***
+add_filter('bp_located_template', 'bp_offers_load_template_filter', 10, 2);
+
+/* * *
  * From now on you will want to add your own functions that are specific to the component you are developing.
  * For example, in this section in the friends component, there would be functions like:
  *    friends_add_friend()
@@ -52,14 +53,14 @@ add_filter( 'bp_located_template', 'bp_offers_load_template_filter', 10, 2 );
  *
  * Some guidelines:
  *    - Don't set up error messages in these functions, just return false if you hit a problem and
- *	deal with error messages in screen or action functions.
+ * 	deal with error messages in screen or action functions.
  *
  *    - Don't directly query the database in any of these functions. Use database access classes
  * 	or functions in your bp-example-classes.php file to fetch what you need. Spraying database
  * 	access all over your plugin turns into a maintenance nightmare, trust me.
  *
  *    - Try to include add_action() functions within all of these functions. That way others will
- *	find it easy to extend your component without hacking it to pieces.
+ * 	find it easy to extend your component without hacking it to pieces.
  */
 
 /**
@@ -69,40 +70,40 @@ add_filter( 'bp_located_template', 'bp_offers_load_template_filter', 10, 2 );
  * Records an activity stream item for the user.
  */
 function bp_offers_accept_terms() {
-	global $bp;
+    global $bp;
 
-	/**
-	 * First check the nonce to make sure that the user has initiated this
-	 * action. Remember the wp_nonce_url() call? The second parameter is what
-	 * you need to check for.
-	 */
-	check_admin_referer( 'bp_offers_accept_terms' );
+    /**
+     * First check the nonce to make sure that the user has initiated this
+     * action. Remember the wp_nonce_url() call? The second parameter is what
+     * you need to check for.
+     */
+    check_admin_referer('bp_offers_accept_terms');
 
-	/***
-	 * Here is a good example of where we can post something to a users activity stream.
-	 * The user has excepted the terms on screen two, and now we want to post
-	 * "Andy accepted the really exciting terms and conditions!" to the stream.
-	 */
-	$user_link = bp_core_get_userlink( $bp->loggedin_user->id );
+    /*     * *
+     * Here is a good example of where we can post something to a users activity stream.
+     * The user has excepted the terms on screen two, and now we want to post
+     * "Andy accepted the really exciting terms and conditions!" to the stream.
+     */
+    $user_link = bp_core_get_userlink($bp->loggedin_user->id);
 
-	bp_offers_record_activity( array(
-		'type' => 'accepted_terms',
-		'action' => apply_filters( 'bp_offers_accepted_terms_activity_action', sprintf( __( '%s accepted the really exciting terms and conditions!', 'bp-example' ), $user_link ), $user_link ),
-	) );
+    bp_offers_record_activity(array(
+        'type' => 'accepted_terms',
+        'action' => apply_filters('bp_offers_accepted_terms_activity_action', sprintf(__('%s accepted the really exciting terms and conditions!', 'bp-example'), $user_link), $user_link),
+    ));
 
-	/* See bp_offers_reject_terms() for an explanation of deleting activity items */
-	if ( function_exists( 'bp_activity_delete') )
-		bp_activity_delete( array( 'type' => 'rejected_terms', 'user_id' => $bp->loggedin_user->id ) );
+    /* See bp_offers_reject_terms() for an explanation of deleting activity items */
+    if (function_exists('bp_activity_delete'))
+        bp_activity_delete(array('type' => 'rejected_terms', 'user_id' => $bp->loggedin_user->id));
 
-	/* Add a do_action here so other plugins can hook in */
-	do_action( 'bp_offers_accept_terms', $bp->loggedin_user->id );
+    /* Add a do_action here so other plugins can hook in */
+    do_action('bp_offers_accept_terms', $bp->loggedin_user->id);
 
-	/***
-	 * You'd want to do something here, like set a flag in the database, or set usermeta.
-	 * just for the sake of the demo we're going to return true.
-	 */
+    /*     * *
+     * You'd want to do something here, like set a flag in the database, or set usermeta.
+     * just for the sake of the demo we're going to return true.
+     */
 
-	return true;
+    return true;
 }
 
 /**
@@ -112,105 +113,85 @@ function bp_offers_accept_terms() {
  * Records an activity stream item for the user.
  */
 function bp_offers_reject_terms() {
-	global $bp;
+    global $bp;
 
-	check_admin_referer( 'bp_offers_reject_terms' );
+    check_admin_referer('bp_offers_reject_terms');
 
-	/***
-	 * In this example component, the user can reject the terms even after they have
-	 * previously accepted them.
-	 *
-	 * If a user has accepted the terms previously, then this will be in their activity
-	 * stream. We don't want both 'accepted' and 'rejected' in the activity stream, so
-	 * we should remove references to the user accepting from all activity streams.
-	 * A real world example of this would be a user deleting a published blog post.
-	 */
+    /*     * *
+     * In this example component, the user can reject the terms even after they have
+     * previously accepted them.
+     *
+     * If a user has accepted the terms previously, then this will be in their activity
+     * stream. We don't want both 'accepted' and 'rejected' in the activity stream, so
+     * we should remove references to the user accepting from all activity streams.
+     * A real world example of this would be a user deleting a published blog post.
+     */
 
-	$user_link = bp_core_get_userlink( $bp->loggedin_user->id );
+    $user_link = bp_core_get_userlink($bp->loggedin_user->id);
 
-	/* Now record the new 'rejected' activity item */
-	bp_offers_record_activity( array(
-		'type' => 'rejected_terms',
-		'action' => apply_filters( 'bp_offers_rejected_terms_activity_action', sprintf( __( '%s rejected the really exciting terms and conditions.', 'bp-example' ), $user_link ), $user_link ),
-	) );
+    /* Now record the new 'rejected' activity item */
+    bp_offers_record_activity(array(
+        'type' => 'rejected_terms',
+        'action' => apply_filters('bp_offers_rejected_terms_activity_action', sprintf(__('%s rejected the really exciting terms and conditions.', 'bp-example'), $user_link), $user_link),
+    ));
 
-	/* Delete any accepted_terms activity items for the user */
-	if ( function_exists( 'bp_activity_delete') )
-		bp_activity_delete( array( 'type' => 'accepted_terms', 'user_id' => $bp->loggedin_user->id ) );
+    /* Delete any accepted_terms activity items for the user */
+    if (function_exists('bp_activity_delete'))
+        bp_activity_delete(array('type' => 'accepted_terms', 'user_id' => $bp->loggedin_user->id));
 
-	do_action( 'bp_offers_reject_terms', $bp->loggedin_user->id );
+    do_action('bp_offers_reject_terms', $bp->loggedin_user->id);
 
-	return true;
+    return true;
 }
 
 /**
- * bp_offers_send_high_five()
+ * bp_offers_publish_offer()
  *
- * Sends a high five message to a user. Registers an notification to the user
- * via their notifications menu, as well as sends an email to the user.
- *
- * Also records an activity stream item saying "User 1 high-fived User 2".
+ * Create a new offer and store it to database. After insertion to 
+ * the database the offer is published to the Offers Directory so
+ * every registered member to the CECommunity Platform can see it.
+ * 
  */
-function bp_offers_send_highfive( $to_user_id, $from_user_id ) {
-	global $bp;
+function bp_offers_publish_offer($db_args) {
+    global $bp;
 
-	check_admin_referer( 'bp_offers_send_high_five' );
 
-	/**
-	 * We'll store high-fives as usermeta, so we don't actually need
-	 * to do any database querying. If we did, and we were storing them
-	 * in a custom DB table, we'd want to reference a function in
-	 * bp-example-classes.php that would run the SQL query.
-	 */
-	delete_user_meta( $to_user_id, 'high-fives' );
-	/* Get existing fives */
-	$existing_fives = maybe_unserialize( get_user_meta( $to_user_id, 'high-fives', true ) );
+    /* Avoid duplicate entry in database ... */
+    //check_admin_referer('bp_offers_publish_offer');
 
-	/* Check to see if the user has already high-fived. That's okay, but lets not
-	 * store duplicate high-fives in the database. What's the point, right?
-	 */
-	if ( !in_array( $from_user_id, (array)$existing_fives ) ) {
-		$existing_fives[] = (int)$from_user_id;
+    /* Unserialize value only if it was serialized. */
+    //$existing_fives = maybe_unserialize( get_user_meta( $to_user_id, 'high-fives', true ) );
+    // Let's also record it in our custom database tables
 
-		/* Now wrap it up and fire it back to the database overlords. */
-		update_user_meta( $to_user_id, 'high-fives', serialize( $existing_fives ) );
+    $offer_new = new BP_Offer($db_args);
+    $offer_new->save();
 
-		// Let's also record it in our custom database tables
-		$db_args = array(
-			'recipient_id'  => (int)$to_user_id,
-			'high_fiver_id' => (int)$from_user_id
-		);
+    /*
+     * Now we've registered the new high-five, lets work on some notification and activity
+     * stream magic.
+     */
 
-		$high_five = new BP_Offer( $db_args );
-		$high_five->save();
-	}
+    /*     * *
+     * Post a screen notification to the user's notifications menu.
+     * Remember, like activity streams we need to tell the activity stream component how to format
+     * this notification in bp_offers_format_notifications() using the 'new_high_five' action.
+     */
+    //bp_core_add_notification($from_user_id, $to_user_id, $bp->offers->slug, 'new_high_five');
 
-	/***
-	 * Now we've registered the new high-five, lets work on some notification and activity
-	 * stream magic.
-	 */
+    /* Now record the new 'new_high_five' activity item */
+    /*$to_user_link = bp_core_get_userlink($to_user_id);
+    $from_user_link = bp_core_get_userlink($from_user_id);
 
-	/***
-	 * Post a screen notification to the user's notifications menu.
-	 * Remember, like activity streams we need to tell the activity stream component how to format
-	 * this notification in bp_offers_format_notifications() using the 'new_high_five' action.
-	 */
-	bp_core_add_notification( $from_user_id, $to_user_id, $bp->offers->slug, 'new_high_five' );
+    bp_offers_record_activity(array(
+        'type' => 'rejected_terms',
+        'action' => apply_filters('bp_offers_new_high_five_activity_action', sprintf(__('%s high-fived %s!', 'bp-example'), $from_user_link, $to_user_link), $from_user_link, $to_user_link),
+        'item_id' => $to_user_id,
+    ));
 
-	/* Now record the new 'new_high_five' activity item */
-	$to_user_link = bp_core_get_userlink( $to_user_id );
-	$from_user_link = bp_core_get_userlink( $from_user_id );
+    /* We'll use this do_action call to send the email notification. See bp-example-notifications.php */
+    /*do_action('bp_offers_send_high_five', $to_user_id, $from_user_id);
 
-	bp_offers_record_activity( array(
-		'type' => 'rejected_terms',
-		'action' => apply_filters( 'bp_offers_new_high_five_activity_action', sprintf( __( '%s high-fived %s!', 'bp-example' ), $from_user_link, $to_user_link ), $from_user_link, $to_user_link ),
-		'item_id' => $to_user_id,
-	) );
-
-	/* We'll use this do_action call to send the email notification. See bp-example-notifications.php */
-	do_action( 'bp_offers_send_high_five', $to_user_id, $from_user_id );
-
-	return true;
+    return true;*/
 }
 
 /**
@@ -218,15 +199,14 @@ function bp_offers_send_highfive( $to_user_id, $from_user_id ) {
  *
  * Returns an array of user ID's for users who have high fived the user passed to the function.
  */
-function bp_offers_get_highfives_for_user( $user_id ) {
-	global $bp;
+function bp_offers_get_highfives_for_user($user_id) {
+    global $bp;
 
-	if ( !$user_id )
-		return false;
+    if (!$user_id)
+        return false;
 
-	return maybe_unserialize( get_user_meta( $user_id, 'high-fives', true ) );
+    return maybe_unserialize(get_user_meta($user_id, 'high-fives', true));
 }
-
 
 /**
  * bp_offers_remove_data()
@@ -234,44 +214,36 @@ function bp_offers_get_highfives_for_user( $user_id ) {
  * It's always wise to clean up after a user is deleted. This stops the database from filling up with
  * redundant information.
  */
-function bp_offers_remove_data( $user_id ) {
-	/* You'll want to run a function here that will delete all information from any component tables
-	   for this $user_id */
+function bp_offers_remove_data($user_id) {
+    /* You'll want to run a function here that will delete all information from any component tables
+      for this $user_id */
 
-	/* Remember to remove usermeta for this component for the user being deleted */
-	delete_user_meta( $user_id, 'bp_offers_some_setting' );
+    /* Remember to remove usermeta for this component for the user being deleted */
+    delete_user_meta($user_id, 'bp_offers_some_setting');
 
-	do_action( 'bp_offers_remove_data', $user_id );
-}
-add_action( 'wpmu_delete_user', 'bp_offers_remove_data', 1 );
-add_action( 'delete_user', 'bp_offers_remove_data', 1 );
-
-
-/* Count all the offers that a member owns*/
-function offers_total_offers_for_user( $user_id = 0 ) {
-
-	if ( empty( $user_id ) )
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
-
-	if ( !$count = wp_cache_get( 'bp_total_offers_for_user_' . $user_id, 'bp' ) ) {
-		$count = BP_Groups_Member::total_group_count( $user_id );
-		wp_cache_set( 'bp_total_offers_for_user_' . $user_id, $count, 'bp' );
-	}
-
-	return $count;
+    do_action('bp_offers_remove_data', $user_id);
 }
 
+add_action('wpmu_delete_user', 'bp_offers_remove_data', 1);
+add_action('delete_user', 'bp_offers_remove_data', 1);
 
 
+/* Count all the offers that a member owns */
 
+function offers_total_offers_for_user($user_id = 0) {
 
+    if (empty($user_id))
+        $user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
+    if (!$count = wp_cache_get('bp_total_offers_for_user_' . $user_id, 'bp')) {
+        $count = BP_Groups_Member::total_group_count($user_id);
+        wp_cache_set('bp_total_offers_for_user_' . $user_id, $count, 'bp');
+    }
 
+    return $count;
+}
 
-
-
-
-/***
+/* * *
  * Object Caching Support ----
  *
  * It's a good idea to implement object caching support in your component if it is fairly database
@@ -294,9 +266,9 @@ function offers_total_offers_for_user( $user_id = 0 ) {
  * Example:
  *
  *   function groups_clear_group_object_cache( $group_id ) {
- *	     wp_cache_delete( 'groups_group_' . $group_id );
- *	 }
- *	 add_action( 'groups_settings_updated', 'groups_clear_group_object_cache' );
+ * 	     wp_cache_delete( 'groups_group_' . $group_id );
+ * 	 }
+ * 	 add_action( 'groups_settings_updated', 'groups_clear_group_object_cache' );
  *
  * The "'groups_group_' . $group_id" part refers to the unique identifier you gave the cached object in the
  * wp_cache_set() call in your code.
@@ -307,5 +279,4 @@ function offers_total_offers_for_user( $user_id = 0 ) {
  * If you're still confused, check how it works in other BuddyPress components, or just don't use it,
  * but you should try to if you can (it makes a big difference). :)
  */
-
 ?>
