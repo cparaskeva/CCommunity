@@ -5,7 +5,7 @@ if (is_user_logged_in()) {
     global $bp;
     $redirection_url = $bp->loggedin_user->domain;
     wp_redirect($redirection_url);
-    exit; 
+    exit;
 }
 ?>   
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -15,7 +15,7 @@ if (is_user_logged_in()) {
         <title>CECommunity</title>
         <link href="<?php bloginfo('stylesheet_directory'); ?>/assets/css/login_page.css" rel="stylesheet" type="text/css" />
     </head>
-<?php flush(); ?>
+    <?php flush(); ?>
 
     <!-- Check if user is already logged-in, then redirect to profile page -->
 
@@ -31,7 +31,7 @@ if (is_user_logged_in()) {
                 $no_networks = BP_Groups_Group::get_total_group_count();
                 ?>
                 <span class="login_message"><?php _e(sprintf("%d Registered Users", $no_users), 'icommunity'); ?></span>
-                 <!-- <span class="login_message"><?php //_e(sprintf("%d projects", $no_projects), 'icommunity');   ?></span>-->
+                 <!-- <span class="login_message"><?php //_e(sprintf("%d projects", $no_projects), 'icommunity');     ?></span>-->
                 <span class="login_message"><?php _e(sprintf("%d Organizations", $no_networks), 'icommunity'); ?></span>
                 <span class="join" style="margin-top:20px">Join Us Today!</span>
             </div>
@@ -57,7 +57,7 @@ if (is_user_logged_in()) {
                                         </div>
                                         <div id="right_form_content">
                                             <a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>">Forgot Password?</a>
-<?php //do_action( 'bp_after_sidebar_login_form' )   ?>
+                                            <?php //do_action( 'bp_after_sidebar_login_form' )   ?>
 
                                         </div>
                                         <div id="info">To start connecting please log in first. You can also <span class="orange"><a href="<?php echo site_url('/register/') ?>">create an account</a></span>.</div>
@@ -79,6 +79,6 @@ if (is_user_logged_in()) {
                                             </div>
                                         </div>
                                         </div>
-<?php do_action('wp_footer') ?>
+                                        <?php do_action('wp_footer') ?>
                                         </body>
                                         </html>
