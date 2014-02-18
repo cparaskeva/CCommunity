@@ -9,6 +9,7 @@
 
 function cecom_is_front_page() {
     preg_match('/\/[a-z]*\/([a-z]*)$/i', home_url(), $matches);
+    print_r($matches);
     return (trim($_SERVER['REQUEST_URI'], "/") == $matches[1]);
 }
 
@@ -20,13 +21,15 @@ function cecom_is_activation_page() {
     return (trim($_SERVER['REQUEST_URI']) == "/cecommunity/activate/");
 }
 
-function cecom_is_login_page() {
+function cecom_is_login_page() {   
     preg_match('/(\/[a-z]*\/[a-z]*-[a-z]*).*$/i', $_SERVER['REQUEST_URI'], $matches);
+    print_r($matches);
     return (  $matches[1] == "/cecommunity/wp-login" );
 }
 
 function cecom_is_wp_admin_page() {
     preg_match('/(\/[a-z]*\/[a-z]*-[a-z]*\/).*$/i', $_SERVER['REQUEST_URI'], $matches);
+    print_r($matches);
     return ($matches[1] == "/cecommunity/wp-admin/");
 }
 
@@ -48,8 +51,13 @@ if (cecom_is_wp_admin_page())
 /* Prevent an un-authorized user to have access to the platform */
 if (!is_user_logged_in() && !defined('REGISTER_PAGE') && !defined('ACTIVATION_PAGE') && !defined('LOGIN_PAGE') && !defined('FRONT_PAGE') &&  !defined('WP_ADMIN_PAGE') ) {
     //Redirect to home page...
-    wp_redirect(home_url());
-    exit;
+   
+    echo "<br><br>".$_SERVER['REQUEST_URI']."<br><br>";
+    
+    //wp_redirect(home_url());
+    //exit;
+    echo home_url();
+    die();
 }
 /* CORE FUNCTIONS END */
 
