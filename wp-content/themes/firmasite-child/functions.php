@@ -1,5 +1,13 @@
 <?php
 
+
+
+//Set true, enabling debug mode
+if (!defined('DEBUG'))
+    define('DEBUG', true);
+
+
+
 /* DO NOT MODIFY THE FOLLOWING FUNCTIONS
  * 
  *  *********  SECURITY RISK
@@ -51,20 +59,22 @@ if (!is_user_logged_in() && !defined('REGISTER_PAGE') && !defined('ACTIVATION_PA
 /**
  * Enqueue stylesheets(CSS) & javascripts(JS)
  */
-function custom_java_scripts() {
+function custom_javascripts() {
     wp_register_script('cecommunity-functions', get_stylesheet_directory_uri() . '/assets/js//cecommunity-functions.js');
     wp_enqueue_script("cecommunity-functions");
     wp_register_script('bootstrap-formhelpers', get_template_directory() . "/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css");
     wp_enqueue_script('bootstrap-formhelpers');
 }
 
-add_action('wp_enqueue_scripts', 'custom_java_scripts');
+add_action('wp_enqueue_scripts', 'custom_javascripts');
 //Implemantation of AJAX Calls need fo the registration process of a user
 require(get_stylesheet_directory() . "/registration/register_functions.php");
 
 
 add_action("firmasite_settings_close", "firmasite_custom_container_size");
 
+
+//Customize sidebar menu
 function firmasite_custom_container_size() {
     global $firmasite_settings;
     switch ($firmasite_settings["layout"]) {
@@ -89,6 +99,10 @@ if (!defined('FIRMASITE_DESIGNER'))
 if (!defined('FIRMASITE_CDN'))
     define('FIRMASITE_CDN', false);
 
+
+/* Debug purposes functions .... */
+
+
 function bpdev_redirect_to_profile($redirect_to_calculated, $redirect_url_specified, $user) {
 
 
@@ -104,4 +118,5 @@ function bpdev_redirect_to_profile($redirect_to_calculated, $redirect_url_specif
 }
 
 //Redirect User to specific site based on the roles	
+if (defined('DEBUG') && DEBUG)
 add_filter("login_redirect", "bpdev_redirect_to_profile", 10, 3);
