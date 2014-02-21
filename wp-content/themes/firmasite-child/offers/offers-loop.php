@@ -69,8 +69,8 @@
 
 <?php else: ?>
 
-    <div id="message" class="info">
-        <p><?php _e('There were no high-fives found.', 'buddypress'); ?></p>
+    <div class="clearfix"></div><div id="message" class="info alert alert-info">
+        <p><?php _e('There were no offers found.', 'firmasite'); ?></p>
     </div>
 
 <?php endif; ?>

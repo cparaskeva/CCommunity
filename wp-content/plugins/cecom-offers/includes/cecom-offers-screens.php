@@ -168,7 +168,7 @@ function bp_offers_create_offer() {
             $errors = false;
             //Check if user has choosen an offer type othen than "none"
             if ($_POST['collaboration-type'] == "none" || strlen($_POST['collaboration-description']) < 1 ||
-                    (($_POST['collaboration-partner-sought'] == none || $_POST['collaboration-countries'] == 'none' ) && ($_POST['collaboration-programs'] == 'none')))
+                    (($_POST['collaboration-partner-sought'] == none  ) && ($_POST['collaboration-programs'] == 'none')))
                 bp_core_add_message(__('Error puplishing your proposal. Please fill in all the required fields.', 'bp-example'), 'error');
             else {
                 //Validation Success Save the offer to DB               
@@ -183,21 +183,23 @@ function bp_offers_create_offer() {
                     'collaboration_id' => $_POST['collaboration-type'],
                     'description' => $_POST['collaboration-description'],
                     'partner_type_id' => $_POST['collaboration-partner-sought'],
-                    'country_id' => $_POST['collaboration-countries'],
+                    //'country_id' => $_POST['collaboration-countries'],
                     'program_id' => $_POST['collaboration-programs'],
                     'date' => date('Y-m-d H:i:s')
                 );
 
-                if ($offer_new['type_id'] == 1)
+                /*if ($offer_new['type_id'] == 1)
                     $offer_new['program_id'] = 0;
 
                 else {
                     $offer_new['partner_type_id'] = 0;
                     $offer_new['country_id'] = 0;
-                }
+                }*/
 
-                bp_offers_publish_offer($offer_new);
-                bp_core_add_message(__('Your offer has been succesfuly posted!', 'bp-example'), 'success');
+                if (bp_offers_publish_offer($offer_new))
+                    bp_core_add_message(__('Your offer has been succesfuly published!', 'bp-example'), 'success');
+                else
+                     bp_core_add_message(__('Unable to insert infromation to database..', 'bp-example'), 'error');
             }
 
 
@@ -205,7 +207,7 @@ function bp_offers_create_offer() {
              * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
              * just by refreshing the browser.
              */
-            bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug() . "/" . $bp->current_action);
+           // bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug() . "/" . $bp->current_action);
         }
 
 

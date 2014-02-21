@@ -1,38 +1,43 @@
 <?php
+do_action("wp_enqueue_cecom_scripts");
+
+/* Import JS files */
+wp_enqueue_script('bootstrapformhelpers');
+wp_enqueue_script('bootstrap-multiselect');
+
+/* Import CSS files */
+wp_enqueue_style('bootstrapformhelpers-style');
+wp_enqueue_style('bootstrap-multiselect-style');
+
 global $cecom;
 /* $group = groups_get_user_groups($bp->loggedin_user->id);
   $gid = $group['groups'][0]; */
-$cecom->organization->getOrganizationDetails(bp_get_current_group_id());
+$cecom->organization->setOrganizationDetails(bp_get_current_group_id());
 
-
-do_action('bp_before_group_header');
 ?>
-
-<script src='<?php echo get_stylesheet_directory_uri() . "/assets/bootstrapformhelpers/js/bootstrap-formhelpers.js" ?>'></script>
-<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . "/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css"; ?>"/>
 <div id="item-actions" class="pull-right">
 
     <?php if (bp_group_is_visible()) : ?>
 
-    <strong><?php _e('Group Admins', 'firmasite'); ?></strong>
+        <strong><?php _e('Group Admins', 'firmasite'); ?></strong>
 
-    <?php
-    bp_group_list_admins();
+        <?php
+        bp_group_list_admins();
 
-    do_action('bp_after_group_menu_admins');
+        do_action('bp_after_group_menu_admins');
 
-    if (bp_group_has_moderators()) :
-    do_action('bp_before_group_menu_mods');
-    ?>
+        if (bp_group_has_moderators()) :
+            do_action('bp_before_group_menu_mods');
+            ?>
 
-    <strong><?php _e('Group Mods', 'firmasite'); ?></strong>
+            <strong><?php _e('Group Mods', 'firmasite'); ?></strong>
 
-    <?php
-    bp_group_list_mods();
+            <?php
+            bp_group_list_mods();
 
-    do_action('bp_after_group_menu_mods');
+            do_action('bp_after_group_menu_mods');
 
-    endif;
+        endif;
 
     endif;
     ?>
@@ -55,14 +60,14 @@ do_action('bp_before_group_header');
             $max = $cecom->organization->details['size_max'];
             $min = $cecom->organization->details['size_min'];
             if ($max == "0") {
-            $max = $max - 1;
-            $max = "+";
-            $minus = "";
+                $max = $max - 1;
+                $max = "+";
+                $minus = "";
             } elseif ($min == $max) {
-            $minus = "";
-            $max = "";
+                $minus = "";
+                $max = "";
             }
-            echo $min.$minus.$max." Employees";
+            echo $min . $minus . $max . " Employees";
             ?>
             </br></br>
             <strong>Website</strong></br><a target="_blank" href="<?php echo $cecom->organization->details['website'] ?>" ><?php echo substr($cecom->organization->details['website'], 0, 21); ?></a></br></br>
@@ -85,23 +90,35 @@ do_action('bp_before_group_header');
         <?php bp_group_description(); ?>
         <div>
             <strong>Specialties</strong> <br/><?php echo $cecom->organization->details['specialties'] ?><br/><br/>
-            <b>Sector</b> <?php echo "<br/><span style=\"background-color:";
-        echo $cecom->organization->details['sector_color']."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>";
-        echo "&nbsp;&nbsp;".$cecom->organization->details['sector_desc'] ?><br/><br/>
-            <b>Subsector</b><br/><?php echo $cecom->organization->details['subsector_desc'] ?><br/><br/>
+            <b>Sectors</b> 
+            <?php
+            foreach ($cecom->organization->details['sectors'] as $sector) {
+                echo "<br/><span style=\"background-color:" . $sector['color'] 
+                        . "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>"
+                        ."&nbsp;&nbsp;" . $sector['description'];
+            }
+            ?><br/><br/>
+            <b>Subsectors</b><br/>
+            <?php
+            $subsectors = "";
+            foreach ($cecom->organization->details['subsectors'] as $subsector) {
+                $subsectors .= $subsector['description'].", ";
+            }
+            echo substr($subsectors, 0,-2);
+            ?><br/><br/>
             <i>Organization is available for collaboration</i>&nbsp;  <?php
             if ($cecom->organization->details['collaboration']) : echo "<span class=\"glyphicon glyphicon-ok\"></span>";
             else : echo "<span class=\"glyphicon glyphicon-remove\"></span>";
             endif;
-        ?></br>
+            ?></br>
             <i>Organization is available for transaction</i>&nbsp; <?php
             if ($cecom->organization->details['transaction']) : echo "<span class=\"glyphicon glyphicon-ok\"></span>";
             else : echo "<span class=\"glyphicon glyphicon-remove\"></span>";
             endif;
-        ?> <br/><br/>
+            ?> <br/><br/>
         </div>
 
-<?php //do_action('bp_group_header_meta'); ?>
+        <?php //do_action('bp_group_header_meta');     ?>
 
     </div><!-- #item-meta -->
 </div><!-- #item-header-content -->

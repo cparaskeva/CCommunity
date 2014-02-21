@@ -19,7 +19,7 @@ class BP_Offer {
     var $collaboration_id;
     var $description;
     var $partner_type_id;
-    var $country_id;
+    //var $country_id;
     var $program_id;
     var $date;
     var $query;
@@ -41,7 +41,7 @@ class BP_Offer {
             'collaboration_id' => 0,
             'description' => "",
             'partner_type_id' => Null,
-            'country_id' => Null,
+            //'country_id' => Null,
             'program_id' => Null,
             'date' => date('Y-m-d H:i:s')
         );
@@ -56,7 +56,6 @@ class BP_Offer {
             $this->populate($this->id);
         } else {
             foreach ($r as $key => $value) {
-                echo "Key: " . $key . " Value: " . $value;
                 $this->{$key} = $value;
             }
         }
@@ -82,7 +81,7 @@ class BP_Offer {
             $this->collaboration_id = $row->collaboration_id;
             $this->description = $row->description;
             $this->partner_type_id = $row->partner_type_id;
-            $this->country_id = $row->country_id;
+            //$this->country_id = $row->country_id;
             $this->program_id = $row->program_id;
             $this->date = $row->date;
         }
@@ -120,7 +119,7 @@ class BP_Offer {
         $this->collaboration_id = apply_filters('bp_offers_data_before_save', $this->collaboration_id);
         $this->description = apply_filters('bp_offers_data_before_save', $this->description);
         $this->partner_type_id = apply_filters('bp_offers_data_before_save', $this->partner_type_id);
-        $this->country_id = apply_filters('bp_offers_data_before_save', $this->country_id);
+        //$this->country_id = apply_filters('bp_offers_data_before_save', $this->country_id);
         $this->program_id = apply_filters('bp_offers_data_before_save', $this->program_id);
         $this->date = apply_filters('bp_offers_data_before_save', $this->date);
 
@@ -135,8 +134,8 @@ class BP_Offer {
                 'collaboration_id' => $this->collaboration_id,
                 'description' => $this->description,
                 'partner_type_id' => $this->partner_type_id,
-                'country_id' => ($this->country_id ==0 ? Null:$this->country_id),
-                'program_id' => ($this->program_id == 0? Null: $this->program_id),
+                //'country_id' => ($this->country_id == 0 ? Null : $this->country_id),
+                'program_id' => ($this->program_id == 0 ? Null : $this->program_id),
                 'date' => $this->date), array('%d', '%d', '%s', '%d', '%d', '%d', '%s')
             );
 
@@ -150,26 +149,44 @@ class BP_Offer {
             if ($result) {
                 update_post_meta($result, 'bp_offers_recipient_id', $this->recipient_id);
             }
-        } else { //Insert the new offer in the database
-            print_r($result);
-            $wpdb->show_errors(); /* <=== Uncomment for query debug */
-            $wpdb->insert($bp->offers->table_name, array(
+        } else {//Insert the new offer in the database 
+
+            //Dfeault fields
+            $db_args_default = array(
                 'uid' => $this->uid, //User ID
                 'gid' => $this->gid, //Group ID
                 'type_id' => $this->type_id, //Offer type ID
                 'collaboration_id' => $this->collaboration_id,
                 'description' => $this->description,
-                'partner_type_id' => "",
-                'country_id' => ($this->country_id ==0 ? "Null":$this->country_id),
-                'program_id' => ($this->program_id == 0? "Null": $this->program_id),
-                'date' => $this->date), array('%d', '%d', '%d', '%d', '%s', '%s', '%d', '%d', '%s')
-            );
-            die();
+                'date' => $this->date);
+
+            //Default fields format
+            $db_args_format = array('%d', '%d', '%d', '%d', '%s', '%s');
+
+            /*
+             * TODO: Optimize the following batch of code
+             */
+            
+            if ($this->type_id == 1) {
+                $db_args_extra = array(
+                    'partner_type_id' => $this->partner_type_id);
+                    //'country_id' => $this->country_id);
+                $db_args_extra_format = array('%d');
+            } else {
+                $db_args_extra = array('program_id' => $this->program_id);
+                $db_args_extra_format = array('%d');
+            }
+
+            //Merge default args with the extra one
+            $db_args_default = array_merge($db_args_default, $db_args_extra);
+            $db_args_format = array_merge($db_args_format, $db_args_extra_format);
+
+            //Insert the data to DB
+            $result = $wpdb->insert($bp->offers->table_name, $db_args_default, $db_args_format);
         }
 
         /* Add an after save action here */
         // do_action('bp_offers_data_after_save', $this);
-
         return $result;
     }
 

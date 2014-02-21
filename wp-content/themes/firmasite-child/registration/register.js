@@ -2,8 +2,13 @@
 <style>
  .ui-autocomplete-loading {
     background: white url('<?php echo get_stylesheet_directory_uri() . "/assets/img/imgloader.gif" ?>') right center no-repeat;    }
+
+.multiselect-group {
+
+text-decoration: underline;
+}        
+        
 </style>
-<script src='<?php echo get_stylesheet_directory_uri()."/assets/bootstrapformhelpers/js/bootstrap-formhelpers.js" ?>'></script>
 <script src='<?php echo get_stylesheet_directory_uri()."/assets/js/jquery-ui.js" ?>'></script>
 <script type = "text/javascript" >
 
@@ -87,6 +92,10 @@ jQuery("#register_step2").submit(function(event) {
     jQuery("#current-step-errors").html('');
     jQuery("#current-step-errors").hide();
     
+    
+    var organization_sectors= "organization_sectors="+jQuery("#organization_sector").val() +"&";
+    var organization_subsectors= "organization_subsectors="+jQuery("#organization_subsector").val() +"&";
+
     /*  Get the value of the checkbox that defines if user selected an already registered organization or not */
     var isOrganizationListed = "&organization_listed=" +jQuery("#organization_details_checkbox").is(":checked");
     
@@ -100,6 +109,8 @@ jQuery("#register_step2").submit(function(event) {
     var values = "action=custom_register_user&" 
                  +jQuery(this).serialize()+"&organization_country="
                  +jQuery(".bfh-selectbox").val()+"&"
+                 +organization_sectors
+                 +organization_subsectors
                  +jQuery("#register_step1").serialize()
                  +isOrganizationListed
                  +organizationFlag;
@@ -369,7 +380,26 @@ jQuery("#registered_organizations_list").click(function(){
     alert("selected");
 });
 
+
+/*
+ * Organization sector
+ */
+
+
+jQuery("#organization_sector").change(function() {   
     
+var selectedTexts = [];
+
+jQuery(this).find("option:selected").each(function(i){
+          var val = jQuery(this).val();
+          var txt = jQuery(this).text();
+          selectedTexts[i] =   txt;
+});
+
+setSubsctorValues(jQuery('.multiselect').val(),selectedTexts);
+
+});
+
 
 /*
  * Hide the forms of registration step2 & step3 when document is loaded.
@@ -378,6 +408,10 @@ jQuery(document).ready(function() {
     document.getElementById("mainmenu").style.setProperty("display", "none");
     document.getElementById("register-page-step2").style.setProperty("display", "none");
     document.getElementById("register-page-step3").style.setProperty("display", "none");
+    //jQuery("#organization_sector_div").find('.multiselect').multiselect({ numberDisplayed: 1 });
+    jQuery("#organization_sector").multiselect({ numberDisplayed: 1 });
+    jQuery("#organization_subsector").multiselect({ numberDisplayed: 5 , maxHeight: 300, enableFiltering: true});
+    
 });
 
 </script>

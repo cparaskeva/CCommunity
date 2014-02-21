@@ -105,8 +105,8 @@ function custom_register_user() {
             'website' => $_POST['organization_website'],
             'size' => $_POST['organization_size'],
             'type' => $_POST['organization_type'],
-            'sector' => $_POST['organization_sector'],
-            'subsector' => $_POST['organization_subsector'],
+            'sectors' => explode(",",$_POST['organization_sectors']),
+            'subsectors' =>  explode(",",$_POST['organization_subsectors']),
             'collaboration' => $_POST['organization_collaboration_y'],
             'transaction' => $_POST['organization_transaction_y'],
             'country' => $_POST['organization_country'],
@@ -139,11 +139,11 @@ function custom_register_user() {
             if (empty($organization['type']) || $organization['type'] == 'none' || !(preg_match("(C|D|E|G|N|O|P|S)", $organization['type'])))
                 $errors[] = 'You must select the type of your organization|';
             //Validate Sector 
-            if (empty($organization['sector']) || $organization['sector'] == 'none' || !($organization['sector'] >= 1 && $organization['sector'] <= 10))
-                $errors[] = 'You must select the sector of your organization|';
+            if (empty($organization['sectors']) || array_values($organization['sectors'])[0] == 'null'   )
+                $errors[] = 'You must select at least one sector for your organization|';
             //Validate Subsector  
-            if (empty($organization['subsector']) || $organization['subsector'] == 'none' || !($organization['subsector'] >= 1 && $organization['subsector'] <= 100))
-                $errors[] = 'You must select a subsector for your organization|';
+            if (empty($organization['subsectors']) || array_values($organization['subsectors'])[0] == 'null')
+                $errors[] = 'You must select  at least one  subsector for your organization|';
 
 
 
@@ -172,15 +172,16 @@ function custom_register_user() {
         exit();
     }
 
-    /* Subsector fields autload AJAX CALL based on Sector ID */
+    /* Subsector fields autload AJAX CALL based on Sector(s) ID */
 
-    if (isset($_GET['operation']) && $_GET['operation'] == 'load_subsector') {
+    if (isset($_GET['operation']) && $_GET['operation'] == 'getSubsectors') {
 
         //Check if the sector id is valid
-        if (!isset($_GET['sector_id']) || $_GET['sector_id'] == "") {
+        if (!isset($_GET['sectors']) || $_GET['sectors'] == "") {
             exit();
         }
-        echo $_GET["callback"] . "(" . json_encode(CECOM_Organization::getOrganizationSubsector($_GET['sector_id'])) . ")";
+        //echo $_GET["callback"] . "(" . json_encode(CECOM_Organization::getOrganizationSubsector($_GET['sector_id'])) . ")";
+        echo $_GET["callback"] . "(" . json_encode(CECOM_Organization::getOrganizationSubsectors($_GET['sectors'])) . ")";
         exit();
     }
 

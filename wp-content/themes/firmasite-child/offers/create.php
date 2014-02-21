@@ -24,7 +24,7 @@ get_header('buddypress');
 
                    <?php do_action( 'template_notices' ); ?>
             <div class="item-body" id="group-create-body">
-                <label for="offer-type"><?php _e('Offer type (required)', 'firmasite'); ?></label>
+                <label for="offer-type"><?php _e('Type of offer (required)', 'firmasite'); ?></label>
                 <select name="offer-type" id="offer-type">
                     <option value="none"  selected="selected">Please select..</option>
                     <?php
@@ -39,7 +39,7 @@ get_header('buddypress');
                 </select>
                 <br/>
                 <div hidden="true" id="collaboration-commons">
-                    <label for="collaboration-type"><?php _e('Collaboration type (required)', 'firmasite'); ?></label>
+                    <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?></label>
                     <select name="collaboration-type" id="collaboration-type">
                         <option value="none"  selected="selected"> Please select..</option>
                         <?php
@@ -73,21 +73,21 @@ get_header('buddypress');
                         }
                         ?>
                     </select>
-                    <br/>
-                    <label for="collaboration-countries"><?php _e('Applyable countries (required)', 'firmasite'); ?></label>
+                    <!--<br/>
+                    <label for="collaboration-countries"><?php //_e('Applyable countries (required)', 'firmasite'); ?></label>
                     <select  class="form-control" name="collaboration-countries" id="collaboration-countries" aria-required="false">
                         <option value="none">Please select...</option>
                         <?php
                         //Fetch All Countries form DB
-                        $results = CECOM_Organization::getAllCountries();
+                        /*$results = CECOM_Organization::getAllCountries();
                         if (is_array($results)) {
 
                             foreach ($results as $country) {
                                 echo "<option value = '{$country->id }'>{$country->name}</option>";
                             }
-                        }
+                        }*/
                         ?>
-                    </select>
+                    </select> -->
                 </div>
 
 
@@ -95,7 +95,7 @@ get_header('buddypress');
                 <div hidden="true" id="collaboration-participate">
                     <label for="collaboration-countries"><?php _e('Grant Programms (required)', 'firmasite'); ?></label>
                     <select name="collaboration-programs" id="collaboration-programs">
-                        <option value="undefined">Please select..</option>
+                        <option value="none">Please select..</option>
                         <?php
                         //Fetch Grant Programs form DB
                         $results = BP_Offer::getGrantPrograms();

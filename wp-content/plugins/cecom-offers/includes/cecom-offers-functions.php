@@ -164,8 +164,10 @@ function bp_offers_publish_offer($db_args) {
     // Let's also record it in our custom database tables
 
     $offer_new = new BP_Offer($db_args);
-    $offer_new->save();
+    return $offer_new->save();
 
+    
+    
     /*
      * Now we've registered the new high-five, lets work on some notification and activity
      * stream magic.
@@ -182,11 +184,6 @@ function bp_offers_publish_offer($db_args) {
     /*$to_user_link = bp_core_get_userlink($to_user_id);
     $from_user_link = bp_core_get_userlink($from_user_id);
 
-    bp_offers_record_activity(array(
-        'type' => 'rejected_terms',
-        'action' => apply_filters('bp_offers_new_high_five_activity_action', sprintf(__('%s high-fived %s!', 'bp-example'), $from_user_link, $to_user_link), $from_user_link, $to_user_link),
-        'item_id' => $to_user_id,
-    ));
 
     /* We'll use this do_action call to send the email notification. See bp-example-notifications.php */
     /*do_action('bp_offers_send_high_five', $to_user_id, $from_user_id);

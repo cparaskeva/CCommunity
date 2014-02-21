@@ -2,9 +2,18 @@
 //Load CECommunity Header
 global $firmasite_settings;
 get_header('buddypress');
+
+do_action("wp_enqueue_cecom_scripts");
+
+/* Import JS files */
+wp_enqueue_script('bootstrapformhelpers');
+wp_enqueue_script('bootstrap-multiselect');
+
+/* Import CSS files */
+wp_enqueue_style('bootstrapformhelpers-style');
+wp_enqueue_style('bootstrap-multiselect-style');
 ?>
 
-<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . "/assets/bootstrapformhelpers/css/bootstrap-formhelpers.css"; ?>"/>
 <div id="primary" class="content-area-register <?php echo $firmasite_settings["layout_register_class"]; ?>">
     <!-- Registration progress bar -->
     <div class="progress progress-striped">
