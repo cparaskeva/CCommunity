@@ -139,10 +139,12 @@ function custom_register_user() {
             if (empty($organization['type']) || $organization['type'] == 'none' || !(preg_match("(C|D|E|G|N|O|P|S)", $organization['type'])))
                 $errors[] = 'You must select the type of your organization|';
             //Validate Sector 
-            if (empty($organization['sectors']) || array_values($organization['sectors'])[0] == 'null'   )
+            $sectors = $organization['sectors'];
+            $subsectors = $organization['subsectors'];
+            if (empty($organization['sectors']) || $sectors[0] == 'null'   )
                 $errors[] = 'You must select at least one sector for your organization|';
             //Validate Subsector  
-            if (empty($organization['subsectors']) || array_values($organization['subsectors'])[0] == 'null')
+            if (empty($organization['subsectors']) || $subsectors [0] == 'null')
                 $errors[] = 'You must select  at least one  subsector for your organization|';
 
 
