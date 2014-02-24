@@ -9,9 +9,9 @@
 <?php
 global $firmasite_settings;
 get_header('buddypress');
+global $bp;
 ?>
 
-<?php do_action('bp_before_directory_example_page'); ?>
 
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
     <div class="padder">
@@ -28,11 +28,11 @@ get_header('buddypress');
 
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
-                    <li class="selected" id="groups-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug()); ?>"><?php printf(__('All Offers<span>%s</span>', 'buddypress'), bp_offers_get_total_high_five_count()); ?></a></li>
+                    <li class="selected" id="offers-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug()); ?>"><?php printf(__('All Offers<span>%s</span>', 'buddypress'), bp_offers_get_total_high_five_count()); ?></a></li>
 
 
                     <?php if (is_user_logged_in() && bp_get_total_offers_count_for_user(bp_loggedin_user_id())) : ?>
-                    <li id="groups-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug(). '/my-groups'); ?>"><?php printf(__('My Offers <span>%s</span>', 'firmasite'), bp_get_total_group_count_for_user(bp_loggedin_user_id())); ?></a></li>
+                    <li id="offers-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug(). '/my-groups'); ?>"><?php printf(__('My Offers <span>%s</span>', 'firmasite'), bp_get_total_offers_count_for_user(bp_loggedin_user_id())); ?></a></li>
 
                     <?php endif; ?>
 
@@ -41,7 +41,7 @@ get_header('buddypress');
                 </ul>
             </div><!-- .item-list-tabs -->
 
-            <div id="example-dir-list" class="example dir-list">
+            <div id="example-dir-list" class="offers dir-list">
 
                 <?php //bp_core_load_template( 'example/example-loop' );  ?>
                 <?php locate_template(array('offers/offers-loop.php'), true); ?>

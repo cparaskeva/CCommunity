@@ -19,11 +19,6 @@ class CECOM_Organization {
         'size_max' => '',
         'sectors' => '',
         'subsectors' => ''
-            //'sector_id' => '',
-            //'sector_desc' => '',
-            //'sector_color' => '',
-            //'subsector_id' => '',
-            //'subsector_desc' => ''
     );
 
     public static function instance() {
@@ -72,17 +67,7 @@ class CECOM_Organization {
         self::$instance->details['sectors'] = $wpdb->get_results("SELECT s.id,s.color,s.description from ext_organization_meta m,ext_organization_sector s where m.mkey='sector' and m.mvalue = s.id and oid=$org_details->id",ARRAY_A);
         //Get organization subsectors
         self::$instance->details['subsectors']= $wpdb->get_results("SELECT s.id,s.description from ext_organization_meta m,ext_organization_subsector s where m.mkey='subsector' and m.mvalue = s.id and oid=$org_details->id",ARRAY_A);
-        
-        
-        
-        //self::$instance->details['metadata'] = $org_details->metadata;
-        /* self::$instance->details['sector_id'] = $org_details->sector_id;
-          self::$instance->details['sector_desc'] = $org_details->sector_desc;
-          self::$instance->details['sector_color'] = $org_details->sector_color;
-          self::$instance->details['subsector_desc'] = $org_details->subsector_desc;
-          self::$instance->details['subsector_id'] = $org_details->subsector_id; */
-        //print_r (self::$instance->details['sectors']);
-        //print_r (self::$instance->details['subsectors']);
+
     }
 
     //Fetch the available types for an organization
@@ -170,13 +155,9 @@ class CECOM_Organization {
             return $wpdb->get_var('select id from ext_organization where gid=' . $groupID);
     }
 
-    //TODO: Add actual subector ID
-    //
-    //
     //Update Organization Profile 
     public static function edit_organization_details($org_id,$group_id, $desc, $name, $specialties, $website, $country, $type, $size, $sectors, $subsectors, $collaboration, $transaction) {
         global $wpdb;
-        //$wpdb->show_errors(); /* <=== Uncomment for query debug */
         $wpdb->query($wpdb->prepare("UPDATE ext_organization  SET "
                         . "description   = %s ,"
                         . "name          = %s ,"
@@ -290,7 +271,6 @@ function registerOrganization($organization) {
             /* Register organization */
 
             //Oganization does not exist
-            //$wpdb->show_errors();
             $status = $wpdb->insert('ext_organization', array(
                 'gid' => $group_id,
                 'name' => $organization['name'],

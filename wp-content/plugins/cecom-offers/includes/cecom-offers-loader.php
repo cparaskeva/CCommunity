@@ -131,7 +131,7 @@ class BP_Offers_Component extends BP_Component {
 	 *   - -template.php	  - Template tags. These are functions that are called from your
 	 *			    templates, or from your screen functions. If your plugin
 	 *			    contains its own version of the WordPress Loop (such as
-	 *			    bp_offers_has_items()), those functions should go in this file.
+	 *			    bp_has_offers()), those functions should go in this file.
 	 *   - -functions.php     - Miscellaneous utility functions required by your component.
 	 *   - -notifications.php - Functions related to email notification, as well as the
 	 *			    BuddyPress notifications that show up in the admin bar.

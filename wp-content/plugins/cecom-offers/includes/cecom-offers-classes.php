@@ -194,7 +194,6 @@ class BP_Offer {
      * Fire the WP_Query
      *
      * @package BuddyPress_Skeleton_Component
-     * @since 1.6
      */
     function get($args = array()) {
         // Only run the query once
@@ -236,6 +235,7 @@ class BP_Offer {
             // Run the query, and store as an object property, so we can access from
             // other methods
             $this->query = new WP_Query($query_args);
+            
 
             // Let's also set up some pagination
             $this->pag_links = paginate_links(array(
@@ -302,6 +302,7 @@ class BP_Offer {
      * @return int Offers count.
      */
     public static function total_offers_count($user_id = 0) {
+        
         global $bp, $wpdb;
 
         if (empty($user_id))
@@ -310,7 +311,8 @@ class BP_Offer {
         if ($user_id != bp_loggedin_user_id() && !bp_current_user_can('bp_moderate')) {
             return null; //return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
         } else {
-            return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id));
+
+            return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d", $user_id));
         }
     }
 

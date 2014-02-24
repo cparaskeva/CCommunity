@@ -57,9 +57,7 @@ function example_friends_ajax_addremove_friend() {
 
 function offers_create_offer_collaboration() {
 
-    echo "ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL";
     bp_core_add_message(__('Succesfully updated.', 'buddypress'));
-    exit();
 }
 
 add_action('wp_ajax_create_offer', 'offers_create_offer_collaboration');

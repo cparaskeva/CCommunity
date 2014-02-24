@@ -1,7 +1,7 @@
 <script type = "text/javascript" >
         /* Help functions used for various actions of the Offering Collaboration Component */
 
-        jQuery("#offer-type").change(function() {
+    jQuery("#offer-type").change(function() {
     var offer_type = jQuery("#offer-type").val();
     //Handle the different type of offers
 
@@ -61,5 +61,5 @@ jQuery("#offer-collaboration-formaaa").submit(function(event) {
             alert("Unresolved error happened. Please try again!");
             }
     });
-});
+}); 
 </script>

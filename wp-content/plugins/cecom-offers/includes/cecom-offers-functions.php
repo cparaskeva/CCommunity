@@ -233,7 +233,7 @@ function offers_total_offers_for_user($user_id = 0) {
         $user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
     if (!$count = wp_cache_get('bp_total_offers_for_user_' . $user_id, 'bp')) {
-        $count = BP_Groups_Member::total_group_count($user_id);
+        $count = BP_OFFER::total_offers_count($user_id);
         wp_cache_set('bp_total_offers_for_user_' . $user_id, $count, 'bp');
     }
 
