@@ -38,8 +38,8 @@ get_header('buddypress');
 
 
 
-<div class="groups mygroups">
+<div id="offers-dir-list" class="offers dir-list">
 
     <?php locate_template(array('offers/offers-loop.php'), true); ?>
 
-</div>
+</div><!-- #offers-dir-list -->

@@ -150,7 +150,6 @@ class BP_Offer {
                 update_post_meta($result, 'bp_offers_recipient_id', $this->recipient_id);
             }
         } else {//Insert the new offer in the database 
-
             //Dfeault fields
             $db_args_default = array(
                 'uid' => $this->uid, //User ID
@@ -166,11 +165,11 @@ class BP_Offer {
             /*
              * TODO: Optimize the following batch of code
              */
-            
+
             if ($this->type_id == 1) {
                 $db_args_extra = array(
                     'partner_type_id' => $this->partner_type_id);
-                    //'country_id' => $this->country_id);
+                //'country_id' => $this->country_id);
                 $db_args_extra_format = array('%d');
             } else {
                 $db_args_extra = array('program_id' => $this->program_id);
@@ -188,66 +187,6 @@ class BP_Offer {
         /* Add an after save action here */
         // do_action('bp_offers_data_after_save', $this);
         return $result;
-    }
-
-    /**
-     * Fire the WP_Query
-     *
-     * @package BuddyPress_Skeleton_Component
-     */
-    function get($args = array()) {
-        // Only run the query once
-        if (empty($this->query)) {
-            $defaults = array(
-                'high_fiver_id' => 0,
-                'recipient_id' => 0,
-                'per_page' => 10,
-                'paged' => 1
-            );
-
-            $r = wp_parse_args($args, $defaults);
-            extract($r);
-
-            $query_args = array(
-                'post_status' => 'publish',
-                'post_type' => 'example',
-                'posts_per_page' => $per_page,
-                'paged' => $paged,
-                'meta_query' => array()
-            );
-
-            // Some optional query args
-            // Note that some values are cast as arrays. This allows you to query for multiple
-            // authors/recipients at a time
-            if ($high_fiver_id) {
-                $query_args['author'] = (array) $high_fiver_id;
-            }
-
-            // We can filter by postmeta by adding a meta_query argument. Note that
-            if ($recipient_id) {
-                $query_args['meta_query'][] = array(
-                    'key' => 'bp_offers_recipient_id',
-                    'value' => (array) $recipient_id,
-                    'compare' => 'IN' // Allows $recipient_id to be an array
-                );
-            }
-
-            // Run the query, and store as an object property, so we can access from
-            // other methods
-            $this->query = new WP_Query($query_args);
-            
-
-            // Let's also set up some pagination
-            $this->pag_links = paginate_links(array(
-                'base' => add_query_arg('items_page', '%#%'),
-                'format' => '',
-                'total' => ceil((int) $this->query->found_posts / (int) $this->query->query_vars['posts_per_page']),
-                'current' => (int) $paged,
-                'prev_text' => '&larr;',
-                'next_text' => '&rarr;',
-                'mid_size' => 1
-            ));
-        }
     }
 
     /**
@@ -296,13 +235,25 @@ class BP_Offer {
     }
 
     /**
+     * Get a total offers count for the CECommunity Platform.
+     *
+     * @return int Offers count.
+     */
+    public static function offers_get_total_offers_count() {
+        global $wpdb, $bp;
+        $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->offers->table_name}");
+
+        return $count;
+    }
+
+    /**
      * Get the count of offers of which the specified user has.
      *
      * @param int $user_id Optional. Default: ID of the displayed user.
      * @return int Offers count.
      */
-    public static function total_offers_count($user_id = 0) {
-        
+    public static function offers_total_offers_count($user_id = 0) {
+
         global $bp, $wpdb;
 
         if (empty($user_id))
@@ -311,7 +262,6 @@ class BP_Offer {
         if ($user_id != bp_loggedin_user_id() && !bp_current_user_can('bp_moderate')) {
             return null; //return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
         } else {
-
             return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d", $user_id));
         }
     }
@@ -354,6 +304,318 @@ class BP_Offer {
         return $offer_partner_type;
     }
 
-}
+    /* Queries staff */
 
+    /**
+     * Query for groups.
+     *
+     * @see WP_Meta_Query::queries for a description of the 'meta_query'
+     *      parameter format.
+     *
+     * @param array {
+     *     Array of parameters. All items are optional.
+     *     @type string $type Optional. Shorthand for certain orderby/
+     *           order combinations. 'newest', 'active', 'popular',
+     *           'alphabetical', 'random'. When present, will override
+     *           orderby and order params. Default: null.
+     *     @type string $orderby Optional. Property to sort by.
+     *           'date_created', 'last_activity', 'total_member_count',
+     *           'name', 'random'. Default: 'date_created'.
+     *     @type string $order Optional. Sort order. 'ASC' or 'DESC'.
+     *           Default: 'DESC'.
+     *     @type int $per_page Optional. Number of items to return per page
+     *           of results. Default: null (no limit).
+     *     @type int $page Optional. Page offset of results to return.
+     *           Default: null (no limit).
+     *     @type int $user_id Optional. If provided, results will be limited
+     *           to groups of which the specified user is a member. Default:
+     *           null.
+     *     @type string $search_terms Optional. If provided, only groups
+     *           whose names or descriptions match the search terms will be
+     *           returned. Default: false.
+     *     @type array $meta_query Optional. An array of meta_query
+     *           conditions. See {@link WP_Meta_Query::queries} for
+     *           description.
+     *     @type array|string Optional. Array or comma-separated list of
+     *           group IDs. Results will be limited to groups within the
+     *           list. Default: false.
+     *     @type bool $populate_extras Whether to fetch additional
+     *           information (such as member count) about groups. Default:
+     *           true.
+     *     @type array|string Optional. Array or comma-separated list of
+     *           group IDs. Results will exclude the listed groups.
+     *           Default: false.
+     *     @type bool $show_hidden Whether to include hidden groups in
+     *           results. Default: false.
+     * }
+     * @return array {
+     *     @type array $offers Array of group objects returned by the
+     *           paginated query.
+     *     @type int $total Total count of all groups matching non-
+     *           paginated query params.
+     * }
+     */
+    public static function get($args = array()) {
+        global $wpdb, $bp;
+
+
+        $defaults = array(
+            'type' => null,
+            'orderby' => 'date_created',
+            'order' => 'DESC',
+            'per_page' => null,
+            'page' => null,
+            'user_id' => 0,
+            'search_terms' => false,
+            'meta_query' => false,
+            'include' => false,
+            'populate_extras' => true,
+            'exclude' => false,
+            'show_hidden' => false,
+        );
+
+        $r = wp_parse_args($args, $defaults);
+
+        $sql = array();
+        $total_sql = array();
+
+        $sql['select'] = "SELECT *";
+        $sql['from'] = " FROM {$bp->offers->table_name}";
+
+        /* if (!empty($r['user_id'])) {
+          $sql['members_from'] = " {$bp->groups->table_name_members} m,";
+          }
+         */
+
+        if (!empty($r['user_id'])) {
+
+            $sql['user'] = " WHERE uid = {$r['user_id']}";
+        }
+
+
+        /*
+          if (!empty($r['search_terms'])) {
+          $search_terms = esc_sql(like_escape($r['search_terms']));
+          $sql['search'] = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+          }
+
+          //$meta_query_sql = self::get_meta_query_sql($r['meta_query']);
+
+          if (!empty($meta_query_sql['join'])) {
+          $sql['from'] .= $meta_query_sql['join'];
+          }
+
+          if (!empty($meta_query_sql['where'])) {
+          $sql['meta'] = $meta_query_sql['where'];
+          }
+         */
+
+
+        if (!empty($r['per_page']) && !empty($r['page'])) {
+            $sql['pagination'] = $wpdb->prepare("LIMIT %d, %d", intval(( $r['page'] - 1 ) * $r['per_page']), intval($r['per_page']));
+        }
+
+        // Get paginated results
+        $paged_offers_sql = apply_filters('bp_groups_get_paged_groups_sql', join(' ', (array) $sql), $sql, $r);
+        $paged_offers = $wpdb->get_results($paged_offers_sql);
+
+        $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name}";
+
+        /*
+          if (!empty($r['user_id'])) {
+          $total_sql['select'] .= ", {$bp->groups->table_name_members} m";
+          }
+
+
+          if (!empty($sql['search'])) {
+          $total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+          }
+         */
+        if (!empty($r['user_id'])) {
+            $total_sql['where'][] = $wpdb->prepare(" uid = %d", $r['user_id']);
+        }
+
+        // Temporary implementation of meta_query for total count
+        // See #5099
+        if (!empty($meta_query_sql['where'])) {
+            // Join the groupmeta table
+            $total_sql['select'] .= ", " . substr($meta_query_sql['join'], 0, -2);
+
+            // Modify the meta_query clause from paged_sql for our syntax
+            $meta_query_clause = preg_replace('/^\s*AND/', '', $meta_query_sql['where']);
+            $total_sql['where'][] = $meta_query_clause;
+        }
+
+ 
+        $t_sql = $total_sql['select'];
+
+        if (!empty($total_sql['where'])) {
+            $t_sql .= " WHERE " . join(' AND ', (array) $total_sql['where']);
+        }
+
+        // Get total group results
+        $total_offers_sql = apply_filters('bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r);
+        $total_offers = $wpdb->get_var($total_offers_sql);
+
+        $offer_ids = array();
+        foreach ((array) $paged_offers as $offer) {
+            $offer_ids[] = $offer->id;
+        }
+
+        // Populate some extra information instead of querying each time in the loop
+        /*if (!empty($r['populate_extras'])) {
+            $paged_offers = BP_Groups_Group::get_group_extras($paged_offers, $offer_ids, $r['type']);
+        }*/
+
+        // Grab all groupmeta
+        bp_groups_update_meta_cache($offer_ids);
+
+        unset($sql, $total_sql);
+
+        return array('offers' => $paged_offers, 'total' => $total_offers);
+    }
+
+    /**
+     * Get the SQL for the 'meta_query' param in BP_Activity_Activity::get()
+     *
+     * We use WP_Meta_Query to do the heavy lifting of parsing the
+     * meta_query array and creating the necessary SQL clauses. However,
+     * since BP_Activity_Activity::get() builds its SQL differently than
+     * WP_Query, we have to alter the return value (stripping the leading
+     * AND keyword from the 'where' clause).
+     *
+     * @since BuddyPress (1.8.0)
+     * @access protected
+     *
+     * @param array $meta_query An array of meta_query filters. See the
+     *        documentation for {@link WP_Meta_Query} for details.
+     * @return array $sql_array 'join' and 'where' clauses.
+     */
+    protected static function get_meta_query_sql($meta_query = array()) {
+        global $wpdb;
+
+        $sql_array = array(
+            'join' => '',
+            'where' => '',
+        );
+
+        if (!empty($meta_query)) {
+            $offers_meta_query = new WP_Meta_Query($meta_query);
+
+            // WP_Meta_Query expects the table name at
+            // $wpdb->group
+            $wpdb->groupmeta = buddypress()->groups->table_name_groupmeta;
+
+            $meta_sql = $offers_meta_query->get_sql('group', 'g', 'id');
+
+            // BP_Groups_Group::get uses the comma syntax for table
+            // joins, which means that we have to do some regex to
+            // convert the INNER JOIN and move the ON clause to a
+            // WHERE condition
+            //
+			// @todo It may be better in the long run to refactor
+            // the more general query syntax to accord better with
+            // BP/WP convention
+            preg_match_all('/INNER JOIN (.*) ON/', $meta_sql['join'], $matches_a);
+            preg_match_all('/ON \((.*)\)/', $meta_sql['join'], $matches_b);
+
+            if (!empty($matches_a[1]) && !empty($matches_b[1])) {
+                $sql_array['join'] = implode(',', $matches_a[1]) . ', ';
+
+                $sql_array['where'] = '';
+
+                $meta_query_where_clauses = explode("\n", $meta_sql['where']);
+                foreach ($matches_b[1] as $key => $offer_id_clause) {
+                    $sql_array['where'] .= ' ' . preg_replace('/^(AND\s+[\(\s]+)/', '$1' . $offer_id_clause . ' AND ', ltrim($meta_query_where_clauses[$key]));
+                }
+            }
+        }
+
+        return $sql_array;
+    }
+
+    /**
+     * Convert the 'type' parameter to 'order' and 'orderby'.
+     *
+     * @since BuddyPress (1.8.0)
+     * @access protected
+     *
+     * @param string $type The 'type' shorthand param.
+     * @return array {
+     * 	@type string $order SQL-friendly order string.
+     * 	@type string $orderby SQL-friendly orderby column name.
+     * }
+     */
+    protected static function convert_type_to_order_orderby($type = '') {
+        $order = $orderby = '';
+
+        switch ($type) {
+            case 'newest' :
+                $order = 'DESC';
+                $orderby = 'date_created';
+                break;
+
+            case 'active' :
+                $order = 'DESC';
+                $orderby = 'last_activity';
+                break;
+
+            case 'popular' :
+                $order = 'DESC';
+                $orderby = 'total_member_count';
+                break;
+
+            case 'alphabetical' :
+                $order = 'ASC';
+                $orderby = 'name';
+                break;
+
+            case 'random' :
+                $order = '';
+                $orderby = 'random';
+                break;
+        }
+
+        return array('order' => $order, 'orderby' => $orderby);
+    }
+
+    /**
+     * Convert the 'orderby' param into a proper SQL term/column.
+     *
+     * @since BuddyPress (1.8.0)
+     * @access protected
+     *
+     * @param string $orderby Orderby term as passed to get().
+     * @return string $order_by_term SQL-friendly orderby term.
+     */
+    protected static function convert_orderby_to_order_by_term($orderby) {
+        $order_by_term = '';
+
+        switch ($orderby) {
+            case 'date_created' :
+            default :
+                $order_by_term = 'g.date_created';
+                break;
+
+            case 'last_activity' :
+                $order_by_term = 'last_activity';
+                break;
+
+            case 'total_member_count' :
+                $order_by_term = 'CONVERT(gm1.meta_value, SIGNED)';
+                break;
+
+            case 'name' :
+                $order_by_term = 'g.name';
+                break;
+
+            case 'random' :
+                $order_by_term = 'rand()';
+                break;
+        }
+
+        return $order_by_term;
+    }
+
+}
 ?>

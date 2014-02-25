@@ -224,6 +224,15 @@ function bp_offers_remove_data($user_id) {
 add_action('wpmu_delete_user', 'bp_offers_remove_data', 1);
 add_action('delete_user', 'bp_offers_remove_data', 1);
 
+/* Count all the offers stored in DB */
+
+function offers_get_total_offers_count() {
+	if ( !$count = wp_cache_get( 'bp_total_offers_count', 'bp' ) ) {
+		$count = BP_Offer::offers_get_total_offers_count();
+		wp_cache_set( 'bp_total_offers_count', $count, 'bp' );
+	}
+	return $count;
+}
 
 /* Count all the offers that a member owns */
 
@@ -233,7 +242,7 @@ function offers_total_offers_for_user($user_id = 0) {
         $user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
     if (!$count = wp_cache_get('bp_total_offers_for_user_' . $user_id, 'bp')) {
-        $count = BP_OFFER::total_offers_count($user_id);
+        $count = BP_Offer::offers_total_offers_count($user_id);
         wp_cache_set('bp_total_offers_for_user_' . $user_id, $count, 'bp');
     }
 

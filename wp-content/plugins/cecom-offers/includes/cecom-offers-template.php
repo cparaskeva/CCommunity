@@ -9,72 +9,47 @@
  * convention is usually something like 'bp_offers_get_item_name()' for the function that returns
  * the value, and 'bp_offers_item_name()' for the function that echoes.
  */
-
-/**
+/*
  * Echo "Viewing x of y pages"
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
  */
 function bp_offers_pagination_count() {
     echo bp_offers_get_pagination_count();
 }
 
-/**
- * Return "Viewing x of y pages"
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- */
 function bp_offers_get_pagination_count() {
     global $offers_template;
 
-   $start_num = intval( ( $offers_template->pag_page - 1 ) * $offers_template->pag_num ) + 1;
-		$from_num  = bp_core_number_format( $start_num );
-		$to_num    = bp_core_number_format( ( $start_num + ( $offers_template->pag_num - 1 ) > $offers_template->total_offer_count ) ? $offers_template->total_offer_count : $start_num + ( $offers_template->pag_num - 1 ) );
-		$total     = bp_core_number_format( $offers_template->total_offer_count );
+    $start_num = intval(( $offers_template->pag_page - 1 ) * $offers_template->pag_num) + 1;
+    $from_num = bp_core_number_format($start_num);
+    $to_num = bp_core_number_format(( $start_num + ( $offers_template->pag_num - 1 ) > $offers_template->total_offer_count ) ? $offers_template->total_offer_count : $start_num + ( $offers_template->pag_num - 1 ) );
+    $total = bp_core_number_format($offers_template->total_offer_count);
 
-		return apply_filters( 'bp_get_offers_pagination_count', sprintf( _n( 'Viewing offer %1$s to %2$s (of %3$s offer)', 'Viewing offer %1$s to %2$s (of %3$s offers)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+    return apply_filters('bp_get_offers_pagination_count', sprintf(_n('Viewing offer %1$s to %2$s (of %3$s offer)', 'Viewing offer %1$s to %2$s (of %3$s offers)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
 }
-
-
 
 function bp_offers_pagination_links() {
-	echo bp_get_offers_pagination_links();
-}
-	function bp_get_offers_pagination_links() {
-		global $offers_template;
-
-		return apply_filters( 'bp_get_offers_pagination_links', $offers_template->pag_links );
-	}
-
-
-
-
-
-/**
- * Echo the high-fiver avatar (post author)
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- */
-function bp_offers_high_fiver_avatar($args = array()) {
-    echo bp_offers_get_high_fiver_avatar($args);
+    echo bp_get_offers_pagination_links();
 }
 
-/**
- * Return the high-fiver avatar (the post author)
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- *
- * @param mixed $args Accepts WP style arguments - either a string of URL params, or an array
- * @return str The HTML for a user avatar
- */
-function bp_offers_get_high_fiver_avatar($args = array()) {
+function bp_get_offers_pagination_links() {
+    global $offers_template;
+
+    return apply_filters('bp_get_offers_pagination_links', $offers_template->pag_links);
+}
+
+
+function bp_offers_owner_avatar($args = array()) {
+    echo bp_offers_get_owner_avatar($args);
+}
+
+
+function bp_offers_get_owner_avatar($args = array()) {
+
+
+    global $offers_template;
     $defaults = array(
-        'item_id' => get_the_author_meta('ID'),
-        'object' => 'user'
+        'item_id' => $offers_template->offer->uid,
+        'object' => 'member'
     );
 
     $r = wp_parse_args($args, $defaults);
@@ -82,15 +57,40 @@ function bp_offers_get_high_fiver_avatar($args = array()) {
     return bp_core_fetch_avatar($r);
 }
 
-/**
- * Echo the "title" of the high-five
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- */
-function bp_offers_high_five_title() {
-    echo bp_offers_get_high_five_title();
+
+function bp_offers_owner_name(){
+    echo bp_offers_get_owner_name();
 }
+
+function bp_offers_get_owner_name(){
+        global $offers_template;
+    echo bp_core_get_user_displayname( $offers_template->offer->uid );
+}
+
+
+function bp_offers_content(){
+    echo bp_offers_get_content();
+}
+
+function bp_offers_get_content(){
+    global $offers_template;
+    return $offers_template->offer->description;
+}
+
+
+function bp_offers_owner_permalink (){
+    echo bp_offers_get_owner_permalink();
+}
+
+
+function bp_offers_get_owner_permalink(){
+        global $offers_template;       
+        return bp_core_get_user_domain( $offers_template->offer->uid);
+}
+
+
+
+
 
 /**
  * Return the "title" of the high-five
@@ -121,9 +121,6 @@ function bp_offers_get_high_five_title() {
  * Having a special function just for this purpose makes our code more readable elsewhere, and also
  * allows us to place filter 'bp_is_offer_component' for other components to interact with.
  *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- *
  * @uses bp_is_current_component()
  * @uses apply_filters() to allow this value to be filtered
  * @return bool True if it's the example component, false otherwise
@@ -142,9 +139,6 @@ function bp_is_offer_component() {
 
 /**
  * Echo the component's slug
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
  */
 function bp_offers_slug() {
     echo bp_get_offers_slug();
@@ -155,9 +149,6 @@ function bp_offers_slug() {
  *
  * Having a template function for this purpose is not absolutely necessary, but it helps to
  * avoid too-frequent direct calls to the $bp global.
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
  *
  * @uses apply_filters() Filter 'bp_get_offers_slug' to change the output
  * @return str $example_slug The slug from $bp->example->slug, if it exists
@@ -173,9 +164,6 @@ function bp_get_offers_slug() {
 
 /**
  * Echo the component's root slug
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
  */
 function bp_offers_root_slug() {
     echo bp_get_offers_root_slug();
@@ -186,10 +174,6 @@ function bp_offers_root_slug() {
  *
  * Having a template function for this purpose is not absolutely necessary, but it helps to
  * avoid too-frequent direct calls to the $bp global.
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- *
  * @uses apply_filters() Filter 'bp_get_offers_root_slug' to change the output
  * @return str $example_root_slug The slug from $bp->example->root_slug, if it exists
  */
@@ -200,45 +184,6 @@ function bp_get_offers_root_slug() {
     $example_root_slug = isset($bp->offers->root_slug) ? $bp->offers->root_slug : '';
 
     return apply_filters('bp_get_offers_root_slug', $example_root_slug);
-}
-
-/**
- * Echo the total of all high-fives across the site
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- */
-function bp_offers_total_high_five_count() {
-    echo bp_offers_get_total_high_five_count();
-}
-
-/**
- * Return the total of all high-fives across the site
- *
- * The most straightforward way to get a post count is to run a WP_Query. In your own plugin
- * you might consider storing data like this with update_option(), incrementing each time
- * a new item is published.
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- *
- * @return int
- */
-function bp_offers_get_total_high_five_count() {
-    $high_fives = new BP_Offer();
-    $high_fives->get();
-
-    return apply_filters('bp_offers_get_total_high_five_count', $high_fives->query->found_posts, $high_fives);
-}
-
-/**
- * Echo the total of all high-fives given to a particular user
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- */
-function bp_offers_total_high_five_count_for_user($user_id = false) {
-    echo bp_offers_get_total_high_five_count_for_user($user_id = false);
 }
 
 /**
@@ -269,6 +214,16 @@ function bp_offers_get_total_high_five_count_for_user($user_id = false) {
     return apply_filters('bp_offers_get_total_high_five_count', $high_fives->query->found_posts, $high_fives);
 }
 
+//Return the number of total offers
+
+function bp_total_offers_count() {
+    echo bp_get_total_offers_count();
+}
+
+function bp_get_total_offers_count() {
+    return apply_filters('bp_get_total_offers_count', offers_get_total_offers_count());
+}
+
 function bp_total_offers_count_for_user($user_id = 0) {
     echo bp_get_total_offers_count_for_user($user_id);
 }
@@ -281,8 +236,10 @@ function bp_get_total_offers_count_for_user($user_id = 0) {
 
 add_filter('bp_get_total_offers_count_for_user', 'bp_core_number_format');
 
-//***************************************************
-
+/*
+ *  Offers Template Class 
+ * Used to hold all the results returned from DB based on current users' query
+ */
 
 class BP_Offers_Template {
 
@@ -300,29 +257,6 @@ class BP_Offers_Template {
     var $order;
 
     function __construct($args = array()) {
-
-        // Backward compatibility with old method of passing arguments
-        if (!is_array($args) || func_num_args() > 1) {
-            _deprecated_argument(__METHOD__, '1.7', sprintf(__('Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress'), __METHOD__, __FILE__));
-
-            $old_args_keys = array(
-                0 => 'user_id',
-                1 => 'type',
-                2 => 'page',
-                3 => 'per_page',
-                4 => 'max',
-                5 => 'slug',
-                6 => 'search_terms',
-                7 => 'populate_extras',
-                8 => 'include',
-                9 => 'exclude',
-                10 => 'show_hidden',
-                11 => 'page_arg',
-            );
-
-            $func_args = func_get_args();
-            $args = bp_core_parse_args_array($old_args_keys, $func_args);
-        }
 
         $defaults = array(
             'type' => 'active',
@@ -345,14 +279,13 @@ class BP_Offers_Template {
         $this->pag_page = isset($_REQUEST[$page_arg]) ? intval($_REQUEST[$page_arg]) : $page;
         $this->pag_num = isset($_REQUEST['num']) ? intval($_REQUEST['num']) : $per_page;
 
-
-        if ('invites' == $type) {
-            $this->offers = offers_get_invites_for_user($user_id, $this->pag_num, $this->pag_page, $exclude);
-        } else if ('single-offer' == $type) {
+        if ('single-offer' == $type) {
             $offer = new stdClass;
             $offer->offer_id = BP_Groups_Group::get_id_from_slug($slug);
             $this->offers = array($offer);
         } else {
+
+            //Store the offers of the user to an array()
             $this->offers = offers_get_offers(array(
                 'type' => $type,
                 'order' => $order,
@@ -368,13 +301,11 @@ class BP_Offers_Template {
             ));
         }
 
-        //print_r($this->offers);die();
-        
 
         if ('invites' == $type) {
             $this->total_offer_count = (int) $this->offers['total'];
             $this->offer_count = (int) $this->offers['total'];
-            $this->offers = $this->offers['groups'];
+            $this->offers = $this->offers['offers'];
         } else if ('single-offer' == $type) {
             $this->single_offer = true;
             $this->total_offer_count = 1;
@@ -389,7 +320,7 @@ class BP_Offers_Template {
                 $this->total_offer_count = (int) $max;
             }
 
-            $this->offers = $this->offers['groups'];
+            $this->offers = $this->offers['offers'];
 
             if (!empty($max)) {
                 if ($max >= count($this->offers)) {
@@ -510,7 +441,7 @@ function bp_get_offer_id($offer = false) {
 function bp_has_offers($args = '') {
     global $offers_template, $bp;
 
-    /*     * *
+    /*     
      * Set the defaults based on the current page. Any of these will be overridden
      * if arguments are directly passed into the loop. Custom plugins should always
      * pass their parameters directly to the loop.
@@ -527,16 +458,18 @@ function bp_has_offers($args = '') {
         $user_id = bp_displayed_user_id();
 
 
-    // Type
+
+
+    // Proper handle the screen one presenting the offers
     // @todo What is $order? At some point it was removed incompletely?
-    if (bp_is_current_action('my-groups')) {
+    if (bp_is_current_action('screen-one')) {
+
+        echo "My offers " . $bp->current_action; //die();
         if ('most-popular' == $order) {
             $type = 'popular';
         } elseif ('alphabetically' == $order) {
             $type = 'alphabetical';
         }
-    } elseif (bp_is_current_action('invites')) {
-        $type = 'invites';
     } elseif (isset($bp->groups->current_group->slug) && $bp->groups->current_group->slug) {
         $type = 'single-group';
         $slug = $bp->groups->current_group->slug;
@@ -550,7 +483,7 @@ function bp_has_offers($args = '') {
         'per_page' => 2,
         'max' => false,
         'show_hidden' => false,
-        'page_arg' => 'ofpage', // See https://buddypress.trac.wordpress.org/ticket/3679
+        'page_arg' => 'offpage',
         'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
         'slug' => $slug, // Pass a group slug to only return that group
         'search_terms' => '', // Pass search terms to return only matching groups
@@ -588,31 +521,11 @@ function bp_has_offers($args = '') {
         'exclude' => $r['exclude'],
     ));
 
-    $temp =array(
-        'type' => $r['type'],
-        'order' => $r['order'],
-        'orderby' => $r['orderby'],
-        'page' => (int) $r['page'],
-        'per_page' => (int) $r['per_page'],
-        'max' => (int) $r['max'],
-        'show_hidden' => $r['show_hidden'],
-        'page_arg' => $r['page_arg'],
-        'user_id' => (int) $r['user_id'],
-        'slug' => $r['slug'],
-        'search_terms' => $r['search_terms'],
-        'meta_query' => $r['meta_query'],
-        'include' => $r['include'],
-        'exclude' => $r['exclude'],
-    );
 
     return apply_filters('bp_has_offers', $offers_template->has_offers(), $offers_template, $r);
 }
 
 function offers_get_offers($args = '') {
-
-
-
-
     $defaults = array(
         'type' => false, // active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts
         'order' => 'DESC', // 'ASC' or 'DESC'
@@ -621,7 +534,7 @@ function offers_get_offers($args = '') {
         'include' => false, // Only include these specific groups (group_ids)
         'exclude' => false, // Do not include these specific groups (group_ids)
         'search_terms' => false, // Limit to groups that match these search terms
-        'meta_query' => false, // Filter by groupmeta. See WP_Meta_Query for syntax
+        'meta_query' => false, // Filter by groupmeta. 
         'show_hidden' => false, // Show hidden groups to non-admins
         'per_page' => 20, // The number of results to return per page
         'page' => 1, // The page to return if limiting per page
@@ -631,7 +544,8 @@ function offers_get_offers($args = '') {
 
 
 
-    $offers = BP_Groups_Group::get(array(
+    $offers = //BP_Groups_Group
+            BP_Offer::get(array(
                 'type' => $r['type'],
                 'user_id' => $r['user_id'],
                 'include' => $r['include'],

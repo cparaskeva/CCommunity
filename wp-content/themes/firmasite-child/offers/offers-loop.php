@@ -9,39 +9,49 @@
 <?php do_action('bp_before_example_loop'); ?>
 
 <?php if (bp_has_offers(bp_ajax_querystring('offers'))) : ?>
-<br><br>
+    <br><br>
 
-    <?php do_action('bp_before_directory_example_list'); ?>
+    <?php do_action('bp_before_directory_offers_list'); ?>
 
-    <ul id="example-list" class="item-list" role="main">
+    <ul id="offers-list" class="item-list" role="main">
 
-        <?php //while (bp_has_offers()) : bp_offers_the_item(); ?>
-        <?php while (bp_offers() ) : bp_the_offer(); ?>
+        <?php while (bp_offers()) : bp_the_offer(); ?>
 
-        <li>
-            <div class="item-avatar">
-                <?php bp_offers_high_fiver_avatar('type=thumb&width=50&height=50'); ?>
-            </div>
+            <li>
+                <div class="item-avatar">               
+                    <a href="<?php bp_offers_owner_permalink(); ?>"><?php bp_offers_owner_avatar('type=thumb&width=50&height=50'); ?></a>
+                </div>
 
-            <div class="item">
-                <div class="item-title"><?php bp_offers_high_five_title() ?></div>
+                <div class="item">
+                    <div class="item-title">
+                        Offer published by <a href="<?php bp_offers_owner_permalink(); ?>"><?php bp_offers_owner_name(); ?></a>
 
-                <?php do_action('bp_directory_example_item'); ?>
+                        <?php //bp_offers_high_five_title() ?></div>
 
-            </div>
+                    <div class="item-content"> 
+                            <p><i><b> <?php echo bp_offers_content(); ?></b></i></p>
 
-            <div class="clear"></div>
-        </li>
+
+
+
+                    </div>
+
+                    <?php do_action('bp_directory_example_item'); ?>
+
+                </div>
+
+                <div class="clear"></div>
+            </li>
 
         <?php endwhile; ?>
 
     </ul>
 
-    <?php do_action('bp_after_directory_example_list'); ?>
+    <?php do_action('bp_after_directory_offers_list'); ?>
 
     <div id="pag-bottom" class="pagination text-muted">
 
-        <div class="pag-count" id="example-dir-count-bottom">
+        <div class="pag-count" id="offers-dir-count-bottom">
 
             <?php bp_offers_pagination_count(); ?>
 
