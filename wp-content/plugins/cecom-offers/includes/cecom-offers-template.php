@@ -37,11 +37,9 @@ function bp_get_offers_pagination_links() {
     return apply_filters('bp_get_offers_pagination_links', $offers_template->pag_links);
 }
 
-
 function bp_offers_owner_avatar($args = array()) {
     echo bp_offers_get_owner_avatar($args);
 }
-
 
 function bp_offers_get_owner_avatar($args = array()) {
 
@@ -57,40 +55,41 @@ function bp_offers_get_owner_avatar($args = array()) {
     return bp_core_fetch_avatar($r);
 }
 
+function bp_offers_details_url() {
+    echo bp_offers_get_details_url();
+}
 
-function bp_offers_owner_name(){
+function bp_offers_get_details_url() {
+    global $offers_template,$bp;
+    return $bp->offers->offers_subdomain.$offers_template->offer->id;
+}
+
+function bp_offers_owner_name() {
     echo bp_offers_get_owner_name();
 }
 
-function bp_offers_get_owner_name(){
-        global $offers_template;
-    echo bp_core_get_user_displayname( $offers_template->offer->uid );
+function bp_offers_get_owner_name() {
+    global $offers_template;
+    echo bp_core_get_user_displayname($offers_template->offer->uid);
 }
 
-
-function bp_offers_content(){
+function bp_offers_content() {
     echo bp_offers_get_content();
 }
 
-function bp_offers_get_content(){
+function bp_offers_get_content() {
     global $offers_template;
     return $offers_template->offer->description;
 }
 
-
-function bp_offers_owner_permalink (){
+function bp_offers_owner_permalink() {
     echo bp_offers_get_owner_permalink();
 }
 
-
-function bp_offers_get_owner_permalink(){
-        global $offers_template;       
-        return bp_core_get_user_domain( $offers_template->offer->uid);
+function bp_offers_get_owner_permalink() {
+    global $offers_template;
+    return bp_core_get_user_domain($offers_template->offer->uid);
 }
-
-
-
-
 
 /**
  * Return the "title" of the high-five
@@ -441,7 +440,7 @@ function bp_get_offer_id($offer = false) {
 function bp_has_offers($args = '') {
     global $offers_template, $bp;
 
-    /*     
+    /*
      * Set the defaults based on the current page. Any of these will be overridden
      * if arguments are directly passed into the loop. Custom plugins should always
      * pass their parameters directly to the loop.

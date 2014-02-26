@@ -25,11 +25,11 @@
                 <div class="item">
                     <div class="item-title">
                         Offer published by <a href="<?php bp_offers_owner_permalink(); ?>"><?php bp_offers_owner_name(); ?></a>
-
+                        &nbsp;&nbsp;View offer <a href="<?php bp_offers_details_url();?>">details </a> 
                         <?php //bp_offers_high_five_title() ?></div>
 
                     <div class="item-content"> 
-                            <p><i><b> <?php echo bp_offers_content(); ?></b></i></p>
+                            <p><b> <?php echo bp_offers_content(); ?></b></p>
 
 
 

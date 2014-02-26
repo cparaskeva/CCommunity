@@ -85,6 +85,10 @@ class BP_Offer {
             $this->program_id = $row->program_id;
             $this->date = $row->date;
         }
+        
+        print_r($row);
+        die();
+        
     }
 
     /**
@@ -234,6 +238,31 @@ class BP_Offer {
         
     }
 
+    /** Static Methods *************************************************** */
+
+    /**
+     * Get whether an offer exists for a given slug.
+     *
+     * @param string $slug Slug to check.
+     * @param string $table_name Optional. Name of the table to check
+     *        against. Default: $bp->offers->table_name.
+     * @return string|null ID of the group, if one is found, else null.
+     */
+    public static function offer_exists($slug, $table_name = false) {
+        global $wpdb, $bp;
+
+        if (empty($table_name))
+            $table_name = $bp->offers->table_name;
+
+        if (empty($slug))
+            return false;
+        $offer_id = filter_var($slug, FILTER_SANITIZE_NUMBER_INT);
+        
+        if ($slug != $bp->offers->offers_subdomain . ($wpdb->get_var($wpdb->prepare("SELECT id FROM {$table_name} WHERE id = %d", $offer_id))))
+            $offer_id = 0;
+        return $offer_id;
+    }
+
     /**
      * Get a total offers count for the CECommunity Platform.
      *
@@ -265,8 +294,6 @@ class BP_Offer {
             return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d", $user_id));
         }
     }
-
-    /* Static Functions */
 
     //Fetch the available grant programs of an offer
     public static function getGrantPrograms() {
@@ -446,7 +473,7 @@ class BP_Offer {
             $total_sql['where'][] = $meta_query_clause;
         }
 
- 
+
         $t_sql = $total_sql['select'];
 
         if (!empty($total_sql['where'])) {
@@ -463,9 +490,9 @@ class BP_Offer {
         }
 
         // Populate some extra information instead of querying each time in the loop
-        /*if (!empty($r['populate_extras'])) {
-            $paged_offers = BP_Groups_Group::get_group_extras($paged_offers, $offer_ids, $r['type']);
-        }*/
+        /* if (!empty($r['populate_extras'])) {
+          $paged_offers = BP_Groups_Group::get_group_extras($paged_offers, $offer_ids, $r['type']);
+          } */
 
         // Grab all groupmeta
         bp_groups_update_meta_cache($offer_ids);
@@ -618,4 +645,5 @@ class BP_Offer {
     }
 
 }
+
 ?>
