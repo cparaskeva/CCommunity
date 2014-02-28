@@ -5,6 +5,10 @@
  * 
  */
 ?>
+<?php
+
+?>
+
 
 <?php do_action('bp_before_example_loop'); ?>
 
@@ -24,8 +28,11 @@
 
                 <div class="item">
                     <div class="item-title">
+                        <?php if (!bp_offers_get_is_owner()): ?>
                         Offer published by <a href="<?php bp_offers_owner_permalink(); ?>"><?php bp_offers_owner_name(); ?></a>
-                        &nbsp;&nbsp;View offer <a href="<?php bp_offers_details_url();?>">details </a> 
+                        &nbsp;&nbsp;
+                        <?php endif;?>
+                        View offer <a href="<?php bp_offers_details_url();?>">details </a> 
                         <?php //bp_offers_high_five_title() ?></div>
 
                     <div class="item-content"> 

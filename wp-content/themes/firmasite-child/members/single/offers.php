@@ -26,8 +26,6 @@ get_header('buddypress');
 
     <?php do_action('bp_directory_example_content'); ?>
 
-    <?php wp_nonce_field('directory_example', '_wpnonce-example-filter'); ?>
-
     <?php do_action('bp_after_directory_example_content'); ?>
 
     <?php do_action('bp_after_directory_example'); ?>
@@ -38,7 +36,7 @@ get_header('buddypress');
 
 
 
-<div id="offers-dir-list" class="offers dir-list">
+<div class="offers myoffers">
 
     <?php locate_template(array('offers/offers-loop.php'), true); ?>
 

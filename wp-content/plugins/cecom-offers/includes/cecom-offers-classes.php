@@ -85,10 +85,6 @@ class BP_Offer {
             $this->program_id = $row->program_id;
             $this->date = $row->date;
         }
-        
-        print_r($row);
-        die();
-        
     }
 
     /**
@@ -214,12 +210,20 @@ class BP_Offer {
     }
 
     /**
-     * delete()
+     * Delete the current offer.
      *
-     * This method will delete the corresponding row for an object from the database.
+     * @return bool True on success, false on failure.
      */
-    function delete() {
-        return wp_trash_post($this->id);
+    public function delete() {
+        global $wpdb, $bp;
+
+        wp_cache_delete('bp_offers_offer_' . $this->id, 'bp');
+
+        // Remove the offer entry from the DB
+        if (!$wpdb->query($wpdb->prepare("DELETE FROM {$bp->offers->table_name} WHERE id = %d", $this->id)))
+            return false;
+
+        return true;
     }
 
     /* Static Functions */
@@ -236,6 +240,37 @@ class BP_Offer {
 
     function delete_by_user_id() {
         
+    }
+
+    function get_offer_details($offer_id = 0) {
+        global $wpdb;
+
+        if (!$offer_id)
+            $offer_id = $this->id;
+
+        $sql_query_select = "SELECT t.description tdesc,c.description cdesc";
+        $sql_query_from = " FROM ext_offer o, ext_offer_type t,ext_offer_collaboration c ";
+        $sql_query_where = " WHERE o.id=$offer_id AND o.type_id=t.id AND o.collaboration_id=c.id ";
+
+
+        switch ($this->type_id) {
+            case 1:
+                $sql_query_select .= ",p.description pdesc";
+                $sql_query_from .=",ext_offer_partner_type p";
+                $sql_query_where .=" AND o.partner_type_id=p.id";
+                break;
+            case 2:
+                echo "i equals 1";
+                break;
+            case 3:
+                echo "i equals 2";
+                break;
+        }
+
+        $sql_query = $sql_query_select . $sql_query_from . $sql_query_where;
+
+        return $wpdb->get_row($sql_query, ARRAY_A);
+        //print_r($results);
     }
 
     /** Static Methods *************************************************** */
@@ -257,7 +292,7 @@ class BP_Offer {
         if (empty($slug))
             return false;
         $offer_id = filter_var($slug, FILTER_SANITIZE_NUMBER_INT);
-        
+
         if ($slug != $bp->offers->offers_subdomain . ($wpdb->get_var($wpdb->prepare("SELECT id FROM {$table_name} WHERE id = %d", $offer_id))))
             $offer_id = 0;
         return $offer_id;

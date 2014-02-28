@@ -72,7 +72,7 @@ class BP_Offers_Component extends BP_Component {
          * data (which is recommended), you will need to hook your function manually to
          * 'init'.
          */
-        add_action('init', array(&$this, 'register_post_types'));
+        // add_action('init', array(&$this, 'register_post_types'));
     }
 
     /**
@@ -242,13 +242,25 @@ class BP_Offers_Component extends BP_Component {
         $bp->{$this->id}->offers_subdomain = 'offer';
 
         /** Single Offer Globals ********************************************* */
-        // Are we viewing a single group?
+        // Are we viewing a single offer?
         if (bp_is_offer_component() && $offer_id = BP_Offer::offer_exists(bp_current_action())) {
             $bp->is_single_item = true;
             $current_offer_class = apply_filters('bp_offers_current_offer_class', 'BP_Offer');
-            $this->current_group = apply_filters( 'bp_offers_current_offer_object', new $current_offer_class( Array ('id' => $offer_id)));
+            $this->current_offer = apply_filters('bp_offers_current_offer_object', new $current_offer_class(Array('id' => $offer_id)));
+            $this->current_offer->slug =  $bp->{$this->id}->offers_subdomain.$offer_id;
 
-            //echo "Current Action: ".$bp->current_action." OfferID: ".$offer_id;
+            // When in a single offer, the first action is bumped down one because of the
+            // offer name, so we need to adjust this and set the group name to current_item.
+            $bp->current_item = bp_current_action();
+            $bp->current_action = bp_action_variable(0);
+            array_shift($bp->action_variables);
+
+            //Set if the user is owner of the offer
+            bp_update_is_item_admin(bp_loggedin_user_id() == $this->current_offer->uid, 'groups');
+
+            //echo "Current Action: ".$bp->current_action." OfferID: ".$offer_id. "   ". $bp->is_single_item. "Single item? ". bp_is_single_item() ; //die();
+        } else {
+            $this->current_offer = 0;
         }
     }
 
@@ -265,7 +277,7 @@ class BP_Offers_Component extends BP_Component {
     function setup_nav() {
         // Add 'Offers' to the main navigation
         $main_nav = array(
-            'name' => sprintf(__('Offers  <span>%s</span>', 'cecom-offers'), bp_get_total_offers_count_for_user()),
+            'name' => sprintf(__('Offers  <span>%s</span>', 'buddypress'), bp_get_total_offers_count_for_user()),
             'slug' => bp_get_offers_slug(),
             'position' => 80,
             'screen_function' => 'bp_offers_screen_one',
@@ -296,6 +308,51 @@ class BP_Offers_Component extends BP_Component {
 
         parent::setup_nav($main_nav, $sub_nav);
 
+
+        if (bp_is_offer_component() && bp_is_single_item()) {
+
+            // Reset sub nav
+            $sub_nav = array();
+
+            // Add 'Groups' to the main navigation
+            $main_nav = array(
+                'name' => __('Home', 'buddypress'),
+                'slug' => $this->current_offer->slug,
+                'position' => -1, // Do not show in BuddyBar
+                'screen_function' => 'offers_screen_offer_home',
+                'default_subnav_slug' => $this->default_extension,
+                'item_css_id' => $this->id
+            );
+
+            $offer_link = trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug() . '/' . $this->current_offer->slug . '/');
+
+            // If the user is offer ownner, then show the offer admin nav item
+            if (bp_is_item_admin()) {
+                global $bp;
+                $sub_nav[] = array(
+                    'name' => __('Admin', 'buddypress'),
+                    'slug' => 'admin',
+                    'parent_url' => $offer_link,
+                    'parent_slug' => $this->current_offer->slug,
+                    'screen_function' => 'offers_screen_offer_admin',
+                    'position' => 40,
+                    'user_has_access' => true,
+                    'item_css_id' => 'admin'
+                );
+            }
+
+
+
+            parent::setup_nav($main_nav, $sub_nav);
+        }
+
+        if (isset($this->current_offer->user_has_access)) {
+            do_action('offers_setup_nav', $this->current_offer->user_has_access);
+        } else {
+            do_action('offers_setup_nav');
+        }
+
+
         // If your component needs additional navigation menus that are not handled by
         // BP_Component::setup_nav(), you can register them manually here. For example,
         // if your component needs a subsection under a user's Settings menu, add
@@ -309,46 +366,6 @@ class BP_Offers_Component extends BP_Component {
           'position' 	  => 40,
           'user_has_access' => bp_is_my_profile() // Only the logged in user can access this on his/her profile
           ) ); */
-    }
-
-    /**
-     * If your component needs to store data, it is highly recommended that you use WordPress
-     * custom post types for that data, instead of creating custom database tables.
-     *
-     * In the future, BuddyPress will have its own bp_register_post_types hook. For the moment,
-     * hook to init. See BP_Example_Component::__construct().
-     *
-     * @package BuddyPress_Skeleton_Component
-     * @since 1.6
-     * @see http://codex.wordpress.org/Function_Reference/register_post_type
-     */
-    function register_post_types() {
-        // Set up some labels for the post type
-        $labels = array(
-            'name' => __('High Fives', 'cecom-offers'),
-            'singular' => __('High Five', 'cecom-offers')
-        );
-
-        // Set up the argument array for register_post_type()
-        $args = array(
-            'label' => __('High Fives', 'cecom-offers'),
-            'labels' => $labels,
-            'public' => false,
-            'show_ui' => true,
-            'supports' => array('title')
-        );
-
-        // Register the post type.
-        // Here we are using $this->id ('example') as the name of the post type. You may
-        // choose to use a different name for the post type; if you register more than one,
-        // you will have to declare more names.
-        register_post_type($this->id, $args);
-
-        parent::register_post_types();
-    }
-
-    function register_taxonomies() {
-        
     }
 
 }
@@ -372,13 +389,12 @@ class BP_Offers_Component extends BP_Component {
  *   add_action( 'bp_init', 'bp_offers_var_dump' );
  * It goes without saying that you should not do this on a production site!
  *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
+ * @package Offers Component
  */
 function bp_offers_load_core_component() {
     global $bp;
 
-    $bp->offers = new BP_Offers_Component;
+    $bp->offers = new BP_Offers_Component();
 }
 
 add_action('bp_loaded', 'bp_offers_load_core_component', 1);

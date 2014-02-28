@@ -4,9 +4,7 @@
 if (!defined('DEBUG'))
     define('DEBUG', true);
 
-
-
-
+define('CECOM_DISABLE_ADMIN_BAR',false);
 
 
 /* DO NOT MODIFY THE FOLLOWING FUNCTIONS
@@ -139,4 +137,10 @@ if (defined('DEBUG') && DEBUG) {
     //Redirect User to specific site based on the roles	
     add_filter("login_redirect", "bpdev_redirect_to_profile", 10, 3);
 }
+
+//Disable the admin bar but still show it if the user is a wordpress admin
+if (defined('CECOM_DISABLE_ADMIN_BAR') && CECOM_DISABLE_ADMIN_BAR == true && !current_user_can( 'manage_options' ))
+    show_admin_bar(false);
+
+
 ?>

@@ -60,8 +60,9 @@ function bp_offers_details_url() {
 }
 
 function bp_offers_get_details_url() {
-    global $offers_template,$bp;
-    return $bp->offers->offers_subdomain.$offers_template->offer->id;
+    global $offers_template, $bp;
+
+    return bloginfo("url") . "/" . $bp->offers->root_slug . "/" . $bp->offers->offers_subdomain . $offers_template->offer->id;
 }
 
 function bp_offers_owner_name() {
@@ -82,40 +83,112 @@ function bp_offers_get_content() {
     return $offers_template->offer->description;
 }
 
-function bp_offers_owner_permalink() {
-    echo bp_offers_get_owner_permalink();
+function bp_offers_owner_permalink($userd_id = 0) {
+    echo bp_offers_get_owner_permalink($userd_id);
 }
 
-function bp_offers_get_owner_permalink() {
+function bp_offers_get_owner_permalink($userd_id = 0) {
     global $offers_template;
-    return bp_core_get_user_domain($offers_template->offer->uid);
+    if (!$userd_id)
+        $userd_id = $offers_template->offer->uid;
+
+    return bp_core_get_user_domain($userd_id);
 }
 
-/**
- * Return the "title" of the high-five
- *
- * We'll assemble the title out of the available information. This way, we can insert
- * fancy stuff link links, and secondary avatars.
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- */
-function bp_offers_get_high_five_title() {
-    // First, set up the high fiver's information
-    $high_fiver_link = bp_core_get_userlink(get_the_author_meta('ID'));
-
-    // Next, get the information for the high five recipient
-    $recipient_id = get_post_meta(get_the_ID(), 'bp_offers_recipient_id', true);
-    $recipient_link = bp_core_get_userlink($recipient_id);
-
-    // Use sprintf() to make a translatable message
-    $title = sprintf(__('%1$s gave %2$s a high-five!', 'bp-example'), $high_fiver_link, $recipient_link);
-
-    return apply_filters('bp_offers_get_high_five_title', $title, $high_fiver_link, $recipient_link);
+function bp_offers_is_owner() {
+    echo bp_offers_get_is_owner();
 }
 
+function bp_offers_get_is_owner() {
+    global $offers_template;
+    return (bp_loggedin_user_id() == $offers_template->offer->uid);
+}
+
+function bp_is_offer_admin_page() {
+    if (bp_is_single_item() && bp_is_offer_component() && bp_is_current_action('admin'))
+        return true;
+
+    return false;
+}
+
+function bp_is_offer_admin_screen($slug) {
+    if (!bp_is_offer_component() || !bp_is_current_action('admin'))
+        return false;
+
+    if (bp_is_action_variable($slug))
+        return true;
+    return false;
+}
+
+function bp_get_offer_current_admin_tab() {
+    if (bp_is_offer_component() && bp_is_current_action('admin')) {
+        $tab = bp_action_variable(0);
+    } else {
+        $tab = '';
+    }
+
+    return apply_filters('bp_get_current_group_admin_tab', $tab);
+}
+
+
+function bp_offer_admin_tabs($offer = false) {
+    global $bp, $offers_template;
+
+    if (empty($offer))
+        $offer = ( $offers_template->offer ) ? $offers_template->offer : $bp->offers->current_offer;
+
+    $current_tab = bp_get_offer_current_admin_tab();
+
+    if (bp_is_item_admin()) :
+        ?>
+
+        <li<?php if ('edit-details' == $current_tab || empty($current_tab)) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_offer_permalink($offer) . 'admin/edit-details') ?>"><?php _e('Details', 'buddypress'); ?></a></li>
+
+    <?php endif; ?>
+
+    <?php
+    if (!bp_is_item_admin())
+        return false;
+    ?>
+
+    <?php do_action('offers_admin_tabs', $current_tab, $offer->slug) ?>
+
+    <li<?php if ('delete-offer' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_offer_permalink($offer) . 'admin/delete-offer') ?>"><?php _e('Delete', 'buddypress'); ?></a></li>
+
+    <?php
+}
+
+
+function bp_offer_admin_form_action( $page = false ) {
+	echo bp_get_offer_admin_form_action( $page );
+}
+	function bp_get_offer_admin_form_action( $page = false, $offer = false ) {
+		global $bp;
+
+		if ( empty( $offer ) )
+			$offer =$bp->offers->current_offer;
+
+		if ( empty( $page ) )
+			$page = bp_action_variable( 0 );
+
+                return apply_filters( 'bp_offer_admin_form_action', bp_get_offer_permalink($offer). 'admin/' . $page );
+	}
+
+
+
+
+function bp_get_offer_permalink($offer = false) {
+    global $offers_template;
+
+    if (empty($offer))
+        $offer = & $offers_template->offer;
+
+    return apply_filters('bp_get_offer_permalink', trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug(). '/' . $offer->slug . '/'));
+}
+
+
 /**
- * Is this page part of the Example component?
+ * Is this page part of the Offer component?
  *
  * Having a special function just for this purpose makes our code more readable elsewhere, and also
  * allows us to place filter 'bp_is_offer_component' for other components to interact with.
@@ -463,7 +536,6 @@ function bp_has_offers($args = '') {
     // @todo What is $order? At some point it was removed incompletely?
     if (bp_is_current_action('screen-one')) {
 
-        echo "My offers " . $bp->current_action; //die();
         if ('most-popular' == $order) {
             $type = 'popular';
         } elseif ('alphabetically' == $order) {
