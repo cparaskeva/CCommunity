@@ -66,6 +66,7 @@ if (!class_exists('CECommunity')) :
 
         private function includes() {
             require( dirname(__FILE__) . '/organization/cecom-organization-core.php' );
+            require( dirname(__FILE__) . '/login_lostpassword/login-form-action-hook.php' );
         }
 
         private function setup_actions() {
