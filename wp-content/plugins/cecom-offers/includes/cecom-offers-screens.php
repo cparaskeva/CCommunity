@@ -36,117 +36,13 @@ add_action('bp_screens', 'bp_offers_directory_setup', 2);
 function bp_offers_screen_one() {
     global $bp;
 
-    /**
-     * There are three global variables that you should know about and you will
-     * find yourself using often.
-     *
-     * $bp->current_component (string)
-     * This will tell you the current component the user is viewing.
-     *
-     * Example: If the user was on the page http://example.org/members/andy/groups/my-groups
-     *          $bp->current_component would equal 'groups'.
-     *
-     * $bp->current_action (string)
-     * This will tell you the current action the user is carrying out within a component.
-     *
-     * Example: If the user was on the page: http://example.org/members/andy/groups/leave/34
-     *          $bp->current_action would equal 'leave'.
-     *
-     * $bp->action_variables (array)
-     * This will tell you which action variables are set for a specific action
-     *
-     * Example: If the user was on the page: http://example.org/members/andy/groups/join/34
-     *          $bp->action_variables would equal array( '34' );
-     *
-     * There are three handy functions you can use for these purposes:
-     *   bp_is_current_component()
-     *   bp_is_current_action()
-     *   bp_is_action_variable()
-     */
-    /* Add a do action here, so your component can be extended by others. */
     do_action('bp_offers_screen_one');
 
-    /*     * **
-     * Displaying Content
-     */
-
-    /*     * **
-     * OPTION 1:
-     * You've got a few options for displaying content. Your first option is to bundle template files
-     * with your plugin that will be used to output content.
-     *
-     * In an earlier function bp_offers_load_template_filter() we set up a filter on the core BP template
-     * loading function that will make it first look in the plugin directory for template files.
-     * If it doesn't find any matching templates it will look in the active theme directory.
-     *
-     * This example component comes bundled with a template for screen one, so we can load that
-     * template to display what we need. If you copied this template from the plugin into your theme
-     * then it would load that one instead. This allows users to override templates in their theme.
-     */
-
-    /* This is going to look in wp-content/plugins/[plugin-name]/includes/templates/ first */
     bp_core_load_template(apply_filters('bp_offers_template_screen_one', 'members/single/home'));
 
-    /*     * **
-     * OPTION 2 (NOT USED FOR THIS SCREEN):
-     * If your component is simple, and you just want to insert some HTML into the user's active theme
-     * then you can use the bundle plugin template.
-     *
-     * There are two actions you need to hook into. One for the title, and one for the content.
-     * The functions you hook these into should simply output the content you want to display on the
-     * page.
-     *
-     * The follow lines are commented out because we are not using this method for this screen.
-     * You'd want to remove the OPTION 1 parts above and uncomment these lines if you want to use
-     * this option instead.
-     *
-     * Generally, this method of adding content is preferred, as it makes your plugin
-     * work better with a wider variety of themes.
-     */
-
-//	add_action( 'bp_template_title', 'bp_offers_screen_one_title' );
-//	add_action( 'bp_template_content', 'bp_offers_screen_one_content' );
-//	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
 
-/* * *
- * The second argument of each of the above add_action() calls is a function that will
- * display the corresponding information. The functions are presented below:
- */
 
-function bp_offers_screen_one_title() {
-    _e('Screen One', 'bp-example');
-}
-
-function bp_offers_screen_one_content() {
-    global $bp;
-
-    $high_fives = bp_offers_get_highfives_for_user($bp->displayed_user->id);
-
-    /**
-     * For security reasons, we MUST use the wp_nonce_url() function on any actions.
-     * This will stop naughty people from tricking users into performing actions without their
-     * knowledge or intent.
-     */
-    $send_link = wp_nonce_url($bp->displayed_user->domain . $bp->current_component . '/screen-one/send-h5', 'bp_offers_send_high_five');
-    ?>
-    <h4><?php _e('Welcome to Screen One', 'bp-example') ?></h4>
-    <p><?php printf(__('Send %s a <a href="%s" title="Send high-five!">high-five!</a>', 'bp-example'), $bp->displayed_user->fullname, $send_link) ?></p>
-
-    <?php if ($high_fives) : ?>
-        <h4><?php _e('Received High Fives!', 'bp-example') ?></h4>
-
-        <table id="high-fives">
-            <?php foreach ($high_fives as $user_id) : ?>
-                <tr>
-                    <td width="1%"><?php echo bp_core_fetch_avatar(array('item_id' => $user_id, 'width' => 25, 'height' => 25)) ?></td>
-                    <td>&nbsp; <?php echo bp_core_get_userlink($user_id) ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php endif; ?>
-    <?php
-}
 
 /**
  * bp_offers_create_offer()
@@ -306,25 +202,20 @@ function bp_offers_screen_settings_menu_title() {
 function bp_offers_screen_settings_menu_content() {
     global $bp, $bp_settings_updated;
     ?>
-
     <?php if ($bp_settings_updated) { ?>
         <div id="message" class="updated fade">
             <p><?php _e('Changes Saved.', 'bp-example') ?></p>
         </div>
     <?php } ?>
-
     <form action="<?php echo $bp->loggedin_user->domain . 'settings/example-admin'; ?>" name="bp-example-admin-form" id="account-delete-form" class="bp-example-admin-form" method="post">
-
         <input type="checkbox" name="bp-example-option-one" id="bp-example-option-one" value="1"<?php if ('1' == get_user_meta($bp->loggedin_user->id, 'bp-example-option-one', true)) : ?> checked="checked"<?php endif; ?> /> <?php _e('Do you love clicking checkboxes?', 'bp-example'); ?>
         <p class="submit">
             <input type="submit" value="<?php _e('Save Settings', 'bp-example') ?> &raquo;" id="submit" name="submit" />
         </p>
-
         <?php
         /* This is very important, don't leave it out. */
         wp_nonce_field('bp-example-admin');
         ?>
-
     </form>
     <?php
 }

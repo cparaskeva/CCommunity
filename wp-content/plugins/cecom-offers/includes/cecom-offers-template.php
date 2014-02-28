@@ -141,18 +141,13 @@ function bp_offer_admin_tabs($offer = false) {
 
     if (bp_is_item_admin()) :
         ?>
-
         <li<?php if ('edit-details' == $current_tab || empty($current_tab)) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_offer_permalink($offer) . 'admin/edit-details') ?>"><?php _e('Details', 'buddypress'); ?></a></li>
-
     <?php endif; ?>
-
     <?php
     if (!bp_is_item_admin())
         return false;
     ?>
-
     <?php do_action('offers_admin_tabs', $current_tab, $offer->slug) ?>
-
     <li<?php if ('delete-offer' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_offer_permalink($offer) . 'admin/delete-offer') ?>"><?php _e('Delete', 'buddypress'); ?></a></li>
 
     <?php
