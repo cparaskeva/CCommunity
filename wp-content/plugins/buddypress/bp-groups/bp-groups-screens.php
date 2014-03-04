@@ -525,8 +525,6 @@ function groups_screen_group_admin_edit_details() {
              *
              * Inject Organization Edit Fields
              * 
-             * Wrap the default function groups_edit_base_group_details
-             * within edit_organization_details() 
              *                         
              */
 

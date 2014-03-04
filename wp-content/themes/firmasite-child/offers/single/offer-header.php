@@ -5,6 +5,7 @@ global $bp;
 //print_r($cecom->organization->details);
 //print_r($bp->offers->current_offer);
 $details = $bp->offers->current_offer->get_offer_details();
+//print_r($details);
 ?>
 <div id="item-actions" class="pull-right">
     <strong><?php _e('Offer Owner', 'firmasite'); ?></strong>
@@ -33,28 +34,23 @@ $details = $bp->offers->current_offer->get_offer_details();
     </div>
 
 
-
 </div><!-- #item-header-avatar -->
 
 
 
 <div class="col-lg-8">
-
-    
     <span class="highlight label label-default"><?php echo $details['tdesc']; ?></span> 
     <span class="highlight label label-primary"><?php echo $details['cdesc']; ?></span>
+    <?php if ($bp->offers->current_offer->type_id == 1 ||$bp->offers->current_offer->type_id ==2 ): ?>
+    <span class="highlight label label-warning"><?php echo ($bp->offers->current_offer->type_id ==1 ?"Partner sought: " :"Grant programs: ").$details['pdesc']; ?></span>
+    <?php endif;?>
     <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), substr($bp->offers->current_offer->date, 0, 10)); ?></span>
-
 
     <div id="item-meta">
         <p align="justify"> <?php echo $bp->offers->current_offer->description; ?> </p>
     </div><!-- #item-meta -->
 </div><!-- #item-header-content -->
 
-
-
-
 <?php
-do_action('template_notices');
+//do_action('template_notices');
 ?>
-                  

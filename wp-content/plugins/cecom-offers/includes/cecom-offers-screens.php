@@ -176,9 +176,28 @@ function offers_screen_offer_admin_edit_details() {
 
     if (isset($_POST['save'])) {
 
-        // Check the nonce
-        if (!check_admin_referer('offers_edit_offer_settings'))
+        //Check the nonce
+        if (!check_admin_referer('offers_edit_offer_details'))
             return false;
+
+        //Put the changes to an array
+        $offer_update = array(
+            'collaboration_id' => $_POST['collaboration-type'],
+            'description' => $_POST['collaboration-description'],
+            'partner_type_id' => $_POST['collaboration-partner-sought'],
+            //'country_id' => $_POST['collaboration-countries'],
+            'program_id' => $_POST['collaboration-programs'],
+            'date' => date('Y-m-d H:i:s')
+        );
+
+        if (bp_offers_update_offer($offer_update))
+            bp_core_add_message(__('Your offer has been succesfuly updated!', 'bp-example'), 'success');
+        else
+            bp_core_add_message(__('Unable to update the current offer...', 'bp-example'), 'error');
+
+        do_action('offers_offer_details_edited', $bp->offers->current_offer->id);
+
+        bp_core_redirect(bp_offer_get_permalink() . "admin/edit-details");
     }
 
 

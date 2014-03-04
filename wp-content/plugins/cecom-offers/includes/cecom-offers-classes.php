@@ -96,7 +96,7 @@ class BP_Offer {
     function save() {
         global $wpdb, $bp;
 
-        /*         * *
+        /*
          * In this save() method, you should add pre-save filters to all the values you are
          * saving to the database. This helps with two things -
          *
@@ -107,7 +107,7 @@ class BP_Offer {
          * saving potentially dangerous values to the database.
          *
          * It's very important that for number 2 above, you add a call like this for each
-         * filter to 'bp-example-filters.php'
+         * filter to 'cecom-offers-filters.php'
          */
 
         /* Filter all values before saving to DB */
@@ -123,35 +123,42 @@ class BP_Offer {
         $this->program_id = apply_filters('bp_offers_data_before_save', $this->program_id);
         $this->date = apply_filters('bp_offers_data_before_save', $this->date);
 
-        //$wpdb->show_errors(); /* <=== Uncomment for query debug */
-        // Call a before save action here
-        //do_action('bp_offers_data_before_save', $this);
         //Offer already exist, Update the current offer
         if ($this->id) {
-
-            $status = $wpdb->update($bp->offers->table_name, array(
-                'type_id' => $this->type_id, //Offer type ID
+           
+            //Dfeault fields
+            $query_args_default = array(
                 'collaboration_id' => $this->collaboration_id,
                 'description' => $this->description,
-                'partner_type_id' => $this->partner_type_id,
-                //'country_id' => ($this->country_id == 0 ? Null : $this->country_id),
-                'program_id' => ($this->program_id == 0 ? Null : $this->program_id),
-                'date' => $this->date), array('%d', '%d', '%s', '%d', '%d', '%d', '%s')
-            );
+                'date' => $this->date);
 
+            //Default fields format
+            $query_args_format = array('%d', '%s', '%s');
 
-            echo "update";
-            die();
-            // Save the post
-            $result = wp_update_post($wp_update_post_args);
-
-            // We'll store the reciever's ID as postmeta
-            if ($result) {
-                update_post_meta($result, 'bp_offers_recipient_id', $this->recipient_id);
+            if ($this->type_id == 1) {
+                $query_args_extra = array(
+                    'partner_type_id' => $this->partner_type_id);
+                //'country_id' => $this->country_id);
+                $query_args_extra_format = array('%d');
+            } else {
+                $query_args_extra = array('program_id' => $this->program_id);
+                $query_args_extra_format = array('%d');
             }
+
+            //Merge default args with the extra one
+            $query_args_default = array_merge($query_args_default, $query_args_extra);
+            $query_args_format = array_merge($query_args_format, $query_args_extra_format);
+            
+            //print_r($db_args_default);
+            //print_r($db_args_format);
+
+            $query_where= array('ID'=> $this->id);
+                    
+            //Update the the offer in the DB
+            $result = $wpdb->update($bp->offers->table_name, $query_args_default,$query_where, $query_args_format);
         } else {//Insert the new offer in the database 
             //Dfeault fields
-            $db_args_default = array(
+            $query_args_default = array(
                 'uid' => $this->uid, //User ID
                 'gid' => $this->gid, //Group ID
                 'type_id' => $this->type_id, //Offer type ID
@@ -160,28 +167,28 @@ class BP_Offer {
                 'date' => $this->date);
 
             //Default fields format
-            $db_args_format = array('%d', '%d', '%d', '%d', '%s', '%s');
+            $query_args_format = array('%d', '%d', '%d', '%d', '%s', '%s');
 
             /*
              * TODO: Optimize the following batch of code
              */
 
             if ($this->type_id == 1) {
-                $db_args_extra = array(
+                $query_args_extra = array(
                     'partner_type_id' => $this->partner_type_id);
                 //'country_id' => $this->country_id);
-                $db_args_extra_format = array('%d');
+                $query_args_extra_format = array('%d');
             } else {
-                $db_args_extra = array('program_id' => $this->program_id);
-                $db_args_extra_format = array('%d');
+                $query_args_extra = array('program_id' => $this->program_id);
+                $query_args_extra_format = array('%d');
             }
 
             //Merge default args with the extra one
-            $db_args_default = array_merge($db_args_default, $db_args_extra);
-            $db_args_format = array_merge($db_args_format, $db_args_extra_format);
+            $query_args_default = array_merge($query_args_default, $query_args_extra);
+            $query_args_format = array_merge($query_args_format, $query_args_extra_format);
 
             //Insert the data to DB
-            $result = $wpdb->insert($bp->offers->table_name, $db_args_default, $db_args_format);
+            $result = $wpdb->insert($bp->offers->table_name, $query_args_default, $query_args_format);
         }
 
         /* Add an after save action here */

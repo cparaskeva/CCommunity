@@ -55,14 +55,20 @@ function bp_offers_get_owner_avatar($args = array()) {
     return bp_core_fetch_avatar($r);
 }
 
-function bp_offers_details_url() {
-    echo bp_offers_get_details_url();
+function bp_offer_permalink() {
+    echo bp_offer_get_permalink();
 }
 
-function bp_offers_get_details_url() {
+function bp_offer_get_permalink() {
     global $offers_template, $bp;
-
-    return bloginfo("url") . "/" . $bp->offers->root_slug . "/" . $bp->offers->offers_subdomain . $offers_template->offer->id;
+ 
+    if ($offers_template->offer->id)
+        $slug=  $bp->offers->offers_subdomain . $offers_template->offer->id;
+    else
+        $slug= $bp->offers->current_offer->slug;
+    
+    //return bloginfo("url") . "/" . $bp->offers->root_slug . "/" . $bp->offers->offers_subdomain . $offers_template->offer->id;
+    return  apply_filters( "bp_offer_get_permalink",  trailingslashit( bp_get_root_domain()  . "/" . $bp->offers->root_slug . "/" . $slug));
 }
 
 function bp_offers_owner_name() {
@@ -130,7 +136,6 @@ function bp_get_offer_current_admin_tab() {
     return apply_filters('bp_get_current_group_admin_tab', $tab);
 }
 
-
 function bp_offer_admin_tabs($offer = false) {
     global $bp, $offers_template;
 
@@ -153,24 +158,21 @@ function bp_offer_admin_tabs($offer = false) {
     <?php
 }
 
-
-function bp_offer_admin_form_action( $page = false ) {
-	echo bp_get_offer_admin_form_action( $page );
+function bp_offer_admin_form_action($page = false) {
+    echo bp_get_offer_admin_form_action($page);
 }
-	function bp_get_offer_admin_form_action( $page = false, $offer = false ) {
-		global $bp;
 
-		if ( empty( $offer ) )
-			$offer =$bp->offers->current_offer;
+function bp_get_offer_admin_form_action($page = false, $offer = false) {
+    global $bp;
 
-		if ( empty( $page ) )
-			$page = bp_action_variable( 0 );
+    if (empty($offer))
+        $offer = $bp->offers->current_offer;
 
-                return apply_filters( 'bp_offer_admin_form_action', bp_get_offer_permalink($offer). 'admin/' . $page );
-	}
+    if (empty($page))
+        $page = bp_action_variable(0);
 
-
-
+    return apply_filters('bp_offer_admin_form_action', bp_get_offer_permalink($offer) . 'admin/' . $page);
+}
 
 function bp_get_offer_permalink($offer = false) {
     global $offers_template;
@@ -178,9 +180,8 @@ function bp_get_offer_permalink($offer = false) {
     if (empty($offer))
         $offer = & $offers_template->offer;
 
-    return apply_filters('bp_get_offer_permalink', trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug(). '/' . $offer->slug . '/'));
+    return apply_filters('bp_get_offer_permalink', trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug() . '/' . $offer->slug . '/'));
 }
-
 
 /**
  * Is this page part of the Offer component?
@@ -192,11 +193,6 @@ function bp_get_offer_permalink($offer = false) {
  * @uses apply_filters() to allow this value to be filtered
  * @return bool True if it's the example component, false otherwise
  */
-/* function bp_is_offer_component() {
-  $is_example_component = bp_is_current_component( 'offers' );
-
-  return apply_filters( 'bp_is_offer_component', $is_example_component );
-  } */
 function bp_is_offer_component() {
     if (bp_is_current_component('offers'))
         return true;
@@ -224,9 +220,9 @@ function bp_get_offers_slug() {
     global $bp;
 
     // Avoid PHP warnings, in case the value is not set for some reason
-    $example_slug = isset($bp->offers->slug) ? $bp->offers->slug : '';
+    $offers_slug = isset($bp->offers->slug) ? $bp->offers->slug : '';
 
-    return apply_filters('bp_get_offers_slug', $example_slug);
+    return apply_filters('bp_get_offers_slug', $offers_slug);
 }
 
 /**
@@ -251,34 +247,6 @@ function bp_get_offers_root_slug() {
     $example_root_slug = isset($bp->offers->root_slug) ? $bp->offers->root_slug : '';
 
     return apply_filters('bp_get_offers_root_slug', $example_root_slug);
-}
-
-/**
- * Return the total of all high-fives given to a particular user
- *
- * The most straightforward way to get a post count is to run a WP_Query. In your own plugin
- * you might consider storing data like this with update_option(), incrementing each time
- * a new item is published.
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
- *
- * @return int
- */
-function bp_offers_get_total_high_five_count_for_user($user_id = false) {
-    // If no explicit user id is passed, fall back on the loggedin user
-    if (!$user_id) {
-        $user_id = bp_loggedin_user_id();
-    }
-
-    if (!$user_id) {
-        return 0;
-    }
-
-    $high_fives = new BP_Offer();
-    $high_fives->get(array('recipient_id' => $user_id));
-
-    return apply_filters('bp_offers_get_total_high_five_count', $high_fives->query->found_posts, $high_fives);
 }
 
 //Return the number of total offers
@@ -322,6 +290,7 @@ class BP_Offers_Template {
     var $single_offer = false;
     var $sort_by;
     var $order;
+    var $slug;
 
     function __construct($args = array()) {
 
@@ -412,6 +381,7 @@ class BP_Offers_Template {
                 'mid_size' => 1
             ));
         }
+
     }
 
     function has_offers() {
@@ -498,14 +468,9 @@ function bp_has_offers($args = '') {
     $user_id = 0;
     $order = '';
 
-
-
     // User filtering
     if (bp_displayed_user_id())
         $user_id = bp_displayed_user_id();
-
-
-
 
     // Proper handle the screen one presenting the offers
     // @todo What is $order? At some point it was removed incompletely?
@@ -590,8 +555,7 @@ function offers_get_offers($args = '') {
 
 
 
-    $offers = //BP_Groups_Group
-            BP_Offer::get(array(
+    $offers = BP_Offer::get(array(
                 'type' => $r['type'],
                 'user_id' => $r['user_id'],
                 'include' => $r['include'],
@@ -605,8 +569,6 @@ function offers_get_offers($args = '') {
                 'order' => $r['order'],
                 'orderby' => $r['orderby'],
     ));
-
-
     return apply_filters_ref_array('offers_get_offers', array(&$offers, &$r));
 }
 ?>

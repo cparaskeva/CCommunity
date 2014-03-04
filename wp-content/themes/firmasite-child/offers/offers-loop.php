@@ -32,7 +32,7 @@
                         Offer published by <a href="<?php bp_offers_owner_permalink(); ?>"><?php bp_offers_owner_name(); ?></a>
                         &nbsp;&nbsp;
                         <?php endif;?>
-                        View offer <a href="<?php bp_offers_details_url();?>">details </a> 
+                        View offer <a href="<?php bp_offer_permalink();?>">details </a> 
                         <?php //bp_offers_high_five_title() ?></div>
 
                     <div class="item-content"> 

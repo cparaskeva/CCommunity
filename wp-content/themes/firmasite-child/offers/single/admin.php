@@ -21,7 +21,6 @@ $details = $bp->offers->current_offer->get_offer_details();
         <input type="text"  readonly="true" name="offer-type" id="offer-type" value="<?php echo $details['tdesc']; ?>" aria-required="true" /> <br/>
         <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?></label>
         <select name="collaboration-type" id="collaboration-type">
-            <option value="none"  selected="selected"> Please select..</option>
             <?php
             //Fetch Collaboration Types form DB
             $results = BP_Offer::getCollaborationTypes();
@@ -36,10 +35,10 @@ $details = $bp->offers->current_offer->get_offer_details();
             ?>
         </select>
         <br/>
-        <label style="margin:0px" for="offer-desc"><?php _e('Offer Description (required)', 'firmasite'); ?></label>
+        <label style="margin:0px" for="collaboration-description"><?php _e('Offer Description (required)', 'firmasite'); ?></label>
         <?php
         $content = $bp->offers->current_offer->description;
-        echo firmasite_wp_editor($content, 'offer-desc');
+        echo firmasite_wp_editor($content, 'collaboration-description');
         /*
           <textarea name="group-desc" id="group-desc" aria-required="true"><?php bp_group_description_editable(); ?></textarea>
          */
@@ -120,7 +119,7 @@ $details = $bp->offers->current_offer->get_offer_details();
     <?php do_action('bp_after_group_details_admin'); ?>
 
     <p><input type="submit" class="btn  btn-primary" value="<?php _e('Save Changes', 'firmasite'); ?>" id="save" name="save" /></p>
-    <?php wp_nonce_field('groups_edit_group_details'); ?>
+    <?php wp_nonce_field('offers_edit_offer_details'); ?>
 <?php endif; ?>
 
 <?php /* Delete Offer Option */ ?>

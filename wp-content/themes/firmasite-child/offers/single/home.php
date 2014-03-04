@@ -11,7 +11,7 @@ get_header('buddypress');
 <?php locate_template(array('offers/single/offer-header.php'), true); ?>
 
         </div><!-- #item-header -->
-
+<?php do_action('template_notices'); ?>
 
         <?php //Show subnav only if is admin
         if (bp_is_item_admin()) {

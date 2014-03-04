@@ -106,43 +106,6 @@ function bp_offers_accept_terms() {
     return true;
 }
 
-/**
- * bp_offers_reject_terms()
- *
- * Rejects the terms and conditions screen for the logged in user.
- * Records an activity stream item for the user.
- */
-function bp_offers_reject_terms() {
-    global $bp;
-
-    check_admin_referer('bp_offers_reject_terms');
-
-    /*     * *
-     * In this example component, the user can reject the terms even after they have
-     * previously accepted them.
-     *
-     * If a user has accepted the terms previously, then this will be in their activity
-     * stream. We don't want both 'accepted' and 'rejected' in the activity stream, so
-     * we should remove references to the user accepting from all activity streams.
-     * A real world example of this would be a user deleting a published blog post.
-     */
-
-    $user_link = bp_core_get_userlink($bp->loggedin_user->id);
-
-    /* Now record the new 'rejected' activity item */
-    bp_offers_record_activity(array(
-        'type' => 'rejected_terms',
-        'action' => apply_filters('bp_offers_rejected_terms_activity_action', sprintf(__('%s rejected the really exciting terms and conditions.', 'bp-example'), $user_link), $user_link),
-    ));
-
-    /* Delete any accepted_terms activity items for the user */
-    if (function_exists('bp_activity_delete'))
-        bp_activity_delete(array('type' => 'accepted_terms', 'user_id' => $bp->loggedin_user->id));
-
-    do_action('bp_offers_reject_terms', $bp->loggedin_user->id);
-
-    return true;
-}
 
 /**
  * bp_offers_publish_offer()
@@ -152,7 +115,7 @@ function bp_offers_reject_terms() {
  * every registered member to the CECommunity Platform can see it.
  * 
  */
-function bp_offers_publish_offer($db_args) {
+function bp_offers_publish_offer($offer_args) {
     global $bp;
 
 
@@ -163,7 +126,7 @@ function bp_offers_publish_offer($db_args) {
     //$existing_fives = maybe_unserialize( get_user_meta( $to_user_id, 'high-fives', true ) );
     // Let's also record it in our custom database tables
 
-    $offer_new = new BP_Offer($db_args);
+    $offer_new = new BP_Offer($offer_args);
     return $offer_new->save();
 
     
@@ -173,7 +136,7 @@ function bp_offers_publish_offer($db_args) {
      * stream magic.
      */
 
-    /*     * *
+    /*   
      * Post a screen notification to the user's notifications menu.
      * Remember, like activity streams we need to tell the activity stream component how to format
      * this notification in bp_offers_format_notifications() using the 'new_high_five' action.
@@ -190,6 +153,37 @@ function bp_offers_publish_offer($db_args) {
 
     return true;*/
 }
+
+
+/**
+ * bp_offers_update_offer()
+ *
+ * Update an already existed offer to  the database.
+ */
+function bp_offers_update_offer($offer_args){
+    
+    //Check if input a valid array
+    if (!is_array($offer_args))
+        return false;
+    global $bp;
+    $offer_to_update =$bp->offers->current_offer;
+    
+    //If current_offer is null of is not instance of BP_offer do nothing
+    if (! ($offer_to_update instanceof BP_Offer) || $offer_to_update == null)
+        return false;
+    
+    foreach ($offer_args as $key=>$value ){
+        $offer_to_update->$key = $value;
+        //echo "Key: ".$key." Value: ".$value;        
+    }
+    
+    //Save changes to DB
+    return $offer_to_update->save();
+    
+}
+
+
+
 
 /**
  * bp_offers_get_highfives_for_user()
