@@ -36,7 +36,9 @@ jQuery("#register_step1").submit(function(event) {
         data: values,
         success: function(response) {
 
-            errors = response.split('|');
+            errors=response.replace(/\s+/g, '');
+        
+            errors = errors.split('|');
 
             if (errors[0] == "step1_done") {
                 
@@ -122,8 +124,9 @@ jQuery("#register_step2").submit(function(event) {
         type: "post",
         data: values,
         success: function(response) {
-
-            errors = response.split('|');
+            
+            errors = response.replace(/\s+/g, '');
+            errors = errors.split('|');
 
             //Fatal error 
             if (errors == -1){

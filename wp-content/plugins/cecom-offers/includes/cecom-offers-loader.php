@@ -213,7 +213,6 @@ class BP_Offers_Component extends BP_Component {
      */
     function setup_globals() {
         global $bp;
-
         // Defining the slug in this way makes it possible for site admins to override it
         if (!defined('BP_OFFERS_SLUG'))
             define('BP_OFFERS_SLUG', $this->id);
