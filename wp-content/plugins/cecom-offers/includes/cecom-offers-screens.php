@@ -39,10 +39,7 @@ function bp_offers_screen_one() {
     do_action('bp_offers_screen_one');
 
     bp_core_load_template(apply_filters('bp_offers_template_screen_one', 'members/single/home'));
-
 }
-
-
 
 /**
  * bp_offers_create_offer()
@@ -84,14 +81,6 @@ function bp_offers_create_offer() {
                     'date' => date('Y-m-d H:i:s')
                 );
 
-                /* if ($offer_new['type_id'] == 1)
-                  $offer_new['program_id'] = 0;
-
-                  else {
-                  $offer_new['partner_type_id'] = 0;
-                  $offer_new['country_id'] = 0;
-                  } */
-
                 if (bp_offers_publish_offer($offer_new))
                     bp_core_add_message(__('Your offer has been succesfuly published!', 'bp-example'), 'success');
                 else
@@ -114,55 +103,11 @@ function bp_offers_create_offer() {
         // bp_core_redirect( bp_loggedin_user_domain() . bp_get_offers_slug() );
     }
 
-    if (bp_is_offer_component() && bp_is_current_action('create-offer') && bp_is_action_variable('reject', 0)) {
-        if (bp_offers_reject_terms()) {
-            /* Add a success message, that will be displayed in the template on the next page load */
-            bp_core_add_message(__('Terms were rejected!', 'bp-example'));
-        } else {
-            /* Add a failure message if there was a problem */
-            bp_core_add_message(__('Terms could not be rejected.', 'bp-example'), 'error');
-        }
 
-        /**
-         * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
-         * just by refreshing the browser.
-         */
-        // bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug());
-    }
-
-    /**
-     * If the user has not Accepted or Rejected anything, then the code above will not run,
-     * we can continue and load the template.
-     */
     do_action('bp_offers_create_offer');
-
-    add_action('bp_template_title', 'bp_offers_create_offer_title');
-    add_action('bp_template_content', 'bp_offers_create_offer_content');
 
     /* Finally load the plugin template file. */
     bp_core_load_template(apply_filters('bp_core_template_plugin', 'offers/create'));
-    //bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-}
-
-function bp_offers_create_offer_title() {
-    _e('Screen Two', 'bp-example');
-}
-
-function bp_offers_create_offer_content() {
-    global $bp;
-
-    //bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'offers/create' ) ); 
-    ?>
-
-    <h4><?php _e('Welcome to Screen Two', 'bp-example') ?></h4>
-
-    <?php
-    $accept_link = '<a href="' . wp_nonce_url($bp->loggedin_user->domain . $bp->offers->slug . '/create-offer/accept', 'bp_offers_accept_terms') . '">' . __('Accept', 'bp-example') . '</a>';
-    $reject_link = '<a href="' . wp_nonce_url($bp->loggedin_user->domain . $bp->offers->slug . '/create-offer/reject', 'bp_offers_reject_terms') . '">' . __('Reject', 'bp-example') . '</a>';
-    ?>
-
-    <p><?php printf(__('You must %s or %s the terms of use policy.', 'bp-example'), $accept_link, $reject_link) ?></p>
-    <?php
 }
 
 /**
@@ -226,13 +171,16 @@ function offers_screen_offer_admin_edit_details() {
         return false;
 
 
-    if (bp_is_item_admin()) {
+    if (!bp_is_item_admin())
+        return false;
 
-        /*
-          do_action('groups_group_details_edited', $bp->groups->current_group->id);
+    if (isset($_POST['save'])) {
 
-          bp_core_redirect( 'edit-details/'); */
+        // Check the nonce
+        if (!check_admin_referer('offers_edit_offer_settings'))
+            return false;
     }
+
 
     do_action('offers_screen_offer_admin_edit_details', $bp->offers->current_offer->id);
 
@@ -242,12 +190,11 @@ function offers_screen_offer_admin_edit_details() {
 add_action('bp_screens', 'offers_screen_offer_admin_edit_details');
 
 function offers_screen_offer_admin_delete_offer() {
-    global $bp;
-
-
 
     if ('delete-offer' != bp_get_offer_current_admin_tab())
         return false;
+
+    global $bp;
 
     if (bp_is_item_admin()) {
 

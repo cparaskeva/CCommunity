@@ -1,4 +1,8 @@
-<?php global $bp; ?>
+<?php
+global $bp;
+$details = $bp->offers->current_offer->get_offer_details();
+//print_r($details);
+?>
 <div class="item-list-tabs no-ajax tabs-top" id="subnav" role="navigation">
     <ul class="nav nav-pills">
         <?php bp_offer_admin_tabs(); ?>
@@ -9,129 +13,104 @@
     <?php if (bp_is_offer_admin_screen('edit-details')) : ?>
 
         <?php do_action('bp_before_group_details_admin'); ?>
-        <?php global $cecom; ?>
-        <!-- Set Organization ID--> 
-        <input type="hidden" class="form-control" name="organization_id" id="organization_id" value="<?php echo $cecom->organization->details['id']; ?>"/>
         <!-- Hidden Fields for Sector/Subsector-->   
         <input type="hidden" class="form-control" name="organization_sectors" id="organization_sectors" value=""/>
-        <input type="hidden" class="form-control" name="organization_subsectors" id="organization_subsectors" value=""/>
         <!-- End of Hidden Fields -->
-        <label for="group-name"><?php _e('Organisation Name (required)', 'firmasite'); ?></label>
-        <input type="text" name="group-name" id="group-name" value="<?php bp_group_name(); ?>" aria-required="true" /><br/>
-
-        <label style="margin:0px" for="group-desc"><?php _e('Organisation Description (required)', 'firmasite'); ?></label>
+        <br>
+        <label for="offer-type"><?php _e('Offer Type (required)', 'firmasite'); ?></label>
+        <input type="text"  readonly="true" name="offer-type" id="offer-type" value="<?php echo $details['tdesc']; ?>" aria-required="true" /> <br/>
+        <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?></label>
+        <select name="collaboration-type" id="collaboration-type">
+            <option value="none"  selected="selected"> Please select..</option>
+            <?php
+            //Fetch Collaboration Types form DB
+            $results = BP_Offer::getCollaborationTypes();
+            if (is_array($results)) {
+                foreach ($results as $offer_collaboration) {
+                    if ($bp->offers->current_offer->collaboration_id == $offer_collaboration->id)
+                        echo "<option selected='selected' value = '{$offer_collaboration->id }'>{$offer_collaboration->description}</option>";
+                    else
+                        echo "<option value = '{$offer_collaboration->id }'>{$offer_collaboration->description}</option>";
+                }
+            }
+            ?>
+        </select>
+        <br/>
+        <label style="margin:0px" for="offer-desc"><?php _e('Offer Description (required)', 'firmasite'); ?></label>
         <?php
-        $content = bp_get_group_description_editable();
-        echo firmasite_wp_editor($content, 'group-desc');
+        $content = $bp->offers->current_offer->description;
+        echo firmasite_wp_editor($content, 'offer-desc');
         /*
           <textarea name="group-desc" id="group-desc" aria-required="true"><?php bp_group_description_editable(); ?></textarea>
          */
         ?>
 
-        <?php do_action('groups_custom_group_fields_editable'); ?>
-
-        <!-- Start of CECOM Organization Custom Fields --> 
-        <div>
-            <!-- Hold the ID of the selected country from the organization_country list -->
-            <input type="hidden"  name="organization_countryID" id="organization_countryID" value="<?php echo $cecom->organization->details['country'] ?>" />
-            <br/>
-            <label for="organization_specialties"><?php _e('Specialities', 'firmasite'); ?> </label>
-            <input type="text"  name="organization_specialties" id="organization_specialties" value="<?php echo $cecom->organization->details['specialties'] ?>" aria-required="false"/>
-            <br/>
-            <label for="organization_website"><?php _e('Organisation Website', 'firmasite'); ?> </label>
-            <input type="text"  name="organization_website" id="organization_specialties" value="<?php echo $cecom->organization->details['website'] ?>" aria-required="false"/>
-            <br/>
-            <label  for="organization_country"><?php _e('Country', 'firmasite'); ?></label>
-            <div  onchange="setOrganizationCountryID()" id="organization_country" class="bfh-selectbox bfh-countries" data-country="<?php echo $cecom->organization->details['country'] ?>" data-flags="true"> </div>
-            <br/>
-            <label  for="organization_size"><?php _e('Organization Size', 'firmasite'); ?> </label>
-            <select   name="organization_size" id="organization_size" >
+        <?php //do_action('groups_custom_group_fields_editable');  ?>
+        <br>
+        <?php
+        //Offer Type: 1-Develop product and services
+        if ($bp->offers->current_offer->type_id == 1):
+            ?>
+            <!-- Offer type: Collaboration to develop products and services -->
+            <label for = "collaboration-partner-sought"><?php _e('Type of partner sought (required)', 'firmasite'); ?></label>
+            <select name="collaboration-partner-sought" id="collaboration-partner-sought">
                 <?php
-                //Fetch Organization Size form DB
-                $results = CECOM_Organization::getOrganizationSize();
+                //Fetch Partner sought Types form DB
+                $results = BP_Offer::getPartnerTypes();
                 if (is_array($results)) {
-                    foreach ($results as $org_size) {
-                        $minus = "-";
-                        $max = $org_size->max;
-                        $min = $org_size->min;
-                        if ($max == "0") {
-                            $max = $max - 1;
-                            $max = "+";
-                            $minus = "";
-                        } elseif ($min == $max) {
-                            $minus = "";
-                            $max = "";
-                        }
+                    foreach ($results as $offer_partner_type) {
 
-                        if ($cecom->organization->details['size_min'] == $org_size->min && $cecom->organization->details['size_max'] == $org_size->max)
-                            echo "<option selected=\"selected\" value = '{$org_size->id }'>$min$minus$max</option>";
+                        if ($bp->offers->current_offer->partner_type_id == $offer_partner_type->id)
+                            echo "<option selected='selected' value = '{$offer_partner_type->id }'>{$offer_partner_type->description}</option>";
                         else
-                            echo "<option value = '{$org_size->id }'>$min$minus$max</option>";
+                            echo "<option value = '{$offer_partner_type->id }'>{$offer_partner_type->description}</option>";
                     }
                 }
                 ?>
             </select>
-            <br/>
-            <label  for="organization_type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
-            <select   name="organization_type" id="organization_type" aria-required="false">
+        <?php endif; ?>
+
+
+        <?php
+        //Offer Type: 2-Participate to funded projects
+        if ($bp->offers->current_offer->type_id == 2):
+            ?>
+
+
+            <label for="collaboration-countries"><?php _e('Grant Programms (required)', 'firmasite'); ?></label>
+            <select name="collaboration-programs" id="collaboration-programs">
                 <?php
-                //Fetch Organization Types form DB
-                $results = CECOM_Organization::getOrganizationType();
+                //Fetch Grant Programs form DB
+                $results = BP_Offer::getGrantPrograms();
                 if (is_array($results)) {
 
-                    foreach ($results as $org_type) {
-                        if ($cecom->organization->details['type'] == $org_type->description)
-                            echo "<option selected=\"selected\" value = '{$org_type->id }'>{$org_type->description}</option>";
+                    foreach ($results as $program) {
+
+                        if ($bp->offers->current_offer->program_id == $program->id)
+                            echo "<option selected='selected' value = '{$program->id }'>{$program->description}</option>";
                         else
-                            echo "<option value = '{$org_type->id }'>{$org_type->description}</option>";
+                            echo "<option value = '{$program->id }'>{$program->description}</option>";
                     }
                 }
                 ?>
             </select>
-            <br/>
-            <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
-            <select  name="organization_sector" id="organization_sector" class="multiselect" multiple="multiple" >
-                <?php
-                //Fetch Organization Sectors form DB
-                $results = CECOM_Organization::getOrganizationSector();
-                if (is_array($results)) {
-                    foreach ($results as $org_sector) {
-                        echo "<option value = '{$org_sector->id }'>{$org_sector->description}</option>";
-                    }
-                }
-                ?>
+        <?php endif; ?>
 
-            </select>
-            <br/><br/>
-            <label  for="organization_subsector"><?php _e('Subector', 'firmasite'); ?> </label>
-            <select name="organization_subsector" id="organization_subsector" class="multiselect" multiple="multiple">
-                <?php
-                //Fetch Organization Subsectors form DB
-                $results = CECOM_Organization::getOrganizationSubsector($cecom->organization->details['sector_id']);
-                if (is_array($results)) {
+        <br/>
+        <!-- <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
+        <select  name="organization_sector" id="organization_sector" class="multiselect" multiple="multiple" >
+        <?php
+        //Fetch Organization Sectors form DB
+        /* $results = CECOM_Organization::getOrganizationSector();
+          if (is_array($results)) {
+          foreach ($results as $org_sector) {
+          echo "<option value = '{$org_sector->id }'>{$org_sector->description}</option>";
+          }
+          } */
+        ?>
 
-                    foreach ($results as $org_subsector) {
-                        if ($cecom->organization->details['subsector_id'] == $org_subsector->id)
-                            echo "<option selected=\"selected\" value = '{$org_subsector->id }'>{$org_subsector->description}</option>";
-                        else
-                            echo "<option value = '{$org_subsector->id }'>{$org_subsector->description}</option>";
-                    }
-                }
-                ?>
-
-            </select><br/>
-            <label  for="organization_collaboration"><?php _e('Available for collaboration', 'firmasite'); ?> </label>
-            <input type="radio" <?php if ($cecom->organization->details['collaboration']) echo "checked=\"yes\""; ?>  name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
-            <input type="radio" <?php if (!$cecom->organization->details['collaboration']) echo "checked=\"yes\""; ?> name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
-            <br/>
-            <label  for="organization_transaction"><?php _e('Available for transaction', 'firmasite'); ?> </label>&nbsp;&nbsp;&nbsp;
-            <input type="radio" <?php if ($cecom->organization->details['transaction']) echo "checked=\"yes\""; ?> name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
-            <input type="radio" <?php if (!$cecom->organization->details['transaction']) echo "checked=\"yes\""; ?>name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
-
-        </div>
-        <!-- End of CECOM Organization Custom Fields -->
-
-
+        </select>
+        <br/><br/> -->
 
         <p>
         <hr/>
@@ -155,10 +134,10 @@
     </div>
 
     <label><input type="checkbox" name="delete-offer-understand" id="delete-group-understand" value="1" onclick="if (this.checked) {
-                document.getElementById('delete-offer-button').disabled = '';
-            } else {
-                document.getElementById('delete-offer-button').disabled = 'disabled';
-            }" /> <?php _e('I understand the consequences of deleting this offer.', 'firmasite'); ?></label>
+                    document.getElementById('delete-offer-button').disabled = '';
+                } else {
+                    document.getElementById('delete-offer-button').disabled = 'disabled';
+                }" /> <?php _e('I understand the consequences of deleting this offer.', 'firmasite'); ?></label>
 
 
     <div class="submit">

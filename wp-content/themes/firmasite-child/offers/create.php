@@ -1,17 +1,14 @@
 <?php
 /**
- * BuddyPress - Create Group
+ * CECommunity - Create Offer
  *
- * @package BuddyPress
- * @subpackage bp-default
  */
 global $firmasite_settings;
 get_header('buddypress');
 
- /* $group = groups_get_user_groups($bp->loggedin_user->id);
- $gid = $group['groups'][0]; 
- echo $gid; */
-
+/* $group = groups_get_user_groups($bp->loggedin_user->id);
+  $gid = $group['groups'][0];
+  echo $gid; */
 ?>
 
 
@@ -22,7 +19,7 @@ get_header('buddypress');
         <form action="" method="post" id="offer-collaboration-form" class="standard-form" enctype="multipart/form-data">
             <h3 class="page-header"><?php _e('Offer a Collaboration ', 'firmasite'); ?> &nbsp;</h3>
 
-                   <?php do_action( 'template_notices' ); ?>
+            <?php do_action('template_notices'); ?>
             <div class="item-body" id="group-create-body">
                 <label for="offer-type"><?php _e('Type of offer (required)', 'firmasite'); ?></label>
                 <select name="offer-type" id="offer-type">
@@ -74,19 +71,19 @@ get_header('buddypress');
                         ?>
                     </select>
                     <!--<br/>
-                    <label for="collaboration-countries"><?php //_e('Applyable countries (required)', 'firmasite'); ?></label>
+                    <label for="collaboration-countries"><?php //_e('Applyable countries (required)', 'firmasite');  ?></label>
                     <select  class="form-control" name="collaboration-countries" id="collaboration-countries" aria-required="false">
                         <option value="none">Please select...</option>
-                        <?php
-                        //Fetch All Countries form DB
-                        /*$results = CECOM_Organization::getAllCountries();
-                        if (is_array($results)) {
+                    <?php
+                    //Fetch All Countries form DB
+                    /* $results = CECOM_Organization::getAllCountries();
+                      if (is_array($results)) {
 
-                            foreach ($results as $country) {
-                                echo "<option value = '{$country->id }'>{$country->name}</option>";
-                            }
-                        }*/
-                        ?>
+                      foreach ($results as $country) {
+                      echo "<option value = '{$country->id }'>{$country->name}</option>";
+                      }
+                      } */
+                    ?>
                     </select> -->
                 </div>
 

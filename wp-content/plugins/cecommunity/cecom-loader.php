@@ -9,7 +9,7 @@
   Plugin URI: http://
   Description: Manages the organisation profiles of the CECommunity platform.
   Author: Chris Paraskeva
-  Version: 0.3
+  Version: 1.0
  */
 if (!class_exists('CECommunity')) :
 
@@ -46,9 +46,6 @@ if (!class_exists('CECommunity')) :
         public static function instance() {
             if (!isset(self::$instance)) {
                 self::$instance = new CECommunity;
-                //self::$instance->constants();
-                //self::$instance->setup_globals();
-                //self::$instance->legacy_constants();
                 self::$instance->includes();
                 self::$instance->setup_actions();
             }

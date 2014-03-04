@@ -472,26 +472,6 @@ function bp_the_offer() {
     return $offers_template->the_offer();
 }
 
-function bp_offer_is_visible($offer = false) {
-    global $offers_template;
-
-    if (bp_current_user_can('bp_moderate'))
-        return true;
-
-    if (empty($offer))
-        $offer = & $offers_template->offer;
-
-    if ('public' == $offer->status) {
-        return true;
-    } else {
-        if (offers_is_user_member(bp_loggedin_user_id(), $offer->id)) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 function bp_offer_id($offer = false) {
     echo bp_get_offer_id($offer);
 }

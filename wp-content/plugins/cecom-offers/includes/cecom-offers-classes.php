@@ -254,13 +254,17 @@ class BP_Offer {
 
 
         switch ($this->type_id) {
+            //Offer Type: 1-Develop product and services
             case 1:
                 $sql_query_select .= ",p.description pdesc";
                 $sql_query_from .=",ext_offer_partner_type p";
                 $sql_query_where .=" AND o.partner_type_id=p.id";
                 break;
+            //Offer Type: 2-Participate to funded projects
             case 2:
-                echo "i equals 1";
+                $sql_query_select .= ",p.description pdesc";
+                $sql_query_from .=",ext_offer_program p";
+                $sql_query_where .=" AND o.program_id=p.id";
                 break;
             case 3:
                 echo "i equals 2";

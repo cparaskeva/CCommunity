@@ -23,7 +23,10 @@ function cecom_is_register_page() {
 }
 
 function cecom_is_activation_page() {
-    return (rtrim($_SERVER['REQUEST_URI'], "/") == "/cecommunity/activate");
+    preg_match('/(\/[a-z]*\/[a-z]*\/).*$/i', $_SERVER['REQUEST_URI'], $matches);
+    return ($matches[1] == "/cecommunity/activate/");
+    
+    //return (rtrim($_SERVER['REQUEST_URI'], "/") == "/cecommunity/activate");
 }
 
 function cecom_is_login_page() {

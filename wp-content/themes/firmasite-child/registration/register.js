@@ -36,6 +36,7 @@ jQuery("#register_step1").submit(function(event) {
         data: values,
         success: function(response) {
 
+            //Clear the spaces of the response
             errors=response.replace(/\s+/g, '');
         
             errors = errors.split('|');
@@ -125,6 +126,7 @@ jQuery("#register_step2").submit(function(event) {
         data: values,
         success: function(response) {
             
+            //Clear the spaces of the response
             errors = response.replace(/\s+/g, '');
             errors = errors.split('|');
 
