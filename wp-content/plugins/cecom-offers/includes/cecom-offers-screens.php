@@ -56,12 +56,18 @@ function bp_offers_create_offer() {
      */
     if (bp_is_offer_component() && bp_is_current_action('create-offer')) {
 
+
+
         //On submit
         if (isset($_POST['offer-type']) && $_POST['offer-type'] != "none") {
+
+            //Check the nonce
+            if (!check_admin_referer('offers_create_offer'))
+                return false;
+
             $errors = false;
             //Check if user has choosen an offer type othen than "none"
-            if ($_POST['collaboration-type'] == "none" || strlen($_POST['collaboration-description']) < 1 ||
-                    (($_POST['collaboration-partner-sought'] == none ) && ($_POST['collaboration-programs'] == 'none')))
+            if (($_POST['offer-type'] != "3" && $_POST['collaboration-type'] == "none") || strlen($_POST['collaboration-description']) < 1 || (($_POST['collaboration-partner-sought'] == none ) && ($_POST['collaboration-programs'] == 'none') && ($_POST['applyable-countries'] == "none" ) && ($_POST['finance-stage'] == "none" )))
                 bp_core_add_message(__('Error puplishing your proposal. Please fill in all the required fields.', 'bp-example'), 'error');
             else {
                 //Validation Success Save the offer to DB               
@@ -75,12 +81,13 @@ function bp_offers_create_offer() {
                     'type_id' => $_POST['offer-type'], //Offer type ID
                     'collaboration_id' => $_POST['collaboration-type'],
                     'description' => $_POST['collaboration-description'],
+                    'finance_stage_id' => $_POST['finance-stage'],
                     'partner_type_id' => $_POST['collaboration-partner-sought'],
-                    //'country_id' => $_POST['collaboration-countries'],
+                    'country_id' => $_POST['applyable-countries'],
                     'program_id' => $_POST['collaboration-programs'],
-                    'date' => date('Y-m-d H:i:s')
+                    'date' => date('Y-m-d H:i:s'),
+                    'sectors' => ( empty($_POST['offer-sectors']) ? "null" : array("sector" => explode(",", $_POST['offer-sectors'])))
                 );
-
                 if (bp_offers_publish_offer($offer_new))
                     bp_core_add_message(__('Your offer has been succesfuly published!', 'bp-example'), 'success');
                 else
@@ -184,11 +191,14 @@ function offers_screen_offer_admin_edit_details() {
         $offer_update = array(
             'collaboration_id' => $_POST['collaboration-type'],
             'description' => $_POST['collaboration-description'],
+            'finance_stage_id' => $_POST['finance-stage'],
             'partner_type_id' => $_POST['collaboration-partner-sought'],
-            //'country_id' => $_POST['collaboration-countries'],
+            'country_id' => $_POST['applyable-countries'],
             'program_id' => $_POST['collaboration-programs'],
-            'date' => date('Y-m-d H:i:s')
+            'date' => date('Y-m-d H:i:s'),
+            'sectors' => $_POST['offer-sectors']
         );
+
 
         if (bp_offers_update_offer($offer_update))
             bp_core_add_message(__('Your offer has been succesfuly updated!', 'bp-example'), 'success');

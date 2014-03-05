@@ -18,10 +18,12 @@ class BP_Offer {
     var $type_id; //Offer type ID
     var $collaboration_id;
     var $description;
+    var $finance_stage_id;
     var $partner_type_id;
-    //var $country_id;
+    var $country_id;
     var $program_id;
     var $date;
+    var $sectors;
     var $query;
 
     /**
@@ -40,10 +42,12 @@ class BP_Offer {
             'type_id' => 0, //Offer type ID
             'collaboration_id' => 0,
             'description' => "",
+            'finance_stage_id' => Null,
             'partner_type_id' => Null,
-            //'country_id' => Null,
+            'country_id' => Null,
             'program_id' => Null,
-            'date' => date('Y-m-d H:i:s')
+            'date' => date('Y-m-d H:i:s'),
+            'sectors' => ''
         );
 
         // Parse the defaults with the arguments passed
@@ -70,21 +74,30 @@ class BP_Offer {
     function populate() {
         global $wpdb, $bp;
 
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$bp->offers->table_name} WHERE id = %d", $this->id));
+        $offer = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$bp->offers->table_name} WHERE id = %d", $this->id));
 
         //If query returned a result assign the values 
-        if ($row) {
-            $this->id = $row->id;
-            $this->uid = $row->uid; //User ID
-            $this->gid = $row->gid; //Group ID
-            $this->type_id = $row->type_id; //Offer type ID
-            $this->collaboration_id = $row->collaboration_id;
-            $this->description = $row->description;
-            $this->partner_type_id = $row->partner_type_id;
-            //$this->country_id = $row->country_id;
-            $this->program_id = $row->program_id;
-            $this->date = $row->date;
+        if ($offer) {
+            $this->id = $offer->id;
+            $this->uid = $offer->uid; //User ID
+            $this->gid = $offer->gid; //Group ID
+            $this->type_id = $offer->type_id; //Offer type ID
+            $this->collaboration_id = $offer->collaboration_id;
+            $this->description = $offer->description;
+            $this->finance_stage_id = $offer->finance_stage_id;
+            $this->partner_type_id = $offer->partner_type_id;
+            $this->country_id = $offer->country_id;
+            $this->program_id = $offer->program_id;
+            $this->date = $offer->date;
         }
+
+        //Fetch offer metadata from DB
+        if ($offer->id)
+            $offer_meta = $wpdb->get_results("SELECT s.id,s.color,s.description from ext_offer_meta m,ext_organization_sector s where m.mkey='sector' and m.mvalue = s.id and oid=$offer->id", ARRAY_A);
+
+        //Save the data to an array
+        if ($offer_meta)
+            $this->sectors = $offer_meta;
     }
 
     /**
@@ -118,69 +131,80 @@ class BP_Offer {
         $this->type_id = apply_filters('bp_offers_data_before_save', $this->type_id);
         $this->collaboration_id = apply_filters('bp_offers_data_before_save', $this->collaboration_id);
         $this->description = apply_filters('bp_offers_data_before_save', $this->description);
+        $this->finance_stage_id = apply_filters('bp_offers_data_before_save', $this->finance_stage_id);
         $this->partner_type_id = apply_filters('bp_offers_data_before_save', $this->partner_type_id);
-        //$this->country_id = apply_filters('bp_offers_data_before_save', $this->country_id);
+        $this->country_id = apply_filters('bp_offers_data_before_save', $this->country_id);
         $this->program_id = apply_filters('bp_offers_data_before_save', $this->program_id);
         $this->date = apply_filters('bp_offers_data_before_save', $this->date);
-
+        //$this->sectors=apply_filters('bp_offers_data_before_save', $this->sectors);
         //Offer already exist, Update the current offer
         if ($this->id) {
-           
+
             //Dfeault fields
             $query_args_default = array(
-                'collaboration_id' => $this->collaboration_id,
                 'description' => $this->description,
                 'date' => $this->date);
 
             //Default fields format
-            $query_args_format = array('%d', '%s', '%s');
+            $query_args_format = array('%s', '%s');
 
-            if ($this->type_id == 1) {
-                $query_args_extra = array(
-                    'partner_type_id' => $this->partner_type_id);
-                //'country_id' => $this->country_id);
-                $query_args_extra_format = array('%d');
-            } else {
-                $query_args_extra = array('program_id' => $this->program_id);
-                $query_args_extra_format = array('%d');
+
+            //Set the proper arguments for each offer based on offer type
+            switch ($this->type_id) {
+
+                case 1://Offer Type: Collaboration to develop product and services
+                    $query_args_extra = array('collaboration_id' => $this->collaboration_id, 'partner_type_id' => $this->partner_type_id);
+                    $query_args_extra_format = array('%d', '%d');
+                    break;
+                case 2://Offer Type: Collaboration to participate to funded projects
+                    $query_args_extra = array('collaboration_id' => $this->collaboration_id, 'program_id' => $this->program_id);
+                    $query_args_extra_format = array('%d', '%d');
+                    break;
+                case 3://Offer Type: Offering Funding
+                    $query_args_extra = array('country_id' => $this->country_id, 'finance_stage_id' => $this->finance_stage_id);
+                    $query_args_extra_format = array('%s', '%d');
+                    break;
             }
+
 
             //Merge default args with the extra one
             $query_args_default = array_merge($query_args_default, $query_args_extra);
             $query_args_format = array_merge($query_args_format, $query_args_extra_format);
-            
+
             //print_r($db_args_default);
             //print_r($db_args_format);
 
-            $query_where= array('ID'=> $this->id);
-                    
+            $query_where = array('ID' => $this->id);
+
             //Update the the offer in the DB
-            $result = $wpdb->update($bp->offers->table_name, $query_args_default,$query_where, $query_args_format);
+            $result = $wpdb->update($bp->offers->table_name, $query_args_default, $query_where, $query_args_format);
         } else {//Insert the new offer in the database 
             //Dfeault fields
             $query_args_default = array(
                 'uid' => $this->uid, //User ID
                 'gid' => $this->gid, //Group ID
                 'type_id' => $this->type_id, //Offer type ID
-                'collaboration_id' => $this->collaboration_id,
                 'description' => $this->description,
                 'date' => $this->date);
 
             //Default fields format
-            $query_args_format = array('%d', '%d', '%d', '%d', '%s', '%s');
+            $query_args_format = array('%d', '%d', '%d', '%s', '%s');
 
-            /*
-             * TODO: Optimize the following batch of code
-             */
+            //Set the proper arguments for each offer based on offer type
+            switch ($this->type_id) {
 
-            if ($this->type_id == 1) {
-                $query_args_extra = array(
-                    'partner_type_id' => $this->partner_type_id);
-                //'country_id' => $this->country_id);
-                $query_args_extra_format = array('%d');
-            } else {
-                $query_args_extra = array('program_id' => $this->program_id);
-                $query_args_extra_format = array('%d');
+                case 1://Offer Type: Collaboration to develop product and services
+                    $query_args_extra = array('collaboration_id' => $this->collaboration_id, 'partner_type_id' => $this->partner_type_id);
+                    $query_args_extra_format = array('%d', '%d');
+                    break;
+                case 2://Offer Type: Collaboration to participate to funded projects
+                    $query_args_extra = array('collaboration_id' => $this->collaboration_id, 'program_id' => $this->program_id);
+                    $query_args_extra_format = array('%d', '%d');
+                    break;
+                case 3://Offer Type: Offering Funding
+                    $query_args_extra = array('country_id' => $this->country_id, 'finance_stage_id' => $this->finance_stage_id);
+                    $query_args_extra_format = array('%s', '%d');
+                    break;
             }
 
             //Merge default args with the extra one
@@ -189,7 +213,13 @@ class BP_Offer {
 
             //Insert the data to DB
             $result = $wpdb->insert($bp->offers->table_name, $query_args_default, $query_args_format);
+
+            //If insertion if success store the meta
+            if ($wpdb->insert_id && $this->sectors != "null") {
+                BP_Offer::saveMetadata($wpdb->insert_id, $this->sectors);
+            }
         }
+
 
         /* Add an after save action here */
         // do_action('bp_offers_data_after_save', $this);
@@ -255,26 +285,29 @@ class BP_Offer {
         if (!$offer_id)
             $offer_id = $this->id;
 
-        $sql_query_select = "SELECT t.description tdesc,c.description cdesc";
-        $sql_query_from = " FROM ext_offer o, ext_offer_type t,ext_offer_collaboration c ";
-        $sql_query_where = " WHERE o.id=$offer_id AND o.type_id=t.id AND o.collaboration_id=c.id ";
+        $sql_query_select = "SELECT t.description tdesc";
+        $sql_query_from = " FROM ext_offer o, ext_offer_type t ";
+        $sql_query_where = " WHERE o.id=$offer_id AND o.type_id=t.id ";
 
 
         switch ($this->type_id) {
             //Offer Type: 1-Develop product and services
             case 1:
-                $sql_query_select .= ",p.description pdesc";
-                $sql_query_from .=",ext_offer_partner_type p";
-                $sql_query_where .=" AND o.partner_type_id=p.id";
+                $sql_query_select .= ",p.description pdesc,c.description cdesc";
+                $sql_query_from .=",ext_offer_partner_type p,ext_offer_collaboration c";
+                $sql_query_where .=" AND o.partner_type_id=p.id AND o.collaboration_id=c.id";
                 break;
             //Offer Type: 2-Participate to funded projects
             case 2:
-                $sql_query_select .= ",p.description pdesc";
-                $sql_query_from .=",ext_offer_program p";
-                $sql_query_where .=" AND o.program_id=p.id";
+                $sql_query_select .= ",p.description pdesc,c.description cdesc";
+                $sql_query_from .=",ext_offer_program p,ext_offer_collaboration c";
+                $sql_query_where .=" AND o.program_id=p.id AND o.collaboration_id=c.id";
                 break;
+            //Offer Type: Funding
             case 3:
-                echo "i equals 2";
+                $sql_query_select .= ",f.description fdesc,c.name cname";
+                $sql_query_from .=",ext_offer_finance_stage f,ext_organization_country c";
+                $sql_query_where .=" AND o.finance_stage_id=f.id AND o.country_id=c.id";
                 break;
         }
 
@@ -341,6 +374,15 @@ class BP_Offer {
         }
     }
 
+    //Fetch the available financing stages of an offer
+    public static function getFinanceStages() {
+        global $wpdb;
+        $offer_finance_stages = $wpdb->get_results("SELECT * FROM ext_offer_finance_stage");
+        if (!is_array($offer_finance_stages))
+            return nil;
+        return $offer_finance_stages;
+    }
+
     //Fetch the available grant programs of an offer
     public static function getGrantPrograms() {
         global $wpdb;
@@ -353,7 +395,7 @@ class BP_Offer {
     //Fetch the available offer types
     public static function getOfferTypes() {
         global $wpdb;
-        $offer_types = $wpdb->get_results("SELECT * FROM ext_offer_type");
+        $offer_types = $wpdb->get_results("SELECT * FROM ext_offer_type order by description asc");
         if (!is_array($offer_types))
             return nil;
         return $offer_types;
@@ -375,6 +417,26 @@ class BP_Offer {
         if (!is_array($offer_partner_type))
             return nil;
         return $offer_partner_type;
+    }
+
+    //Save meta data to ext_offer_meta table
+    public static function saveMetadata($offerID, $metadata) {
+        global $wpdb;
+        //Check if a valid offerID is given
+        if ($offerID) {
+            $query = "INSERT INTO ext_offer_meta (oid,mkey,mvalue) VALUES ";
+            //$metadata ($key => Array) Two dimensions array
+            foreach ($metadata as $mkey => $mvalue) {
+                foreach ($mvalue as $key => $value) {
+                    $query .= "($offerID,'$mkey','$value') ,";
+                }
+            }
+            //Remove last ","
+            $query = substr($query, 0, -1);
+
+            //Execute Query
+            $wpdb->get_results($query);
+        }
     }
 
     /* Queries staff */

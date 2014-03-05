@@ -178,7 +178,7 @@ class CECOM_Organization {
         
     }
 
-    //Save meta data to DB
+    //Save meta data to ext_organization_meta table
     public static function saveMetadata($orgID, $metadata) {
         global $wpdb;
         //Check if a valid orgID is given

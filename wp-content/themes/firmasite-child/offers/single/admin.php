@@ -9,32 +9,35 @@ $details = $bp->offers->current_offer->get_offer_details();
     </ul>
 </div><!-- .item-list-tabs -->
 
-<form action="<?php bp_offer_admin_form_action(); ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post" enctype="multipart/form-data" role="main">
+<form action="<?php bp_offer_admin_form_action(); ?>" name="offer-settings-form" id="offer-settings-form" class="standard-form" method="post" enctype="multipart/form-data" role="main">
     <?php if (bp_is_offer_admin_screen('edit-details')) : ?>
 
         <?php do_action('bp_before_group_details_admin'); ?>
-        <!-- Hidden Fields for Sector/Subsector-->   
-        <input type="hidden" class="form-control" name="organization_sectors" id="organization_sectors" value=""/>
+        <!-- Hidden Fields for Offer Sectors covered-->   
+        <input type="hidden" class="form-control" name="offer_sectors" id="offer_sectors" value=""/>
         <!-- End of Hidden Fields -->
         <br>
         <label for="offer-type"><?php _e('Offer Type (required)', 'firmasite'); ?></label>
         <input type="text"  readonly="true" name="offer-type" id="offer-type" value="<?php echo $details['tdesc']; ?>" aria-required="true" /> <br/>
-        <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?></label>
-        <select name="collaboration-type" id="collaboration-type">
-            <?php
-            //Fetch Collaboration Types form DB
-            $results = BP_Offer::getCollaborationTypes();
-            if (is_array($results)) {
-                foreach ($results as $offer_collaboration) {
-                    if ($bp->offers->current_offer->collaboration_id == $offer_collaboration->id)
-                        echo "<option selected='selected' value = '{$offer_collaboration->id }'>{$offer_collaboration->description}</option>";
-                    else
-                        echo "<option value = '{$offer_collaboration->id }'>{$offer_collaboration->description}</option>";
+
+        <?php if ($bp->offers->current_offer->type_id == 1 || $bp->offers->current_offer->type_id == 2): ?>
+            <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?></label>
+            <select name="collaboration-type" id="collaboration-type">
+                <?php
+                //Fetch Collaboration Types form DB
+                $results = BP_Offer::getCollaborationTypes();
+                if (is_array($results)) {
+                    foreach ($results as $offer_collaboration) {
+                        if ($bp->offers->current_offer->collaboration_id == $offer_collaboration->id)
+                            echo "<option selected='selected' value = '{$offer_collaboration->id }'>{$offer_collaboration->description}</option>";
+                        else
+                            echo "<option value = '{$offer_collaboration->id }'>{$offer_collaboration->description}</option>";
+                    }
                 }
-            }
-            ?>
-        </select>
-        <br/>
+                ?>
+            </select>
+            <br/>
+        <?php endif; ?>
         <label style="margin:0px" for="collaboration-description"><?php _e('Offer Description (required)', 'firmasite'); ?></label>
         <?php
         $content = $bp->offers->current_offer->description;
@@ -95,9 +98,59 @@ $details = $bp->offers->current_offer->get_offer_details();
             </select>
         <?php endif; ?>
 
+        <?php
+        //Offer Type: 3-Funding
+        if ($bp->offers->current_offer->type_id == 3):
+            ?>
+            <label for="applyable-countries"><?php _e('Applyable countries (required)', 'firmasite'); ?></label>
+            <select  class="form-control" name="applyable-countries" id="applyable-countries" aria-required="false">
+                <?php
+                //Fetch All Countries form DB
+                $results = CECOM_Organization::getAllCountries();
+                if (is_array($results)) {
+                    foreach ($results as $country) {
+                        if ($bp->current_offer->country_id == $country->id)
+                            echo "<option selected='selected' value = '{$country->id }'>{$country->name}</option>";
+                        else
+                            echo "<option value = '{$country->id }'>{$country->name}</option>";
+                    }
+                }
+                ?>
+            </select>
+            <br/>
+            <label for="finance-stage"><?php _e('Financing Stage (required)', 'firmasite'); ?></label>
+            <select  class="form-control" name="finance-stage" id="finance-stage" aria-required="false">
+                <?php
+                //Fetch Financing stages form DB
+                $results = BP_Offer::getFinanceStages();
+                if (is_array($results)) {
+                    foreach ($results as $finance_stage) {
+                        if ($bp->offers->current_offer->finance_stage_id == $finance_stage->id)
+                            echo "<option selected='selected' value = '{$finance_stage->id }'>{$finance_stage->description}</option>";
+                        else
+                            echo "<option value = '{$finance_stage->id }'>{$finance_stage->description}</option>";
+                    }
+                }
+                ?>
+            </select>
+            <br/>
+            <label  for="offer_sector"><?php _e('Sectors', 'firmasite'); ?> </label>
+            <select name="offer_sector" id="offer_sector"  class="multiselect" multiple="multiple">
+                <?php
+                //Fetch Organization Sectors form DB
+                $results = CECOM_Organization::getOrganizationSector();
+                if (is_array($results)) {
+                    foreach ($results as $org_sector) {
+                        echo "<option value = '{$org_sector->id }'>{$org_sector->description}</option>";
+                    }
+                }
+                ?>
+            </select>
+        <?php endif; ?>
         <br/>
-        <!-- <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
-        <select  name="organization_sector" id="organization_sector" class="multiselect" multiple="multiple" >
+        <!--<label for = "organization_sector"><?php _e('Sector', 'firmasite');
+        ?> </label>
+    <select  name="organization_sector" id="organization_sector" class="multiselect" multiple="multiple" >
         <?php
         //Fetch Organization Sectors form DB
         /* $results = CECOM_Organization::getOrganizationSector();
@@ -108,8 +161,8 @@ $details = $bp->offers->current_offer->get_offer_details();
           } */
         ?>
 
-        </select>
-        <br/><br/> -->
+    </select>
+    <br/><br/> -->
 
         <p>
         <hr/>
@@ -133,10 +186,10 @@ $details = $bp->offers->current_offer->get_offer_details();
     </div>
 
     <label><input type="checkbox" name="delete-offer-understand" id="delete-group-understand" value="1" onclick="if (this.checked) {
-                    document.getElementById('delete-offer-button').disabled = '';
-                } else {
-                    document.getElementById('delete-offer-button').disabled = 'disabled';
-                }" /> <?php _e('I understand the consequences of deleting this offer.', 'firmasite'); ?></label>
+                document.getElementById('delete-offer-button').disabled = '';
+            } else {
+                document.getElementById('delete-offer-button').disabled = 'disabled';
+            }" /> <?php _e('I understand the consequences of deleting this offer.', 'firmasite'); ?></label>
 
 
     <div class="submit">
@@ -156,39 +209,9 @@ $details = $bp->offers->current_offer->get_offer_details();
 
 
 
-<script type = "text/javascript">
+<script type="text/javascript">
 
-    /*
-     * Radio buttons check for Yes/No fields
-     */
-
-
-//Collaboration Radio Buttons
-    jQuery("#organization_collaboration_y").click(function() {
-        jQuery("#organization_collaboration_n").attr("checked", false);
-    });
-
-    jQuery("#organization_collaboration_n").click(function() {
-        jQuery("#organization_collaboration_y").attr("checked", false);
-    });
-
-
-//Transaction Radio Buttons
-    jQuery("#organization_transaction_y").click(function() {
-        jQuery("#organization_transaction_n").attr("checked", false);
-    });
-
-    jQuery("#organization_transaction_n").click(function() {
-        jQuery("#organization_transaction_y").attr("checked", false);
-    });
-
-
-
-//Get the ID of the selected country from the organization_country list and save it to the hidden field (organization_countryID)
-    function setOrganizationCountryID() {
-        jQuery("#organization_countryID").val(jQuery("#organization_country").val());
-
-    }
+alert("sss");
 
     /*
      * Organization sector
@@ -209,49 +232,14 @@ $details = $bp->offers->current_offer->get_offer_details();
 
         //Set the values to hidden field
         jQuery("#organization_sectors").val(jQuery(this).val());
-        jQuery("#organization_subsectors").val("");
-
-    });
-
-    /*
-     * Organization subsector
-     */
-
-
-    jQuery("#organization_subsector").change(function() {
-        //Set the values to hidden field
-        jQuery("#organization_subsectors").val(jQuery("#organization_subsector").val());
 
     });
 
 
-
-
-
-
+    //Initialize the sectors multiselect object
     jQuery(document).ready(function() {
-        jQuery("#organization_sector").multiselect({numberDisplayed: 1});
-
-<?php
-$sector_values = "[";
-$sector_txt = "[";
-$subsector_values = "[";
-foreach ($cecom->organization->details['sectors'] as $sector) {
-    $sector_values .= "'" . $sector['id'] . "',";
-    $sector_txt .= "'" . $sector['description'] . "',";
-}
-$sector_values = substr($sector_values, 0, -1) . "]";
-$sector_txt = substr($sector_txt, 0, -1) . "]";
-
-foreach ($cecom->organization->details['subsectors'] as $subsector) {
-    $subsector_values .= "'" . $subsector['id'] . "',";
-}
-$subsector_values = substr($subsector_values, 0, -1) . "]";
-?>
-
-        jQuery("#organization_sector").multiselect('select', <?php echo $sector_values; ?>);
-        jQuery("#organization_subsector").multiselect({numberDisplayed: 5, maxHeight: 300, enableFiltering: true});
-        setSubsctorValues(<?php echo $sector_values; ?>,<?php echo $sector_txt; ?>,<?php echo $subsector_values; ?>)
+        alert("I am loaded!!!");
+        jQuery("#offer_sector").multiselect({numberDisplayed: 1});
     });
 
 

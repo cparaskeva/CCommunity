@@ -40,17 +40,35 @@ $details = $bp->offers->current_offer->get_offer_details();
 
 <div class="col-lg-8">
     <span class="highlight label label-default"><?php echo $details['tdesc']; ?></span> 
-    <span class="highlight label label-primary"><?php echo $details['cdesc']; ?></span>
-    <?php if ($bp->offers->current_offer->type_id == 1 ||$bp->offers->current_offer->type_id ==2 ): ?>
-    <span class="highlight label label-warning"><?php echo ($bp->offers->current_offer->type_id ==1 ?"Partner sought: " :"Grant programs: ").$details['pdesc']; ?></span>
-    <?php endif;?>
+    <?php if ($bp->offers->current_offer->type_id == 1 || $bp->offers->current_offer->type_id == 2): ?>
+        <span class="highlight label label-primary"><?php echo $details['cdesc']; ?></span>
+        <span class="highlight label label-warning"><?php echo ($bp->offers->current_offer->type_id == 1 ? "Partner sought: " : "Grant programs: ") . $details['pdesc']; ?></span>
+    <?php else: ?>
+        <span class="highlight label label-primary"><?php echo "Finance Stage: " . $details['fdesc']; ?></span>
+        <span class="highlight label label-warning"><?php echo "Applyable Countries: " . $details['cname']; ?></span>
+    <?php endif; ?>    
+
+
     <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), substr($bp->offers->current_offer->date, 0, 10)); ?></span>
 
     <div id="item-meta">
         <p align="justify"> <?php echo $bp->offers->current_offer->description; ?> </p>
     </div><!-- #item-meta -->
-</div><!-- #item-header-content -->
+    <!-- Show meta of offer -->
+    <?php if ($bp->offers->current_offer->type_id == 3 && !empty($bp->offers->current_offer->sectors)): ?>
+        <div id="item-meta"> 
+            <div>
+                <b>Sectors Covered</b> 
+                <?php
+                foreach ($bp->offers->current_offer->sectors as $sector) {
+                    echo "<br/><span style=\"background-color:" . $sector['color']
+                    . "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>"
+                    . "&nbsp;&nbsp;" . $sector['description'];
+                }
+                ?>
+            </div>
+        </div><!-- #item-meta -->
+    <?php endif; ?>
 
-<?php
-//do_action('template_notices');
-?>
+
+</div><!-- #item-header-content -->

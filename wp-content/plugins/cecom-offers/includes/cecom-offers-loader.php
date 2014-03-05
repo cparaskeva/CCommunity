@@ -297,7 +297,7 @@ class BP_Offers_Component extends BP_Component {
 
         // Add the subnav items to the friends nav item
         $sub_nav[] = array(
-            'name' => __('Offer Collaboration', 'cecom-offers'),
+            'name' => __('Create Offer', 'cecom-offers'),
             'slug' => 'create-offer',
             'parent_url' => $offer_link,
             'parent_slug' => bp_get_offers_slug(),

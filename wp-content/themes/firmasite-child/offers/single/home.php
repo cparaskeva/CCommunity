@@ -1,6 +1,12 @@
 <?php
 global $firmasite_settings;
 get_header('buddypress');
+
+/* Import JS files */
+wp_enqueue_script('bootstrap-multiselect');
+
+/* Import CSS files */
+wp_enqueue_style('bootstrap-multiselect-style');
 ?>
 
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
@@ -8,12 +14,13 @@ get_header('buddypress');
 
         <div id="item-header" class="well well-sm media clearfix" role="complementary">
 
-<?php locate_template(array('offers/single/offer-header.php'), true); ?>
+            <?php locate_template(array('offers/single/offer-header.php'), true); ?>
 
         </div><!-- #item-header -->
-<?php do_action('template_notices'); ?>
+        <?php do_action('template_notices'); ?>
 
-        <?php //Show subnav only if is admin
+        <?php
+        //Show subnav only if is admin
         if (bp_is_item_admin()) {
             ?>
             <div id="item-nav" class="navbar <?php
@@ -36,12 +43,12 @@ get_header('buddypress');
 
                 <div class="collapse navbar-collapse bp-profile-nav-collapse item-list-tabs no-ajax" id="object-nav" role="navigation">
                     <ul class="nav navbar-nav">
-            <?php bp_get_options_nav(); ?>
+                        <?php bp_get_options_nav(); ?>
                     </ul>
                 </div>
             </div><!-- #item-nav -->
 
-            <?php } ?>
+        <?php } ?>
         <div id="item-body">
 
             <?php
@@ -57,7 +64,7 @@ get_header('buddypress');
                 ?>
 
                 <!-- <div class="clearfix"></div><div id="message" class="info alert alert-info">
-                 <p><?php //bp_group_status_message(); ?></p>
+                 <p><?php //bp_group_status_message();   ?></p>
                  </div> -->
 
                 <?php
@@ -74,9 +81,9 @@ get_header('buddypress');
 
         </div><!-- #item-body -->
 
-<?php //do_action( 'bp_after_group_home_content' );  ?>
+        <?php //do_action( 'bp_after_group_home_content' );   ?>
 
-<?php //endwhile; endif;  ?>
+        <?php //endwhile; endif;   ?>
 
     </div><!-- .padder -->
 </div><!-- #content -->

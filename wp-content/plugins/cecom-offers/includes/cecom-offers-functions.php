@@ -106,7 +106,6 @@ function bp_offers_accept_terms() {
     return true;
 }
 
-
 /**
  * bp_offers_publish_offer()
  *
@@ -118,25 +117,22 @@ function bp_offers_accept_terms() {
 function bp_offers_publish_offer($offer_args) {
     global $bp;
 
-
+  
     /* Avoid duplicate entry in database ... */
     //check_admin_referer('bp_offers_publish_offer');
 
     /* Unserialize value only if it was serialized. */
     //$existing_fives = maybe_unserialize( get_user_meta( $to_user_id, 'high-fives', true ) );
     // Let's also record it in our custom database tables
-
     $offer_new = new BP_Offer($offer_args);
     return $offer_new->save();
 
-    
-    
     /*
      * Now we've registered the new high-five, lets work on some notification and activity
      * stream magic.
      */
 
-    /*   
+    /*
      * Post a screen notification to the user's notifications menu.
      * Remember, like activity streams we need to tell the activity stream component how to format
      * this notification in bp_offers_format_notifications() using the 'new_high_five' action.
@@ -144,46 +140,41 @@ function bp_offers_publish_offer($offer_args) {
     //bp_core_add_notification($from_user_id, $to_user_id, $bp->offers->slug, 'new_high_five');
 
     /* Now record the new 'new_high_five' activity item */
-    /*$to_user_link = bp_core_get_userlink($to_user_id);
-    $from_user_link = bp_core_get_userlink($from_user_id);
+    /* $to_user_link = bp_core_get_userlink($to_user_id);
+      $from_user_link = bp_core_get_userlink($from_user_id);
 
 
-    /* We'll use this do_action call to send the email notification. See bp-example-notifications.php */
-    /*do_action('bp_offers_send_high_five', $to_user_id, $from_user_id);
+      /* We'll use this do_action call to send the email notification. See bp-example-notifications.php */
+    /* do_action('bp_offers_send_high_five', $to_user_id, $from_user_id);
 
-    return true;*/
+      return true; */
 }
-
 
 /**
  * bp_offers_update_offer()
  *
  * Update an already existed offer to  the database.
  */
-function bp_offers_update_offer($offer_args){
-    
+function bp_offers_update_offer($offer_args) {
+
     //Check if input a valid array
     if (!is_array($offer_args))
         return false;
     global $bp;
-    $offer_to_update =$bp->offers->current_offer;
-    
+    $offer_to_update = $bp->offers->current_offer;
+
     //If current_offer is null of is not instance of BP_offer do nothing
-    if (! ($offer_to_update instanceof BP_Offer) || $offer_to_update == null)
+    if (!($offer_to_update instanceof BP_Offer) || $offer_to_update == null)
         return false;
-    
-    foreach ($offer_args as $key=>$value ){
+
+    foreach ($offer_args as $key => $value) {
         $offer_to_update->$key = $value;
         //echo "Key: ".$key." Value: ".$value;        
     }
-    
+
     //Save changes to DB
     return $offer_to_update->save();
-    
 }
-
-
-
 
 /**
  * bp_offers_get_highfives_for_user()
@@ -221,11 +212,11 @@ add_action('delete_user', 'bp_offers_remove_data', 1);
 /* Count all the offers stored in DB */
 
 function offers_get_total_offers_count() {
-	if ( !$count = wp_cache_get( 'bp_total_offers_count', 'bp' ) ) {
-		$count = BP_Offer::offers_get_total_offers_count();
-		wp_cache_set( 'bp_total_offers_count', $count, 'bp' );
-	}
-	return $count;
+    if (!$count = wp_cache_get('bp_total_offers_count', 'bp')) {
+        $count = BP_Offer::offers_get_total_offers_count();
+        wp_cache_set('bp_total_offers_count', $count, 'bp');
+    }
+    return $count;
 }
 
 /* Count all the offers that a member owns */

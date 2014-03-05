@@ -297,7 +297,7 @@ class BP_Offers_Template {
         $defaults = array(
             'type' => 'active',
             'page' => 1,
-            'per_page' => 1,
+            'per_page' => 10,
             'max' => false,
             'show_hidden' => false,
             'page_arg' => 'ofpage',
@@ -491,7 +491,7 @@ function bp_has_offers($args = '') {
         'order' => 'DESC',
         'orderby' => 'last_activity',
         'page' => 1,
-        'per_page' => 2,
+        'per_page' => 10,
         'max' => false,
         'show_hidden' => false,
         'page_arg' => 'offpage',
