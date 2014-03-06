@@ -55,7 +55,7 @@ $details = $bp->offers->current_offer->get_offer_details();
         <p align="justify"> <?php echo $bp->offers->current_offer->description; ?> </p>
     </div><!-- #item-meta -->
     <!-- Show meta of offer -->
-    <?php if ($bp->offers->current_offer->type_id == 3 && !empty($bp->offers->current_offer->sectors)): ?>
+    <?php if (bp_offer_has_sectors()): ?>
         <div id="item-meta"> 
             <div>
                 <b>Sectors Covered</b> 

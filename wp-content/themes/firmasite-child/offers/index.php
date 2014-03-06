@@ -16,39 +16,64 @@ global $bp;
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
     <div class="padder">
 
-        <?php do_action('bp_before_directory_example'); ?>
+        <?php do_action('bp_before_directory_offers_page'); ?>
 
         <form action="" method="post" id="offers-directory-form" class="dir-form">
 
-            <h3><?php _e('Offers Directory', 'firmasite'); ?></h3>
+            <h3  class="page-header"><?php _e('Offers Directory', 'firmasite'); ?></h3>
 
             <?php do_action('bp_before_directory_offers_content'); ?>
+            <div id="offer-dir-search" class="dir-search" role="search">
+
+                <?php bp_directory_offers_search_form(); ?>
+
+            </div><!-- #offer-dir-search -->
 
             <?php do_action('template_notices'); ?>
-
+            <!-- Quick solution to fix the selected tab is using $_Cookie[scope]-->
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
                     <li class="selected" id="offers-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug()); ?>"><?php printf(__('All Offers<span>%s</span>', 'buddypress'), bp_get_total_offers_count()); ?></a></li>
 
 
                     <?php if (is_user_logged_in() && bp_get_total_offers_count_for_user(bp_loggedin_user_id())) : ?>
-                    <li id="offers-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug(). '/my-offers'); ?>"><?php printf(__('My Offers <span>%s</span>', 'firmasite'), bp_get_total_offers_count_for_user(bp_loggedin_user_id())); ?></a></li>
+                        <li id="offers-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug() . '/my-offers'); ?>"><?php printf(__('My Offers <span>%s</span>', 'firmasite'), bp_get_total_offers_count_for_user(bp_loggedin_user_id())); ?></a></li>
 
                     <?php endif; ?>
 
-                    <?php do_action('bp_offers_directory_example_filter'); ?>
+                    <?php do_action('bp_offers_directory_offer_filter'); ?>
 
                 </ul>
             </div><!-- .item-list-tabs -->
 
+            <div class="item-list-tabs" id="subnav" role="navigation">
+                <ul class="nav nav-pills">
+
+                    <?php do_action('bp_offers_directory_offer_types'); ?>
+
+                    <li id="offers-order-select" class="last pull-right filter">
+
+                        <label for="offers-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
+                        <select id="offers-order-by">
+                            <option value="active"><?php _e('Last Active', 'firmasite'); ?></option>
+                            <option value="popular"><?php _e('Most Members', 'firmasite'); ?></option>
+                            <option value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
+                            <option value="alphabetical"><?php _e('Alphabetical', 'firmasite'); ?></option>
+
+                            <?php do_action('bp_offers_directory_order_options'); ?>
+
+                        </select>
+                    </li>
+                </ul>
+            </div>
+
             <div id="offers-dir-list" class="offers dir-list">
-
-                <?php //bp_core_load_template( 'example/example-loop' );  ?>
                 <?php locate_template(array('offers/offers-loop.php'), true); ?>
-
-            </div><!-- #examples-dir-list -->
+            </div><!-- #offers-dir-list -->
 
             <?php do_action('bp_directory_offers_content'); ?>
+
+            <?php wp_nonce_field('directory_offers', '_wpnonce-offers-filter'); ?>
 
 
             <?php do_action('bp_after_directory_offers_content'); ?>

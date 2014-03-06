@@ -475,11 +475,11 @@ function bp_group_type( $group = false ) {
 			$group =& $groups_template->group;
 
 		if ( 'public' == $group->status ) {
-			$type = __( "Public Group", "buddypress" );
+			$type = __( "Public Organisation", "buddypress" );
 		} else if ( 'hidden' == $group->status ) {
-			$type = __( "Hidden Group", "buddypress" );
+			$type = __( "Hidden Organisation", "buddypress" );
 		} else if ( 'private' == $group->status ) {
-			$type = __( "Private Group", "buddypress" );
+			$type = __( "Private Organisation", "buddypress" );
 		} else {
 			$type = ucwords( $group->status ) . ' ' . __( 'Group', 'buddypress' );
 		}

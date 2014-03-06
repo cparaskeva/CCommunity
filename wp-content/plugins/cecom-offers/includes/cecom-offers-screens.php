@@ -99,7 +99,7 @@ function bp_offers_create_offer() {
              * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
              * just by refreshing the browser.
              */
-            // bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug() . "/" . $bp->current_action);
+            bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug() . "/" . $bp->current_action);
         }
 
 
@@ -107,15 +107,17 @@ function bp_offers_create_offer() {
          * Now redirect back to the page without any actions set, so the user can't carry out actions multiple times
          * just by refreshing the browser.
          */
-        // bp_core_redirect( bp_loggedin_user_domain() . bp_get_offers_slug() );
+        //bp_core_redirect(bp_loggedin_user_domain() . bp_get_offers_slug() . "/" . $bp->current_action);
+
+
+        do_action('bp_offers_create_offer');
+
+        /* Finally load the plugin template file. */
+        bp_core_load_template(apply_filters('bp_core_template_plugin', 'offers/create'));
     }
-
-
-    do_action('bp_offers_create_offer');
-
-    /* Finally load the plugin template file. */
-    bp_core_load_template(apply_filters('bp_core_template_plugin', 'offers/create'));
 }
+
+add_action('bp_screens', 'bp_offers_create_offer');
 
 /**
  * The following screen functions are called when the Settings subpanel for this component is viewed
@@ -164,118 +166,117 @@ function bp_offers_screen_settings_menu_content() {
         <p class="submit">
             <input type="submit" value="<?php _e('Save Settings', 'bp-example') ?> &raquo;" id="submit" name="submit" />
         </p>
-        <?php
-        /* This is very important, don't leave it out. */
-        wp_nonce_field('bp-example-admin');
-        ?>
-    </form>
     <?php
-}
-
-function offers_screen_offer_admin_edit_details() {
-
-    if ('edit-details' != bp_get_offer_current_admin_tab())
-        return false;
-
-
-    if (!bp_is_item_admin())
-        return false;
-
-    if (isset($_POST['save'])) {
-
-        //Check the nonce
-        if (!check_admin_referer('offers_edit_offer_details'))
-            return false;
-
-        //Put the changes to an array
-        $offer_update = array(
-            'collaboration_id' => $_POST['collaboration-type'],
-            'description' => $_POST['collaboration-description'],
-            'finance_stage_id' => $_POST['finance-stage'],
-            'partner_type_id' => $_POST['collaboration-partner-sought'],
-            'country_id' => $_POST['applyable-countries'],
-            'program_id' => $_POST['collaboration-programs'],
-            'date' => date('Y-m-d H:i:s'),
-            'sectors' => $_POST['offer-sectors']
-        );
-
-
-        if (bp_offers_update_offer($offer_update))
-            bp_core_add_message(__('Your offer has been succesfuly updated!', 'bp-example'), 'success');
-        else
-            bp_core_add_message(__('Unable to update the current offer...', 'bp-example'), 'error');
-
-        do_action('offers_offer_details_edited', $bp->offers->current_offer->id);
-
-        bp_core_redirect(bp_offer_get_permalink() . "admin/edit-details");
+    /* This is very important, don't leave it out. */
+    wp_nonce_field('bp-example-admin');
+    ?>
+    </form>
+        <?php
     }
 
+    function offers_screen_offer_admin_edit_details() {
 
-    do_action('offers_screen_offer_admin_edit_details', $bp->offers->current_offer->id);
+        if ('edit-details' != bp_get_offer_current_admin_tab())
+            return false;
 
-    bp_core_load_template(apply_filters('offers_template_offer_admin', 'offers/single/home'));
-}
 
-add_action('bp_screens', 'offers_screen_offer_admin_edit_details');
+        if (!bp_is_item_admin())
+            return false;
 
-function offers_screen_offer_admin_delete_offer() {
+        if (isset($_POST['save'])) {
 
-    if ('delete-offer' != bp_get_offer_current_admin_tab())
-        return false;
-
-    global $bp;
-
-    if (bp_is_item_admin()) {
-
-        if (isset($_REQUEST['delete-offer-button']) && isset($_REQUEST['delete-offer-understand'])) {
-
-            // Check the nonce first.
-            if (!check_admin_referer('offers_delete_offer')) {
+            //Check the nonce
+            if (!check_admin_referer('offers_edit_offer_details'))
                 return false;
-            }
+
+            //Put the changes to an array
+            $offer_update = array(
+                'collaboration_id' => $_POST['collaboration-type'],
+                'description' => $_POST['collaboration-description'],
+                'finance_stage_id' => $_POST['finance-stage'],
+                'partner_type_id' => $_POST['collaboration-partner-sought'],
+                'country_id' => $_POST['applyable-countries'],
+                'program_id' => $_POST['collaboration-programs'],
+                'date' => date('Y-m-d H:i:s'),
+                'sectors' => ( empty($_POST['offer-sectors']) ? "null" : array("sector" => explode(",", $_POST['offer-sectors'])))
+            );
+
+            if (bp_offers_update_offer($offer_update))
+                bp_core_add_message(__('Your offer has been succesfuly updated!', 'bp-example'), 'success');
+            else
+                bp_core_add_message(__('Unable to update the current offer...', 'bp-example'), 'error');
+
+            do_action('offers_offer_details_edited', $bp->offers->current_offer->id);
+
+            bp_core_redirect(bp_offer_get_permalink() . "admin/edit-details");
+        }
 
 
-            // Offer admin has deleted the group, now do it. 
-            if (!$bp->offers->current_offer->delete()) {
-                bp_core_add_message(__('There was an error deleting the offer, please try again.', 'buddypress'), 'error');
-            } else {
-                bp_core_add_message(__('The offer was deleted successfully', 'buddypress'));
+        do_action('offers_screen_offer_admin_edit_details', $bp->offers->current_offer->id);
 
-                do_action('offers_offer_deleted', $bp->groups->current_group->id);
+        bp_core_load_template(apply_filters('offers_template_offer_admin', 'offers/single/home'));
+    }
+
+    add_action('bp_screens', 'offers_screen_offer_admin_edit_details');
+
+    function offers_screen_offer_admin_delete_offer() {
+
+        if ('delete-offer' != bp_get_offer_current_admin_tab())
+            return false;
+
+        global $bp;
+
+        if (bp_is_item_admin()) {
+
+            if (isset($_REQUEST['delete-offer-button']) && isset($_REQUEST['delete-offer-understand'])) {
+
+                // Check the nonce first.
+                if (!check_admin_referer('offers_delete_offer')) {
+                    return false;
+                }
+
+
+                // Offer admin has deleted the group, now do it. 
+                if (!$bp->offers->current_offer->delete()) {
+                    bp_core_add_message(__('There was an error deleting the offer, please try again.', 'buddypress'), 'error');
+                } else {
+                    bp_core_add_message(__('The offer was deleted successfully', 'buddypress'));
+
+                    do_action('offers_offer_deleted', $bp->groups->current_group->id);
+
+                    bp_core_redirect(trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug()));
+                }
 
                 bp_core_redirect(trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug()));
             }
-
-            bp_core_redirect(trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug()));
         }
-    }
-    do_action('offers_screen_offer_admin_delete_offer', $bp->offers->current_offer->id);
+        do_action('offers_screen_offer_admin_delete_offer', $bp->offers->current_offer->id);
 
-    bp_core_load_template(apply_filters('offers_template_offer_admin_delete_offer', 'offers/single/home'));
-}
-
-add_action('bp_screens', 'offers_screen_offer_admin_delete_offer');
-
-function offers_screen_offer_admin() {
-    if (!bp_is_offer_component() || !bp_is_current_action('admin'))
-        return false;
-
-    if (bp_action_variables())
-        return false;
-
-    bp_core_redirect('edit-details');
-    //bp_core_load_template(apply_filters('offers_template_offer_admin', 'offers/single/home'));
-}
-
-function offers_screen_offer_home() {
-
-    if (!bp_is_single_item()) {
-        return false;
+        bp_core_load_template(apply_filters('offers_template_offer_admin_delete_offer', 'offers/single/home'));
     }
 
-    bp_core_load_template(apply_filters('offers_template_offer_home', 'offers/single/home'));
-}
-?>
+    add_action('bp_screens', 'offers_screen_offer_admin_delete_offer');
+
+    function offers_screen_offer_admin() {
+        if (!bp_is_offer_component() || !bp_is_current_action('admin'))
+            return false;
+
+        if (bp_action_variables())
+            return false;
+
+        bp_core_redirect('edit-details');
+        //bp_core_load_template(apply_filters('offers_template_offer_admin', 'offers/single/home'));
+    }
+
+    function offers_screen_offer_home() {
+
+        if (!bp_is_single_item()) {
+            return false;
+        }
+
+        bp_core_load_template(apply_filters('offers_template_offer_home', 'offers/single/home'));
+    }
+    ?>
 
 
 

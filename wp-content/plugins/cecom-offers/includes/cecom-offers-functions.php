@@ -63,48 +63,6 @@ add_filter('bp_located_template', 'bp_offers_load_template_filter', 10, 2);
  * 	find it easy to extend your component without hacking it to pieces.
  */
 
-/**
- * bp_offers_accept_terms()
- *
- * Accepts the terms and conditions screen for the logged in user.
- * Records an activity stream item for the user.
- */
-function bp_offers_accept_terms() {
-    global $bp;
-
-    /**
-     * First check the nonce to make sure that the user has initiated this
-     * action. Remember the wp_nonce_url() call? The second parameter is what
-     * you need to check for.
-     */
-    check_admin_referer('bp_offers_accept_terms');
-
-    /*     * *
-     * Here is a good example of where we can post something to a users activity stream.
-     * The user has excepted the terms on screen two, and now we want to post
-     * "Andy accepted the really exciting terms and conditions!" to the stream.
-     */
-    $user_link = bp_core_get_userlink($bp->loggedin_user->id);
-
-    bp_offers_record_activity(array(
-        'type' => 'accepted_terms',
-        'action' => apply_filters('bp_offers_accepted_terms_activity_action', sprintf(__('%s accepted the really exciting terms and conditions!', 'bp-example'), $user_link), $user_link),
-    ));
-
-    /* See bp_offers_reject_terms() for an explanation of deleting activity items */
-    if (function_exists('bp_activity_delete'))
-        bp_activity_delete(array('type' => 'rejected_terms', 'user_id' => $bp->loggedin_user->id));
-
-    /* Add a do_action here so other plugins can hook in */
-    do_action('bp_offers_accept_terms', $bp->loggedin_user->id);
-
-    /*     * *
-     * You'd want to do something here, like set a flag in the database, or set usermeta.
-     * just for the sake of the demo we're going to return true.
-     */
-
-    return true;
-}
 
 /**
  * bp_offers_publish_offer()
@@ -121,8 +79,6 @@ function bp_offers_publish_offer($offer_args) {
     /* Avoid duplicate entry in database ... */
     //check_admin_referer('bp_offers_publish_offer');
 
-    /* Unserialize value only if it was serialized. */
-    //$existing_fives = maybe_unserialize( get_user_meta( $to_user_id, 'high-fives', true ) );
     // Let's also record it in our custom database tables
     $offer_new = new BP_Offer($offer_args);
     return $offer_new->save();
@@ -145,9 +101,7 @@ function bp_offers_publish_offer($offer_args) {
 
 
       /* We'll use this do_action call to send the email notification. See bp-example-notifications.php */
-    /* do_action('bp_offers_send_high_five', $to_user_id, $from_user_id);
-
-      return true; */
+    /* do_action('bp_offers_send_high_five', $to_user_id, $from_user_id);*/
 }
 
 /**

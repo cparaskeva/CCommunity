@@ -14,7 +14,7 @@ $details = $bp->offers->current_offer->get_offer_details();
 
         <?php do_action('bp_before_group_details_admin'); ?>
         <!-- Hidden Fields for Offer Sectors covered-->   
-        <input type="hidden" class="form-control" name="offer_sectors" id="offer_sectors" value=""/>
+        <input type="hidden" class="form-control" name="offer-sectors" id="offer-sectors" value=""/>
         <!-- End of Hidden Fields -->
         <br>
         <label for="offer-type"><?php _e('Offer Type (required)', 'firmasite'); ?></label>
@@ -42,12 +42,7 @@ $details = $bp->offers->current_offer->get_offer_details();
         <?php
         $content = $bp->offers->current_offer->description;
         echo firmasite_wp_editor($content, 'collaboration-description');
-        /*
-          <textarea name="group-desc" id="group-desc" aria-required="true"><?php bp_group_description_editable(); ?></textarea>
-         */
         ?>
-
-        <?php //do_action('groups_custom_group_fields_editable');  ?>
         <br>
         <?php
         //Offer Type: 1-Develop product and services
@@ -109,7 +104,7 @@ $details = $bp->offers->current_offer->get_offer_details();
                 $results = CECOM_Organization::getAllCountries();
                 if (is_array($results)) {
                     foreach ($results as $country) {
-                        if ($bp->current_offer->country_id == $country->id)
+                        if ($bp->offers->current_offer->country_id == $country->id)
                             echo "<option selected='selected' value = '{$country->id }'>{$country->name}</option>";
                         else
                             echo "<option value = '{$country->id }'>{$country->name}</option>";
@@ -148,22 +143,6 @@ $details = $bp->offers->current_offer->get_offer_details();
             </select>
         <?php endif; ?>
         <br/>
-        <!--<label for = "organization_sector"><?php _e('Sector', 'firmasite');
-        ?> </label>
-    <select  name="organization_sector" id="organization_sector" class="multiselect" multiple="multiple" >
-        <?php
-        //Fetch Organization Sectors form DB
-        /* $results = CECOM_Organization::getOrganizationSector();
-          if (is_array($results)) {
-          foreach ($results as $org_sector) {
-          echo "<option value = '{$org_sector->id }'>{$org_sector->description}</option>";
-          }
-          } */
-        ?>
-
-    </select>
-    <br/><br/> -->
-
         <p>
         <hr/>
 
@@ -186,10 +165,10 @@ $details = $bp->offers->current_offer->get_offer_details();
     </div>
 
     <label><input type="checkbox" name="delete-offer-understand" id="delete-group-understand" value="1" onclick="if (this.checked) {
-                document.getElementById('delete-offer-button').disabled = '';
-            } else {
-                document.getElementById('delete-offer-button').disabled = 'disabled';
-            }" /> <?php _e('I understand the consequences of deleting this offer.', 'firmasite'); ?></label>
+                    document.getElementById('delete-offer-button').disabled = '';
+                } else {
+                    document.getElementById('delete-offer-button').disabled = 'disabled';
+                }" /> <?php _e('I understand the consequences of deleting this offer.', 'firmasite'); ?></label>
 
 
     <div class="submit">
@@ -211,37 +190,49 @@ $details = $bp->offers->current_offer->get_offer_details();
 
 <script type="text/javascript">
 
-alert("sss");
-
     /*
      * Organization sector
      */
 
 
-    jQuery("#organization_sector").change(function() {
+    jQuery("#offer_sector").change(function() {
 
         var selectedTexts = [];
 
         jQuery(this).find("option:selected").each(function(i) {
             var val = jQuery(this).val();
-            var txt = jQuery(this).text();
-            selectedTexts[i] = txt;
         });
 
-        setSubsctorValues(jQuery('.multiselect').val(), selectedTexts);
-
         //Set the values to hidden field
-        jQuery("#organization_sectors").val(jQuery(this).val());
+        jQuery("#offer-sectors").val(jQuery(this).val());
 
     });
 
 
     //Initialize the sectors multiselect object
     jQuery(document).ready(function() {
-        alert("I am loaded!!!");
         jQuery("#offer_sector").multiselect({numberDisplayed: 1});
+
+//If and only if current offer has sectors and is type of "Funding" enter
+<?php
+if (bp_offer_has_sectors()):
+    $sector_values = "[";
+    $sector_txt = "[";
+    foreach ($bp->offers->current_offer->sectors as $sector) {
+        $sector_values .= "'" . $sector['id'] . "',";
+        $sector_txt .= "'" . $sector['description'] . "',";
+    }
+    $sector_values = substr($sector_values, 0, -1) . "]";
+    $sector_txt = substr($sector_txt, 0, -1) . "]";
+    ?>
+
+
+            //Set the selected sector options of the current offer
+            jQuery("#offer_sector").multiselect('select', <?php echo $sector_values; ?>);
+
+            //Store the sector values to the hidden field
+            jQuery("#offer-sectors").val(jQuery("#offer_sector").val());
+
+<?php endif; ?>
     });
-
-
-
 </script>

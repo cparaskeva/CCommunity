@@ -61,14 +61,14 @@ function bp_offer_permalink() {
 
 function bp_offer_get_permalink() {
     global $offers_template, $bp;
- 
+
     if ($offers_template->offer->id)
-        $slug=  $bp->offers->offers_subdomain . $offers_template->offer->id;
+        $slug = $bp->offers->offers_subdomain . $offers_template->offer->id;
     else
-        $slug= $bp->offers->current_offer->slug;
-    
+        $slug = $bp->offers->current_offer->slug;
+
     //return bloginfo("url") . "/" . $bp->offers->root_slug . "/" . $bp->offers->offers_subdomain . $offers_template->offer->id;
-    return  apply_filters( "bp_offer_get_permalink",  trailingslashit( bp_get_root_domain()  . "/" . $bp->offers->root_slug . "/" . $slug));
+    return apply_filters("bp_offer_get_permalink", trailingslashit(bp_get_root_domain() . "/" . $bp->offers->root_slug . "/" . $slug));
 }
 
 function bp_offers_owner_name() {
@@ -183,6 +183,26 @@ function bp_get_offer_permalink($offer = false) {
     return apply_filters('bp_get_offer_permalink', trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug() . '/' . $offer->slug . '/'));
 }
 
+//Return true only if the current offer is type of "funding offer" and has sectors
+function bp_offer_has_sectors() {
+    global $bp;
+    return ($bp->offers->current_offer->type_id == 3 && !empty($bp->offers->current_offer->sectors));
+}
+
+//Offers Index Page - Search Form
+function bp_directory_offers_search_form() {
+
+    $default_search_value = bp_get_search_default_text('offers');
+    $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
+
+    $search_form_html = '<form action="" method="get" id="search-offers-form">
+		<label><input type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
+		<input type="submit" id="offers_search_submit" name="offers_search_submit" value="' . __('Search', 'buddypress') . '" />
+	</form>';
+
+    echo apply_filters('bp_directory_offers_search_form', $search_form_html);
+}
+
 /**
  * Is this page part of the Offer component?
  *
@@ -290,7 +310,6 @@ class BP_Offers_Template {
     var $single_offer = false;
     var $sort_by;
     var $order;
-    var $slug;
 
     function __construct($args = array()) {
 
@@ -299,7 +318,6 @@ class BP_Offers_Template {
             'page' => 1,
             'per_page' => 10,
             'max' => false,
-            'show_hidden' => false,
             'page_arg' => 'ofpage',
             'user_id' => 0,
             'slug' => false,
@@ -316,6 +334,8 @@ class BP_Offers_Template {
         $this->pag_num = isset($_REQUEST['num']) ? intval($_REQUEST['num']) : $per_page;
 
         if ('single-offer' == $type) {
+            echo "<b>Unsupported operation exception</b><br>single-offer";
+            die();
             $offer = new stdClass;
             $offer->offer_id = BP_Groups_Group::get_id_from_slug($slug);
             $this->offers = array($offer);
@@ -333,21 +353,15 @@ class BP_Offers_Template {
                 'meta_query' => $meta_query,
                 'include' => $include,
                 'exclude' => $exclude,
-                'show_hidden' => $show_hidden
             ));
         }
 
 
-        if ('invites' == $type) {
-            $this->total_offer_count = (int) $this->offers['total'];
-            $this->offer_count = (int) $this->offers['total'];
-            $this->offers = $this->offers['offers'];
-        } else if ('single-offer' == $type) {
+        if ('single-offer' == $type) {
             $this->single_offer = true;
             $this->total_offer_count = 1;
             $this->offer_count = 1;
         } else {
-
 
 
             if (empty($max) || $max >= (int) $this->offers['total']) {
@@ -381,7 +395,6 @@ class BP_Offers_Template {
                 'mid_size' => 1
             ));
         }
-
     }
 
     function has_offers() {
@@ -475,40 +488,39 @@ function bp_has_offers($args = '') {
     // Proper handle the screen one presenting the offers
     // @todo What is $order? At some point it was removed incompletely?
     if (bp_is_current_action('screen-one')) {
-
         if ('most-popular' == $order) {
             $type = 'popular';
         } elseif ('alphabetically' == $order) {
             $type = 'alphabetical';
         }
-    } elseif (isset($bp->groups->current_group->slug) && $bp->groups->current_group->slug) {
-        $type = 'single-group';
-        $slug = $bp->groups->current_group->slug;
+    } elseif (isset($bp->offers->current_offer->slug) && $bp->offers->current_offer->slug) {
+        $type = 'single-offer';
+        $slug = $bp->offers->current_offer->slug;
     }
+
 
     $defaults = array(
         'type' => $type, // 'type' is an override for 'order' and 'orderby'. See docblock.
-        'order' => 'DESC',
+        'order' => 'ASC',
         'orderby' => 'last_activity',
         'page' => 1,
         'per_page' => 10,
         'max' => false,
-        'show_hidden' => false,
         'page_arg' => 'offpage',
         'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
-        'slug' => $slug, // Pass a group slug to only return that group
-        'search_terms' => '', // Pass search terms to return only matching groups
+        'slug' => $slug, // Pass an offer slug to only return that offer
+        'search_terms' => '', // Pass search terms to return only matching offers
         'meta_query' => false, // Filter by groupmeta. See WP_Meta_Query for format
-        'include' => false, // Pass comma separated list or array of group ID's to return only these groups
-        'exclude' => false, // Pass comma separated list or array of group ID's to exclude these groups
+        'include' => false, // Pass comma separated list or array of group ID's to return only these offers
+        'exclude' => false, // Pass comma separated list or array of group ID's to exclude these offers
     );
 
 
     $r = wp_parse_args($args, $defaults);
 
     if (empty($r['search_terms'])) {
-        if (isset($_REQUEST['group-filter-box']) && !empty($_REQUEST['group-filter-box']))
-            $r['search_terms'] = $_REQUEST['group-filter-box'];
+        if (isset($_REQUEST['offer-filter-box']) && !empty($_REQUEST['offer-filter-box']))
+            $r['search_terms'] = $_REQUEST['offer-filter-box'];
         elseif (isset($_REQUEST['s']) && !empty($_REQUEST['s']))
             $r['search_terms'] = $_REQUEST['s'];
         else
@@ -522,7 +534,6 @@ function bp_has_offers($args = '') {
         'page' => (int) $r['page'],
         'per_page' => (int) $r['per_page'],
         'max' => (int) $r['max'],
-        'show_hidden' => $r['show_hidden'],
         'page_arg' => $r['page_arg'],
         'user_id' => (int) $r['user_id'],
         'slug' => $r['slug'],
@@ -546,14 +557,12 @@ function offers_get_offers($args = '') {
         'exclude' => false, // Do not include these specific groups (group_ids)
         'search_terms' => false, // Limit to groups that match these search terms
         'meta_query' => false, // Filter by groupmeta. 
-        'show_hidden' => false, // Show hidden groups to non-admins
         'per_page' => 20, // The number of results to return per page
         'page' => 1, // The page to return if limiting per page
     );
 
     $r = wp_parse_args($args, $defaults);
-
-
+    print_r($r);
 
     $offers = BP_Offer::get(array(
                 'type' => $r['type'],
@@ -562,7 +571,6 @@ function offers_get_offers($args = '') {
                 'exclude' => $r['exclude'],
                 'search_terms' => $r['search_terms'],
                 'meta_query' => $r['meta_query'],
-                'show_hidden' => $r['show_hidden'],
                 'per_page' => $r['per_page'],
                 'page' => $r['page'],
                 'populate_extras' => $r['populate_extras'],

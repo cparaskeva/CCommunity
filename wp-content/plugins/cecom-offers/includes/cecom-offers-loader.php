@@ -255,7 +255,7 @@ class BP_Offers_Component extends BP_Component {
             array_shift($bp->action_variables);
 
             //Set if the user is owner of the offer
-            bp_update_is_item_admin(bp_loggedin_user_id() == $this->current_offer->uid, 'groups');
+            bp_update_is_item_admin(bp_loggedin_user_id() == $this->current_offer->uid, 'offers');
 
             //echo "Current Action: ".$bp->current_action." OfferID: ".$offer_id. "   ". $bp->is_single_item. "Single item? ". bp_is_single_item() ; //die();
         } else {
@@ -287,7 +287,7 @@ class BP_Offers_Component extends BP_Component {
 
         // Add a few subnav items under the main Example tab
         $sub_nav[] = array(
-            'name' => __('My Collaboration Offers', 'cecom-offers'),
+            'name' => __('Published Offers', 'cecom-offers'),
             'slug' => 'screen-one',
             'parent_url' => $offer_link,
             'parent_slug' => bp_get_offers_slug(),

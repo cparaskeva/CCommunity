@@ -136,7 +136,7 @@ class BP_Offer {
         $this->country_id = apply_filters('bp_offers_data_before_save', $this->country_id);
         $this->program_id = apply_filters('bp_offers_data_before_save', $this->program_id);
         $this->date = apply_filters('bp_offers_data_before_save', $this->date);
-        //$this->sectors=apply_filters('bp_offers_data_before_save', $this->sectors);
+        //$this->sectors=apply_filters('bp_offers_data_before_save', $this->sectors); //Sectors cannot be checked because is array
         //Offer already exist, Update the current offer
         if ($this->id) {
 
@@ -171,13 +171,17 @@ class BP_Offer {
             $query_args_default = array_merge($query_args_default, $query_args_extra);
             $query_args_format = array_merge($query_args_format, $query_args_extra_format);
 
-            //print_r($db_args_default);
-            //print_r($db_args_format);
-
             $query_where = array('ID' => $this->id);
 
             //Update the the offer in the DB
             $result = $wpdb->update($bp->offers->table_name, $query_args_default, $query_where, $query_args_format);
+
+            //Clear the old metadata
+            $wpdb->get_results("DELETE  FROM `ext_offer_meta` where oid= $this->id");
+
+            //Store the updated metadata only if offer has at least one sector
+            if ($this->sectors != "null")
+                BP_Offer::saveMetadata($this->id, $this->sectors);
         } else {//Insert the new offer in the database 
             //Dfeault fields
             $query_args_default = array(
@@ -314,7 +318,6 @@ class BP_Offer {
         $sql_query = $sql_query_select . $sql_query_from . $sql_query_where;
 
         return $wpdb->get_row($sql_query, ARRAY_A);
-        //print_r($results);
     }
 
     /** Static Methods *************************************************** */
@@ -325,7 +328,7 @@ class BP_Offer {
      * @param string $slug Slug to check.
      * @param string $table_name Optional. Name of the table to check
      *        against. Default: $bp->offers->table_name.
-     * @return string|null ID of the group, if one is found, else null.
+     * @return string|null ID of the offer, if one is found, else null.
      */
     public static function offer_exists($slug, $table_name = false) {
         global $wpdb, $bp;
@@ -361,14 +364,14 @@ class BP_Offer {
      * @return int Offers count.
      */
     public static function offers_total_offers_count($user_id = 0) {
-
+        
         global $bp, $wpdb;
 
         if (empty($user_id))
             $user_id = bp_displayed_user_id();
 
-        if ($user_id != bp_loggedin_user_id() && !bp_current_user_can('bp_moderate')) {
-            return null; //return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
+        if (!bp_loggedin_user_id()) {
+            return null; 
         } else {
             return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d", $user_id));
         }
@@ -506,7 +509,6 @@ class BP_Offer {
             'include' => false,
             'populate_extras' => true,
             'exclude' => false,
-            'show_hidden' => false,
         );
 
         $r = wp_parse_args($args, $defaults);
@@ -517,10 +519,6 @@ class BP_Offer {
         $sql['select'] = "SELECT *";
         $sql['from'] = " FROM {$bp->offers->table_name}";
 
-        /* if (!empty($r['user_id'])) {
-          $sql['members_from'] = " {$bp->groups->table_name_members} m,";
-          }
-         */
 
         if (!empty($r['user_id'])) {
 
@@ -557,10 +555,6 @@ class BP_Offer {
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name}";
 
         /*
-          if (!empty($r['user_id'])) {
-          $total_sql['select'] .= ", {$bp->groups->table_name_members} m";
-          }
-
 
           if (!empty($sql['search'])) {
           $total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
@@ -569,6 +563,9 @@ class BP_Offer {
         if (!empty($r['user_id'])) {
             $total_sql['where'][] = $wpdb->prepare(" uid = %d", $r['user_id']);
         }
+        
+        
+        
 
         // Temporary implementation of meta_query for total count
         // See #5099
@@ -590,6 +587,7 @@ class BP_Offer {
 
         // Get total group results
         $total_offers_sql = apply_filters('bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r);
+        echo $total_offers_sql;
         $total_offers = $wpdb->get_var($total_offers_sql);
 
         $offer_ids = array();
