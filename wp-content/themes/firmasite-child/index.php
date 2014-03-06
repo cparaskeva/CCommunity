@@ -26,13 +26,26 @@ get_header();
     </style>
     
 	<div class="col-md-12 borders">
-		<h2>Text with links to various main sections</h2>
-		<br><br><br><br><br><br>
+		<h3>Welcome on the platform! You can:</h3>
+	
+		<h4>SEARCH</h4>
+		- Search for <a href="#">organisations</a><br>
+		- Search for <a href="#">collaborations</a>, either to develop <a href="#">new products or services</a> or to cooperate on <a href="#">funded projects</a>.<br> 
+		- Search for <a href="#">patents, fundings, tools</a> for rent.<br>
+		<br>
+		<h4>OFFER</h4>
+		- <a href="#">Offer a collaboration</a>.<br>
+		- Offer <a href="#">patents, fundings, tools</a> for rent.<br>
+		<br>
+		<h4>YOUR PROFILE</h4>
+		- Fill in the <a href="#">profile</a> of your organisation, to be sure you can be found by other organisations.
+		<br>
+		<br>
 	</div>
 
 	<div class="row no-margin-left">
 		<div class="col-md-6 borders">
-			<h2>News from the influencers</h2>
+			<h3>News from the influencers</h3>
 			
 			
 			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="300"  data-widget-id="438354056449241088" data-favorites-screen-name="centralcomm1"></a>
@@ -53,12 +66,12 @@ get_header();
 		<div class="col-md-6">
 		
 		<div class="borders" style="padding:0 10px">
-			<h2>Last offers</h2>
+			<h3>Last offers</h3>
 			<br><br><br><br><br><br>
 		</div>
 		
 		<div class="borders" style="padding:0 10px">
-			<h2>Last registered organisations</h2>
+			<h3>Last registered organisations</h3>
 			<br><br><br><br><br><br>
 		</div>
 		
