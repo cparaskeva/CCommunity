@@ -59,6 +59,27 @@ function bp_offer_permalink() {
     echo bp_offer_get_permalink();
 }
 
+function bp_offer_posted_date() {
+    echo bp_offer_get_posted_date();
+}
+
+function bp_offer_get_posted_date() {
+    global $bp, $offers_template;
+    $posted_date = $bp->offers->current_offer->date;
+    if (!$posted_date)
+        $posted_date = $offers_template->offer->date;
+    return ($posted_date ? substr($posted_date, 0, 10) : "Unknown");
+}
+
+function bp_offer_type() {
+    echo bp_offer_get_type();
+}
+
+function bp_offer_get_type() {
+    global $offers_template;
+    return $offers_template->offer->tdesc;
+}
+
 function bp_offer_get_permalink() {
     global $offers_template, $bp;
 
@@ -195,7 +216,7 @@ function bp_directory_offers_search_form() {
     $default_search_value = bp_get_search_default_text('offers');
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
-    $search_form_html = '<form action="" method="get" id="search-offers-form">
+    $search_form_html = '<form action="" method="get" id="search-offers-form">       
 		<label><input type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
 		<input type="submit" id="offers_search_submit" name="offers_search_submit" value="' . __('Search', 'buddypress') . '" />
 	</form>';
@@ -334,6 +355,10 @@ class BP_Offers_Template {
         $this->pag_num = isset($_REQUEST['num']) ? intval($_REQUEST['num']) : $per_page;
 
         if ('single-offer' == $type) {
+            /*
+             * Catch Unsupported operation exception
+             * TODO: Handle the exception
+             */
             echo "<b>Unsupported operation exception</b><br>single-offer";
             die();
             $offer = new stdClass;
@@ -470,7 +495,7 @@ function bp_get_offer_id($offer = false) {
 
 function bp_has_offers($args = '') {
     global $offers_template, $bp;
-
+    //print_r($args); //echo "Requests: ".($_POST['search_terms']);
     /*
      * Set the defaults based on the current page. Any of these will be overridden
      * if arguments are directly passed into the loop. Custom plugins should always
@@ -481,22 +506,23 @@ function bp_has_offers($args = '') {
     $user_id = 0;
     $order = '';
 
-    // User filtering
+    // User filtering - Offers Main Screen
     if (bp_displayed_user_id())
         $user_id = bp_displayed_user_id();
 
+
     // Proper handle the screen one presenting the offers
     // @todo What is $order? At some point it was removed incompletely?
-    if (bp_is_current_action('screen-one')) {
-        if ('most-popular' == $order) {
-            $type = 'popular';
-        } elseif ('alphabetically' == $order) {
-            $type = 'alphabetical';
-        }
-    } elseif (isset($bp->offers->current_offer->slug) && $bp->offers->current_offer->slug) {
-        $type = 'single-offer';
-        $slug = $bp->offers->current_offer->slug;
-    }
+    /* if (bp_is_current_action('screen-one')) {
+      if ('most-popular' == $order) {
+      $type = 'popular';
+      } elseif ('alphabetically' == $order) {
+      $type = 'alphabetical';
+      }
+      } elseif (isset($bp->offers->current_offer->slug) && $bp->offers->current_offer->slug) {
+      $type = 'single-offer';
+      $slug = $bp->offers->current_offer->slug;
+      } */
 
 
     $defaults = array(
@@ -562,7 +588,6 @@ function offers_get_offers($args = '') {
     );
 
     $r = wp_parse_args($args, $defaults);
-    print_r($r);
 
     $offers = BP_Offer::get(array(
                 'type' => $r['type'],

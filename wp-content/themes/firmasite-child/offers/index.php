@@ -19,7 +19,6 @@ global $bp;
         <?php do_action('bp_before_directory_offers_page'); ?>
 
         <form action="" method="post" id="offers-directory-form" class="dir-form">
-
             <h3  class="page-header"><?php _e('Offers Directory', 'firmasite'); ?></h3>
 
             <?php do_action('bp_before_directory_offers_content'); ?>
@@ -30,14 +29,14 @@ global $bp;
             </div><!-- #offer-dir-search -->
 
             <?php do_action('template_notices'); ?>
-            <!-- Quick solution to fix the selected tab is using $_Cookie[scope]-->
+            <!-- Quick solution to fix the selected tab using $_Cookie[scope]-->
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
-                    <li class="selected" id="offers-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug()); ?>"><?php printf(__('All Offers<span>%s</span>', 'buddypress'), bp_get_total_offers_count()); ?></a></li>
+                    <li  class="<?php echo ($_COOKIE['bp-offers-scope'] == "all" ? "selected" : "") ?>" id="offers-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug()); ?>"><?php printf(__('All Offers<span>%s</span>', 'buddypress'), bp_get_total_offers_count()); ?></a></li>
 
 
                     <?php if (is_user_logged_in() && bp_get_total_offers_count_for_user(bp_loggedin_user_id())) : ?>
-                        <li id="offers-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug() . '/my-offers'); ?>"><?php printf(__('My Offers <span>%s</span>', 'firmasite'), bp_get_total_offers_count_for_user(bp_loggedin_user_id())); ?></a></li>
+                        <li class="<?php echo ($_COOKIE['bp-offers-scope'] == "personal" ? "selected" : "") ?>" id="offers-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_offers_slug() . '/my-offers'); ?>"><?php printf(__('My Offers <span>%s</span>', 'firmasite'), bp_get_total_offers_count_for_user(bp_loggedin_user_id())); ?></a></li>
 
                     <?php endif; ?>
 
@@ -52,13 +51,12 @@ global $bp;
                     <?php do_action('bp_offers_directory_offer_types'); ?>
 
                     <li id="offers-order-select" class="last pull-right filter">
-
                         <label for="offers-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
                         <select id="offers-order-by">
-                            <option value="active"><?php _e('Last Active', 'firmasite'); ?></option>
-                            <option value="popular"><?php _e('Most Members', 'firmasite'); ?></option>
-                            <option value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
-                            <option value="alphabetical"><?php _e('Alphabetical', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-offers-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
+<!-- <option value="active"><?php //_e('Last Active', 'firmasite');      ?></option> -->
+                            <option <?php echo ($_COOKIE['bp-offers-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-offers-filter'] == "offertype" ? "selected='selected'" : "") ?> value="offertype"><?php _e('Offer Type', 'firmasite'); ?></option> 
 
                             <?php do_action('bp_offers_directory_order_options'); ?>
 

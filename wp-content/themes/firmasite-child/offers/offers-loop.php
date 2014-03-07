@@ -9,14 +9,12 @@
 
 
 <?php do_action('bp_before_example_loop'); ?>
-
 <?php if (bp_has_offers(bp_ajax_querystring('offers'))) : ?>
-    <br>
     <?php do_action('bp_before_directory_offers_list'); ?>
 
     <ul id="offers-list" class="item-list" role="main">
 
-    <?php while (bp_offers()) : bp_the_offer(); ?>
+        <?php while (bp_offers()) : bp_the_offer(); ?>
 
             <li>
                 <div class="item-avatar">               
@@ -25,12 +23,13 @@
 
                 <div class="item">
                     <div class="item-title">
-        <?php if (!bp_offers_get_is_owner()): ?>
+                        <?php if (!bp_offers_get_is_owner()): ?>
                             Offer published by <a href="<?php bp_offers_owner_permalink(); ?>"><?php bp_offers_owner_name(); ?></a>
                             &nbsp;&nbsp;
-        <?php endif; ?>
-                        View offer <a href="<?php bp_offer_permalink(); ?>">details </a> 
-                        <?php //bp_offers_high_five_title() ?></div>
+                        <?php endif; ?>
+                        View offer <a href="<?php bp_offer_permalink(); ?>">details</a>&nbsp;&nbsp; 
+                        <span class="highlight label label-default"><?php bp_offer_type(); ?></span> 
+                        <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), bp_offer_get_posted_date()); ?></span></div>
 
                     <div class="item-content"> 
                         <p><b> <?php echo bp_offers_content(); ?></b></p>
@@ -40,14 +39,14 @@
 
                     </div>
 
-        <?php do_action('bp_directory_example_item'); ?>
+                    <?php do_action('bp_directory_example_item'); ?>
 
                 </div>
 
                 <div class="clear"></div>
             </li>
 
-    <?php endwhile; ?>
+        <?php endwhile; ?>
 
     </ul>
 
@@ -57,13 +56,13 @@
 
         <div class="pag-count" id="offers-dir-count-bottom">
 
-    <?php bp_offers_pagination_count(); ?>
+            <?php bp_offers_pagination_count(); ?>
 
         </div>
 
         <div class="pagination-links lead" id="example-dir-pag-bottom">
 
-    <?php bp_offers_pagination_links(); ?>
+            <?php bp_offers_pagination_links(); ?>
 
         </div>
 

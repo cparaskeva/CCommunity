@@ -364,14 +364,14 @@ class BP_Offer {
      * @return int Offers count.
      */
     public static function offers_total_offers_count($user_id = 0) {
-        
+
         global $bp, $wpdb;
 
         if (empty($user_id))
             $user_id = bp_displayed_user_id();
 
         if (!bp_loggedin_user_id()) {
-            return null; 
+            return null;
         } else {
             return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d", $user_id));
         }
@@ -445,10 +445,7 @@ class BP_Offer {
     /* Queries staff */
 
     /**
-     * Query for groups.
-     *
-     * @see WP_Meta_Query::queries for a description of the 'meta_query'
-     *      parameter format.
+     * Query for offers.
      *
      * @param array {
      *     Array of parameters. All items are optional.
@@ -516,22 +513,28 @@ class BP_Offer {
         $sql = array();
         $total_sql = array();
 
-        $sql['select'] = "SELECT *";
-        $sql['from'] = " FROM {$bp->offers->table_name}";
+        //TODO: Proper handle of selection clause
+        $sql['select'] = "SELECT offer.*,type.description tdesc";
 
+        //Main table to fetch the information
+        $sql['from'] = " FROM {$bp->offers->table_name} as offer,`ext_offer_type` as type";
+
+        //Calculate the order by clause based on the order type choosen by the user
+        //$sql['order']=BP_Offer::convert_type_to_order_orderby($args['type']);
+
+        $sql['where'] = "WHERE offer.type_id = type.id ";
 
         if (!empty($r['user_id'])) {
-
-            $sql['user'] = " WHERE uid = {$r['user_id']}";
+            $sql['user'] = " AND uid = {$r['user_id']}";
         }
 
+        //Actuall serach terms text-based
 
+        if (!empty($r['search_terms'])) {
+            $search_terms = esc_sql(like_escape($r['search_terms']));
+            $sql['search'] = " AND ( offer.description LIKE '%%{$search_terms}%%')";// OR g.description LIKE '%%{$search_terms}%%' )";
+        }
         /*
-          if (!empty($r['search_terms'])) {
-          $search_terms = esc_sql(like_escape($r['search_terms']));
-          $sql['search'] = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
-          }
-
           //$meta_query_sql = self::get_meta_query_sql($r['meta_query']);
 
           if (!empty($meta_query_sql['join'])) {
@@ -544,28 +547,69 @@ class BP_Offer {
          */
 
 
+        /** Order/orderby ******************************************* */
+        $order = $r['order'];
+        $orderby = $r['orderby'];
+
+        // If a 'type' parameter was passed, parse it and overwrite
+        // 'order' and 'orderby' params passed to the function
+        if (!empty($r['type'])) {
+            $order_orderby = self::convert_type_to_order_orderby($r['type']);
+            // If an invalid type is passed, $order_orderby will be
+            // an array with empty values. In this case, we stick
+            // with the default values of $order and $orderby
+            if (!empty($order_orderby['order'])) {
+                $order = $order_orderby['order'];
+            }
+
+            if (!empty($order_orderby['orderby'])) {
+                $orderby = $order_orderby['orderby'];
+            }
+        }
+
+        // Sanitize 'order'
+        $order = bp_esc_sql_order($order);
+
+        // Convert 'orderby' into the proper ORDER BY term
+        $orderby = self::convert_orderby_to_order_by_term($orderby);
+
+        // Random order is a special case
+        if ('rand()' === $orderby) {
+            $sql[] = "ORDER BY rand()";
+        } else {
+            $sql[] = "ORDER BY {$orderby} {$order}";
+        }
+
+
+
+        //Take into consideration pagination
         if (!empty($r['per_page']) && !empty($r['page'])) {
             $sql['pagination'] = $wpdb->prepare("LIMIT %d, %d", intval(( $r['page'] - 1 ) * $r['per_page']), intval($r['per_page']));
         }
 
         // Get paginated results
-        $paged_offers_sql = apply_filters('bp_groups_get_paged_groups_sql', join(' ', (array) $sql), $sql, $r);
+        $paged_offers_sql = apply_filters('bp_offers_get_paged_offers_sql', join(' ', (array) $sql), $sql, $r);
         $paged_offers = $wpdb->get_results($paged_offers_sql);
+        //echo " Paged Query: ".$paged_offers_sql." ";
 
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name}";
 
+        //Where clause for search box
         /*
-
           if (!empty($sql['search'])) {
           $total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
           }
          */
+
+        //True: All Offers / False: My offers tab
         if (!empty($r['user_id'])) {
             $total_sql['where'][] = $wpdb->prepare(" uid = %d", $r['user_id']);
         }
-        
-        
-        
+
+
+
+
+
 
         // Temporary implementation of meta_query for total count
         // See #5099
@@ -587,7 +631,7 @@ class BP_Offer {
 
         // Get total group results
         $total_offers_sql = apply_filters('bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r);
-        echo $total_offers_sql;
+        //echo "Final Query: ".$total_offers_sql;
         $total_offers = $wpdb->get_var($total_offers_sql);
 
         $offer_ids = array();
@@ -685,22 +729,22 @@ class BP_Offer {
         switch ($type) {
             case 'newest' :
                 $order = 'DESC';
-                $orderby = 'date_created';
+                $orderby = 'date';
                 break;
-
-            case 'active' :
-                $order = 'DESC';
-                $orderby = 'last_activity';
-                break;
-
-            case 'popular' :
-                $order = 'DESC';
-                $orderby = 'total_member_count';
-                break;
-
-            case 'alphabetical' :
+            /*
+              case 'active' :
+              $order = 'DESC';
+              $orderby = 'last_activity';
+              break;
+             */
+            case 'oldest' :
                 $order = 'ASC';
-                $orderby = 'name';
+                $orderby = 'date';
+                break;
+
+            case 'offertype' :
+                $order = 'DESC';
+                $orderby = 'offertype';
                 break;
 
             case 'random' :
@@ -725,17 +769,17 @@ class BP_Offer {
         $order_by_term = '';
 
         switch ($orderby) {
-            case 'date_created' :
+            case 'date' :
             default :
-                $order_by_term = 'g.date_created';
+                $order_by_term = 'date';
                 break;
 
             case 'last_activity' :
                 $order_by_term = 'last_activity';
                 break;
 
-            case 'total_member_count' :
-                $order_by_term = 'CONVERT(gm1.meta_value, SIGNED)';
+            case 'offertype' :
+                $order_by_term = 'type_id, date';
                 break;
 
             case 'name' :

@@ -72,7 +72,7 @@ jQuery("#register_step1").submit(function(event) {
             }
             else {
                 jQuery("#current-step-errors").show();
-                jQuery("#current-step-errors").append("<h4 style=\"color:gray\">The following errors were occured: </h4><hr/>");
+                jQuery("#current-step-errors").append("<h4 style=\"color:gray\">The following errors occured: </h4><hr/>");
                 for (var i = 0; i < errors.length; i++) {
                     jQuery("#current-step-errors").append(errors[i]+"<br>");
                 }
