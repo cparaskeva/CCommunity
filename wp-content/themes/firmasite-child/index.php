@@ -23,13 +23,14 @@ get_header();
     <style>
     .borders {border:solid 1px #eee;border-radius:10px; margin-bottom:5px}
     .no-margin-left {margin-left:0}
+    .offers li, .organisations li {list-style-type: none; padding-bottom:7px}
     </style>
     
 	<div class="col-md-12 borders">
 		<h3>Welcome on the platform! You can:</h3>
 	
 		<h4>SEARCH</h4>
-		- Search for <a href="#">organisations</a><br>
+		- Search for <a href="/cecommunity/groups/">organisations</a><br>
 		- Search for <a href="#">collaborations</a>, either to develop <a href="#">new products or services</a> or to cooperate on <a href="#">funded projects</a>.<br> 
 		- Search for <a href="#">patents, fundings, tools</a> for rent.<br>
 		<br>
@@ -65,14 +66,54 @@ get_header();
 
 		<div class="col-md-6">
 		
-		<div class="borders" style="padding:0 10px">
+		<div class="borders offers" style="padding:0 10px">
 			<h3>Last offers</h3>
-			<br><br><br><br><br><br>
+			
+			<?php 
+			
+			function getLatestOffers($nbOffers = 5) {
+				global $wpdb;
+
+				$query = "SELECT o.*, ot.description AS type, g.name, g.slug  ".
+								"FROM ext_offer o JOIN ext_offer_type ot ON o.type_id = ot.id JOIN wp_bp_groups g ON o.gid = g.id ".
+								"ORDER BY o.date DESC LIMIT $nbOffers";
+    		
+				$offers = $wpdb->get_results($query);
+				//syslog(LOG_INFO, var_export($offers, true));
+				return $offers;
+			}
+			
+			$max_desc_len = 30;
+			$offers = getLatestOffers();
+			foreach ($offers as $off) {
+				$org_slug =  bp_get_root_domain().'/groups/'.$off->slug;
+				$org = $off->name;
+				
+				$off_type = $off->type;
+				$o_url = bp_get_root_domain().'/offers/offer'.$off->id;
+				$desc = $off->description;
+				if (strlen($desc) > $max_desc_len)
+					$desc = substr($desc, 0, $max_desc_len) . '...';
+				
+				echo "<li><a href='$org_slug'>$org</a> - $off_type : ".
+					"<a href='$o_url'>$desc</a></li>";
+			}
+			?>
+			
 		</div>
 		
-		<div class="borders" style="padding:0 10px">
+		<div class="borders organisations" style="padding:0 10px">
 			<h3>Last registered organisations</h3>
-			<br><br><br><br><br><br>
+			
+			
+			<?php 
+			$orgs = getLatestOrganisations();
+			foreach ($orgs as $org) {
+				$url = bp_get_root_domain().'/groups/'.$org->slug;
+				echo "<li><a href='$url'>$org->name</a></li>";
+			}
+			?>
+			
 		</div>
 		
 		</div>
