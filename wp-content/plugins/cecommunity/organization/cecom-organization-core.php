@@ -318,4 +318,14 @@ function checkOrganization($email) {
     }
 }
 
+//Get the n latest created organisations
+function getLatestOrganisations($nbOrg=5) {
+	global $wpdb;
+	
+	$orgs = $wpdb->get_results("SELECT *  FROM ext_organization o INNER JOIN wp_bp_groups g ON o.gid=g.id ORDER BY o.id DESC LIMIT $nbOrg");
+	//syslog(LOG_INFO, var_export($orgs, true));
+	return $orgs;
+}
+
+
 ?>
