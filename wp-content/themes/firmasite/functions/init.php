@@ -304,7 +304,7 @@ if (FIRMASITE_COMBINE_JS) {
 	add_action('template_redirect', 'firmasite_combine_js_trigger_check');
 	function firmasite_combine_js_trigger_check() {
 		$js_file = intval(get_query_var('firmasite_combine_js'));
-		if(is_home() && $js_file) { 
+		if(is_front_page() && $js_file) { 
 
 			header( 'Content-Type: application/javascript' );
 			

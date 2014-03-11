@@ -6,7 +6,7 @@ h3, label{ color:inherit !important; font-weight:normal; width: 100%; }
 .customize-control-labelpick label{width:auto;}
 body { color: #333; }
 .control-section:hover .accordion-section-title, .control-section .accordion-section-title:hover, .control-section.open .accordion-section-title, .control-section .accordion-section-title:focus {
-color: #fff !important;
+color: #555 !important;
 }
 .customize-control select { height:inherit;}
 .customize-control-title {font-weight:bold}

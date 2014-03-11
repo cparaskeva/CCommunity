@@ -4,7 +4,9 @@ class CECOM_Organization {
     /* Singleton pattern  */
 
     private static $instance;
-    public $details = array('country' => 'temp',
+    public $details = array(
+        'id' => '',
+        'country' => '',
         'type' => '',
         'size' => '',
         'sector' => '',
@@ -15,11 +17,8 @@ class CECOM_Organization {
         'country' => '',
         'size_min' => '',
         'size_max' => '',
-        'sector_id' => '',
-        'sector_desc' => '',
-        'sector_color' => '',
-        'subsector_id' => '',
-        'subsector_desc' => ''
+        'sectors' => '',
+        'subsectors' => ''
     );
 
     public static function instance() {
@@ -45,12 +44,13 @@ class CECOM_Organization {
     //Get all the organization details
 
 
-    public function getOrganizationDetails($group_id) {
+    public function setOrganizationDetails($group_id) {
         global $wpdb;
-        $wpdb->show_errors();
-        $org_details = $wpdb->get_row("select website,specialties,min size_min, max size_max, collaboration,transaction,subsector.id subsector_id,subsector.description subsector_desc,  sector.id sector_id, sector.description sector_desc, sector.color sector_color, type.description type_desc, country_id " 
-                ." from ext_organization org, ext_organization_size size, ext_organization_sector sector,ext_organization_subsector subsector, ext_organization_type type ".
-                "where org.gid =" . $group_id . " and subsector_id = subsector.id and sector_id = sector.id and type_id=type.id and size_id = size.id ");
+
+        //Get organization details
+        $org_details = $wpdb->get_row("select org.id,website,specialties,min size_min, max size_max, collaboration,transaction, type.description type_desc, country_id "
+                . " from ext_organization org, ext_organization_size size, ext_organization_type type " .
+                "where org.gid =" . $group_id . " and type_id=type.id and size_id = size.id ");
         self::$instance->details['specialties'] = $org_details->specialties;
         self::$instance->details['website'] = $org_details->website;
         self::$instance->details['collaboration'] = $org_details->collaboration;
@@ -59,12 +59,15 @@ class CECOM_Organization {
         self::$instance->details['country'] = $org_details->country_id;
         self::$instance->details['size_min'] = $org_details->size_min;
         self::$instance->details['size_max'] = $org_details->size_max;
-        self::$instance->details['sector_id'] = $org_details->sector_id;
-        self::$instance->details['sector_desc'] = $org_details->sector_desc;
-        self::$instance->details['sector_color'] = $org_details->sector_color;
-        self::$instance->details['subsector_desc'] = $org_details->subsector_desc;
-        self::$instance->details['subsector_id'] = $org_details->subsector_id;
-        //print_r ($org_details);
+        self::$instance->details['id'] = $org_details->id;
+
+        /* Get organization metadata */
+
+        //Get organization sectors
+        self::$instance->details['sectors'] = $wpdb->get_results("SELECT s.id,s.color,s.description from ext_organization_meta m,ext_organization_sector s where m.mkey='sector' and m.mvalue = s.id and oid=$org_details->id",ARRAY_A);
+        //Get organization subsectors
+        self::$instance->details['subsectors']= $wpdb->get_results("SELECT s.id,s.description from ext_organization_meta m,ext_organization_subsector s where m.mkey='subsector' and m.mvalue = s.id and oid=$org_details->id",ARRAY_A);
+
     }
 
     //Fetch the available types for an organization
@@ -94,13 +97,22 @@ class CECOM_Organization {
         return $organization_sector;
     }
 
-    //Fetch the prossible number of employees  for an organization
+    //Fetch the all the subectors of a specific sector
     public static function getOrganizationSubsector($sectorID) {
         global $wpdb;
         $organization_subsector = $wpdb->get_results("SELECT * FROM ext_organization_subsector where sid=" . $sectorID . " order by description asc");
         if (!is_array($organization_subsector))
             return nil;
         return $organization_subsector;
+    }
+
+    //Fetch all the subsectors based on specific sectors
+    public static function getOrganizationSubsectors($subsectors) {
+        global $wpdb;
+        $organization_subsectors = $wpdb->get_results("SELECT * FROM ext_organization_subsector where sid in (" . implode(",", $subsectors) . ")order by  sid, description asc");
+        if (!is_array($organization_subsectors))
+            return nil;
+        return $organization_subsectors;
     }
 
     //Fetch registered organizations
@@ -112,32 +124,78 @@ class CECOM_Organization {
         return $organizations;
     }
 
-    //Returns the group ID which is associated with the organization
-    public static function getGroupID($organization_id) {
+    //Fetch All countries
+    public static function getAllCountries() {
         global $wpdb;
-        $wpdb->get_var('select gid from ext_organization where id=' . $organization_id);
+        $organizations = $wpdb->get_results("SELECT * FROM ext_organization_country order by name asc");
+        if (!is_array($organizations))
+            return nil;
+        return $organizations;
     }
 
-    //TODO: Add actual subector ID
-    //
-    //
-    //Update Organization Profile 
-    public static function edit_organization_details($group_id, $desc, $name, $specialties, $website, $country, $type, $size, $sector, $subsector, $collaboration, $transaction) {
+    //Returns the group ID which is associated with the organization
+    public static function getUserGroupID($organization_id = 0) {
         global $wpdb;
-        //$wpdb->show_errors();
+        if ($organization_id > 0)
+            return $wpdb->get_var('select gid from ext_organization where id=' . $organization_id);
+        else {
+            global $bp;
+            //Get the groupd id  of the group that the user is member
+            return $wpdb->get_var('select group_id from wp_bp_groups_members where user_id=' . $bp->loggedin_user->id);
+            /* Uncomment for retrieving groupID whiout using a query - Debug purposes only!
+              $group = groups_get_user_groups($bp->loggedin_user->id);
+              $gid = $group['groups'][0];
+              echo  "First groupID ".$gid .  " of User ID: ".$bp->loggedin_user->id; */
+        }
+    }
+
+    public static function getUserOrganizationID($groupID) {
+        global $wpdb;
+        if ($groupID)
+            return $wpdb->get_var('select id from ext_organization where gid=' . $groupID);
+    }
+
+    //Update Organization Profile 
+    public static function edit_organization_details($org_id,$group_id, $desc, $name, $specialties, $website, $country, $type, $size, $sectors, $subsectors, $collaboration, $transaction) {
+        global $wpdb;
         $wpdb->query($wpdb->prepare("UPDATE ext_organization  SET "
                         . "description   = %s ,"
                         . "name          = %s ,"
                         . "size_id       = %s ,"
                         . "type_id       = %s ,"
                         . "country_id    = %s ,"
-                        . "sector_id     = %d ,"
-                        . "subsector_id  = %d ,"
                         . "website       = %s ,"
                         . "specialties   = %s ,"
                         . "collaboration = %d ,"
                         . "transaction   = %d "
-                        . "WHERE gid     = %d ", $desc, $name, $size, $type, $country, $sector, $subsector, $website, $specialties, $collaboration, $transaction, $group_id));
+                        . "WHERE gid     = %d ", $desc, $name, $size, $type, $country, $website, $specialties, $collaboration, $transaction, $group_id));
+        
+        //Clear the old metadata
+        $wpdb->get_results("DELETE  FROM `ext_organization_meta` where oid= $org_id");
+        //Store the updated metadata
+        $metadata = array("sector" => explode(",",$sectors) , "subsector" => explode(",",$subsectors));
+        CECOM_Organization::saveMetadata($org_id, $metadata);
+        
+    }
+
+    //Save meta data to ext_organization_meta table
+    public static function saveMetadata($orgID, $metadata) {
+        global $wpdb;
+        //Check if a valid orgID is given
+        if ($orgID) {
+            $query = "INSERT INTO ext_organization_meta (oid,mkey,mvalue) VALUES ";
+            //$metadata ($key => Array) Two dimensions array
+            foreach ($metadata as $mkey => $mvalue) {
+                foreach ($mvalue as $key => $value) {
+                    $query .= "($orgID,'$mkey','$value') ,";
+                }
+            }
+            //Remove last ","
+            $query = substr($query, 0, -1);
+
+            //Execute Query
+            $wpdb->get_results($query);
+        }
     }
 
 }
@@ -161,7 +219,6 @@ function registerOrganization($organization) {
     }
 
     global $wpdb;
-    //$wpdb->show_errors();
     $user_id = wp_create_user($sanitized_user_login, $organization['password'], $organization['email']);
     if (!$user_id):
         //Something gone wrong... Abort Registration
@@ -214,29 +271,31 @@ function registerOrganization($organization) {
             /* Register organization */
 
             //Oganization does not exist
-            //$wpdb->show_errors();
             $status = $wpdb->insert('ext_organization', array(
                 'gid' => $group_id,
                 'name' => $organization['name'],
                 'size_id' => $organization['size'],
                 'type_id' => $organization['type'],
                 'country_id' => $organization['country'],
-                'sector_id' => $organization['sector'],
-                'subsector_id' => $organization['subsector'],
                 'collaboration' => $organization['collaboration'],
                 'transaction' => $organization['transaction'],
                 'website' => $organization['website'],
                 'description' => $organization['description'],
-                'specialties' => $organization['specialties']), array('%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s', '%s', '%s')
+                'specialties' => $organization['specialties']), array('%d', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s')
             );
 
 
             //Something gone really bad... (Possible Action: trying to overwrite an existing organization)
             if ($status < 1)
                 echo -1;
-            else
-            //Registration has been successful...
+            else {
+                /* Final step, save the sectors and subcectors of the organization */
+                $orgID = CECOM_Organization::getUserOrganizationID($group_id);
+                $metadata = array("sector" => $organization['sectors'], "subsector" => $organization['subsectors']);
+                CECOM_Organization::saveMetadata($orgID, $metadata);
+                //Registration has been successful...
                 echo 1;
+            }
         }
         //Oganization already exist 
         else {

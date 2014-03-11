@@ -7,12 +7,12 @@ function firmasite_social_bbpress_init() {
 }
 
 // We are adding bbpress support for theme special systems
-add_action('firmasite_pre_get_posts_ekle', 'firmasite_bbpress_pre_get_posts_ekle');
+/*add_filter('firmasite_pre_get_posts_ekle', 'firmasite_bbpress_pre_get_posts_ekle');
 function firmasite_bbpress_pre_get_posts_ekle($array) {
 	$array[] = "forum";
 	$array[] = "topic";
 	return $array;
-}
+}*/
 
 // http://bbpress.org/forums/topic/make-notification-of-new-replies-auto-checked/
 add_filter( 'bbp_get_form_topic_subscribed', 'firmasite_auto_check_subscribe', 10, 2 );

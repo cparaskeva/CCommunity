@@ -30,8 +30,7 @@ function bp_groups_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_groups_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_groups_slug', $bp->groups->slug );
+		return apply_filters( 'bp_get_groups_slug', buddypress()->groups->slug );
 	}
 
 /**
@@ -54,8 +53,7 @@ function bp_groups_root_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_groups_root_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_groups_root_slug', $bp->groups->root_slug );
+		return apply_filters( 'bp_get_groups_root_slug', buddypress()->groups->root_slug );
 	}
 
 /**
@@ -477,11 +475,11 @@ function bp_group_type( $group = false ) {
 			$group =& $groups_template->group;
 
 		if ( 'public' == $group->status ) {
-			$type = __( "Public Group", "buddypress" );
+			$type = __( "Public Organisation", "buddypress" );
 		} else if ( 'hidden' == $group->status ) {
-			$type = __( "Hidden Group", "buddypress" );
+			$type = __( "Hidden Organisation", "buddypress" );
 		} else if ( 'private' == $group->status ) {
-			$type = __( "Private Group", "buddypress" );
+			$type = __( "Private Organisation", "buddypress" );
 		} else {
 			$type = ucwords( $group->status ) . ' ' . __( 'Group', 'buddypress' );
 		}
@@ -929,7 +927,7 @@ function bp_groups_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $start_num + ( $groups_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $groups_template->total_group_count );
 
-		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing organisation %1$s to %2$s (of %3$s group)', 'Viewing organisation %1$s to %2$s (of %3$s organisations)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing group %1$s to %2$s (of %3$s group)', 'Viewing group %1$s to %2$s (of %3$s groups)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 	}
 
 function bp_groups_auto_join() {

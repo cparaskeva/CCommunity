@@ -17,12 +17,6 @@ the web server.
 /etc/apache2/sites-enabled/000-default or /etc/httpd/conf/httpd.conf
 
         <Directory /var/www/cecommunity/>
-<<<<<<< HEAD
-          Options Indexes FollowSymLinks
-          AllowOverride All
-          Order allow,deny
-          Allow from all
-=======
           AllowOverride None
           php_flag display_errors on
 
@@ -42,6 +36,5 @@ the web server.
           RewriteRule  ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
           RewriteRule  ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]
           RewriteRule . index.php [L]
->>>>>>> CECommunity
         </Directory>
         

@@ -5,11 +5,11 @@
  * @version 1.0
  *
   /*
-  Plugin Name: CECommunity
+  Plugin Name: CECommunity Organisation
   Plugin URI: http://
-  Description: Manages the various actions of the CECommunity platform.
-  Author: Demonas
-  Version: 0.1
+  Description: Manages the organisation profiles of the CECommunity platform.
+  Author: Chris Paraskeva
+  Version: 1.0
  */
 if (!class_exists('CECommunity')) :
 
@@ -46,9 +46,6 @@ if (!class_exists('CECommunity')) :
         public static function instance() {
             if (!isset(self::$instance)) {
                 self::$instance = new CECommunity;
-                //self::$instance->constants();
-                //self::$instance->setup_globals();
-                //self::$instance->legacy_constants();
                 self::$instance->includes();
                 self::$instance->setup_actions();
             }
@@ -66,6 +63,7 @@ if (!class_exists('CECommunity')) :
 
         private function includes() {
             require( dirname(__FILE__) . '/organization/cecom-organization-core.php' );
+            require( dirname(__FILE__) . '/login_lostpassword/login-form-action-hook.php' );
         }
 
         private function setup_actions() {

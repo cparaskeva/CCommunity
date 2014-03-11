@@ -30,6 +30,7 @@ function bp_dtheme_register_actions() {
 		'blogs_filter'    => 'bp_dtheme_object_template_loader',
 		'forums_filter'   => 'bp_dtheme_object_template_loader',
 		'groups_filter'   => 'bp_dtheme_object_template_loader',
+		'offers_filter'   => 'bp_dtheme_object_template_loader',
 		'members_filter'  => 'bp_dtheme_object_template_loader',
 		'messages_filter' => 'bp_dtheme_messages_template_loader',
 

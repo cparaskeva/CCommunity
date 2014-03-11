@@ -143,7 +143,7 @@ class BP_Groups_Component extends BP_Component {
 			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
 			'has_directory'         => true,
 			'notification_callback' => 'groups_format_notifications',
-			'search_string'         => __( 'Search Groups...', 'buddypress' ),
+			'search_string'         => __( 'Search Organisations...', 'buddypress' ),
 			'global_tables'         => $global_tables
 		);
 
@@ -153,7 +153,6 @@ class BP_Groups_Component extends BP_Component {
 
 		// Are we viewing a single group?
 		if ( bp_is_groups_component() && $group_id = BP_Groups_Group::group_exists( bp_current_action() ) ) {
-
 			$bp->is_single_item  = true;
 			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' );
 			$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
@@ -342,7 +341,7 @@ class BP_Groups_Component extends BP_Component {
 
 		// Add 'Groups' to the main navigation
 		$main_nav = array(
-			'name'                => sprintf( __( 'Groups <span>%s</span>', 'buddypress' ), bp_get_total_group_count_for_user() ),
+			'name'                => sprintf( __( 'Organisations <span>%s</span>', 'buddypress' ), bp_get_total_group_count_for_user() ),
 			'slug'                => $this->slug,
 			'position'            => 70,
 			'screen_function'     => 'groups_screen_my_groups',
@@ -358,7 +357,7 @@ class BP_Groups_Component extends BP_Component {
 		} else {
 			$user_domain = false;
 		}
-
+         
 		if ( !empty( $user_domain ) ) {
 			$groups_link = trailingslashit( $user_domain . $this->slug );
 

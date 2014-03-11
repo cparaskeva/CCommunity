@@ -16,6 +16,21 @@
 		<?php if ( bbp_is_user_home() || current_user_can( 'edit_users' ) ) : ?>
 
 			<div id="bbp-user-subscriptions" class="bbp-user-subscriptions">
+				<h2 class="entry-title"><?php _e( 'Subscribed Forums', 'firmasite' ); ?></h2>
+				<div class="bbp-user-section">
+
+					<?php if ( bbp_get_user_forum_subscriptions() ) : ?>
+
+						<?php bbp_get_template_part( 'loop', 'forums' ); ?>
+
+					<?php else : ?>
+
+						<p><?php bbp_is_user_home() ? _e( 'You are not currently subscribed to any forums.', 'firmasite' ) : _e( 'This user is not currently subscribed to any forums.', 'firmasite' ); ?></p>
+
+					<?php endif; ?>
+
+				</div>
+                
 				<h2 class="entry-title"><?php _e( 'Subscribed Forum Topics', 'firmasite' ); ?></h2>
 				<div class="bbp-user-section">
 

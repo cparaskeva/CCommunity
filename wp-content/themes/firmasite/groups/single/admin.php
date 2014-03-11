@@ -103,12 +103,14 @@
 			<input type="radio" name="group-invite-status" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> /> 
 			<strong><?php _e( 'All group members', 'firmasite' ); ?></strong> 
 		</label> 
-
+	</div>
+	<div class="radio"> 
 		<label> 
 			<input type="radio" name="group-invite-status" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> /> 
 			<strong><?php _e( 'Group admins and mods only', 'firmasite' ); ?></strong> 
 		</label>
-		
+	</div>
+	<div class="radio"> 
 		<label> 
 			<input type="radio" name="group-invite-status" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> /> 
 			<strong><?php _e( 'Group admins only', 'firmasite' ); ?></strong> 

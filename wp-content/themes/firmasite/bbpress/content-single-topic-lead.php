@@ -21,9 +21,9 @@
 
 			<?php _e( 'Topic', 'firmasite' ); ?>
 
-			<?php bbp_user_subscribe_link(); ?>
+			<?php bbp_topic_subscription_link(); ?>
 
-			<?php bbp_user_favorites_link(); ?>
+			<?php bbp_topic_favorite_link(); ?>
 
 		</div><!-- .bbp-topic-content -->
 

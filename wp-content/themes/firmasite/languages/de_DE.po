@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FirmaSite v1.3.1\n"
+"Project-Id-Version: FirmaSite v1.3.1.2\n"
 "Report-Msgid-Bugs-To: http://deckerweb.de/kontakt/\n"
 "POT-Creation-Date: 2012-06-28 16:00+0100\n"
-"PO-Revision-Date: 2013-10-01 12:36:47+0000\n"
+"PO-Revision-Date: 2013-11-25 21:47:09+0000\n"
 "Last-Translator: Axel Pohl <axel.pohl@iris-egris.de>\n"
 "Language-Team: DECKERWEB -- http://deckerweb.de/kontakt/\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 #, php-format
 #@ firmasite
 msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
-msgstr "Bereit Ihren ersten Beitrag zu veröffentlichen? <a href=\"%1$s\">Erste Schritte</a>."
+msgstr "Bereit, Ihren ersten Beitrag zu veröffentlichen? <a href=\"%1$s\">Erste Schritte</a>."
 
 #: registration/register.php:51
 #@ firmasite
@@ -64,12 +64,13 @@ msgstr "Erwähnungen"
 msgid "Capabilities"
 msgstr "Rechte"
 
+#: functions/showcase.php:222
 #: page-full-width.php:9
 #@ firmasite
 msgid "Full Width"
 msgstr "Volle Breite"
 
-#: functions/customizer.php:122
+#: functions/customizer.php:113
 #@ firmasite
 msgid "Site Title Color"
 msgstr "Farbe des Titels der Website"
@@ -94,8 +95,8 @@ msgstr "Favorisieren"
 msgctxt "comments title"
 msgid "One thought on &ldquo;%2$s&rdquo;"
 msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
-msgstr[0] "Eine Anmerkung zu &ldquo;%2$s&rdquo;"
-msgstr[1] "%1$s Anmerkungen zu &ldquo;%2$s&rdquo;"
+msgstr[0] "Ein Gedanke zu &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s Gedanken zu &ldquo;%2$s&rdquo;"
 
 #: bbpress/form-user-edit.php:170
 #@ firmasite
@@ -164,12 +165,12 @@ msgstr "Antworten von %s"
 #: bbpress/form-topic.php:248
 #@ firmasite
 msgid "You cannot create new topics."
-msgstr "Sie können keinen neuen Themen erstellen."
+msgstr "Sie können keine neuen Themen erstellen."
 
 #: bbpress/form-user-edit.php:149
 #@ firmasite
 msgid "Your password should be at least ten characters long. Use upper and lower case letters, numbers, and symbols to make it even stronger."
-msgstr "Ihr Passwort sollte aus mindestens zehn Zeichen bestehen. Verwenden Sie Groß- und kleinbuchstaben, Zahlen und Sonderzeichen, um es noch sicherer zu machen."
+msgstr "Ihr Passwort sollte aus mindestens zehn Zeichen bestehen. Verwenden Sie Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen, um es noch sicherer zu machen."
 
 #: bbpress/loop-single-reply-threaded.php:33
 #: bbpress/loop-single-reply.php:33
@@ -264,7 +265,7 @@ msgstr "Neues Thema"
 msgid "New Reply"
 msgstr "Neue Antwort"
 
-#: functions/bbpress.php:106
+#: functions/bbpress.php:113
 #@ firmasite
 msgid "No Replies"
 msgstr "Keine Antworten"
@@ -273,7 +274,7 @@ msgstr "Keine Antworten"
 #, php-format
 #@ firmasite
 msgid "Reply To: %s"
-msgstr "Antwort zu: %s"
+msgstr "Antwort auf: %s"
 
 #: bbpress/user-details.php:28
 #: members/single/profile/profile-wp.php:8
@@ -348,7 +349,7 @@ msgstr "Forum erstellen"
 #: bbpress/form-forum.php:47
 #@ firmasite
 msgid "This forum is closed to new content, however your account still allows you to do so."
-msgstr "Dieses Forum ist für neue Inhalte geschlossen; wie auch immer, Ihr Benutzerkonto erlaubt es Ihnen dennoch."
+msgstr "Dieses Forum ist für neue Inhalte geschlossen; Ihr Benutzerkonto erlaubt es Ihnen dennoch."
 
 #: bbpress/form-forum.php:55
 #: bbpress/form-reply.php:44
@@ -521,7 +522,7 @@ msgstr "Sie können dieses Thema nicht bearbeiten."
 #, php-format
 #@ firmasite
 msgid "Split topic \"%s\""
-msgstr "Thema \"%s\" trennen"
+msgstr "Thema \"%s\" auftrennen"
 
 #: bbpress/form-topic-split.php:29
 #@ firmasite
@@ -733,7 +734,7 @@ msgstr "Antworten"
 msgid "Creator"
 msgstr "Verfasser"
 
-#: functions/bbpress.php:136
+#: functions/bbpress.php:143
 #@ firmasite
 msgid "No Topics"
 msgstr "Keine Themen"
@@ -749,7 +750,7 @@ msgstr "(kein übergeordnetes)"
 msgid "Account"
 msgstr "Benutzerkonto"
 
-#: functions/customizer.php:94
+#: functions/customizer.php:85
 #@ firmasite
 msgid "Logo"
 msgstr "Logo"
@@ -788,7 +789,7 @@ msgstr "Neu"
 #: templates/no-results.php:23
 #@ firmasite
 msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
-msgstr "Tut uns leid, aber zu Ihrem Suchbegriff konnte nichts gefunden werden. Versuchen Sie es bitte mit anderen Stichwörtern erneut."
+msgstr "Tut mir Leid, aber zu Ihrem Suchbegriff konnte nichts gefunden werden. Versuchen Sie es doch noch einmal mit anderen Suchbegriffen."
 
 #: templates/no-results.php:28
 #@ firmasite
@@ -878,7 +879,7 @@ msgstr "%s <span class=\"says\">schreibt:</span>"
 msgid "Pingback:"
 msgstr "Pingback:"
 
-#: functions/class-tgm-plugin-activation.php:1106
+#: functions/class-tgm-plugin-activation.php:1140
 #@ firmasite
 msgid "Required"
 msgstr "Erforderlich"
@@ -890,19 +891,19 @@ msgstr "Erforderlich"
 msgid "Upload Image"
 msgstr "Profilbild hochladen"
 
-#: functions/class-tgm-plugin-activation.php:1956
-#: functions/class-tgm-plugin-activation.php:1965
+#: functions/class-tgm-plugin-activation.php:2018
+#: functions/class-tgm-plugin-activation.php:2027
 #@ firmasite
 msgid "Show Details"
 msgstr "Details anzeigen"
 
-#: functions/class-tgm-plugin-activation.php:1956
-#: functions/class-tgm-plugin-activation.php:1965
+#: functions/class-tgm-plugin-activation.php:2018
+#: functions/class-tgm-plugin-activation.php:2027
 #@ firmasite
 msgid "Hide Details"
 msgstr "Details verstecken"
 
-#: functions/customizer.php:371
+#: functions/customizer.php:362
 #@ firmasite
 msgid "Menus"
 msgstr "Menüs"
@@ -923,12 +924,12 @@ msgstr "Mein Profil"
 msgid "Account Details"
 msgstr "Details Benutzerkonto"
 
-#: functions/customizer.php:260
+#: functions/customizer.php:251
 #@ firmasite
 msgid "Theme Settings"
 msgstr "Theme Einstellungen"
 
-#: functions/showcase.php:219
+#: functions/showcase.php:241
 #: templates/bbpress.php:19
 #: templates/post/loop_excerpt/loop-image.php:22
 #: templates/post/loop_excerpt/loop.php:25
@@ -940,7 +941,7 @@ msgstr "Theme Einstellungen"
 #: templates/post/loop_list/loop-quote.php:17
 #: templates/post/loop_list/loop-status.php:17
 #: templates/post/loop_list/loop.php:21
-#: templates/post/loop_tile/loop.php:30
+#: templates/post/loop_tile/loop.php:29
 #: templates/post/promotionbar/loop.php:17
 #: templates/post/showcase/loop.php:23
 #: templates/post/single.php:19
@@ -950,7 +951,7 @@ msgstr "Theme Einstellungen"
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Weiterlesen <span class=\"meta-nav\">&rarr;</span>"
 
-#: functions/class-tgm-plugin-activation.php:1831
+#: functions/class-tgm-plugin-activation.php:1893
 #@ firmasite
 msgid "Unpacking the package&#8230;"
 msgstr "Entpacken des Pakets&#8230;"
@@ -960,12 +961,12 @@ msgstr "Entpacken des Pakets&#8230;"
 msgid "Edit:"
 msgstr "Bearbeiten:"
 
-#: groups/single/forum/topic.php:95
+#: groups/single/forum/topic.php:79
 #@ firmasite
 msgid "Permanent link to this post"
 msgstr "Permalink zu diesem Eintrag"
 
-#: functions/customizer.php:181
+#: functions/customizer.php:172
 #@ firmasite
 msgid "Font"
 msgstr "Schriftart"
@@ -980,12 +981,12 @@ msgstr "Passwort vergessen?"
 msgid "User registration is currently not allowed."
 msgstr "Benutzerregistrierung ist derzeit nicht erlaubt."
 
-#: functions/class-tgm-plugin-activation.php:1299
+#: functions/class-tgm-plugin-activation.php:1361
 #@ firmasite
 msgid "Type"
 msgstr "Art"
 
-#: functions/customizer.php:239
+#: functions/customizer.php:230
 #@ firmasite
 msgid "Theme Style"
 msgstr "Theme Style"
@@ -1018,7 +1019,7 @@ msgstr "Theme:"
 msgid "Author Information"
 msgstr "Autoreninformationen"
 
-#: functions/customizer.php:216
+#: functions/customizer.php:207
 #@ firmasite
 msgid "Layout"
 msgstr "Layout"
@@ -1073,7 +1074,7 @@ msgstr "% Kommentare"
 #: templates/post/loop_list/loop-quote.php:20
 #: templates/post/loop_list/loop-status.php:20
 #: templates/post/loop_list/loop.php:25
-#: templates/post/loop_tile/loop.php:37
+#: templates/post/loop_tile/loop.php:35
 #: templates/post/promotionbar/loop.php:21
 #: templates/post/single.php:23
 #: templates/single-page.php:26
@@ -1141,7 +1142,7 @@ msgstr "Webseite:"
 msgid "Rejected"
 msgstr "Abgelehnt"
 
-#: functions/class-tgm-plugin-activation.php:1298
+#: functions/class-tgm-plugin-activation.php:1360
 #@ firmasite
 msgid "Source"
 msgstr "Quelle"
@@ -1195,7 +1196,7 @@ msgstr "Kontaktinfos"
 #: bbpress/form-user-edit.php:87
 #@ firmasite
 msgid "About Yourself"
-msgstr "Über dich"
+msgstr "Über Sie"
 
 #: bbpress/form-user-edit.php:84
 #: bbpress/form-user-edit.php:87
@@ -1370,7 +1371,7 @@ msgstr "Bezeichnung"
 msgid "Activation Key:"
 msgstr "Aktivierungsschlüssel:"
 
-#: functions/class-tgm-plugin-activation.php:1300
+#: functions/class-tgm-plugin-activation.php:1362
 #@ firmasite
 msgid "Status"
 msgstr "Status"
@@ -1508,8 +1509,8 @@ msgstr[1] "Themen"
 #: bbpress/loop-search-topic.php:63
 #: bbpress/loop-single-topic.php:70
 #: forums/forums-loop.php:41
-#: functions/bbpress.php:104
-#: functions/bbpress.php:134
+#: functions/bbpress.php:111
+#: functions/bbpress.php:141
 #@ firmasite
 msgid "Freshness"
 msgstr "Zuletzt aktiv"
@@ -1528,18 +1529,19 @@ msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
 
 #: functions/customizer-call.php:76
-#: functions/customizer.php:322
-#: functions/customizer.php:343
+#: functions/customizer.php:313
+#: functions/customizer.php:334
+#: functions/showcase.php:220
 #@ firmasite
 msgid "Default"
 msgstr "Standard"
 
-#: functions/class-tgm-plugin-activation.php:1297
+#: functions/class-tgm-plugin-activation.php:1359
 #@ firmasite
 msgid "Plugin"
 msgstr "Plugin"
 
-#: functions/class-tgm-plugin-activation.php:1319
+#: functions/class-tgm-plugin-activation.php:1381
 #: registration/activate.php:41
 #@ firmasite
 msgid "Activate"
@@ -1597,7 +1599,7 @@ msgstr "Sie sind allein in dieser Unterhaltung."
 msgid "Started by %1$s"
 msgstr "Begonnen von %1$s"
 
-#: groups/single/forum/topic.php:81
+#: groups/single/forum/topic.php:65
 #, php-format
 #@ firmasite
 msgid "%1$s said %2$s:"
@@ -1696,7 +1698,7 @@ msgstr "Meine Favoriten <span>%s</span>"
 msgid "Back to Previous Step"
 msgstr "Zurück zum vorangegangenen Schritt"
 
-#: groups/groups-loop.php:59
+#: groups/groups-loop.php:43
 #: groups/single/group-header.php:41
 #, php-format
 #@ firmasite
@@ -2301,7 +2303,7 @@ msgstr "Laden Sie Leute aus Ihrer Freundesliste ein."
 msgid "Create Group and Continue"
 msgstr "Gruppe erstellen und fortfahren"
 
-#: groups/groups-loop.php:96
+#: groups/groups-loop.php:80
 #@ firmasite
 msgid "There were no groups found."
 msgstr "Es wurden keine Gruppen gefunden."
@@ -2370,20 +2372,20 @@ msgid "Promote to Mod"
 msgstr "Zum Moderator befördern"
 
 #: groups/single/admin.php:295
-#: groups/single/members.php:87
+#: groups/single/members.php:71
 #@ firmasite
 msgid "This group has no members."
 msgstr "Diese Gruppe hat keine Mitglieder."
 
 #: groups/single/admin.php:325
-#: members/single/friends/requests.php:37
+#: members/single/friends/requests.php:21
 #: members/single/groups/invites.php:23
 #@ firmasite
 msgid "Accept"
 msgstr "Annehmen"
 
 #: groups/single/admin.php:327
-#: members/single/friends/requests.php:38
+#: members/single/friends/requests.php:22
 #: members/single/groups/invites.php:24
 #@ firmasite
 msgid "Reject"
@@ -2414,27 +2416,27 @@ msgstr "Sie werden automatisch Gruppenmitglied, wenn Sie ein neues Thema eröffn
 msgid "This topic does not exist."
 msgstr "Dieses Thema existiert nicht."
 
-#: groups/single/forum/topic.php:134
+#: groups/single/forum/topic.php:118
 #@ firmasite
 msgid "You will auto join this group when you reply to this topic."
 msgstr "Sie werden automatisch Gruppenmitglied, wenn Sie diesem Thema antworten."
 
-#: groups/single/forum/topic.php:139
+#: groups/single/forum/topic.php:123
 #@ firmasite
 msgid "Add a reply:"
 msgstr "Antwort hinzufügen:"
 
-#: groups/single/forum/topic.php:144
+#: groups/single/forum/topic.php:128
 #@ firmasite
 msgid "Post Reply"
 msgstr "Antwort verfassen"
 
-#: groups/single/forum/topic.php:155
+#: groups/single/forum/topic.php:139
 #@ firmasite
 msgid "This topic is closed, replies are no longer accepted."
 msgstr "Dieses Thema ist geschlossen, weitere Antworten sind nicht zugelassen."
 
-#: groups/single/forum/topic.php:119
+#: groups/single/forum/topic.php:103
 #@ firmasite
 msgid "There are no posts for this topic."
 msgstr "Es gibt noch keine Antworten zu diesem Thema."
@@ -2476,12 +2478,12 @@ msgstr "Mitgliederverzeichnis"
 msgid "Newest Registered"
 msgstr "Zuletzt registriert"
 
-#: members/members-loop.php:108
+#: members/members-loop.php:92
 #@ firmasite
 msgid "Sorry, no members were found."
 msgstr "Es wurden keine Benutzer gefunden."
 
-#: members/single/friends/requests.php:68
+#: members/single/friends/requests.php:52
 #@ firmasite
 msgid "You have no pending friendship requests."
 msgstr "Sie haben keine offene Freundschaftsanfragen."
@@ -2509,7 +2511,7 @@ msgstr "Von:"
 #: members/single/messages/messages-loop.php:41
 #@ firmasite
 msgid "To:"
-msgstr "Bis:"
+msgstr "An:"
 
 #: members/single/messages/messages-loop.php:47
 #@ firmasite
@@ -2642,12 +2644,12 @@ msgstr "Ihr Benutzerkonto wurde erfolgreich aktiviert. Sie können sich nun mit 
 #: assets/_inc/ajax.php:276
 #@ firmasite
 msgid "Please enter some content to post."
-msgstr "Bitte gebe etwas Inhalt im Beitrag an."
+msgstr "Bitte geben Sie etwas Inhalt im Beitrag ein."
 
 #: assets/_inc/ajax.php:324
 #@ firmasite
 msgid "Please do not leave the comment area blank."
-msgstr "Bitte hinterlasse den Kommentarbereich nicht leer."
+msgstr "Bitte lassen Sie den Kommentarbereich nicht leer."
 
 #: assets/_inc/ajax.php:327
 #: assets/_inc/ajax.php:336
@@ -2719,7 +2721,7 @@ msgstr "Freundschaftsanfrage abbrechen"
 #: assets/_inc/ajax.php:627
 #@ firmasite
 msgid " Friendship could not be requested."
-msgstr " Freundschaft konnte nicht angefordert werden."
+msgstr " Freundschaftsanfrage konnte nicht gestellt werden."
 
 #: assets/_inc/ajax.php:639
 #@ firmasite
@@ -2729,14 +2731,14 @@ msgstr "Die Freundschaftsanfrage konnte nicht abgebrochen werden."
 #: groups/create.php:125
 #@ firmasite
 msgid "Should this group have a forum?"
-msgstr "Sollte diese Gruppe ein Forum haben?"
+msgstr "Soll diese Gruppe ein Forum bekommen?"
 
 #: functions/buddypress.php:283
 #: functions/buddypress.php:297
 #, php-format
 #@ firmasite
 msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
-msgstr "Dieses Feld kann gesehen werden von: <span class=\"current-visibility-level\">%s</span>"
+msgstr "Dieses Feld ist sichtbar für: <span class=\"current-visibility-level\">%s</span>"
 
 #: functions/buddypress.php:288
 #@ firmasite
@@ -2769,19 +2771,19 @@ msgid "Grant this user super admin privileges for the Network."
 msgstr "Diesem Benutzer Superadminrechte für das Netzwerk gewähren."
 
 #: functions/class-tgm-plugin-activation.php:164
-#: functions/init.php:457
+#: functions/init.php:458
 #@ firmasite
 msgid "Install Required Plugins"
 msgstr "Installiere die notwendigen Plugins"
 
 #: functions/class-tgm-plugin-activation.php:165
-#: functions/init.php:458
+#: functions/init.php:459
 #@ firmasite
 msgid "Install Plugins"
 msgstr "Installiere Plugins"
 
 #: functions/class-tgm-plugin-activation.php:166
-#: functions/init.php:459
+#: functions/init.php:460
 #, php-format
 #@ firmasite
 msgid "Installing Plugin: %s"
@@ -2793,7 +2795,7 @@ msgid "Something went wrong."
 msgstr "Es ist etwas schief gegangen."
 
 #: functions/class-tgm-plugin-activation.php:168
-#: functions/init.php:461
+#: functions/init.php:462
 #, php-format
 #@ firmasite
 msgid "This theme requires the following plugin: %1$s."
@@ -2802,7 +2804,7 @@ msgstr[0] "Dieses Theme benötigt das folgende Plugin: %1$s."
 msgstr[1] "Dieses Theme benötigt die folgenden Plugins: %1$s."
 
 #: functions/class-tgm-plugin-activation.php:169
-#: functions/init.php:462
+#: functions/init.php:463
 #, php-format
 #@ firmasite
 msgid "This theme recommends the following plugin: %1$s."
@@ -2810,17 +2812,17 @@ msgid_plural "This theme recommends the following plugins: %1$s."
 msgstr[0] "Dieses Theme empfiehlt das folgende Plugin: %1$s."
 msgstr[1] "Dieses Theme empfiehlt die folgenden Plugins: %1$s."
 
-#: functions/class-tgm-plugin-activation.php:170
-#: functions/init.php:463
+#: functions/class-tgm-plugin-activation.php:171
+#: functions/init.php:464
 #, php-format
 #@ firmasite
 msgid "Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed."
 msgid_plural "Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed."
-msgstr[0] "Entschuldigung, aber Sie haben nicht die erforderlichen Rechte, um das Plugin %s zu installieren. Nehmen SIe Kontakt mit dem Administrator dieser Site auf, um Unterstützung bei der Installation zu bekommen."
-msgstr[1] "Entschuldigung, aber Sie haben nicht die erforderlichen Rechte, um die Plugins %s zu installieren. Nehmen Sie Kontakt mit dem Administrator dieser Site auf, um Unterstützung bei der Installation zu bekommen."
+msgstr[0] "Entschuldigung, aber Sie haben nicht die erforderlichen Rechte um das Plugin %s zu aktivieren. Nehmen Sie Kontakt zum Administrator dieser Website auf, um Unterstützung bei der Aktivierung dieses Plugins zu erhalten."
+msgstr[1] "Entschuldigung, aber Sie haben nicht die erforderlichen Rechte um die Plugins %s zu aktivieren. Nehmen Sie Kontakt zum Administrator dieser Website auf, um Unterstützung bei der Aktivierung dieser Plugins zu erhalten."
 
-#: functions/class-tgm-plugin-activation.php:171
-#: functions/init.php:464
+#: functions/class-tgm-plugin-activation.php:172
+#: functions/init.php:465
 #, php-format
 #@ firmasite
 msgid "The following required plugin is currently inactive: %1$s."
@@ -2828,8 +2830,8 @@ msgid_plural "The following required plugins are currently inactive: %1$s."
 msgstr[0] "Das folgende erforderliche Plugin ist im Moment nicht aktiviert: %1$s."
 msgstr[1] "Die folgenden erforderlichen Plugins sind im Moment nicht aktiviert: %1$s."
 
-#: functions/class-tgm-plugin-activation.php:172
-#: functions/init.php:465
+#: functions/class-tgm-plugin-activation.php:173
+#: functions/init.php:466
 #, php-format
 #@ firmasite
 msgid "The following recommended plugin is currently inactive: %1$s."
@@ -2837,8 +2839,8 @@ msgid_plural "The following recommended plugins are currently inactive: %1$s."
 msgstr[0] "Das folgende empfohlene Plugin ist im Moment nicht aktiviert: %1$s."
 msgstr[1] "Die folgenden empfohlenen Plugins sind im Moment nicht aktiviert: %1$s."
 
-#: functions/class-tgm-plugin-activation.php:173
-#: functions/init.php:466
+#: functions/class-tgm-plugin-activation.php:174
+#: functions/init.php:467
 #, php-format
 #@ firmasite
 msgid "Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated."
@@ -2846,8 +2848,8 @@ msgid_plural "Sorry, but you do not have the correct permissions to activate the
 msgstr[0] "Entschuldigung, aber Sie haben nicht die erforderlichen Rechte um das Plugin %s zu aktivieren. Nehmen Sie Kontakt zum Administrator dieser Website auf, um Unterstützung bei der Aktivierung dieses Plugins zu erhalten."
 msgstr[1] "Entschuldigung, aber Sie haben nicht die erforderlichen Rechte um die Plugins %s zu aktivieren. Nehmen Sie Kontakt zum Administrator dieser Website auf, um Unterstützung bei der Aktivierung dieser Plugins zu erhalten."
 
-#: functions/class-tgm-plugin-activation.php:174
-#: functions/init.php:467
+#: functions/class-tgm-plugin-activation.php:175
+#: functions/init.php:468
 #, php-format
 #@ firmasite
 msgid "The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s."
@@ -2855,8 +2857,8 @@ msgid_plural "The following plugins need to be updated to their latest version t
 msgstr[0] "Das folgende Plugin muss auf die neueste Version updated werden, um maximale Kompatibilität mit diesem Theme sicherzustellen: %1$s."
 msgstr[1] "Die folgenden Plugins müssen auf die neueste Version updated werden, um maximale Kompatibilität mit diesem Theme sicherzustellen: %1$s."
 
-#: functions/class-tgm-plugin-activation.php:175
-#: functions/init.php:468
+#: functions/class-tgm-plugin-activation.php:176
+#: functions/init.php:469
 #, php-format
 #@ firmasite
 msgid "Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated."
@@ -2864,194 +2866,194 @@ msgid_plural "Sorry, but you do not have the correct permissions to update the %
 msgstr[0] "Entschuldigung, aber Sie haben nicht die erforderlichen Rechte um das Plugin %s zu updaten. Nehmen Sie Kontakt zum Administrator dieser Website auf, um Unterstützung beim Updaten dieses Plugins zu erhalten."
 msgstr[1] "Entschuldigung, aber Sie haben nicht die erforderlichen Rechte um die Plugins %s zu updaten. Nehmen Sie Kontakt zum Administrator dieser Website auf, um Unterstützung beim Updaten dieser Plugins zu erhalten."
 
-#: functions/class-tgm-plugin-activation.php:176
-#: functions/init.php:469
+#: functions/class-tgm-plugin-activation.php:177
+#: functions/init.php:470
 #@ firmasite
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] "Beginne mit der Installation des Plugins"
 msgstr[1] "Beginne mit der Installation der Plugins"
 
-#: functions/class-tgm-plugin-activation.php:177
-#: functions/init.php:470
+#: functions/class-tgm-plugin-activation.php:179
+#: functions/init.php:471
 #@ firmasite
 msgid "Activate installed plugin"
 msgid_plural "Activate installed plugins"
 msgstr[0] "Aktiviere installiertes Plugin"
 msgstr[1] "Aktiviere installierte Plugins"
 
-#: functions/class-tgm-plugin-activation.php:178
-#: functions/class-tgm-plugin-activation.php:490
-#: functions/init.php:471
+#: functions/class-tgm-plugin-activation.php:180
+#: functions/class-tgm-plugin-activation.php:510
+#: functions/init.php:472
 #@ firmasite
 msgid "Return to Required Plugins Installer"
 msgstr "Zurück zum Installer für erforderliche Plugins"
 
-#: functions/class-tgm-plugin-activation.php:179
-#: functions/class-tgm-plugin-activation.php:1846
-#: functions/init.php:472
+#: functions/class-tgm-plugin-activation.php:181
+#: functions/class-tgm-plugin-activation.php:1908
+#: functions/init.php:473
 #@ firmasite
 msgid "Plugin activated successfully."
 msgstr "Plugin erfolgreich aktiviert."
 
-#: functions/class-tgm-plugin-activation.php:180
+#: functions/class-tgm-plugin-activation.php:182
 #, php-format
 #@ firmasite
 msgid "All plugins installed and activated successfully. %1$s"
 msgstr "Alle Plugins installiert und erfolgreich aktiviert. %1$s"
 
-#: functions/class-tgm-plugin-activation.php:517
-#: functions/class-tgm-plugin-activation.php:2058
+#: functions/class-tgm-plugin-activation.php:537
+#: functions/class-tgm-plugin-activation.php:2120
 #@ firmasite
 msgid "Return to the Dashboard"
 msgstr "Zurück zum Dashboard"
 
-#: functions/class-tgm-plugin-activation.php:545
+#: functions/class-tgm-plugin-activation.php:565
 #, php-format
 #@ firmasite
 msgid "The following plugin was activated successfully: %s."
 msgstr "Das folgende Plugin wurde erfolgreich aktiviert: %s."
 
-#: functions/class-tgm-plugin-activation.php:704
+#: functions/class-tgm-plugin-activation.php:738
 #@ firmasite
 msgid "Dismiss this notice"
 msgstr "Diese Notiz verwerfen"
 
-#: functions/class-tgm-plugin-activation.php:1091
+#: functions/class-tgm-plugin-activation.php:1125
 #@ firmasite
 msgid "External Link"
 msgstr "Externer Link"
 
-#: functions/class-tgm-plugin-activation.php:1096
+#: functions/class-tgm-plugin-activation.php:1130
 #@ firmasite
 msgid "Private Repository"
 msgstr "Privates Repository"
 
-#: functions/class-tgm-plugin-activation.php:1099
+#: functions/class-tgm-plugin-activation.php:1133
 #@ firmasite
 msgid "Pre-Packaged"
 msgstr "Mitgeliefert"
 
-#: functions/class-tgm-plugin-activation.php:1103
+#: functions/class-tgm-plugin-activation.php:1137
 #@ firmasite
 msgid "WordPress Repository"
 msgstr "WordPress Repository"
 
-#: functions/class-tgm-plugin-activation.php:1106
+#: functions/class-tgm-plugin-activation.php:1140
 #@ firmasite
 msgid "Recommended"
 msgstr "Empfohlen"
 
-#: functions/class-tgm-plugin-activation.php:1109
+#: functions/class-tgm-plugin-activation.php:1143
 #@ firmasite
 msgid "Not Installed"
 msgstr "Nicht installiert"
 
-#: functions/class-tgm-plugin-activation.php:1111
+#: functions/class-tgm-plugin-activation.php:1145
 #@ firmasite
 msgid "Installed But Not Activated"
 msgstr "Installiert, aber nicht aktiviert"
 
-#: functions/class-tgm-plugin-activation.php:1281
+#: functions/class-tgm-plugin-activation.php:1343
 #, php-format
 #@ firmasite
 msgid "No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the Dashboard\">Return to the Dashboard</a>"
 msgstr "Keine Plugins zu installieren oder aktivieren.  <a href=\"%1$s\" title=\"Zurück zum Dashboard\">Zurück zum Dashboard</a>"
 
-#: functions/class-tgm-plugin-activation.php:1318
+#: functions/class-tgm-plugin-activation.php:1380
 #@ firmasite
 msgid "Install"
 msgstr "Installieren"
 
-#: functions/class-tgm-plugin-activation.php:1544
+#: functions/class-tgm-plugin-activation.php:1606
 #@ firmasite
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] "Das folgende Plugin ist erfolgreich aktiviert worden:"
 msgstr[1] "Die folgenden Plugins sind erfolgreich aktiviert worden:"
 
-#: functions/class-tgm-plugin-activation.php:1829
+#: functions/class-tgm-plugin-activation.php:1891
 #@ firmasite
 msgid "Install package not available."
 msgstr "Installationspaket nicht vorhanden."
 
-#: functions/class-tgm-plugin-activation.php:1830
+#: functions/class-tgm-plugin-activation.php:1892
 #, php-format
 #@ firmasite
 msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
 msgstr "Download des Installationspakets von  <span class=\"code\">%s</span>&#8230;"
 
-#: functions/class-tgm-plugin-activation.php:1832
+#: functions/class-tgm-plugin-activation.php:1894
 #@ firmasite
 msgid "Installing the plugin&#8230;"
 msgstr "Installiere das Plugin&#8230;"
 
-#: functions/class-tgm-plugin-activation.php:1833
+#: functions/class-tgm-plugin-activation.php:1895
 #@ firmasite
 msgid "Plugin install failed."
 msgstr "Plugin-Installation fehlgeschlagen."
 
-#: functions/class-tgm-plugin-activation.php:1834
+#: functions/class-tgm-plugin-activation.php:1896
 #@ firmasite
 msgid "Plugin installed successfully."
 msgstr "Plugin erfolgreich installiert."
 
-#: functions/class-tgm-plugin-activation.php:1845
+#: functions/class-tgm-plugin-activation.php:1907
 #@ firmasite
 msgid "Plugin activation failed."
 msgstr "Aktivierung des Plugins fehlgeschlagen."
 
-#: functions/class-tgm-plugin-activation.php:1955
+#: functions/class-tgm-plugin-activation.php:2017
 #@ firmasite
 msgid "The installation and activation process is starting. This process may take a while on some hosts, so please be patient."
 msgstr "Der Installations- und Aktivierungsprozess ist gestartet. Dieser Prozess kann auf einigen Systemen eine Weile dauern, darum gedulde dich bitte ein bisschen."
 
-#: functions/class-tgm-plugin-activation.php:1956
+#: functions/class-tgm-plugin-activation.php:2018
 #, php-format
 #@ firmasite
 msgid "%1$s installed and activated successfully."
 msgstr "%1$s erfolgreich installiert und aktiviert."
 
-#: functions/class-tgm-plugin-activation.php:1957
+#: functions/class-tgm-plugin-activation.php:2019
 #@ firmasite
 msgid "All installations and activations have been completed."
 msgstr "Alle Installierungen und Aktivierungen erfolgreich ausgeführt."
 
-#: functions/class-tgm-plugin-activation.php:1958
+#: functions/class-tgm-plugin-activation.php:2020
 #, php-format
 #@ firmasite
 msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
-msgstr "Installieren Sie und aktivieren Sie das Plugin %1$s (%2$d/%3$d)"
+msgstr "Installieren und aktivieren Sie das Plugin %1$s (%2$d/%3$d)"
 
-#: functions/class-tgm-plugin-activation.php:1962
+#: functions/class-tgm-plugin-activation.php:2024
 #@ firmasite
 msgid "The installation process is starting. This process may take a while on some hosts, so please be patient."
 msgstr "Der Installationsprozess hat begonnen. Dieser Prozess kann auf einigen Systemen eine Weile dauern, deshalb gedulde dich bitte ein bisschen."
 
-#: functions/class-tgm-plugin-activation.php:1963
+#: functions/class-tgm-plugin-activation.php:2025
 #, php-format
 #@ firmasite
 msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
 msgstr "Ein Fehler ist aufgetreten bei der Installtion von %1$s: <strong>%2$s</strong>."
 
-#: functions/class-tgm-plugin-activation.php:1964
+#: functions/class-tgm-plugin-activation.php:2026
 #, php-format
 #@ firmasite
 msgid "The installation of %1$s failed."
 msgstr "Die Installation von %1$s ist fehlgeschlagen."
 
-#: functions/class-tgm-plugin-activation.php:1965
+#: functions/class-tgm-plugin-activation.php:2027
 #, php-format
 #@ firmasite
 msgid "%1$s installed successfully."
 msgstr "%1$s erfolgreich installiert."
 
-#: functions/class-tgm-plugin-activation.php:1966
+#: functions/class-tgm-plugin-activation.php:2028
 #@ firmasite
 msgid "All installations have been completed."
 msgstr "Alle Installationen sind abgeschlossen."
 
-#: functions/class-tgm-plugin-activation.php:1967
+#: functions/class-tgm-plugin-activation.php:2029
 #, php-format
 #@ firmasite
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
@@ -3070,7 +3072,7 @@ msgstr "Sie können das Aussehen Ihrer Site mit Angepasstem CSS verändern, aber
 #: functions/custom-custom-css.php:22
 #@ firmasite
 msgid "Be Careful!"
-msgstr "Sei vorsichtig!"
+msgstr "Seien Sie vorsichtig!"
 
 #: functions/customizer-call.php:77
 #@ firmasite
@@ -3127,122 +3129,122 @@ msgstr "Spacelab"
 msgid "United"
 msgstr "United"
 
-#: functions/customizer.php:99
+#: functions/customizer.php:90
 #@ firmasite
 msgid "You can upload logo for your site."
 msgstr "Sie können ein Logo für Ihre Website hochladen."
 
-#: functions/customizer.php:136
+#: functions/customizer.php:127
 #@ firmasite
 msgid "If you are not using logo, you can change your site title's color from this option."
 msgstr "Wenn Sie kein eigenes Logo benutzen, können Sie die Titelfarbe Ihrer Website hier ändern."
 
-#: functions/customizer.php:146
+#: functions/customizer.php:137
 #@ firmasite
 msgid "Category / Tag Color"
 msgstr "Farbe Kategorie / Schlagwort"
 
-#: functions/customizer.php:160
+#: functions/customizer.php:151
 #@ firmasite
 msgid "You can change your categories and taxonomies color from this option."
 msgstr "Mit dieser Option können Sie die Farben für Kategorien und Taxonomien ändern."
 
-#: functions/customizer.php:188
+#: functions/customizer.php:179
 #@ firmasite
 msgid "You can change your site's font"
 msgstr "Sie können die Schriftart für Ihre Website ändern"
 
-#: functions/customizer.php:220
+#: functions/customizer.php:211
 #@ firmasite
 msgid "Content - Sidebar"
 msgstr "Content - Sidebar"
 
-#: functions/customizer.php:221
+#: functions/customizer.php:212
 #@ firmasite
 msgid "Sidebar - Content"
 msgstr "Sidebar - Content"
 
-#: functions/customizer.php:222
+#: functions/customizer.php:213
 #@ firmasite
 msgid "Only Content. No sidebar (Short)"
 msgstr "Nur Content. Keine Sidebar (kurz)"
 
-#: functions/customizer.php:223
+#: functions/customizer.php:214
 #@ firmasite
 msgid "Only Content. No sidebar (Long)"
 msgstr "Nur Content. Keine Sidebar (lang)"
 
-#: functions/customizer.php:227
+#: functions/customizer.php:218
 #@ firmasite
 msgid "You can change your site's layout."
 msgstr "Sie können das Layout Ihrer Website ändern."
 
-#: functions/customizer.php:248
+#: functions/customizer.php:239
 #@ firmasite
 msgid "You can change your site's style."
 msgstr "Sie können den Stil Ihrer Website ändern."
 
-#: functions/customizer.php:271
+#: functions/customizer.php:262
 #@ firmasite
 msgid "Loop Style"
 msgstr "Stil für den Loop"
 
-#: functions/customizer.php:277
-#: functions/customizer.php:284
+#: functions/customizer.php:268
+#: functions/customizer.php:275
 #@ firmasite
 msgid "Vertical List (Excerpt)"
 msgstr "Vertikal angeordnete Liste (Exzerpt)"
 
-#: functions/customizer.php:283
+#: functions/customizer.php:274
 #@ firmasite
 msgid "Content will list one by one"
 msgstr "Inhalte werden einzeln aufgelistet"
 
-#: functions/customizer.php:285
+#: functions/customizer.php:276
 #@ firmasite
 msgid "Content's excerpt will list one by one"
 msgstr "Inhaltsexzerpte werden einzeln aufgelistet"
 
-#: functions/customizer.php:287
+#: functions/customizer.php:278
 #, php-format
 #@ firmasite
 msgid "Content's excerpt will list vertically (%s in each row)"
 msgstr "Inhaltsexzerpte werden vertikal aufgelistet (%s in jeder Reihe)"
 
-#: functions/customizer.php:299
+#: functions/customizer.php:290
 #@ firmasite
 msgid "Make fixed. No responsive"
 msgstr "Fixes Layout. Nicht responsiv"
 
-#: functions/customizer.php:305
+#: functions/customizer.php:296
 #@ firmasite
 msgid "Responsive feature have special display style for different devices (from desktop computer monitors to mobile phones). This will remove responsive feature so your site will have same display in all devices."
 msgstr "Das Feature Responsives Layout bietet spezielle Layout-Stile für unterschiedliche Geräte (vom Schreibtischmonitor bis zu Mobiltelefonen). Dies entfernt das Feature Responsives Layout und deine Website wird auf allen Geräten gleich angezeigt."
 
-#: functions/customizer.php:323
-#: functions/customizer.php:344
+#: functions/customizer.php:314
+#: functions/customizer.php:335
 #@ firmasite
 msgid "Alternative"
 msgstr "Alternative"
 
-#: functions/customizer.php:324
-#: functions/customizer.php:345
+#: functions/customizer.php:315
+#: functions/customizer.php:336
 #@ firmasite
 msgid "Simple"
 msgstr "Einfach"
 
-#: functions/customizer.php:328
-#: functions/customizer.php:349
+#: functions/customizer.php:319
+#: functions/customizer.php:340
 #@ firmasite
 msgid "If you are using menus, you can change menu style with this option"
 msgstr "Wenn Sie Menüs benutzen, können Sie den Menüstil hier ändern"
 
-#: functions/customizer.php:358
+#: functions/customizer.php:349
 #@ firmasite
 msgid "Dont make menu automatically open when hover"
 msgstr "Das Menü nicht automatisch öffnen beim Hover"
 
-#: functions/customizer.php:371
+#: functions/customizer.php:362
 #@ firmasite
 msgid "You can create or manage menus from Menus page under Appearance"
 msgstr "Menüs anlegen oder verwalten können Sie über den Punkt \"Menüs\" unter \"Design\""
@@ -3262,12 +3264,12 @@ msgstr "Widgets, die in der Sidebar angezeigt werden"
 msgid "Widgets that shows in footer"
 msgstr "Widgets, die im Footer angezeigt werden"
 
-#: functions/init.php:460
+#: functions/init.php:461
 #@ firmasite
 msgid "Something went wrong with the plugin API."
 msgstr "Mit dem Plugin API ist etwas schief gelaufen."
 
-#: functions/init.php:473
+#: functions/init.php:474
 #, php-format
 #@ firmasite
 msgid "All plugins installed and activated successfully. %s"
@@ -3285,9 +3287,7 @@ msgid "Promotion Bar"
 msgstr "Promotion Bar"
 
 #: functions/promotionbar.php:230
-#: functions/promotionbar.php:238
-#: functions/showcase.php:190
-#: functions/showcase.php:198
+#: functions/showcase.php:196
 #@ firmasite
 msgid "These settings will activate when you save changes and refresh this page."
 msgstr "Diese Einstellungen werden aktiviert, wenn Sie die Änderungen speichern und diese Seite neu laden."
@@ -3340,48 +3340,48 @@ msgid_plural "This gallery contains %1$s photos."
 msgstr[0] "Diese Galerie enthält %1$s Foto."
 msgstr[1] "Diese Galerie enthält %1$s Fotos."
 
-#: functions/showcase.php:90
-#: functions/showcase.php:102
+#: functions/showcase.php:96
+#: functions/showcase.php:108
 #@ firmasite
 msgid "Add to ShowCase"
 msgstr "Zum ShowCase hinzufügen"
 
-#: functions/showcase.php:189
+#: functions/showcase.php:195
 #@ firmasite
 msgid "ShowCase"
 msgstr "ShowCase"
 
-#: functions/showcase.php:209
+#: functions/showcase.php:231
 #@ firmasite
 msgid "Call-to-Action Text"
 msgstr "Call-to-Action Text"
 
-#: functions/showcase.php:215
+#: functions/showcase.php:237
 #@ firmasite
 msgid "Current Call-to-Action text: "
 msgstr "Aktueller Call-to-Action Text:"
 
-#: functions/showcase.php:222
+#: functions/showcase.php:244
 #@ firmasite
 msgid "If you are planning to use multiple ShowCase posts, try to choose a common text"
 msgstr "Wenn Sie vorhaben, mehrere ShowCase Posts zu benutzen, versuchen Sie, einen gemeinsamen Text festzulegen"
 
-#: functions/showcase.php:223
+#: functions/showcase.php:245
 #@ firmasite
 msgid "For example:"
 msgstr "Zum Beispiel:"
 
-#: functions/showcase.php:224
+#: functions/showcase.php:246
 #@ firmasite
 msgid "Click for more details"
-msgstr "Klicke hier für mehr Details"
+msgstr "Klicken Sie hier für mehr Details"
 
-#: functions/showcase.php:231
+#: functions/showcase.php:254
 #@ firmasite
 msgid "Disable ShowCase feature"
 msgstr "ShowCase Feature ausschalten"
 
-#: functions/showcase.php:242
+#: functions/showcase.php:265
 #@ firmasite
 msgid "ShowCase is displaying in your home page only."
 msgstr "ShowCase wird nur auf deiner Startseite gezeigt."
@@ -3422,7 +3422,7 @@ msgstr "Anmeldevorgang abgeschlossen!"
 #: bbpress/feedback-no-search.php:13
 #@ firmasite
 msgid "Oh bother! No search results were found here!"
-msgstr "Oh wie schade! Keine Suchergebnisse gefunden!"
+msgstr "Schade! Keine Suchergebnisse gefunden!"
 
 #: bbpress/form-reply-move.php:24
 #, php-format
@@ -3498,7 +3498,7 @@ msgstr "im Forum"
 msgid "Edit %s's Profile"
 msgstr "%s's Profil editieren"
 
-#: functions/customizer.php:364
+#: functions/customizer.php:355
 #@ firmasite
 msgid "You can disable dropdown menus automatically open when you hover.<br /> <span class=\"label label-warning\"><i class=\"icon-exclamation-sign\"></i> Be careful:</span> Parent menu item will only work for opening dropdown menu and won't work like a link"
 msgstr "Sie können ausschalten, dass sich Dropdown-Menüs automatisch beim Hovern öffnen. <br /> <span class=\"label label-warning\"><i class=\"icon-exclamation-sign\"></i> Aber Vorsicht:</span> Das Elternelement im Menü öffnet dann nur noch das Dropdown-Menü und ist selbst kein Link mehr"
@@ -3509,7 +3509,6 @@ msgid "Skip to content"
 msgstr "Zum Inhalt springen"
 
 #: searchform.php:7
-#: searchform.php:10
 #@ firmasite
 msgctxt "label"
 msgid "Search for:"
@@ -3521,14 +3520,14 @@ msgctxt "placeholder"
 msgid "Search &hellip;"
 msgstr "Suche &hellip;"
 
-#: functions/customizer.php:276
-#: functions/customizer.php:282
+#: functions/customizer.php:267
+#: functions/customizer.php:273
 #@ firmasite
 msgid "Vertical List"
 msgstr "Vertikal angeordnete Liste"
 
-#: functions/customizer.php:278
-#: functions/customizer.php:286
+#: functions/customizer.php:269
+#: functions/customizer.php:277
 #@ firmasite
 msgid "Multi-Column List (Excerpt)"
 msgstr "Mehrspaltige Liste (Exzerpte)"
@@ -3556,7 +3555,7 @@ msgid "Details"
 msgstr "Details"
 
 #: templates/footer.php:34
-#: templates/header.php:56
+#: templates/header.php:57
 #@ firmasite
 msgid "Toggle navigation"
 msgstr "Navigation ausblenden"
@@ -3566,17 +3565,17 @@ msgstr "Navigation ausblenden"
 msgid "Site"
 msgstr "Website"
 
-#: functions/customizer.php:168
+#: functions/customizer.php:159
 #@ firmasite
 msgid "Appearance"
 msgstr "Darstellung"
 
-#: functions/customizer.php:199
+#: functions/customizer.php:190
 #@ firmasite
 msgid "Header Font"
 msgstr "Header Font"
 
-#: functions/customizer.php:206
+#: functions/customizer.php:197
 #@ firmasite
 msgid "You can optionally use different font in your site's headers."
 msgstr "Sie können optional auch unterschiedliche Fonts für den Header der Seite verwenden."
@@ -3634,17 +3633,17 @@ msgctxt "submit button"
 msgid "Search"
 msgstr "Suche"
 
-#: functions/customizer.php:110
+#: functions/customizer.php:101
 #@ firmasite
 msgid "Please decide your preferred <strong>Theme Style</strong> under <strong>Appearance</strong> first. Then you can change small color options here."
 msgstr "Bitte legen Sie den gewünschten <strong>Theme-Stil</strong> unter <strong>Design</strong> fest. Dann können Sie kleinere Farbänderungen hier einstellen."
 
-#: functions/customizer.php:317
+#: functions/customizer.php:308
 #@ firmasite
 msgid "Main Menu Style"
 msgstr "Stil des Hauptmenüs"
 
-#: functions/customizer.php:338
+#: functions/customizer.php:329
 #@ firmasite
 msgid "Footer Menu Style"
 msgstr "Stil des Menüs im Footer"
@@ -3658,4 +3657,39 @@ msgstr "Wenn Sie dieses Feld leer lassen, wird kein Titel dargestellt. Beispiele
 #@ firmasite
 msgid "In bottom of Sidebar"
 msgstr "Am Ende der Sidebar"
+
+#: functions/class-tgm-plugin-activation.php:170
+#, php-format
+#@ firmasite
+msgid "There is a new update for %1$s."
+msgid_plural "There are several plugins updates available %1$s."
+msgstr[0] "Es gibt ein neues Update für %1$s."
+msgstr[1] "Es gibt mehrere Updates für %1$s."
+
+#: functions/class-tgm-plugin-activation.php:178
+#@ firmasite
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] "Update des Plugins starten"
+msgstr[1] "Update der Plugins starten"
+
+#: functions/class-tgm-plugin-activation.php:1147
+#@ firmasite
+msgid "Not Updated"
+msgstr "Nicht updated"
+
+#: functions/class-tgm-plugin-activation.php:1149
+#@ firmasite
+msgid "Active"
+msgstr "Aktiv"
+
+#: functions/showcase.php:216
+#@ firmasite
+msgid "ShowCase Style"
+msgstr "Stil für den ShowCase"
+
+#: functions/showcase.php:221
+#@ firmasite
+msgid "Bigger"
+msgstr "Größer"
 

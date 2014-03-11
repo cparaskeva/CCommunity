@@ -13,7 +13,13 @@
     <?php if (bp_is_group_admin_screen('edit-details')) : ?>
 
         <?php do_action('bp_before_group_details_admin'); ?>
-
+        <?php global $cecom; ?>
+        <!-- Set Organization ID--> 
+        <input type="hidden" class="form-control" name="organization_id" id="organization_id" value="<?php echo $cecom->organization->details['id']; ?>"/>
+        <!-- Hidden Fields for Sector/Subsector-->   
+        <input type="hidden" class="form-control" name="organization_sectors" id="organization_sectors" value=""/>
+        <input type="hidden" class="form-control" name="organization_subsectors" id="organization_subsectors" value=""/>
+        <!-- End of Hidden Fields -->
         <label for="group-name"><?php _e('Organisation Name (required)', 'firmasite'); ?></label>
         <input type="text" name="group-name" id="group-name" value="<?php bp_group_name(); ?>" aria-required="true" /><br/>
 
@@ -28,7 +34,7 @@
 
         <?php do_action('groups_custom_group_fields_editable'); ?>
 
-        <!-- Start of CECOM Organization Custom Fields --> <?php global $cecom; ?>
+        <!-- Start of CECOM Organization Custom Fields --> 
         <div>
             <!-- Hold the ID of the selected country from the organization_country list -->
             <input type="hidden"  name="organization_countryID" id="organization_countryID" value="<?php echo $cecom->organization->details['country'] ?>" />
@@ -88,25 +94,21 @@
             </select>
             <br/>
             <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
-            <select  onchange="setSubsctorValues()" name="organization_sector" id="organization_sector" >
+            <select  name="organization_sector" id="organization_sector" class="multiselect" multiple="multiple" >
                 <?php
                 //Fetch Organization Sectors form DB
                 $results = CECOM_Organization::getOrganizationSector();
                 if (is_array($results)) {
-
                     foreach ($results as $org_sector) {
-                        if ($cecom->organization->details['sector_color'] == $org_sector->color)
-                            echo "<option selected=\"selected\" style='background-color:{$org_sector->color}'  value = '{$org_sector->id }'>{$org_sector->description}</option>";
-                        else
-                            echo "<option style='background-color:{$org_sector->color}'  value = '{$org_sector->id }'>{$org_sector->description}</option>";
+                        echo "<option value = '{$org_sector->id }'>{$org_sector->description}</option>";
                     }
                 }
                 ?>
 
             </select>
-            <br/>
+            <br/><br/>
             <label  for="organization_subsector"><?php _e('Subector', 'firmasite'); ?> </label>
-            <select name="organization_subsector" id="organization_subsector" >
+            <select name="organization_subsector" id="organization_subsector" class="multiselect" multiple="multiple">
                 <?php
                 //Fetch Organization Subsectors form DB
                 $results = CECOM_Organization::getOrganizationSubsector($cecom->organization->details['sector_id']);
@@ -456,7 +458,7 @@
 
 <?php endif; ?>
 
-<?php do_action('groups_custom_edit_steps') // Allow plugins to add custom group edit screens    ?>
+<?php do_action('groups_custom_edit_steps') // Allow plugins to add custom group edit screens     ?>
 
 <?php /* Delete Group Option */ ?>
 <?php if (bp_is_group_admin_screen('delete-group')) : ?>
@@ -468,10 +470,10 @@
     </div>
 
     <label><input type="checkbox" name="delete-group-understand" id="delete-group-understand" value="1" onclick="if (this.checked) {
-                    document.getElementById('delete-group-button').disabled = '';
-                } else {
-                    document.getElementById('delete-group-button').disabled = 'disabled';
-                }" /> <?php _e('I understand the consequences of deleting this group.', 'firmasite'); ?></label>
+                document.getElementById('delete-group-button').disabled = '';
+            } else {
+                document.getElementById('delete-group-button').disabled = 'disabled';
+            }" /> <?php _e('I understand the consequences of deleting this group.', 'firmasite'); ?></label>
 
     <?php do_action('bp_after_group_delete_admin'); ?>
 
@@ -526,6 +528,69 @@
 
     }
 
+    /*
+     * Organization sector
+     */
+
+
+    jQuery("#organization_sector").change(function() {
+
+        var selectedTexts = [];
+
+        jQuery(this).find("option:selected").each(function(i) {
+            var val = jQuery(this).val();
+            var txt = jQuery(this).text();
+            selectedTexts[i] = txt;
+        });
+
+        setSubsctorValues(jQuery('.multiselect').val(), selectedTexts);
+
+        //Set the values to hidden field
+        jQuery("#organization_sectors").val(jQuery(this).val());
+        jQuery("#organization_subsectors").val("");
+
+    });
+
+    /*
+     * Organization subsector
+     */
+
+
+    jQuery("#organization_subsector").change(function() {
+        //Set the values to hidden field
+        jQuery("#organization_subsectors").val(jQuery("#organization_subsector").val());
+
+    });
+
+
+
+
+
+
+    jQuery(document).ready(function() {
+        jQuery("#organization_sector").multiselect({numberDisplayed: 1});
+
+<?php
+$sector_values = "[";
+$sector_txt = "[";
+$subsector_values = "[";
+foreach ($cecom->organization->details['sectors'] as $sector) {
+    $sector_values .= "'" . $sector['id'] . "',";
+    $sector_txt .= "'" . $sector['description'] . "',";
+}
+$sector_values = substr($sector_values, 0, -1) . "]";
+$sector_txt = substr($sector_txt, 0, -1) . "]";
+
+foreach ($cecom->organization->details['subsectors'] as $subsector) {
+    $subsector_values .= "'" . $subsector['id'] . "',";
+}
+$subsector_values = substr($subsector_values, 0, -1) . "]";
+?>
+
+        jQuery("#organization_sector").multiselect('select', <?php echo $sector_values; ?>);
+        jQuery("#organization_subsector").multiselect({numberDisplayed: 5, maxHeight: 300, enableFiltering: true});
+        setSubsctorValues(<?php echo $sector_values; ?>,<?php echo $sector_txt; ?>,<?php echo $subsector_values; ?>)
+    });
 
 
 

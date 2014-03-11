@@ -506,8 +506,6 @@ function groups_screen_group_admin() {
 
 function groups_screen_group_admin_edit_details() {
 
-
-
     if ('edit-details' != bp_get_group_current_admin_tab())
         return false;
 
@@ -517,7 +515,6 @@ function groups_screen_group_admin_edit_details() {
 
         // If the edit form has been submitted, save the edited details
         if (isset($_POST['save'])) {
-
             // Check the nonce
             if (!check_admin_referer('groups_edit_group_details'))
                 return false;
@@ -528,17 +525,16 @@ function groups_screen_group_admin_edit_details() {
              *
              * Inject Organization Edit Fields
              * 
-             * Wrap the default function groups_edit_base_group_details
-             * within edit_organization_details() 
-             *                          */
+             *                         
+             */
 
 
             if (!groups_edit_base_group_details($_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $group_notify_members)) {
                 bp_core_add_message(__('There was an error updating organisation details, please try again.', 'buddypress'), 'error');
             } else {
                 //Buddypress has checked for data validation, time to validate CEComunity Organization fields
-                if ($_POST['organization_subsector'] == "none")
-                    bp_core_add_message(__('Please select a subsector for your organization.', 'buddypress'), 'error');
+                if ($_POST['organization_sectors'] == "" || $_POST['organization_subsectors'] == "")
+                    bp_core_add_message(__('Please select at least one sector and one subsector for your organization.', 'buddypress'), 'error');
                 else {
                     global $cecom;
                     $collaboration = 0;
@@ -548,7 +544,7 @@ function groups_screen_group_admin_edit_details() {
                     if (isset($_POST['organization_transaction_y']))
                         $transaction = 1;
 
-                    $cecom->organization->edit_organization_details($_POST['group-id'], $_POST['group-desc'], $_POST['group-name'], $_POST['organization_specialties'], $_POST['organization_website'], $_POST['organization_countryID'], $_POST['organization_type'], $_POST['organization_size'], $_POST['organization_sector'], $_POST['organization_subsector'], $collaboration, $transaction);
+                    $cecom->organization->edit_organization_details($_POST['organization_id'], $_POST['group-id'], $_POST['group-desc'], $_POST['group-name'], $_POST['organization_specialties'], $_POST['organization_website'], $_POST['organization_countryID'], $_POST['organization_type'], $_POST['organization_size'], $_POST['organization_sectors'], $_POST['organization_subsectors'], $collaboration, $transaction);
                     bp_core_add_message(__('Organisation details were successfully updated.', 'buddypress'));
                 }
             }
@@ -1063,7 +1059,7 @@ class BP_Groups_Theme_Compat {
             'post_content' => '',
             'post_type' => 'bp_group',
             'post_status' => 'publish',
-            'is_archive' => true,
+            'is_page' => true,
             'comment_status' => 'closed'
         ));
     }
@@ -1124,7 +1120,7 @@ class BP_Groups_Theme_Compat {
             'post_content' => '',
             'post_type' => 'bp_group',
             'post_status' => 'publish',
-            'is_archive' => true,
+            'is_page' => true,
             'comment_status' => 'closed'
         ));
     }
@@ -1184,7 +1180,7 @@ class BP_Groups_Theme_Compat {
             'post_content' => '',
             'post_type' => 'bp_group',
             'post_status' => 'publish',
-            'is_archive' => true,
+            'is_page' => true,
             'comment_status' => 'closed'
         ));
     }

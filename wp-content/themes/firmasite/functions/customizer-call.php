@@ -78,13 +78,14 @@ $firmasite_settings["styles"] = apply_filters( 'firmasite_theme_styles', array(
 	"cerulean" => esc_attr__( 'Cerulean', 'firmasite' ),	//2
 	"cosmo" => esc_attr__( 'Cosmo', 'firmasite' ),			//3
 	"cyborg" => esc_attr__( 'Cyborg', 'firmasite' ),		//4
-	"flatly" => esc_attr__( 'Flatly', 'firmasite' ),		//13
-	"journal" => esc_attr__( 'Journal', 'firmasite' ),		//5
-	"readable" => esc_attr__( 'Readable', 'firmasite' ),	//6
-	"simplex" => esc_attr__( 'Simplex', 'firmasite' ),		//7
-	"slate" => esc_attr__( 'Slate', 'firmasite' ),			//8
-	"spacelab" => esc_attr__( 'Spacelab', 'firmasite' ),	//9
-	"united" => esc_attr__( 'United', 'firmasite' ),		//12
+	"flatly" => esc_attr__( 'Flatly', 'firmasite' ),		//5
+	"journal" => esc_attr__( 'Journal', 'firmasite' ),		//6
+	"readable" => esc_attr__( 'Readable', 'firmasite' ),	//7
+	"simplex" => esc_attr__( 'Simplex', 'firmasite' ),		//8
+	"slate" => esc_attr__( 'Slate', 'firmasite' ),			//9
+	"spacelab" => esc_attr__( 'Spacelab', 'firmasite' ),	//10
+	"united" => esc_attr__( 'United', 'firmasite' ),		//11
+	"yeti" => esc_attr__( 'Yeti', 'firmasite' ),		//12
 ));
 	
 $firmasite_settings["dark_styles"] = apply_filters( 'firmasite_theme_dark_styles', array(
@@ -99,13 +100,14 @@ $firmasite_settings["styles_url"] = apply_filters( 'firmasite_theme_styles_url',
 	"cerulean" => $firmasite_styles_url_default. "cerulean",	//2
 	"cosmo" => $firmasite_styles_url_default. "cosmo",			//3
 	"cyborg" => $firmasite_styles_url_default. "cyborg",		//4
-	"flatly" => $firmasite_styles_url_default. "flatly",		//13
-	"journal" => $firmasite_styles_url_default. "journal",		//5
-	"readable" => $firmasite_styles_url_default. "readable",	//6
-	"simplex" => $firmasite_styles_url_default. "simplex",		//7
-	"slate" => $firmasite_styles_url_default. "slate",			//8
-	"spacelab" => $firmasite_styles_url_default. "spacelab",	//9
-	"united" => $firmasite_styles_url_default. "united",		//12
+	"flatly" => $firmasite_styles_url_default. "flatly",		//5
+	"journal" => $firmasite_styles_url_default. "journal",		//6
+	"readable" => $firmasite_styles_url_default. "readable",	//7
+	"simplex" => $firmasite_styles_url_default. "simplex",		//8
+	"slate" => $firmasite_styles_url_default. "slate",			//9
+	"spacelab" => $firmasite_styles_url_default. "spacelab",	//10
+	"united" => $firmasite_styles_url_default. "united",		//11
+	"yeti" => $firmasite_styles_url_default. "yeti",		//12
 ));
 
 

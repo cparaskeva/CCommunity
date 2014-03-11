@@ -105,8 +105,8 @@ function custom_register_user() {
             'website' => $_POST['organization_website'],
             'size' => $_POST['organization_size'],
             'type' => $_POST['organization_type'],
-            'sector' => $_POST['organization_sector'],
-            'subsector' => $_POST['organization_subsector'],
+            'sectors' => explode(",", $_POST['organization_sectors']),
+            'subsectors' => explode(",", $_POST['organization_subsectors']),
             'collaboration' => $_POST['organization_collaboration_y'],
             'transaction' => $_POST['organization_transaction_y'],
             'country' => $_POST['organization_country'],
@@ -130,8 +130,13 @@ function custom_register_user() {
             if (empty($organization['name']))
                 $errors[] = 'You must provide the name of the organization you belong|';
             //Validate Organization Website
-            if (empty($organization['website']))
-                $errors[] = 'You must provide the website of your organization|';
+            /*if (empty($organization['website']))
+                $errors[] = 'You must provide the website of your organization|';*/
+
+            //Validate Country
+            if (empty($organization['country']))
+                $errors[] = 'You must select the country where you organisation is founded|';
+
             //Validate Organization Size
             if (empty($organization['size']) || $organization['size'] == 'none' || !($organization['size'] >= 'A' && $organization['size'] <= 'I'))
                 $errors[] = 'You must select the size of your organization|';
@@ -139,11 +144,13 @@ function custom_register_user() {
             if (empty($organization['type']) || $organization['type'] == 'none' || !(preg_match("(C|D|E|G|N|O|P|S)", $organization['type'])))
                 $errors[] = 'You must select the type of your organization|';
             //Validate Sector 
-            if (empty($organization['sector']) || $organization['sector'] == 'none' || !($organization['sector'] >= 1 && $organization['sector'] <= 10))
-                $errors[] = 'You must select the sector of your organization|';
+            $sectors = $organization['sectors'];
+            $subsectors = $organization['subsectors'];
+            if (empty($organization['sectors']) || $sectors[0] == 'null')
+                $errors[] = 'You must select at least one sector for your organization|';
             //Validate Subsector  
-            if (empty($organization['subsector']) || $organization['subsector'] == 'none' || !($organization['subsector'] >= 1 && $organization['subsector'] <= 100))
-                $errors[] = 'You must select a subsector for your organization|';
+            if (empty($organization['subsectors']) || $subsectors [0] == 'null')
+                $errors[] = 'You must select  at least one  subsector for your organization|';
 
 
 
@@ -161,7 +168,7 @@ function custom_register_user() {
 
         //Print the errors (if found)
         if (!empty($errors)) {
-
+            
             foreach ($errors as &$value) {
                 echo($value);
             }
@@ -172,15 +179,16 @@ function custom_register_user() {
         exit();
     }
 
-    /* Subsector fields autload AJAX CALL based on Sector ID */
+    /* Subsector fields autload AJAX CALL based on Sector(s) ID */
 
-    if (isset($_GET['operation']) && $_GET['operation'] == 'load_subsector') {
+    if (isset($_GET['operation']) && $_GET['operation'] == 'getSubsectors') {
 
         //Check if the sector id is valid
-        if (!isset($_GET['sector_id']) || $_GET['sector_id'] == "") {
+        if (!isset($_GET['sectors']) || $_GET['sectors'] == "") {
             exit();
         }
-        echo $_GET["callback"] . "(" . json_encode(CECOM_Organization::getOrganizationSubsector($_GET['sector_id'])) . ")";
+        //echo $_GET["callback"] . "(" . json_encode(CECOM_Organization::getOrganizationSubsector($_GET['sector_id'])) . ")";
+        echo $_GET["callback"] . "(" . json_encode(CECOM_Organization::getOrganizationSubsectors($_GET['sectors'])) . ")";
         exit();
     }
 
