@@ -105,8 +105,8 @@ function custom_register_user() {
             'website' => $_POST['organization_website'],
             'size' => $_POST['organization_size'],
             'type' => $_POST['organization_type'],
-            'sectors' => explode(",",$_POST['organization_sectors']),
-            'subsectors' =>  explode(",",$_POST['organization_subsectors']),
+            'sectors' => explode(",", $_POST['organization_sectors']),
+            'subsectors' => explode(",", $_POST['organization_subsectors']),
             'collaboration' => $_POST['organization_collaboration_y'],
             'transaction' => $_POST['organization_transaction_y'],
             'country' => $_POST['organization_country'],
@@ -130,8 +130,13 @@ function custom_register_user() {
             if (empty($organization['name']))
                 $errors[] = 'You must provide the name of the organization you belong|';
             //Validate Organization Website
-            if (empty($organization['website']))
-                $errors[] = 'You must provide the website of your organization|';
+            /*if (empty($organization['website']))
+                $errors[] = 'You must provide the website of your organization|';*/
+
+            //Validate Country
+            if (empty($organization['country']))
+                $errors[] = 'You must select the country where you organisation is founded|';
+
             //Validate Organization Size
             if (empty($organization['size']) || $organization['size'] == 'none' || !($organization['size'] >= 'A' && $organization['size'] <= 'I'))
                 $errors[] = 'You must select the size of your organization|';
@@ -141,7 +146,7 @@ function custom_register_user() {
             //Validate Sector 
             $sectors = $organization['sectors'];
             $subsectors = $organization['subsectors'];
-            if (empty($organization['sectors']) || $sectors[0] == 'null'   )
+            if (empty($organization['sectors']) || $sectors[0] == 'null')
                 $errors[] = 'You must select at least one sector for your organization|';
             //Validate Subsector  
             if (empty($organization['subsectors']) || $subsectors [0] == 'null')
@@ -163,7 +168,7 @@ function custom_register_user() {
 
         //Print the errors (if found)
         if (!empty($errors)) {
-
+            
             foreach ($errors as &$value) {
                 echo($value);
             }

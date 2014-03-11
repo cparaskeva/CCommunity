@@ -83,7 +83,7 @@
 
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_website"><?php _e('Organization Website', 'firmasite'); ?><?php _e('(required)', 'firmasite'); ?> </label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_website"><?php _e('Organization Website', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
                         <input  class="form-control" name="organization_website" id="organization_website" value="" aria-required="false"/>
                     </div>
@@ -92,7 +92,7 @@
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-md-3" for="organization_country"><?php _e('Country', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
-                        <div id="organization_country" class="bfh-selectbox bfh-countries" data-country="GR" data-flags="true"> </div>
+                        <div id="organization_country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
                     </div>
                 </div>
 

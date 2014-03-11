@@ -36,9 +36,9 @@ jQuery("#register_step1").submit(function(event) {
         data: values,
         success: function(response) {
 
-            //Clear the spaces of the response
-            errors=response.replace(/\s+/g, '');
-        
+            //Clear the spaces of the response (trim)
+            errors= response.trim();           
+            //Identify each error by "|" charcter
             errors = errors.split('|');
 
             if (errors[0] == "step1_done") {
@@ -126,8 +126,9 @@ jQuery("#register_step2").submit(function(event) {
         data: values,
         success: function(response) {
             
-            //Clear the spaces of the response
-            errors = response.replace(/\s+/g, '');
+            //Clear the spaces of the response (trim)
+            errors= response.trim();     
+            //Identify each error by "|" charcter
             errors = errors.split('|');
 
             //Fatal error 
