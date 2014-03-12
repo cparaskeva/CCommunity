@@ -136,7 +136,11 @@ function bp_dtheme_ajax_querystring( $query_string, $object ) {
 	$object_search_text = bp_get_search_default_text( $object );
  	if ( ! empty( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] )
 		$qs[] = 'search_terms=' . $_POST['search_terms'];
-
+        
+        //CECommunity Inject Search Extras
+        if (! empty($_POST['search_extras']))
+            $qs[] = 'search_extras=' . $_POST['search_extras'];
+                 
 	// Now pass the querystring to override default values.
 	$query_string = empty( $qs ) ? '' : join( '&', (array) $qs );
 

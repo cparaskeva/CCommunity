@@ -17,24 +17,19 @@ get_header('buddypress');
     <ul class="nav nav-pills">
         <?php if (bp_is_my_profile()) bp_get_options_nav(); ?>
 
-
+        <li id="offers-order-select" class="last pull-right filter">
+            <label for="offers-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
+            <select id="offers-order-by">
+                <option <?php echo ($_COOKIE['bp-offers-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
+                <option <?php echo ($_COOKIE['bp-offers-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
+                <option <?php echo ($_COOKIE['bp-offers-filter'] == "offertype" ? "selected='selected'" : "") ?> value="offertype"><?php _e('Offer Type', 'firmasite'); ?></option> 
+            </select>
+        </li>
         <?php do_action('bp_offers_directory_example_filter'); ?>
 
     </ul>
 
-
-
-    <?php do_action('bp_directory_example_content'); ?>
-
-    <?php do_action('bp_after_directory_example_content'); ?>
-
-    <?php do_action('bp_after_directory_example'); ?>
-
 </div><!-- .item-list-tabs -->
-
-<?php do_action('bp_after_directory_example_page'); ?>
-
-
 
 <div class="offers myoffers">
 

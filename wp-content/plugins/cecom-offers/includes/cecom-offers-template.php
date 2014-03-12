@@ -216,7 +216,7 @@ function bp_directory_offers_search_form() {
     $default_search_value = bp_get_search_default_text('offers');
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
-    $search_form_html = '<form action="" method="get" id="search-offers-form">       
+    $search_form_html = '<form action="" method="get" id="search-offers-form"> 
 		<label><input type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
 		<input type="submit" id="offers_search_submit" name="offers_search_submit" value="' . __('Search', 'buddypress') . '" />
 	</form>';
@@ -342,10 +342,8 @@ class BP_Offers_Template {
             'page_arg' => 'ofpage',
             'user_id' => 0,
             'slug' => false,
-            'include' => false,
-            'exclude' => false,
             'search_terms' => '',
-            'meta_query' => false,
+            'search_extras' => '',
         );
 
         $r = wp_parse_args($args, $defaults);
@@ -373,11 +371,9 @@ class BP_Offers_Template {
                 'orderby' => $orderby,
                 'per_page' => $this->pag_num,
                 'page' => $this->pag_page,
-                'user_id' => $user_id,
                 'search_terms' => $search_terms,
-                'meta_query' => $meta_query,
-                'include' => $include,
-                'exclude' => $exclude,
+                'search_extras' => $search_extras,
+                'user_id' => $user_id,
             ));
         }
 
@@ -495,7 +491,7 @@ function bp_get_offer_id($offer = false) {
 
 function bp_has_offers($args = '') {
     global $offers_template, $bp;
-    //print_r($args); //echo "Requests: ".($_POST['search_terms']);
+
     /*
      * Set the defaults based on the current page. Any of these will be overridden
      * if arguments are directly passed into the loop. Custom plugins should always
@@ -527,8 +523,8 @@ function bp_has_offers($args = '') {
 
     $defaults = array(
         'type' => $type, // 'type' is an override for 'order' and 'orderby'. See docblock.
-        'order' => 'ASC',
-        'orderby' => 'last_activity',
+        'order' => 'DESC',
+        'orderby' => 'newest',
         'page' => 1,
         'per_page' => 10,
         'max' => false,
@@ -536,13 +532,13 @@ function bp_has_offers($args = '') {
         'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
         'slug' => $slug, // Pass an offer slug to only return that offer
         'search_terms' => '', // Pass search terms to return only matching offers
-        'meta_query' => false, // Filter by groupmeta. See WP_Meta_Query for format
-        'include' => false, // Pass comma separated list or array of group ID's to return only these offers
-        'exclude' => false, // Pass comma separated list or array of group ID's to exclude these offers
+        'search_extras' => '',
     );
 
 
     $r = wp_parse_args($args, $defaults);
+
+    //print_r($r);
 
     if (empty($r['search_terms'])) {
         if (isset($_REQUEST['offer-filter-box']) && !empty($_REQUEST['offer-filter-box']))
@@ -564,11 +560,8 @@ function bp_has_offers($args = '') {
         'user_id' => (int) $r['user_id'],
         'slug' => $r['slug'],
         'search_terms' => $r['search_terms'],
-        'meta_query' => $r['meta_query'],
-        'include' => $r['include'],
-        'exclude' => $r['exclude'],
+        'search_extras' => $r['search_extras'],
     ));
-
 
     return apply_filters('bp_has_offers', $offers_template->has_offers(), $offers_template, $r);
 }
@@ -577,31 +570,28 @@ function offers_get_offers($args = '') {
     $defaults = array(
         'type' => false, // active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts
         'order' => 'DESC', // 'ASC' or 'DESC'
-        'orderby' => 'date_created', // date_created, last_activity, total_member_count, name, random
-        'user_id' => false, // Pass a user_id to limit to only groups that this user is a member of
-        'include' => false, // Only include these specific groups (group_ids)
-        'exclude' => false, // Do not include these specific groups (group_ids)
-        'search_terms' => false, // Limit to groups that match these search terms
-        'meta_query' => false, // Filter by groupmeta. 
+        'orderby' => 'newest', // date_created, last_activity, total_member_count, name, random
         'per_page' => 20, // The number of results to return per page
         'page' => 1, // The page to return if limiting per page
+        'search_terms' => false, // Limit to groups that match these search terms
+        'search_extras' => false,
+        'user_id' => false, // Pass a user_id to limit to only groups that this user is a member of
     );
 
     $r = wp_parse_args($args, $defaults);
 
     $offers = BP_Offer::get(array(
                 'type' => $r['type'],
-                'user_id' => $r['user_id'],
-                'include' => $r['include'],
-                'exclude' => $r['exclude'],
-                'search_terms' => $r['search_terms'],
-                'meta_query' => $r['meta_query'],
-                'per_page' => $r['per_page'],
-                'page' => $r['page'],
-                'populate_extras' => $r['populate_extras'],
                 'order' => $r['order'],
                 'orderby' => $r['orderby'],
+                'per_page' => $r['per_page'],
+                'page' => $r['page'],
+                'user_id' => $r['user_id'],
+                'search_terms' => $r['search_terms'],
+                'search_extras' => $r['search_extras'],
     ));
+
+
     return apply_filters_ref_array('offers_get_offers', array(&$offers, &$r));
 }
 ?>

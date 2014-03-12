@@ -29,7 +29,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 <select name="offer-type" id="offer-type">
                     <option value="none"  selected="selected">Please select..</option>
                     <?php
-                    //Fetch Grant Programs form DB
+                    //Fetch Offer Types form DB
                     $results = BP_Offer::getOfferTypes();
                     if (is_array($results)) {
                         foreach ($results as $offer_type) {

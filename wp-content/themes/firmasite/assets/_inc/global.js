@@ -1,3 +1,43 @@
+/* Start of CECommunity Javascript Code */
+
+var search_extras="";
+
+//Define CECommunity Components
+var cecom_components=["offers","tools"];
+
+
+//Checks if the given component is one of the CECommunity Plugins
+function isCEComComponent(component) {
+    return cecom_components.indexOf(component.toLowerCase()) > -1;
+}
+
+
+function completeSearchExtras(current_component){
+    
+    //Clear old search_extras field
+    search_extras="";
+    
+    //Check if current component belongs to CECommunity Components
+    if (!isCEComComponent(current_component))
+        return;
+    
+    switch(current_component)
+    {
+    case "offers":
+        search_extras="offer_type,"+jq("#offer-type").val();
+        break;
+    case 2:
+
+        break;
+
+    }
+    
+  
+    
+}
+
+/* End of CECommunity Javascript Code */
+
 /* TinyMCE integrate for buddypress */
 // http://wordpress.org/extend/plugins/bp-tinymce/
 jQuery(document).ready(function() {
@@ -680,7 +720,14 @@ jq(document).ready( function() {
 		if ( target.attr('type') == 'submit' ) {
 			var css_id = jq('.item-list-tabs li.selected').attr('id').split( '-' );
 			var object = css_id[0];
-
+                        
+                        /*
+                         * CECommunity Dependency Injection
+                         * Override the  default bp_filter_request() function of buddypress, with CECommunity one
+                         */
+                        
+                        completeSearchExtras(object);
+    
 			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, jq.cookie('bp-' + object + '-extras') );
 
 			return false;
@@ -1374,7 +1421,8 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 		'search_terms': search_terms,
 		'scope': scope,
 		'page': page,
-		'extras': extras
+		'extras': extras,
+                'search_extras':search_extras,
 	},
 	function(response)
 	{

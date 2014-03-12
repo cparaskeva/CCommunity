@@ -502,14 +502,28 @@ class BP_Offer {
             'page' => null,
             'user_id' => 0,
             'search_terms' => false,
-            'meta_query' => false,
-            'include' => false,
-            'populate_extras' => true,
-            'exclude' => false,
+            'search_extras' => false,
         );
+
+
 
         $r = wp_parse_args($args, $defaults);
 
+
+        //Convert search_extras values to an array of arguments
+        $search_extras = array();
+
+        $asArr = explode('|', $r['search_extras']);
+
+        foreach ($asArr as $val) {
+            $tmp = explode(',', $val);
+            $search_extras[$tmp[0]] = $tmp[1];
+        }
+        print_r($search_extras);
+
+
+
+        //print_r($r);
         $sql = array();
         $total_sql = array();
 
@@ -519,32 +533,24 @@ class BP_Offer {
         //Main table to fetch the information
         $sql['from'] = " FROM {$bp->offers->table_name} as offer,`ext_offer_type` as type";
 
-        //Calculate the order by clause based on the order type choosen by the user
-        //$sql['order']=BP_Offer::convert_type_to_order_orderby($args['type']);
 
+        //Query Where clause 
         $sql['where'] = "WHERE offer.type_id = type.id ";
 
         if (!empty($r['user_id'])) {
             $sql['user'] = " AND uid = {$r['user_id']}";
         }
 
+        /*if (!empty($search_extras)&& $search_extras['offer_type']!= "none"){
+          $sql['search']= " AND type.id = {$search_extras['offer_type']} ";  
+        } */
+        
         //Actuall serach terms text-based
-
+        
         if (!empty($r['search_terms'])) {
             $search_terms = esc_sql(like_escape($r['search_terms']));
-            $sql['search'] = " AND ( offer.description LIKE '%%{$search_terms}%%')";// OR g.description LIKE '%%{$search_terms}%%' )";
+            $sql['search'] = " AND (offer.description LIKE '%%{$search_terms}%%')"; // OR g.description LIKE '%%{$search_terms}%%' )";
         }
-        /*
-          //$meta_query_sql = self::get_meta_query_sql($r['meta_query']);
-
-          if (!empty($meta_query_sql['join'])) {
-          $sql['from'] .= $meta_query_sql['join'];
-          }
-
-          if (!empty($meta_query_sql['where'])) {
-          $sql['meta'] = $meta_query_sql['where'];
-          }
-         */
 
 
         /** Order/orderby ******************************************* */
@@ -573,14 +579,8 @@ class BP_Offer {
         // Convert 'orderby' into the proper ORDER BY term
         $orderby = self::convert_orderby_to_order_by_term($orderby);
 
-        // Random order is a special case
-        if ('rand()' === $orderby) {
-            $sql[] = "ORDER BY rand()";
-        } else {
-            $sql[] = "ORDER BY {$orderby} {$order}";
-        }
-
-
+        $sql['orderby'] = "ORDER BY {$orderby} {$order}";
+        /* End of Order Calculation */
 
         //Take into consideration pagination
         if (!empty($r['per_page']) && !empty($r['page'])) {
@@ -590,38 +590,21 @@ class BP_Offer {
         // Get paginated results
         $paged_offers_sql = apply_filters('bp_offers_get_paged_offers_sql', join(' ', (array) $sql), $sql, $r);
         $paged_offers = $wpdb->get_results($paged_offers_sql);
-        //echo " Paged Query: ".$paged_offers_sql." ";
+        //echo " Paged Query: " . $paged_offers_sql . "<br> Results count:" . $wpdb->num_rows;
 
-        $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name}";
+
+        $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} as offer";
 
         //Where clause for search box
-        /*
-          if (!empty($sql['search'])) {
-          $total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
-          }
-         */
+        if (!empty($sql['search'])) {
+            $total_sql['where'][] = substr($sql['search'], 4);
+        }
+
 
         //True: All Offers / False: My offers tab
         if (!empty($r['user_id'])) {
             $total_sql['where'][] = $wpdb->prepare(" uid = %d", $r['user_id']);
         }
-
-
-
-
-
-
-        // Temporary implementation of meta_query for total count
-        // See #5099
-        if (!empty($meta_query_sql['where'])) {
-            // Join the groupmeta table
-            $total_sql['select'] .= ", " . substr($meta_query_sql['join'], 0, -2);
-
-            // Modify the meta_query clause from paged_sql for our syntax
-            $meta_query_clause = preg_replace('/^\s*AND/', '', $meta_query_sql['where']);
-            $total_sql['where'][] = $meta_query_clause;
-        }
-
 
         $t_sql = $total_sql['select'];
 
@@ -630,9 +613,9 @@ class BP_Offer {
         }
 
         // Get total group results
-        $total_offers_sql = apply_filters('bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r);
-        //echo "Final Query: ".$total_offers_sql;
+        $total_offers_sql = apply_filters('bp_offers_get_total_offers_sql', $t_sql, $total_sql, $r);
         $total_offers = $wpdb->get_var($total_offers_sql);
+
 
         $offer_ids = array();
         foreach ((array) $paged_offers as $offer) {
@@ -645,7 +628,7 @@ class BP_Offer {
           } */
 
         // Grab all groupmeta
-        bp_groups_update_meta_cache($offer_ids);
+        //bp_groups_update_meta_cache($offer_ids);
 
         unset($sql, $total_sql);
 
@@ -653,68 +636,8 @@ class BP_Offer {
     }
 
     /**
-     * Get the SQL for the 'meta_query' param in BP_Activity_Activity::get()
-     *
-     * We use WP_Meta_Query to do the heavy lifting of parsing the
-     * meta_query array and creating the necessary SQL clauses. However,
-     * since BP_Activity_Activity::get() builds its SQL differently than
-     * WP_Query, we have to alter the return value (stripping the leading
-     * AND keyword from the 'where' clause).
-     *
-     * @since BuddyPress (1.8.0)
-     * @access protected
-     *
-     * @param array $meta_query An array of meta_query filters. See the
-     *        documentation for {@link WP_Meta_Query} for details.
-     * @return array $sql_array 'join' and 'where' clauses.
-     */
-    protected static function get_meta_query_sql($meta_query = array()) {
-        global $wpdb;
-
-        $sql_array = array(
-            'join' => '',
-            'where' => '',
-        );
-
-        if (!empty($meta_query)) {
-            $offers_meta_query = new WP_Meta_Query($meta_query);
-
-            // WP_Meta_Query expects the table name at
-            // $wpdb->group
-            $wpdb->groupmeta = buddypress()->groups->table_name_groupmeta;
-
-            $meta_sql = $offers_meta_query->get_sql('group', 'g', 'id');
-
-            // BP_Groups_Group::get uses the comma syntax for table
-            // joins, which means that we have to do some regex to
-            // convert the INNER JOIN and move the ON clause to a
-            // WHERE condition
-            //
-			// @todo It may be better in the long run to refactor
-            // the more general query syntax to accord better with
-            // BP/WP convention
-            preg_match_all('/INNER JOIN (.*) ON/', $meta_sql['join'], $matches_a);
-            preg_match_all('/ON \((.*)\)/', $meta_sql['join'], $matches_b);
-
-            if (!empty($matches_a[1]) && !empty($matches_b[1])) {
-                $sql_array['join'] = implode(',', $matches_a[1]) . ', ';
-
-                $sql_array['where'] = '';
-
-                $meta_query_where_clauses = explode("\n", $meta_sql['where']);
-                foreach ($matches_b[1] as $key => $offer_id_clause) {
-                    $sql_array['where'] .= ' ' . preg_replace('/^(AND\s+[\(\s]+)/', '$1' . $offer_id_clause . ' AND ', ltrim($meta_query_where_clauses[$key]));
-                }
-            }
-        }
-
-        return $sql_array;
-    }
-
-    /**
      * Convert the 'type' parameter to 'order' and 'orderby'.
      *
-     * @since BuddyPress (1.8.0)
      * @access protected
      *
      * @param string $type The 'type' shorthand param.
@@ -731,12 +654,7 @@ class BP_Offer {
                 $order = 'DESC';
                 $orderby = 'date';
                 break;
-            /*
-              case 'active' :
-              $order = 'DESC';
-              $orderby = 'last_activity';
-              break;
-             */
+
             case 'oldest' :
                 $order = 'ASC';
                 $orderby = 'date';
@@ -746,11 +664,6 @@ class BP_Offer {
                 $order = 'DESC';
                 $orderby = 'offertype';
                 break;
-
-            case 'random' :
-                $order = '';
-                $orderby = 'random';
-                break;
         }
 
         return array('order' => $order, 'orderby' => $orderby);
@@ -759,7 +672,6 @@ class BP_Offer {
     /**
      * Convert the 'orderby' param into a proper SQL term/column.
      *
-     * @since BuddyPress (1.8.0)
      * @access protected
      *
      * @param string $orderby Orderby term as passed to get().
@@ -774,20 +686,12 @@ class BP_Offer {
                 $order_by_term = 'date';
                 break;
 
-            case 'last_activity' :
-                $order_by_term = 'last_activity';
-                break;
-
             case 'offertype' :
                 $order_by_term = 'type_id, date';
                 break;
 
             case 'name' :
                 $order_by_term = 'g.name';
-                break;
-
-            case 'random' :
-                $order_by_term = 'rand()';
                 break;
         }
 
