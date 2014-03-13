@@ -914,7 +914,7 @@ function groups_screen_notification_settings() {
         <thead>
             <tr>
                 <th class="icon"></th>
-                <th class="title"><?php _e('Groups', 'buddypress') ?></th>
+                <th class="title"><?php _e('Organisations', 'buddypress') ?></th>
                 <th class="yes"><?php _e('Yes', 'buddypress') ?></th>
                 <th class="no"><?php _e('No', 'buddypress') ?></th>
             </tr>
@@ -923,25 +923,25 @@ function groups_screen_notification_settings() {
         <tbody>
             <tr id="groups-notification-settings-invitation">
                 <td></td>
-                <td><?php _e('A member invites you to join a group', 'buddypress') ?></td>
+                <td><?php _e('A member invites you to join a organisation', 'buddypress') ?></td>
                 <td class="yes"><input type="radio" name="notifications[notification_groups_invite]" value="yes" <?php checked($group_invite, 'yes', true) ?>/></td>
                 <td class="no"><input type="radio" name="notifications[notification_groups_invite]" value="no" <?php checked($group_invite, 'no', true) ?>/></td>
             </tr>
             <tr id="groups-notification-settings-info-updated">
                 <td></td>
-                <td><?php _e('Group information is updated', 'buddypress') ?></td>
+                <td><?php _e('Organisation information is updated', 'buddypress') ?></td>
                 <td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" value="yes" <?php checked($group_update, 'yes', true) ?>/></td>
                 <td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" value="no" <?php checked($group_update, 'no', true) ?>/></td>
             </tr>
             <tr id="groups-notification-settings-promoted">
                 <td></td>
-                <td><?php _e('You are promoted to a group administrator or moderator', 'buddypress') ?></td>
+                <td><?php _e('You are promoted to an organisation administrator or moderator', 'buddypress') ?></td>
                 <td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="yes" <?php checked($group_promo, 'yes', true) ?>/></td>
                 <td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" value="no" <?php checked($group_promo, 'no', true) ?>/></td>
             </tr>
             <tr id="groups-notification-settings-request">
                 <td></td>
-                <td><?php _e('A member requests to join a private group for which you are an admin', 'buddypress') ?></td>
+                <td><?php _e('A member requests to join a private organisation for which you are an admin', 'buddypress') ?></td>
                 <td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" value="yes" <?php checked($group_request, 'yes', true) ?>/></td>
                 <td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" value="no" <?php checked($group_request, 'no', true) ?>/></td>
             </tr>

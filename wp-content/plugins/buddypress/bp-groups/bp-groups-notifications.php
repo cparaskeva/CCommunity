@@ -18,7 +18,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function groups_notification_group_updated( $group_id ) {
 
 	$group    = groups_get_group( array( 'group_id' => $group_id ) );
-	$subject  = bp_get_email_subject( array( 'text' => __( 'Group Details Updated', 'buddypress' ) ) );
+	$subject  = bp_get_email_subject( array( 'text' => __( 'Organisation Details Updated', 'buddypress' ) ) );
 	$user_ids = BP_Groups_Member::get_group_member_ids( $group->id );
 
 	foreach ( (array) $user_ids as $user_id ) {
@@ -34,7 +34,7 @@ function groups_notification_group_updated( $group_id ) {
 		$settings_link = bp_core_get_user_domain( $user_id ) . $settings_slug . '/notifications/';
 
 		$message = sprintf( __(
-'Group details for the group "%1$s" were updated:
+'Organisation details for the group "%1$s" were updated:
 
 To view the group: %2$s
 
@@ -331,7 +331,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = $group_link . 'admin/membership-requests/?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . $text . '</a>', $group_link, $total_items, $group->name, $text, $notification_link );
+					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Organisation Membership Requests', 'buddypress' ) . '">' . $text . '</a>', $group_link, $total_items, $group->name, $text, $notification_link );
 				} else {
 					return apply_filters( $filter, array(
 						'link' => $notification_link,
@@ -368,7 +368,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $group->name, $text, $notification_link );
+					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Organisations', 'buddypress' ) . '">' . $text . '</a>', $total_items, $group->name, $text, $notification_link );
 				} else {
 					return apply_filters( $filter, array(
 						'link' => $notification_link,
@@ -404,7 +404,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $group->name );
+					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Organisations', 'buddypress' ) . '">' . $text . '</a>', $total_items, $group->name );
 				} else {
 					return apply_filters( $filter, array(
 						'link' => $notification_link,
@@ -440,7 +440,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
+					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Organisations', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
 				} else {
 					return apply_filters( $filter, array(
 						'link' => $notification_link,
@@ -476,7 +476,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
+					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Organisations', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
 				} else {
 					return apply_filters( $filter, array(
 						'link' => $notification_link,
@@ -512,7 +512,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$filter = 'bp_groups_multiple_group_invite_notification';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Group Invites', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
+					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Organisation Invites', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
 				} else {
 					return apply_filters( $filter, array(
 						'link' => $notification_link,

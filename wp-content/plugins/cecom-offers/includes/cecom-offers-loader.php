@@ -6,15 +6,6 @@
 if (!defined('ABSPATH'))
     exit;
 
-/*
- * If you want the users of your component to be able to change the values of your other custom constants,
- * you can use this code to allow them to add new definitions to the wp-config.php file and set the value there.
- *
- *
- * 	if ( !defined( 'BP_EXAMPLE_CONSTANT' ) )
- * 		define ( 'BP_EXAMPLE_CONSTANT', 'some value' // or some value without quotes if integer );
- */
-
 /**
  * Implementation of BP_Component
  *
@@ -66,13 +57,6 @@ class BP_Offers_Component extends BP_Component {
          * components are not saved as active components in the database.
          */
         $bp->active_components[$this->id] = '1';
-
-        /**
-         * Hook the register_post_types() method. If you're using custom post types to store
-         * data (which is recommended), you will need to hook your function manually to
-         * 'init'.
-         */
-        // add_action('init', array(&$this, 'register_post_types'));
     }
 
     /**
@@ -135,7 +119,6 @@ class BP_Offers_Component extends BP_Component {
      * 			    BuddyPress notifications that show up in the admin bar.
      *   - -widgets.php       - If your plugin includes any sidebar widgets, define them in this
      * 			    file.
-     *   - -buddybar.php	  - Functions related to the BuddyBar.
      *   - -adminbar.php      - Functions related to the WordPress Admin Bar.
      *   - -cssjs.php	  - Here is where you set up and enqueue your CSS and JS.
      *   - -ajax.php	  - Functions used in the process of AJAX requests.
@@ -147,7 +130,6 @@ class BP_Offers_Component extends BP_Component {
 
         // Files to include
         $includes = array(
-            'includes/cecom-offers-actions.php',
             'includes/cecom-offers-screens.php',
             'includes/cecom-offers-filters.php',
             'includes/cecom-offers-classes.php',
@@ -156,16 +138,9 @@ class BP_Offers_Component extends BP_Component {
             'includes/cecom-offers-functions.php',
             'includes/cecom-offers-notifications.php',
             'includes/cecom-offers-cssjs.php',
-            'includes/cecom-offers-ajax.php'
         );
 
         parent::includes($includes);
-
-        // As an example of how you might do it manually, let's include the functions used
-        // on the WordPress Dashboard conditionally:
-        if (is_admin() || is_network_admin()) {
-            include( BP_OFFERS_PLUGIN_DIR . '/includes/cecom-offers-admin.php' );
-        }
     }
 
     /**
@@ -246,7 +221,7 @@ class BP_Offers_Component extends BP_Component {
             $bp->is_single_item = true;
             $current_offer_class = apply_filters('bp_offers_current_offer_class', 'BP_Offer');
             $this->current_offer = apply_filters('bp_offers_current_offer_object', new $current_offer_class(Array('id' => $offer_id)));
-            $this->current_offer->slug =  $bp->{$this->id}->offers_subdomain.$offer_id;
+            $this->current_offer->slug = $bp->{$this->id}->offers_subdomain . $offer_id;
 
             // When in a single offer, the first action is bumped down one because of the
             // offer name, so we need to adjust this and set the group name to current_item.
@@ -350,21 +325,6 @@ class BP_Offers_Component extends BP_Component {
         } else {
             do_action('offers_setup_nav');
         }
-
-
-        // If your component needs additional navigation menus that are not handled by
-        // BP_Component::setup_nav(), you can register them manually here. For example,
-        // if your component needs a subsection under a user's Settings menu, add
-        // it like this. See bp_offers_screen_settings_menu() for more info
-        /* bp_core_new_subnav_item( array(
-          'name' 		  => __( 'Offers', 'cecom-offers' ),
-          'slug' 		  => 'example-admin',
-          'parent_slug'     => bp_get_settings_slug(),
-          'parent_url' 	  => trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() ),
-          'screen_function' => 'bp_offers_screen_settings_menu',
-          'position' 	  => 40,
-          'user_has_access' => bp_is_my_profile() // Only the logged in user can access this on his/her profile
-          ) ); */
     }
 
 }

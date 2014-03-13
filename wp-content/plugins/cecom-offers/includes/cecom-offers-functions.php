@@ -1,10 +1,7 @@
 <?php
 
 /**
- * The -functions.php file is a good place to store miscellaneous functions needed by your plugin.
- *
- * @package BuddyPress_Skeleton_Component
- * @since 1.6
+ * The -functions.php file is a good place to store miscellaneous functions needed by current plugin.
  */
 
 /**
@@ -44,24 +41,6 @@ function bp_offers_load_template_filter($found_template, $templates) {
 
 add_filter('bp_located_template', 'bp_offers_load_template_filter', 10, 2);
 
-/* * *
- * From now on you will want to add your own functions that are specific to the component you are developing.
- * For example, in this section in the friends component, there would be functions like:
- *    friends_add_friend()
- *    friends_remove_friend()
- *    friends_check_friendship()
- *
- * Some guidelines:
- *    - Don't set up error messages in these functions, just return false if you hit a problem and
- * 	deal with error messages in screen or action functions.
- *
- *    - Don't directly query the database in any of these functions. Use database access classes
- * 	or functions in your bp-example-classes.php file to fetch what you need. Spraying database
- * 	access all over your plugin turns into a maintenance nightmare, trust me.
- *
- *    - Try to include add_action() functions within all of these functions. That way others will
- * 	find it easy to extend your component without hacking it to pieces.
- */
 
 
 /**
@@ -130,38 +109,7 @@ function bp_offers_update_offer($offer_args) {
     return $offer_to_update->save();
 }
 
-/**
- * bp_offers_get_highfives_for_user()
- *
- * Returns an array of user ID's for users who have high fived the user passed to the function.
- */
-function bp_offers_get_highfives_for_user($user_id) {
-    global $bp;
 
-    if (!$user_id)
-        return false;
-
-    return maybe_unserialize(get_user_meta($user_id, 'high-fives', true));
-}
-
-/**
- * bp_offers_remove_data()
- *
- * It's always wise to clean up after a user is deleted. This stops the database from filling up with
- * redundant information.
- */
-function bp_offers_remove_data($user_id) {
-    /* You'll want to run a function here that will delete all information from any component tables
-      for this $user_id */
-
-    /* Remember to remove usermeta for this component for the user being deleted */
-    delete_user_meta($user_id, 'bp_offers_some_setting');
-
-    do_action('bp_offers_remove_data', $user_id);
-}
-
-add_action('wpmu_delete_user', 'bp_offers_remove_data', 1);
-add_action('delete_user', 'bp_offers_remove_data', 1);
 
 /* Count all the offers stored in DB */
 
@@ -187,41 +135,4 @@ function offers_total_offers_for_user($user_id = 0) {
 
     return $count;
 }
-
-/* * *
- * Object Caching Support ----
- *
- * It's a good idea to implement object caching support in your component if it is fairly database
- * intensive. This is not a requirement, but it will help ensure your component works better under
- * high load environments.
- *
- * In parts of this example component you will see calls to wp_cache_get() often in template tags
- * or custom loops where database access is common. This is where cached data is being fetched instead
- * of querying the database.
- *
- * However, you will need to make sure the cache is cleared and updated when something changes. For example,
- * the groups component caches groups details (such as description, name, news, number of members etc).
- * But when those details are updated by a group admin, we need to clear the group's cache so the new
- * details are shown when users view the group or find it in search results.
- *
- * We know that there is a do_action() call when the group details are updated called 'groups_settings_updated'
- * and the group_id is passed in that action. We need to create a function that will clear the cache for the
- * group, and then add an action that calls that function when the 'groups_settings_updated' is fired.
- *
- * Example:
- *
- *   function groups_clear_group_object_cache( $group_id ) {
- * 	     wp_cache_delete( 'groups_group_' . $group_id );
- * 	 }
- * 	 add_action( 'groups_settings_updated', 'groups_clear_group_object_cache' );
- *
- * The "'groups_group_' . $group_id" part refers to the unique identifier you gave the cached object in the
- * wp_cache_set() call in your code.
- *
- * If this has completely confused you, check the function documentation here:
- * http://codex.wordpress.org/Function_Reference/WP_Cache
- *
- * If you're still confused, check how it works in other BuddyPress components, or just don't use it,
- * but you should try to if you can (it makes a big difference). :)
- */
 ?>

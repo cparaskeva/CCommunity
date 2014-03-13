@@ -3,7 +3,7 @@
 
 
 /********************************************************************************
- * Activity & Notification Functions
+ * Activity & Notification Functions (show in settings panel)
  *
  * These functions handle the recording, deleting and formatting of activity and
  * notifications for the user and for this specific component.
@@ -73,7 +73,7 @@ function bp_offers_screen_notification_settings() {
 	</table>
 <?php
 }
-add_action( 'bp_notification_settings', 'bp_offers_screen_notification_settings' );
+//add_action( 'bp_notification_settings', 'bp_offers_screen_notification_settings' );
 
 
 /**

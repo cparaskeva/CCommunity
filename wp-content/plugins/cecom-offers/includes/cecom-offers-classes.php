@@ -223,32 +223,9 @@ class BP_Offer {
                 BP_Offer::saveMetadata($wpdb->insert_id, $this->sectors);
             }
         }
-
-
-        /* Add an after save action here */
-        // do_action('bp_offers_data_after_save', $this);
         return $result;
     }
 
-    /**
-     * Part of our bp_offers_has_high_fives() loop
-     *
-     * @package BuddyPress_Skeleton_Component
-     * @since 1.6
-     */
-    function have_posts() {
-        return $this->query->have_posts();
-    }
-
-    /**
-     * Part of our bp_offers_has_high_fives() loop
-     *
-     * @package BuddyPress_Skeleton_Component
-     * @since 1.6
-     */
-    function the_post() {
-        return $this->query->the_post();
-    }
 
     /**
      * Delete the current offer.
@@ -465,23 +442,11 @@ class BP_Offer {
      *     @type int $user_id Optional. If provided, results will be limited
      *           to groups of which the specified user is a member. Default:
      *           null.
-     *     @type string $search_terms Optional. If provided, only groups
+     *     @type string $search_terms Optional. If provided, only offers
      *           whose names or descriptions match the search terms will be
      *           returned. Default: false.
-     *     @type array $meta_query Optional. An array of meta_query
-     *           conditions. See {@link WP_Meta_Query::queries} for
-     *           description.
-     *     @type array|string Optional. Array or comma-separated list of
-     *           group IDs. Results will be limited to groups within the
-     *           list. Default: false.
-     *     @type bool $populate_extras Whether to fetch additional
-     *           information (such as member count) about groups. Default:
-     *           true.
-     *     @type array|string Optional. Array or comma-separated list of
-     *           group IDs. Results will exclude the listed groups.
-     *           Default: false.
-     *     @type bool $show_hidden Whether to include hidden groups in
-     *           results. Default: false.
+     *     @type string $search_extras Optional. If provided, serach fileds will be
+     *           taken under consideration. Default: false.
      * }
      * @return array {
      *     @type array $offers Array of group objects returned by the
@@ -506,24 +471,8 @@ class BP_Offer {
         );
 
 
-
         $r = wp_parse_args($args, $defaults);
 
-
-        //Convert search_extras values to an array of arguments
-        $search_extras = array();
-
-        $asArr = explode('|', $r['search_extras']);
-
-        foreach ($asArr as $val) {
-            $tmp = explode(',', $val);
-            $search_extras[$tmp[0]] = $tmp[1];
-        }
-        print_r($search_extras);
-
-
-
-        //print_r($r);
         $sql = array();
         $total_sql = array();
 
@@ -541,15 +490,14 @@ class BP_Offer {
             $sql['user'] = " AND uid = {$r['user_id']}";
         }
 
-        /*if (!empty($search_extras)&& $search_extras['offer_type']!= "none"){
-          $sql['search']= " AND type.id = {$search_extras['offer_type']} ";  
-        } */
-        
+
+        //Calculate serach metaquery
+        $sql['search'] = self::build_search_meta_query($r['search_extras']);
+
         //Actuall serach terms text-based
-        
         if (!empty($r['search_terms'])) {
             $search_terms = esc_sql(like_escape($r['search_terms']));
-            $sql['search'] = " AND (offer.description LIKE '%%{$search_terms}%%')"; // OR g.description LIKE '%%{$search_terms}%%' )";
+            $sql['search'] = " AND (offer.description LIKE '%%{$search_terms}%%')";
         }
 
 
@@ -590,7 +538,7 @@ class BP_Offer {
         // Get paginated results
         $paged_offers_sql = apply_filters('bp_offers_get_paged_offers_sql', join(' ', (array) $sql), $sql, $r);
         $paged_offers = $wpdb->get_results($paged_offers_sql);
-        //echo " Paged Query: " . $paged_offers_sql . "<br> Results count:" . $wpdb->num_rows;
+        //echo " Paged Query: " . $paged_offers_sql; //. "<br> Results count:" . $wpdb->num_rows;
 
 
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} as offer";
@@ -615,17 +563,12 @@ class BP_Offer {
         // Get total group results
         $total_offers_sql = apply_filters('bp_offers_get_total_offers_sql', $t_sql, $total_sql, $r);
         $total_offers = $wpdb->get_var($total_offers_sql);
-
+        //echo "<br>Count query: " . $total_offers_sql;
 
         $offer_ids = array();
         foreach ((array) $paged_offers as $offer) {
             $offer_ids[] = $offer->id;
         }
-
-        // Populate some extra information instead of querying each time in the loop
-        /* if (!empty($r['populate_extras'])) {
-          $paged_offers = BP_Groups_Group::get_group_extras($paged_offers, $offer_ids, $r['type']);
-          } */
 
         // Grab all groupmeta
         //bp_groups_update_meta_cache($offer_ids);
@@ -633,6 +576,58 @@ class BP_Offer {
         unset($sql, $total_sql);
 
         return array('offers' => $paged_offers, 'total' => $total_offers);
+    }
+
+    protected static function build_search_meta_query($search_extras) {
+
+        $serach_extras_query = '';
+        //Convert search_extras values to an array of arguments
+        if (!empty($search_extras)) {
+            $search_extras_args = array();
+            $asArr = explode('|', $search_extras);
+
+            foreach ($asArr as $val) {
+                $tmp = explode(';', $val);
+                $search_extras_args[$tmp[0]] = $tmp[1];
+            }
+            //print_r($search_extras_args);
+            
+            //If calculation is success continue
+            if (!empty($search_extras_args)) {
+
+                if ($search_extras_args['offer-type'] != "none")
+                    $serach_extras_query = " AND type_id = {$search_extras_args['offer-type']} ";
+
+                switch ($search_extras_args['offer-type']) {
+
+                    //Offer Type: 1-Develop product and services
+                    case 1:
+                        //Take into account type of collaboration
+                        $serach_extras_query.= ($search_extras_args['collaboration-type'] != 'none' ? "AND collaboration_id='{$search_extras_args['collaboration-type']}' " : "");
+                        //Take into account type of partner-sought field
+                        $serach_extras_query.= ($search_extras_args['collaboration-partner-sought'] != 'none' ? "AND partner_type_id={$search_extras_args['collaboration-partner-sought']} " : "");
+                        break;
+                    //Offer Type: 2-Participate to funded projects
+                    case 2:
+                        //Take into account type of collaboration
+                        $serach_extras_query.= ($search_extras_args['collaboration-type'] != 'none' ? "AND collaboration_id='{$search_extras_args['collaboration-type']}' " : "");
+                        //Take into account grant programs
+                        $serach_extras_query.= ($search_extras_args['collaboration-programs'] != 'none' ? "AND program_id='{$search_extras_args['collaboration-programs']}' " : "");
+                        break;
+                    //Offer Type: Funding
+                    case 3:
+                        //Take into account applyable countries field
+                        $serach_extras_query.= ($search_extras_args['applyable-countries'] != 'none' ? "AND country_id='{$search_extras_args['applyable-countries']}' " : "");
+                        //Take into account finance stage field
+                        $serach_extras_query.= ($search_extras_args['finance-stage'] != 'none' ? "AND finance_stage_id={$search_extras_args['finance-stage']} " : "");
+                        //Take into accont sector fiedls
+                        $serach_extras_query.= ($search_extras_args['offer-sectors'] != '' ? "AND offer.id in (select oid from ext_offer_meta where mkey='sector' and mvalue in ({$search_extras_args['offer-sectors']})) " : "");
+
+                        break;
+                }
+            }
+        }
+        return $serach_extras_query;
     }
 
     /**

@@ -140,7 +140,7 @@ function bp_groups_admin_load() {
 		$bp_groups_list_table = new BP_Groups_List_Table();
 
 		// per_page screen option
-		add_screen_option( 'per_page', array( 'label' => _x( 'Groups', 'Groups per page (screen options)', 'buddypress' )) );
+		add_screen_option( 'per_page', array( 'label' => _x( 'Organisations', 'Organisations per page (screen options)', 'buddypress' )) );
 
 		// Help panel - overview text
 		get_current_screen()->add_help_tab( array(
@@ -584,7 +584,7 @@ function bp_groups_admin_delete() {
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress-groups' ); ?>
-		<h2><?php _e( 'Delete Groups', 'buddypress' ) ?></h2>
+		<h2><?php _e( 'Delete Organisations', 'buddypress' ) ?></h2>
 		<p><?php _e( 'You are about to delete the following groups:', 'buddypress' ) ?></p>
 
 		<ul class="bp-group-delete-list">
@@ -696,8 +696,8 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
 
 		<ul>
 			<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-members" value="members" <?php checked( $invite_status, 'members' ) ?> /> <?php _e( 'All group members', 'buddypress' ) ?></li>
-			<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-mods" value="mods" <?php checked( $invite_status, 'mods' ) ?> /> <?php _e( 'Group admins and mods only', 'buddypress' ) ?></li>
-			<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-admins" value="admins" <?php checked( $invite_status, 'admins' ) ?> /> <?php _e( 'Group admins only', 'buddypress' ) ?></li>
+			<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-mods" value="mods" <?php checked( $invite_status, 'mods' ) ?> /> <?php _e( 'Organisation admins and mods only', 'buddypress' ) ?></li>
+			<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-admins" value="admins" <?php checked( $invite_status, 'admins' ) ?> /> <?php _e( 'Organisation admins only', 'buddypress' ) ?></li>
 		</ul>
 	</div>
 
@@ -787,9 +787,9 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 			<table class="widefat bp-group-members">
 				<thead>
 				<tr>
-					<th scope="col" class="uid-column"><?php _ex( 'ID', 'Group member user_id in group admin', 'buddypress' ) ?></th>
-					<th scope="col" class="uname-column"><?php _ex( 'Name', 'Group member name in group admin', 'buddypress' ) ?></th>
-					<th scope="col" class="urole-column"><?php _ex( 'Group Role', 'Group member role in group admin', 'buddypress' ) ?></th>
+					<th scope="col" class="uid-column"><?php _ex( 'ID', 'Organisation member user_id in group admin', 'buddypress' ) ?></th>
+					<th scope="col" class="uname-column"><?php _ex( 'Name', 'Organisation member name in group admin', 'buddypress' ) ?></th>
+					<th scope="col" class="urole-column"><?php _ex( 'Organisation Role', 'Organisation member role in organisation admin', 'buddypress' ) ?></th>
 				</tr>
 				</thead>
 
@@ -815,7 +815,7 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 								<option value="mod" <?php selected( 'mod', $member_type ) ?>><?php _e( 'Moderator', 'buddypress' ) ?></option>
 								<option value="member" <?php selected( 'member', $member_type ) ?>><?php _e( 'Member', 'buddypress' ) ?></option>
 								<option class="banned" value="banned" <?php selected( 'banned', $member_type ) ?>><?php _e( 'Banned', 'buddypress' ) ?></option>
-								<option class="remove" value="remove"><?php _e( 'Remove From Group', 'buddypress' ) ?></option>
+								<option class="remove" value="remove"><?php _e( 'Remove From Organisation', 'buddypress' ) ?></option>
 							</select>
 
 							<?php
@@ -874,7 +874,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 	<div id="submitcomment" class="submitbox">
 		<div id="major-publishing-actions">
 			<div id="delete-action">
-				<a class="submitdelete deletion" href="<?php echo wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-groups-delete' ) ?>"><?php _e( 'Delete Group', 'buddypress' ) ?></a>
+				<a class="submitdelete deletion" href="<?php echo wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-groups-delete' ) ?>"><?php _e( 'Delete Organisation', 'buddypress' ) ?></a>
 			</div>
 
 			<div id="publishing-action">
@@ -1402,7 +1402,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			'object'     => 'group',
 			'type'       => 'thumb',
 			'avatar_dir' => 'group-avatars',
-			'alt'        => sprintf( __( 'Group logo of %s', 'buddypress' ), $item['name'] ),
+			'alt'        => sprintf( __( 'Organisation logo of %s', 'buddypress' ), $item['name'] ),
 			'width'      => '32',
 			'height'     => '32',
 			'title'      => $item['name']

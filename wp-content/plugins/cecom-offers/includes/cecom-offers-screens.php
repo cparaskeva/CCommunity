@@ -10,9 +10,6 @@
 /**
  * If your component uses a top-level directory, this function will catch the requests and load
  * the index page.
- *
- * @package BuddyPress_Template_Pack
- * @since 1.6
  */
 function bp_offers_directory_setup() {
     if (bp_is_offer_component() && !bp_current_action() && !bp_current_item()) {
@@ -265,7 +262,6 @@ function bp_offers_screen_settings_menu_content() {
             return false;
 
         bp_core_redirect('edit-details');
-        //bp_core_load_template(apply_filters('offers_template_offer_admin', 'offers/single/home'));
     }
 
     function offers_screen_offer_home() {

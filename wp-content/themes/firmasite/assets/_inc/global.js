@@ -24,7 +24,7 @@ function completeSearchExtras(current_component){
     switch(current_component)
     {
     case "offers":
-        search_extras="offer_type,"+jq("#offer-type").val();
+            search_extras =jQuery('#offer_serach_extras').serialize().replace(/=/g,";").replace(/&/g,"|");
         break;
     case 2:
 
@@ -32,7 +32,6 @@ function completeSearchExtras(current_component){
 
     }
     
-  
     
 }
 

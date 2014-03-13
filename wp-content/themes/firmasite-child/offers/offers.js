@@ -69,36 +69,4 @@
     });
 
 
-
-/*
- *  AJAX CALL FUCNTIONS  
- */
-
-/* Ajax Call Implementation for posting an offer */
-jQuery("#offer-collaboration-formaaa").submit(function(event) {
-  
-  //alert("is ok");
-  
-   /* Stop form from submitting normally */
-   event.preventDefault();
-  
-  
-  var values = "action=create_offer&" + jQuery(this).serialize();
-
-    /* Send the data using post and put the results in a div */
-    jQuery.ajax({
-            url: ajaxurl,
-            type: "get",
-            data: values,
-            success: function(response) {
-
-                alert(response);
-
-
-            },
-            error: function() {
-            alert("Unresolved error happened. Please try again!");
-            }
-    });
-}); 
 </script>

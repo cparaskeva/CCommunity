@@ -6,7 +6,6 @@
 global $firmasite_settings;
 get_header('buddypress');
 
-//do_action("wp_enqueue_cecom_scripts");
 
 /* Import JS files */
 wp_enqueue_script('bootstrap-multiselect');

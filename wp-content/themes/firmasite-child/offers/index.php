@@ -9,6 +9,13 @@
 <?php
 global $firmasite_settings;
 get_header('buddypress');
+
+/* Import JS files */
+wp_enqueue_script('bootstrap-multiselect');
+
+/* Import CSS files */
+wp_enqueue_style('bootstrap-multiselect-style');
+
 global $bp;
 ?>
 
@@ -39,15 +46,15 @@ global $bp;
 
                 </ul>
             </div><!-- .item-list-tabs -->
-          <div id="offer-dir-search" class="dir-search" role="search">
+            <div id="offer-dir-search" class="dir-search" role="search">
 
-              <br>  <?php bp_directory_offers_search_form(); ?> 
+                <br>  <?php bp_directory_offers_search_form(); ?> 
 
             </div><!-- #offer-dir-search -->
 
-              <?php include(get_stylesheet_directory() . "/offers/search.php"); ?>
+            <?php include(get_stylesheet_directory() . "/offers/search.php"); ?>
 
-  
+
 
 
 

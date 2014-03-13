@@ -3,7 +3,7 @@
 Plugin Name: CECommunity Offers 
 Plugin URI: http://
 Description: This component is used to enable offering collaborations withing members of the platform.
-Version: 0.7
+Version: 1.0
 Revision Date: MMMM DD, YYYY
 Requires at least: BuddyPress version > 1.8 
 Author: Chris Paraskeva
