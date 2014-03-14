@@ -52,6 +52,7 @@ global $bp;
 
             </div><!-- #offer-dir-search -->
 
+            <!-- Include the UI for the search form -->
             <?php include(get_stylesheet_directory() . "/offers/search.php"); ?>
 
 

@@ -217,7 +217,8 @@ function bp_directory_offers_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-offers-form"> 
-		<label><input type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
+        <span data-toggle="tooltip" data-placement="left" title="Fill in the description of the offer you are looking for..." class="glyphicon glyphicon-question-sign"></span>
+		<label style="vertical-align:middle"><input type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
 		<input type="submit" id="offers_search_submit" name="offers_search_submit" value="' . __('Search', 'buddypress') . '" />
 	</form>';
 
@@ -359,9 +360,6 @@ class BP_Offers_Template {
              */
             echo "<b>Unsupported operation exception</b><br>single-offer";
             die();
-            $offer = new stdClass;
-            $offer->offer_id = BP_Groups_Group::get_id_from_slug($slug);
-            $this->offers = array($offer);
         } else {
 
             //Store the offers of the user to an array()
@@ -519,7 +517,6 @@ function bp_has_offers($args = '') {
       $type = 'single-offer';
       $slug = $bp->offers->current_offer->slug;
       } */
-
 
     $defaults = array(
         'type' => $type, // 'type' is an override for 'order' and 'orderby'. See docblock.

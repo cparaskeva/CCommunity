@@ -3,7 +3,7 @@
 var search_extras="";
 
 //Define CECommunity Components
-var cecom_components=["offers","tools"];
+var cecom_components=["offers","organizations"]; 
 
 
 //Checks if the given component is one of the CECommunity Plugins
@@ -11,11 +11,11 @@ function isCEComComponent(component) {
     return cecom_components.indexOf(component.toLowerCase()) > -1;
 }
 
-
+/*
+ * Used to encode multiple field-values pairs to a single string
+ * Format{ [field_name][;][field_value][|] } (";" => value seperator, "|" => field seperator) 
+ */
 function completeSearchExtras(current_component){
-    
-    //Clear old search_extras field
-    search_extras="";
     
     //Check if current component belongs to CECommunity Components
     if (!isCEComComponent(current_component))
@@ -24,15 +24,14 @@ function completeSearchExtras(current_component){
     switch(current_component)
     {
     case "offers":
-            search_extras =jQuery('#offer_serach_extras').serialize().replace(/=/g,";").replace(/&/g,"|");
+        search_extras =jQuery('#offer_serach_extras').serialize().replace(/=/g,";").replace(/&/g,"|");
         break;
-    case 2:
-
+    case "organizations":
+        search_extras =(jQuery('#organization_serach_extras').serialize()+"&organization_country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
         break;
-
+    default:
+        search_extras="";        
     }
-    
-    
 }
 
 /* End of CECommunity Javascript Code */
@@ -725,7 +724,8 @@ jq(document).ready( function() {
                          * Override the  default bp_filter_request() function of buddypress, with CECommunity one
                          */
                         
-                        completeSearchExtras(object);
+                        //==> "groups" actually refers to "organizations" component
+                        completeSearchExtras(object == "groups"?"organizations":object);
     
 			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, jq.cookie('bp-' + object + '-extras') );
 

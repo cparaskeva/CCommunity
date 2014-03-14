@@ -64,10 +64,9 @@ class CECOM_Organization {
         /* Get organization metadata */
 
         //Get organization sectors
-        self::$instance->details['sectors'] = $wpdb->get_results("SELECT s.id,s.color,s.description from ext_organization_meta m,ext_organization_sector s where m.mkey='sector' and m.mvalue = s.id and oid=$org_details->id",ARRAY_A);
+        self::$instance->details['sectors'] = $wpdb->get_results("SELECT s.id,s.color,s.description from ext_organization_meta m,ext_organization_sector s where m.mkey='sector' and m.mvalue = s.id and oid=$org_details->id", ARRAY_A);
         //Get organization subsectors
-        self::$instance->details['subsectors']= $wpdb->get_results("SELECT s.id,s.description from ext_organization_meta m,ext_organization_subsector s where m.mkey='subsector' and m.mvalue = s.id and oid=$org_details->id",ARRAY_A);
-
+        self::$instance->details['subsectors'] = $wpdb->get_results("SELECT s.id,s.description from ext_organization_meta m,ext_organization_subsector s where m.mkey='subsector' and m.mvalue = s.id and oid=$org_details->id", ARRAY_A);
     }
 
     //Fetch the available types for an organization
@@ -156,7 +155,7 @@ class CECOM_Organization {
     }
 
     //Update Organization Profile 
-    public static function edit_organization_details($org_id,$group_id, $desc, $name, $specialties, $website, $country, $type, $size, $sectors, $subsectors, $collaboration, $transaction) {
+    public static function edit_organization_details($org_id, $group_id, $desc, $name, $specialties, $website, $country, $type, $size, $sectors, $subsectors, $collaboration, $transaction) {
         global $wpdb;
         $wpdb->query($wpdb->prepare("UPDATE ext_organization  SET "
                         . "description   = %s ,"
@@ -169,13 +168,12 @@ class CECOM_Organization {
                         . "collaboration = %d ,"
                         . "transaction   = %d "
                         . "WHERE gid     = %d ", $desc, $name, $size, $type, $country, $website, $specialties, $collaboration, $transaction, $group_id));
-        
+
         //Clear the old metadata
         $wpdb->get_results("DELETE  FROM `ext_organization_meta` where oid= $org_id");
         //Store the updated metadata
-        $metadata = array("sector" => explode(",",$sectors) , "subsector" => explode(",",$subsectors));
+        $metadata = array("sector" => explode(",", $sectors), "subsector" => explode(",", $subsectors));
         CECOM_Organization::saveMetadata($org_id, $metadata);
-        
     }
 
     //Save meta data to ext_organization_meta table
@@ -196,6 +194,58 @@ class CECOM_Organization {
             //Execute Query
             $wpdb->get_results($query);
         }
+    }
+
+    //Build the meta query based on the arguments given in the organisation search form 
+    public static function build_search_meta_query($search_extras) {
+        
+        $serach_extras_query = '';
+        //Convert search_extras values to an array of arguments
+        if (!empty($search_extras)) {
+            $search_extras_args = array();
+            $asArr = explode('|', $search_extras);
+
+            foreach ($asArr as $val) {
+                $tmp = explode(';', $val);
+                $search_extras_args[$tmp[0]] = $tmp[1];
+            }
+            print_r($search_extras_args);return;
+            //If calculation is success continue
+            if (!empty($search_extras_args)) {
+
+                if ($search_extras_args['offer-type'] != "none")
+                    $serach_extras_query = " AND type_id = {$search_extras_args['offer-type']} ";
+
+                switch ($search_extras_args['offer-type']) {
+
+                    //Offer Type: 1-Develop product and services
+                    case 1:
+                        //Take into account type of collaboration
+                        $serach_extras_query.= ($search_extras_args['collaboration-type'] != 'none' ? "AND collaboration_id='{$search_extras_args['collaboration-type']}' " : "");
+                        //Take into account type of partner-sought field
+                        $serach_extras_query.= ($search_extras_args['collaboration-partner-sought'] != 'none' ? "AND partner_type_id={$search_extras_args['collaboration-partner-sought']} " : "");
+                        break;
+                    //Offer Type: 2-Participate to funded projects
+                    case 2:
+                        //Take into account type of collaboration
+                        $serach_extras_query.= ($search_extras_args['collaboration-type'] != 'none' ? "AND collaboration_id='{$search_extras_args['collaboration-type']}' " : "");
+                        //Take into account grant programs
+                        $serach_extras_query.= ($search_extras_args['collaboration-programs'] != 'none' ? "AND program_id='{$search_extras_args['collaboration-programs']}' " : "");
+                        break;
+                    //Offer Type: Funding
+                    case 3:
+                        //Take into account applyable countries field
+                        $serach_extras_query.= ($search_extras_args['applyable-countries'] != 'none' ? "AND country_id='{$search_extras_args['applyable-countries']}' " : "");
+                        //Take into account finance stage field
+                        $serach_extras_query.= ($search_extras_args['finance-stage'] != 'none' ? "AND finance_stage_id={$search_extras_args['finance-stage']} " : "");
+                        //Take into accont sector fiedls
+                        $serach_extras_query.= ($search_extras_args['offer-sectors'] != '' ? "AND offer.id in (select oid from ext_offer_meta where mkey='sector' and mvalue in ({$search_extras_args['offer-sectors']})) " : "");
+
+                        break;
+                }
+            }
+        }
+        return $serach_extras_query;
     }
 
 }
@@ -319,13 +369,12 @@ function checkOrganization($email) {
 }
 
 //Get the n latest created organisations
-function getLatestOrganisations($nbOrg=5) {
-	global $wpdb;
-	
-	$orgs = $wpdb->get_results("SELECT *  FROM ext_organization o INNER JOIN wp_bp_groups g ON o.gid=g.id ORDER BY o.id DESC LIMIT $nbOrg");
-	//syslog(LOG_INFO, var_export($orgs, true));
-	return $orgs;
-}
+function getLatestOrganisations($nbOrg = 5) {
+    global $wpdb;
 
+    $orgs = $wpdb->get_results("SELECT *  FROM ext_organization o INNER JOIN wp_bp_groups g ON o.gid=g.id ORDER BY o.id DESC LIMIT $nbOrg");
+    //syslog(LOG_INFO, var_export($orgs, true));
+    return $orgs;
+}
 
 ?>

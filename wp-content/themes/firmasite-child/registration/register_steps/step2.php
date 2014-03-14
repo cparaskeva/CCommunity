@@ -168,18 +168,6 @@
                     <label class="control-label col-xs-12 col-md-3" for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9" >
                         <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
-                            <!-- <option value="none">Please select...</option> -->
-                            <?php
-                            //Fetch Organization Sectos form DB
-                            /* $results = CECOM_Organization::getOrganizationSubsector();
-                              if (is_array($results)) {
-
-                              foreach ($results as $org_subsector) {
-                              echo "<option value = '{$org_subsector->id }'>{$org_subsector->description}</option>";
-                              }
-                              } */
-                            ?>
-
                         </select>
                     </div>
                 </div>

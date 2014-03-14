@@ -458,7 +458,6 @@ class BP_Offer {
     public static function get($args = array()) {
         global $wpdb, $bp;
 
-
         $defaults = array(
             'type' => null,
             'orderby' => 'date_created',
@@ -497,7 +496,7 @@ class BP_Offer {
         //Actuall serach terms text-based
         if (!empty($r['search_terms'])) {
             $search_terms = esc_sql(like_escape($r['search_terms']));
-            $sql['search'] = " AND (offer.description LIKE '%%{$search_terms}%%')";
+            $sql['search'] .= " AND (offer.description LIKE '%%{$search_terms}%%')";
         }
 
 
@@ -538,7 +537,7 @@ class BP_Offer {
         // Get paginated results
         $paged_offers_sql = apply_filters('bp_offers_get_paged_offers_sql', join(' ', (array) $sql), $sql, $r);
         $paged_offers = $wpdb->get_results($paged_offers_sql);
-        //echo " Paged Query: " . $paged_offers_sql; //. "<br> Results count:" . $wpdb->num_rows;
+        echo " Paged Query: " . $paged_offers_sql. "<br> Results count:" . $wpdb->num_rows;
 
 
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} as offer";
@@ -560,10 +559,10 @@ class BP_Offer {
             $t_sql .= " WHERE " . join(' AND ', (array) $total_sql['where']);
         }
 
-        // Get total group results
+        // Get total offer results
         $total_offers_sql = apply_filters('bp_offers_get_total_offers_sql', $t_sql, $total_sql, $r);
         $total_offers = $wpdb->get_var($total_offers_sql);
-        //echo "<br>Count query: " . $total_offers_sql;
+        echo "<br>Count query: " . $total_offers_sql;
 
         $offer_ids = array();
         foreach ((array) $paged_offers as $offer) {
@@ -578,6 +577,7 @@ class BP_Offer {
         return array('offers' => $paged_offers, 'total' => $total_offers);
     }
 
+    //Build the meta query based on the arguments given in the offers search form 
     protected static function build_search_meta_query($search_extras) {
 
         $serach_extras_query = '';
