@@ -21,42 +21,64 @@ get_header();
     
     
     <style>
+    
+    body {
+    -webkit-animation-delay: 0.1s;
+    -webkit-animation-name: fontfix;
+    -webkit-animation-duration: 0.1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes fontfix {
+    from { opacity: 1; }
+    to   { opacity: 1; }
+}
+    
+    
     .borders {border:solid 1px #eee;border-radius:10px; margin-bottom:5px}
     .no-margin-left {margin-left:0}
     .offers li, .organisations li {list-style-type: none; padding-bottom:7px}
     </style>
     
 	<div class="col-md-12 borders">
-		<h3>Welcome on the platform! You can:</h3>
+		<h2>Welcome on <img src="/cecommunity/wp-content/uploads/2013/12/logo1.png"></h2>
 	
-		<h4>SEARCH</h4>
-		- Search for <a href="/cecommunity/groups/">organisations</a><br>
-		- Search for <a href="#">collaborations</a>, either to develop <a href="#">new products or services</a> or to cooperate on <a href="#">funded projects</a>.<br> 
-		- Search for <a href="#">patents, fundings, tools</a> for rent.<br>
-		<br>
-		<h4>OFFER</h4>
-		- <a href="#">Offer a collaboration</a>.<br>
-		- Offer <a href="#">patents, fundings, tools</a> for rent.<br>
-		<br>
-		<h4>YOUR PROFILE</h4>
-		- Fill in the <a href="#">profile</a> of your organisation, to be sure you can be found by other organisations.
-		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<h4>SEARCH</h4>
+				- Search for <a href="/cecommunity/groups/">organisations</a><br>
+				- Search for <a href="#">collaborations</a>, either to develop <a href="#">new products or services</a> or to cooperate on <a href="#">funded projects</a>.<br> 
+				- Search for <a href="#">patents, fundings, tools</a> for rent.<br>
+			</div>
+			
+			<div class="col-md-6">
+				<h4>OFFER</h4>
+				- <a href="#">Offer a collaboration</a>.<br>
+				- Offer <a href="#">patents, fundings, tools</a> for rent.<br>
+				<br>
+				<h4>YOUR PROFILE</h4>
+				- Fill in the <a href="#">profile</a> of your organisation, to be sure you can be found by other organisations.
+			</div>
+		</div>
+		
 		<br>
 	</div>
 
 	<div class="row no-margin-left">
 		<div class="col-md-6 borders">
+			<span style="float: right;margin-top: 27px"><a href="/cecommunity/news-from-the-influencers/">More news</a></span>
 			<h3>News from the influencers</h3>
 			
 			
-			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="300"  data-widget-id="438354056449241088" data-favorites-screen-name="centralcomm1"></a>
-			
+			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="400"  data-widget-id="438354056449241088" data-favorites-screen-name="centralcomm1"></a>
+			<!-- 
 			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="300"  data-widget-id="438354056449241088" data-favorites-screen-name="matteomoci"></a>
 			
 			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="300"  data-widget-id="438354056449241088" data-favorites-screen-name="CybionIT"></a>
 			
 			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="300"  data-widget-id="438354056449241088" data-favorites-screen-name="triverio"></a>
-			
+			 -->
 			 
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
