@@ -65,6 +65,8 @@ if (!class_exists('CECommunity')) :
             require( dirname(__FILE__) . '/organization/cecom-organization-core.php' );
             require( dirname(__FILE__) . '/login_lostpassword/login-form-action-hook.php' );
             require( dirname(__FILE__) . '/nav_menu/nav_menu-hook.php' );
+            require( dirname(__FILE__) . '/layout/layout-hook.php' );
+            require( dirname(__FILE__) . '/workflow/redirects-hook.php' );
         }
 
         private function setup_actions() {
