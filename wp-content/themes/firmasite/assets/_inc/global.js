@@ -27,7 +27,7 @@ function completeSearchExtras(current_component){
         search_extras =jQuery('#offer_serach_extras').serialize().replace(/=/g,";").replace(/&/g,"|");
         break;
     case "organizations":
-        search_extras =(jQuery('#organization_serach_extras').serialize()+"&organization_country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
+        search_extras =(jQuery('#organization_serach_extras').serialize()+"&organization-country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
         break;
     default:
         search_extras="";        
@@ -1422,6 +1422,7 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 		'page': page,
 		'extras': extras,
                 'search_extras':search_extras,
+                'offer_type':jQuery("#offer-type").val(),
 	},
 	function(response)
 	{

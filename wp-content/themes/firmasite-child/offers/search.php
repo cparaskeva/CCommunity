@@ -16,7 +16,7 @@
             <input type="hidden" class="form-control" name="offer-sectors" id="offer-sectors" value=""/>
             <!-- End of Hidden Fields -->
 
-            <div class="col-xs-12 col-md-3">
+            <div hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
                 <label for="offer-type"><?php _e('Type of offer', 'firmasite'); ?></label>
                 <select name="offer-type" id="offer-type">
                     <option value="none"  selected="selected">(Anyone)</option>
@@ -190,5 +190,13 @@
     //Initialize the sectors multiselect object
     jQuery(document).ready(function() {
         jQuery("#offer-sector").multiselect({numberDisplayed: 1});
+        jQuery("#offer-type").val(<?php echo (!empty($_GET['offer_type']) ? $_GET['offer_type'] : "'none'" ) ?>).change();
+               
+        if (jQuery("#offer-type").val() == "none")
+            jQuery("#offer-type-div").show();
+        else
+            jQuery("#offers-header").append("<h4>(" + jQuery("#offer-type option:selected").text() + ")</h4>");
+
+
     });
 </script>

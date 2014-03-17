@@ -5,8 +5,6 @@
  * 
  */
 ?>
-<?php ?>
-
 
 <?php do_action('bp_before_example_loop'); ?>
 <?php if (bp_has_offers(bp_ajax_querystring('offers'))) : ?>

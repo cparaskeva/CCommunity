@@ -226,7 +226,6 @@ class BP_Offer {
         return $result;
     }
 
-
     /**
      * Delete the current offer.
      *
@@ -329,7 +328,8 @@ class BP_Offer {
      */
     public static function offers_get_total_offers_count() {
         global $wpdb, $bp;
-        $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->offers->table_name}");
+        $offer_category= (bp_offers_current_catgory() != "none"? " WHERE type_id=".bp_offers_current_catgory(): "");
+        $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->offers->table_name}".$offer_category);
 
         return $count;
     }
@@ -350,7 +350,8 @@ class BP_Offer {
         if (!bp_loggedin_user_id()) {
             return null;
         } else {
-            return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d", $user_id));
+            $offer_category= (bp_offers_current_catgory() != "none"? " AND type_id=".bp_offers_current_catgory(): "");
+            return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d". $offer_category, $user_id));
         }
     }
 
@@ -456,6 +457,7 @@ class BP_Offer {
      * }
      */
     public static function get($args = array()) {
+
         global $wpdb, $bp;
 
         $defaults = array(
@@ -483,7 +485,7 @@ class BP_Offer {
 
 
         //Query Where clause 
-        $sql['where'] = "WHERE offer.type_id = type.id ";
+        $sql['where'] = "WHERE offer.type_id = type.id " . (bp_offers_current_catgory() != "none" ? "AND type.id=" . bp_offers_current_catgory() : "" );
 
         if (!empty($r['user_id'])) {
             $sql['user'] = " AND uid = {$r['user_id']}";
@@ -537,7 +539,7 @@ class BP_Offer {
         // Get paginated results
         $paged_offers_sql = apply_filters('bp_offers_get_paged_offers_sql', join(' ', (array) $sql), $sql, $r);
         $paged_offers = $wpdb->get_results($paged_offers_sql);
-        echo " Paged Query: " . $paged_offers_sql. "<br> Results count:" . $wpdb->num_rows;
+        //echo " Paged Query: " . $paged_offers_sql . "<br> Results count:" . $wpdb->num_rows;
 
 
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} as offer";
@@ -547,6 +549,8 @@ class BP_Offer {
             $total_sql['where'][] = substr($sql['search'], 4);
         }
 
+        if (bp_offers_current_catgory() != "none")
+        $total_sql['where'][] = " type_id=" . bp_offers_current_catgory();
 
         //True: All Offers / False: My offers tab
         if (!empty($r['user_id'])) {
@@ -559,10 +563,11 @@ class BP_Offer {
             $t_sql .= " WHERE " . join(' AND ', (array) $total_sql['where']);
         }
 
+
         // Get total offer results
         $total_offers_sql = apply_filters('bp_offers_get_total_offers_sql', $t_sql, $total_sql, $r);
         $total_offers = $wpdb->get_var($total_offers_sql);
-        echo "<br>Count query: " . $total_offers_sql;
+        //echo "<br>Count query: " . $total_offers_sql;
 
         $offer_ids = array();
         foreach ((array) $paged_offers as $offer) {
@@ -591,7 +596,6 @@ class BP_Offer {
                 $search_extras_args[$tmp[0]] = $tmp[1];
             }
             //print_r($search_extras_args);
-            
             //If calculation is success continue
             if (!empty($search_extras_args)) {
 

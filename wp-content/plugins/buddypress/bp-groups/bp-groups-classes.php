@@ -647,7 +647,7 @@ class BP_Groups_Group {
                 
                 //Calculate serach metaquery
                 $sql['search'] = CECOM_Organization::build_search_meta_query(urldecode($_POST['search_extras']));
-                
+                //echo "<br>Search meta query: ". $sql['search'] ."<br>";
                 /* End of Code Injection */
                 
 		if ( ! empty( $r['search_terms'] ) ) {
@@ -722,7 +722,7 @@ class BP_Groups_Group {
 		// Get paginated results
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql, $r );
 		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
-                echo " Paged Query: " . $paged_groups_sql . "<br>";
+                //echo " Paged Query: " . $paged_groups_sql . "<br>";
 
 		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g, {$bp->groups->table_name_members} gm1, {$bp->groups->table_name_groupmeta} gm2";
 
@@ -735,7 +735,9 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $sql['search'] ) ) {
-			$total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+			//$total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+                        $total_sql['where'][] = substr($sql['search'], 4);
+                    
 		}
 
 		if ( ! empty( $r['user_id'] ) ) {
@@ -776,7 +778,7 @@ class BP_Groups_Group {
 		// Get total group results
 		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r );
 		$total_groups     = $wpdb->get_var( $total_groups_sql );
-                echo "<br>Count query: " . $total_groups_sql."<br><br>";
+                //echo "<br>Count query: " . $total_groups_sql."<br><br>";
 
 		$group_ids = array();
 		foreach ( (array) $paged_groups as $group ) {

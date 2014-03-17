@@ -135,4 +135,12 @@ function offers_total_offers_for_user($user_id = 0) {
 
     return $count;
 }
+
+
+
+/* Used to filter Offers Pages based on it catgory */
+function bp_offers_current_catgory(){
+     return ($_GET["offer_type"].$_POST["offer_type"] == "" ? "none" :$_GET["offer_type"].$_POST["offer_type"] );  
+}
+
 ?>

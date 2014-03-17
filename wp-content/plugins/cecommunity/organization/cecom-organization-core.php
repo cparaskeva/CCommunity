@@ -141,7 +141,7 @@ class CECOM_Organization {
             global $bp;
             //Get the groupd id  of the group that the user is member
             return $wpdb->get_var('select group_id from wp_bp_groups_members where user_id=' . $bp->loggedin_user->id);
-            /* Uncomment for retrieving groupID whiout using a query - Debug purposes only!
+            /* Uncomment for retrieving groupID without using a query - Debug purposes only!
               $group = groups_get_user_groups($bp->loggedin_user->id);
               $gid = $group['groups'][0];
               echo  "First groupID ".$gid .  " of User ID: ".$bp->loggedin_user->id; */
@@ -198,8 +198,8 @@ class CECOM_Organization {
 
     //Build the meta query based on the arguments given in the organisation search form 
     public static function build_search_meta_query($search_extras) {
-        
-        $serach_extras_query = '';
+
+        $search_extras_query = '';
         //Convert search_extras values to an array of arguments
         if (!empty($search_extras)) {
             $search_extras_args = array();
@@ -209,43 +209,31 @@ class CECOM_Organization {
                 $tmp = explode(';', $val);
                 $search_extras_args[$tmp[0]] = $tmp[1];
             }
-            print_r($search_extras_args);return;
             //If calculation is success continue
             if (!empty($search_extras_args)) {
 
-                if ($search_extras_args['offer-type'] != "none")
-                    $serach_extras_query = " AND type_id = {$search_extras_args['offer-type']} ";
+                //Take into account organization size field
+                $search_extras_query.= ($search_extras_args['organization-size'] != 'none' ? "AND size_id='{$search_extras_args['organization-size']}' " : "");
+                //Take into account organization type field
+                $search_extras_query.= ($search_extras_args['organization-type'] != 'none' ? "AND type_id='{$search_extras_args['organization-type']}' " : "");
+                //Take into account organization country field
+                $search_extras_query.= ($search_extras_args['organization-country'] != '' ? "AND country_id='{$search_extras_args['organization-country']}' " : "");
 
-                switch ($search_extras_args['offer-type']) {
-
-                    //Offer Type: 1-Develop product and services
-                    case 1:
-                        //Take into account type of collaboration
-                        $serach_extras_query.= ($search_extras_args['collaboration-type'] != 'none' ? "AND collaboration_id='{$search_extras_args['collaboration-type']}' " : "");
-                        //Take into account type of partner-sought field
-                        $serach_extras_query.= ($search_extras_args['collaboration-partner-sought'] != 'none' ? "AND partner_type_id={$search_extras_args['collaboration-partner-sought']} " : "");
-                        break;
-                    //Offer Type: 2-Participate to funded projects
-                    case 2:
-                        //Take into account type of collaboration
-                        $serach_extras_query.= ($search_extras_args['collaboration-type'] != 'none' ? "AND collaboration_id='{$search_extras_args['collaboration-type']}' " : "");
-                        //Take into account grant programs
-                        $serach_extras_query.= ($search_extras_args['collaboration-programs'] != 'none' ? "AND program_id='{$search_extras_args['collaboration-programs']}' " : "");
-                        break;
-                    //Offer Type: Funding
-                    case 3:
-                        //Take into account applyable countries field
-                        $serach_extras_query.= ($search_extras_args['applyable-countries'] != 'none' ? "AND country_id='{$search_extras_args['applyable-countries']}' " : "");
-                        //Take into account finance stage field
-                        $serach_extras_query.= ($search_extras_args['finance-stage'] != 'none' ? "AND finance_stage_id={$search_extras_args['finance-stage']} " : "");
-                        //Take into accont sector fiedls
-                        $serach_extras_query.= ($search_extras_args['offer-sectors'] != '' ? "AND offer.id in (select oid from ext_offer_meta where mkey='sector' and mvalue in ({$search_extras_args['offer-sectors']})) " : "");
-
-                        break;
+                //Handle sectors and subsectors fields
+                $search_extras_subquery = '';
+                if (!empty($search_extras_args['organization-sectors'])) {
+                    $sectors_query ="(mkey='sector' and mvalue in ({$search_extras_args['organization-sectors']})";
+                    $sectors_query = (!empty($search_extras_args['organization-subsectors']) ? " (mkey='subsector' and mvalue in ({$search_extras_args['organization-subsectors']})" : $sectors_query) ;
+                    $search_extras_subquery =   (!empty($search_extras_query)? " AND ":"") . " org.id in (select oid from ext_organization_meta where {$sectors_query}))";
                 }
+
+                //$search_sectors_query = " AND org.id in (select oid from ext_organization_meta where (mkey='sector' and mvalue in ({$search_extras_args['organization-sectors']})". (!empty($search_extras_args['organization-subsectors'])?" or (mkey='subsector' and mvalue in ({$search_extras_args['organization-subsectors']}))":"") . "))";
+                //If query not empty build final search meta query
+                if (!empty($search_extras_query) || !empty($search_extras_subquery))
+                    $search_extras_query = " AND g.id in ( SELECT gid from ext_organization as org WHERE " . substr($search_extras_query, 4) . $search_extras_subquery . ")";
             }
         }
-        return $serach_extras_query;
+        return $search_extras_query;
     }
 
 }

@@ -488,6 +488,7 @@ function bp_get_offer_id($offer = false) {
 }
 
 function bp_has_offers($args = '') {
+//print_r($args);
     global $offers_template, $bp;
 
     /*
