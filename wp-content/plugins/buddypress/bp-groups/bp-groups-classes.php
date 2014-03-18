@@ -631,7 +631,7 @@ class BP_Groups_Group {
 			$sql['user_where'] = " g.id = m.group_id AND";
 		}
 
-		$sql['where'] = " g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'";
+		$sql['where'] = " g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' ".(bp_offers_current_category() != "none" ? "AND g.id in (SELECT gid from ext_offer WHERE type_id=".bp_offers_current_category().")" : "" );
 
 		if ( empty( $r['show_hidden'] ) ) {
 			$sql['hidden'] = " AND g.status != 'hidden'";
@@ -726,6 +726,16 @@ class BP_Groups_Group {
 
 		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g, {$bp->groups->table_name_members} gm1, {$bp->groups->table_name_groupmeta} gm2";
 
+                
+                
+               //Where clause for search box
+                if (!empty($sql['search'])) {
+                    $total_sql['where'][] = substr($sql['search'], 4);
+                }
+        
+               if (bp_offers_current_category() != "none" && bp_offers_current_category() !=3)
+                    $total_sql['where'][] = "  g.id in (SELECT gid from ext_offer WHERE type_id=".bp_offers_current_category().")";
+                                
 		if ( ! empty( $r['user_id'] ) ) {
 			$total_sql['select'] .= ", {$bp->groups->table_name_members} m";
 		}

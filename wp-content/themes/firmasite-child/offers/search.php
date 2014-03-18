@@ -138,7 +138,7 @@
 
 
 
-
+//Based on the offer type choosen hide/show respectively offer fields
     jQuery("#offer-type").change(function() {
         var offer_type = jQuery("#offer-type").val();
         //Handle the different type of offers

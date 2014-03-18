@@ -124,6 +124,9 @@ function offers_get_total_offers_count() {
 /* Count all the offers that a member owns */
 
 function offers_total_offers_for_user($user_id = 0) {
+global $bp;
+if ($bp->current_action == "create-offer" )
+    return;
 
     if (empty($user_id))
         $user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
@@ -139,7 +142,7 @@ function offers_total_offers_for_user($user_id = 0) {
 
 
 /* Used to filter Offers Pages based on it catgory */
-function bp_offers_current_catgory(){
+function bp_offers_current_category(){
      return ($_GET["offer_type"].$_POST["offer_type"] == "" ? "none" :$_GET["offer_type"].$_POST["offer_type"] );  
 }
 

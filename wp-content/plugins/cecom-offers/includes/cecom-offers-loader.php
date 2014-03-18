@@ -272,8 +272,8 @@ class BP_Offers_Component extends BP_Component {
 
         // Add the subnav items to the friends nav item
         $sub_nav[] = array(
-            'name' => __('Create Collaboration Offer', 'cecom-offers'),
-            'slug' => 'create-offer?offer=collaboration',
+            'name' => __('Create collaboration to develop<br> products and services offer', 'cecom-offers'),
+            'slug' => 'create-offer?offer_type=1',
             'parent_url' => $offer_link,
             'parent_slug' => bp_get_offers_slug(),
             'screen_function' => 'bp_offers_create_offer',
@@ -282,14 +282,24 @@ class BP_Offers_Component extends BP_Component {
 
         // Add the subnav items to the friends nav item
         $sub_nav[] = array(
-            'name' => __('Create Funding Offer', 'cecom-offers'),
-            'slug' => 'create-offer-2',
+            'name' => __('Create collaboration to<br> participate to funded projects', 'cecom-offers'),
+            'slug' => 'create-offer?offer_type=2',
             'parent_url' => $offer_link,
             'parent_slug' => bp_get_offers_slug(),
             'screen_function' => 'bp_offers_create_offer_2',
             'position' => 30
         );
 
+                // Add the subnav items to the friends nav item
+        $sub_nav[] = array(
+            'name' => __('Create Funding Offer', 'cecom-offers'),
+            'slug' => 'create-offer?offer_type=3',
+            'parent_url' => $offer_link,
+            'parent_slug' => bp_get_offers_slug(),
+            'screen_function' => 'bp_offers_create_offer_3',
+            'position' => 30
+        );
+        
         parent::setup_nav($main_nav, $sub_nav);
 
 

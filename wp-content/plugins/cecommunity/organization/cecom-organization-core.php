@@ -218,7 +218,11 @@ class CECOM_Organization {
                 $search_extras_query.= ($search_extras_args['organization-type'] != 'none' ? "AND type_id='{$search_extras_args['organization-type']}' " : "");
                 //Take into account organization country field
                 $search_extras_query.= ($search_extras_args['organization-country'] != '' ? "AND country_id='{$search_extras_args['organization-country']}' " : "");
-
+                //Take into account collaboration field
+                $search_extras_query.= ($search_extras_args['organization-collaboration'] != '' ? "AND collaboration='{$search_extras_args['organization-collaboration']}' " : "");
+                //Take into account transaction field
+                $search_extras_query.= ($search_extras_args['organization-transaction'] != '' ? "AND transaction='{$search_extras_args['organization-transaction']}' " : "");
+                
                 //Handle sectors and subsectors fields
                 $search_extras_subquery = '';
                 if (!empty($search_extras_args['organization-sectors'])) {
@@ -227,13 +231,45 @@ class CECOM_Organization {
                     $search_extras_subquery =   (!empty($search_extras_query)? " AND ":"") . " org.id in (select oid from ext_organization_meta where {$sectors_query}))";
                 }
 
-                //$search_sectors_query = " AND org.id in (select oid from ext_organization_meta where (mkey='sector' and mvalue in ({$search_extras_args['organization-sectors']})". (!empty($search_extras_args['organization-subsectors'])?" or (mkey='subsector' and mvalue in ({$search_extras_args['organization-subsectors']}))":"") . "))";
+                /*
+                 * Handle Serach Organization based on the offer types 
+                 * 
+                 * Supported:
+                 * 
+                 * 1.) Search an organisation to develop a product or a service
+                 * 2.) Search an organisation offering funded projects
+                 * 
+                 */
+                $search_offers_subquery = '';
+                if (bp_offers_current_category() != "none" && bp_offers_current_category() !=3){
+                    
+                 //Take into account collaboration description field
+                $search_offers_subquery.= (  !empty($search_extras_args['collaboration-description'])  ? "AND description LIKE '%%{$search_extras_args['collaboration-description']}%%' " : "");
+                //Take into collaboration type field
+                $search_offers_subquery.= ($search_extras_args['collaboration-type'] != 'none' ? "AND collaboration_id='{$search_extras_args['collaboration-type']}' " : "");   
+                //Offer Type[1] : develop a product or a service - extra field  -> collaboration-partner-sought
+                $search_offers_subquery.= ($search_extras_args['offer-type'] == "1" && $search_extras_args['collaboration-partner-sought'] !="none" ?"AND partner_type_id =' {$search_extras_args['collaboration-partner-sought']}' " : "" );
+                //Offer Type[2] : offering funded projects - extra field -> collaboration-programs
+                $search_offers_subquery.= ($search_extras_args['offer-type'] == "2" && $search_extras_args['collaboration-programs'] !="none" ?"AND program_id =' {$search_extras_args['collaboration-programs']}' " : "" );
+                
+                
+                //if (!empty($search_offers_subquery))
+                    $search_offers_subquery = " AND g.id in (SELECT gid from ext_offer WHERE type_id='{$search_extras_args['offer-type']}' ".$search_offers_subquery. " ) ";
+                    
+                //echo "Supported category ".bp_offers_current_category(); 
+                echo "Offers Subquery : " .$search_offers_subquery;
+                    // and gid in (select gid from ext_offer where type_id =1)
+                    
+                }
+                
+                
+                
                 //If query not empty build final search meta query
                 if (!empty($search_extras_query) || !empty($search_extras_subquery))
                     $search_extras_query = " AND g.id in ( SELECT gid from ext_organization as org WHERE " . substr($search_extras_query, 4) . $search_extras_subquery . ")";
             }
         }
-        return $search_extras_query;
+        return $search_extras_query.$search_offers_subquery;
     }
 
 }

@@ -14,6 +14,9 @@
             <!-- Hidden Fields for Organization Sectors and Subsectors covered-->   
             <input type="hidden" class="form-control" name="organization-sectors" id="organization-sectors" value=""/>
             <input type="hidden" class="form-control" name="organization-subsectors" id="organization-subsectors" value=""/>
+            <!-- Hidden Fields for Organization collaboration and transaction area-->   
+            <input type="hidden" class="form-control" name="organization-collaboration" id="organization-collaboration" value=""/>
+            <input type="hidden" class="form-control" name="organization-transaction" id="organization-transaction" value=""/>
             <!-- End of Hidden Fields -->
 
             <!-- Search form first column -->
@@ -81,9 +84,91 @@
                 </select>
                 <br><br>
                 <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> </label>
-
                 <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
                 </select>
+            </div>
+
+
+            <div class="col-md-3 pull-right" hidden="true" id="collaboration-commons-extra">
+                <br><br><br>
+                <label for="collaboration-description"><?php _e('Description of the offer', 'firmasite'); ?></label>
+                <input placeholder="Type in keywords.." type="text" name="collaboration-description" id="collaboration-description"  />
+                <br>
+                <label for="collaboration-type"><?php _e('Type of collaboration', 'firmasite'); ?></label>
+                <select name="collaboration-type" id="collaboration-type">
+                    <option value="none"  selected="selected">(Anyone)</option>
+                    <?php
+                    //Fetch Collaboration Types form DB
+                    $results = BP_Offer::getCollaborationTypes();
+                    if (is_array($results)) {
+                        foreach ($results as $offer_collaboration) {
+                            echo "<option value = '{$offer_collaboration->id }'>{$offer_collaboration->description}</option>";
+                        }
+                    }
+                    ?>
+                </select>
+                <br/>
+                <!-- Offer type: Collaboration to develop products and services -->
+                <div name="collaboration-develop" id="collaboration-develop" hidden="true">
+                    <label for="collaboration-partner-sought"><?php _e('Type of partner sought', 'firmasite'); ?></label>
+                    <select name="collaboration-partner-sought" id="collaboration-partner-sought">
+                        <option value="none"  selected="selected">(Anyone)</option>
+                        <?php
+                        //Fetch Partner sought Types form DB
+                        $results = BP_Offer::getPartnerTypes();
+                        if (is_array($results)) {
+                            foreach ($results as $offer_partner_type) {
+                                echo "<option value = '{$offer_partner_type->id }'>{$offer_partner_type->description}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                <!-- Offer type: Collaboration to participate to funded projects -->
+                <div hidden="true" id="collaboration-participate">
+                    <label for="collaboration-programs"><?php _e('Grant Programms', 'firmasite'); ?></label>
+                    <select name="collaboration-programs" id="collaboration-programs">
+                        <option value="none">(Anyone)</option>
+                        <?php
+                        //Fetch Grant Programs form DB
+                        $results = BP_Offer::getGrantPrograms();
+                        if (is_array($results)) {
+
+                            foreach ($results as $program) {
+                                echo "<option value = '{$program->id }'>{$program->description}</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Search checkboxes column -->
+            <div class="col-lg-7" >
+                <br>
+                <label  for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>
+                <input type="radio"   name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+                <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
+                <br>
+                <label  for="organization_transaction"><?php _e('Is the organisation available for transaction?', 'firmasite'); ?>&nbsp;&nbsp;</label>
+                <input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+                <input type="radio"  name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
+            </div>
+
+            <div  hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
+                <select name="offer-type" id="offer-type">
+                    <option value="none"  selected="selected">(Anyone)</option>
+                    <?php
+                    //Fetch Grant Programs form DB
+                    $results = BP_Offer::getOfferTypes();
+                    if (is_array($results)) {
+                        foreach ($results as $offer_type) {
+                            echo "<option value = '{$offer_type->id }'>{$offer_type->description}</option>";
+                        }
+                    }
+                    ?>
+                </select>
+                <br/>
             </div>
         </form>
     </div>
@@ -99,41 +184,97 @@
 <script type="text/javascript">
 
 
+    //Based on the offer type choosen hide/show respectively offer fields
+    jQuery("#offer-type").change(function() {
+        var offer_type = jQuery("#offer-type").val();
+        //Handle the different type of offers
+
+        //None is selected
+        if (offer_type == "none") {
+            jQuery("#collaboration-commons-extra").hide();
+            jQuery("#collaboration-develop").hide();
+            jQuery("#collaboration-participate").hide();
+        }
+
+
+        //Hide all Divs
+        jQuery("#collaboration-develop").hide();
+        jQuery("#collaboration-participate").hide();
+        jQuery("#offer-funding").hide();
+        jQuery("#collaboration-commons-extra").hide();
+
+
+        //Offer type: Develop products and services
+        if (offer_type == "1") {
+            jQuery("#collaboration-develop").show();
+            jQuery("#collaboration-commons-extra").show();
+        }//Offer type: Participate to funded projects
+        else if (offer_type == "2") {
+            jQuery("#collaboration-participate").show();
+            jQuery("#collaboration-commons-extra").show();
+        }//Offer type: Funding
+        else if (offer_type == "3") {
+            jQuery("#offer-funding").show();
+        }
+
+
+    });
+
+    /*
+     * Radio buttons check for Yes/No fields
+     */
+
+
+    //Collaboration Radio Buttons
+    jQuery("#organization_collaboration_y").click(function() {
+        jQuery("#organization-collaboration").val("1");
+        jQuery("#organization_collaboration_n").attr("checked", false);
+    });
+    jQuery("#organization_collaboration_n").click(function() {
+        jQuery("#organization-collaboration").val("0");
+        jQuery("#organization_collaboration_y").attr("checked", false);
+    });
+    //Transaction Radio Buttons
+    jQuery("#organization_transaction_y").click(function() {
+        jQuery("#organization-transaction").val("1");
+        jQuery("#organization_transaction_n").attr("checked", false);
+    });
+
+    jQuery("#organization_transaction_n").click(function() {
+        jQuery("#organization-transaction").val("0");
+        jQuery("#organization_transaction_y").attr("checked", false);
+    });
     /*
      * Organization sector
      */
     jQuery("#organization_sector").change(function() {
 
         var selectedTexts = [];
-
         jQuery(this).find("option:selected").each(function(i) {
             var val = jQuery(this).val();
             var txt = jQuery(this).text();
             selectedTexts[i] = txt;
         });
-
         setSubsctorValues(jQuery('.multiselect').val(), selectedTexts);
-
         //Set the values to hidden field
         jQuery("#organization-sectors").val(jQuery(this).val());
         jQuery("#organization-subsectors").val("");
-
     });
-
     /*
      * Organization subsector
      */
     jQuery("#organization_subsector").change(function() {
         //Set the values to hidden field
         jQuery("#organization-subsectors").val(jQuery("#organization_subsector").val());
-
     });
-
     //Initialize the sectors multiselect object
     jQuery(document).ready(function() {
         jQuery("#organization_sector").multiselect({numberDisplayed: 0});
         jQuery("#organization_subsector").multiselect({numberDisplayed: 0, maxHeight: 400, enableFiltering: true});
         //Set subsector list values
         setSubsctorValues();
+        jQuery("#offer-type").val(<?php echo (!empty($_GET['offer_type']) ? $_GET['offer_type'] : "'none'" ) ?>).change();
+        if (jQuery("#offer-type").val() != "none")
+            jQuery("#offers-header").append("<h4>(Search orgnisations offering '" + jQuery("#offer-type option:selected").text() + "')</h4>");
     });
 </script>
