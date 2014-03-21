@@ -30,10 +30,12 @@ function bp_dtheme_register_actions() {
 		'blogs_filter'    => 'bp_dtheme_object_template_loader',
 		'forums_filter'   => 'bp_dtheme_object_template_loader',
 		'groups_filter'   => 'bp_dtheme_object_template_loader',
+                /*CECommunity Platform Custom Filters*/
 		'offers_filter'   => 'bp_dtheme_object_template_loader',
+ 		'patents_licenses_filter'   => 'bp_dtheme_object_template_loader',           
+                /* EoF */
 		'members_filter'  => 'bp_dtheme_object_template_loader',
 		'messages_filter' => 'bp_dtheme_messages_template_loader',
-
 		// Friends
 		'accept_friendship' => 'bp_dtheme_ajax_accept_friendship',
 		'addremove_friend'  => 'bp_dtheme_ajax_addremove_friend',

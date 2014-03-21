@@ -47,8 +47,10 @@ function setSubsctorValues(sectors,selectedTexts,subsectors) {
                 if(subsectors){
                     jQuery("#organization_subsector").multiselect('select', subsectors);
                     //Set the values to hidden fields
+                    
                     jQuery("#organization_sectors").val(jQuery("#organization_sector").val());
                     jQuery("#organization_subsectors").val(jQuery("#organization_subsector").val());
+                    jQuery("#organization_subsector").change();
                 }
             },
             error: function() {

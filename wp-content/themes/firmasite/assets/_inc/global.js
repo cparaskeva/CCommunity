@@ -3,7 +3,7 @@
 var search_extras="";
 
 //Define CECommunity Components
-var cecom_components=["offers","organizations"]; 
+var cecom_components=["offers","organizations","patents_licenses"]; 
 
 
 //Checks if the given component is one of the CECommunity Plugins
@@ -28,6 +28,9 @@ function completeSearchExtras(current_component){
         break;
     case "organizations":
         search_extras =(jQuery('#organization_serach_extras').serialize()+"&organization-country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
+        break;
+    case "patents_licenses":
+        search_extras =(jQuery('#patent_license_serach_extras').serialize()+"&organization-country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
         break;
     default:
         search_extras="";        
