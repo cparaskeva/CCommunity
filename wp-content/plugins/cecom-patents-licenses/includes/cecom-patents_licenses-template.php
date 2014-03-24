@@ -24,7 +24,7 @@ function bp_patents_licenses_get_pagination_count() {
     $to_num = bp_core_number_format(( $start_num + ( $patents_licenses_template->pag_num - 1 ) > $patents_licenses_template->total_patent_license_count ) ? $patents_licenses_template->total_patent_license_count : $start_num + ( $patents_licenses_template->pag_num - 1 ) );
     $total = bp_core_number_format($patents_licenses_template->total_patent_license_count);
 
-    return apply_filters('bp_get_patents_licenses_pagination_count', sprintf(_n('Viewing patent_license %1$s to %2$s (of %3$s patent_license)', 'Viewing patent_license %1$s to %2$s (of %3$s patents_licenses)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
+    return apply_filters('bp_get_patents_licenses_pagination_count', sprintf(_n('Viewing Patent/License %1$s to %2$s (of %3$s Patents/Licenses)', 'Viewing Patent/License %1$s to %2$s (of %3$s Patents/Licenses)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
 }
 
 function bp_patents_licenses_pagination_links() {

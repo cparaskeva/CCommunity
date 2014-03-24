@@ -212,8 +212,8 @@ class BP_Groups_Template {
                 'format' => '',
                 'total' => ceil((int) $this->total_group_count / (int) $this->pag_num),
                 'current' => $this->pag_page,
-                'prev_text' => _x('&larr;', 'Group pagination previous text', 'buddypress'),
-                'next_text' => _x('&rarr;', 'Group pagination next text', 'buddypress'),
+                'prev_text' => _x('&larr;', 'Organisation pagination previous text', 'buddypress'),
+                'next_text' => _x('&rarr;', 'Organisation pagination next text', 'buddypress'),
                 'mid_size' => 1
                     ));
         }
@@ -482,7 +482,7 @@ function bp_get_group_type($group = false) {
     } else if ('private' == $group->status) {
         $type = __("Private Organisation", "buddypress");
     } else {
-        $type = ucwords($group->status) . ' ' . __('Group', 'buddypress');
+        $type = ucwords($group->status) . ' ' . __('Organisation', 'buddypress');
     }
 
     return apply_filters('bp_get_group_type', $type);
@@ -514,7 +514,7 @@ function bp_get_group_avatar($args = '') {
         'height' => false,
         'class' => 'avatar',
         'id' => false,
-        'alt' => sprintf(__('Group logo of %s', 'buddypress'), $groups_template->group->name)
+        'alt' => sprintf(__('Organisation logo of %s', 'buddypress'), $groups_template->group->name)
     );
 
     $r = wp_parse_args($args, $defaults);
@@ -753,7 +753,7 @@ function bp_get_group_creator_avatar($group = false, $args = array()) {
         'height' => false,
         'class' => 'avatar',
         'id' => false,
-        'alt' => sprintf(__('Group creator avatar of %s', 'buddypress'), bp_core_get_user_displayname($group->creator_id))
+        'alt' => sprintf(__('Organisation creator avatar of %s', 'buddypress'), bp_core_get_user_displayname($group->creator_id))
     );
 
     $r = wp_parse_args($args, $defaults);
@@ -949,7 +949,7 @@ function bp_get_groups_pagination_count() {
     $to_num = bp_core_number_format(( $start_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $start_num + ( $groups_template->pag_num - 1 ) );
     $total = bp_core_number_format($groups_template->total_group_count);
 
-    return apply_filters('bp_get_groups_pagination_count', sprintf(_n('Viewing group %1$s to %2$s (of %3$s group)', 'Viewing group %1$s to %2$s (of %3$s groups)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
+    return apply_filters('bp_get_groups_pagination_count', sprintf(_n('Viewing organisation %1$s to %2$s (of %3$s organisation)', 'Viewing organisation %1$s to %2$s (of %3$s organisations)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
 }
 
 function bp_groups_auto_join() {
@@ -1795,8 +1795,8 @@ function bp_get_group_join_button($group = false) {
             'wrapper_class' => 'group-button ' . $group->status,
             'wrapper_id' => 'groupbutton-' . $group->id,
             'link_href' => wp_nonce_url(bp_get_group_permalink($group) . 'leave-group', 'groups_leave_group'),
-            'link_text' => __('Leave Group', 'buddypress'),
-            'link_title' => __('Leave Group', 'buddypress'),
+            'link_text' => __('Leave Organisation', 'buddypress'),
+            'link_title' => __('Leave Organisation', 'buddypress'),
             'link_class' => 'group-button leave-group',
         );
 
@@ -1818,8 +1818,8 @@ function bp_get_group_join_button($group = false) {
                     'wrapper_class' => 'group-button ' . $group->status,
                     'wrapper_id' => 'groupbutton-' . $group->id,
                     'link_href' => wp_nonce_url(bp_get_group_permalink($group) . 'join', 'groups_join_group'),
-                    'link_text' => __('Join Group', 'buddypress'),
-                    'link_title' => __('Join Group', 'buddypress'),
+                    'link_text' => __('Join Organisation', 'buddypress'),
+                    'link_title' => __('Join Organisation', 'buddypress'),
                     'link_class' => 'group-button join-group',
                 );
                 break;
@@ -2470,7 +2470,7 @@ function bp_get_new_group_avatar($args = '') {
         'height' => false,
         'class' => 'avatar',
         'id' => 'avatar-crop-preview',
-        'alt' => __('Group avatar', 'buddypress'),
+        'alt' => __('Organisation avatar', 'buddypress'),
         'no_grav' => false
     );
 
@@ -2706,11 +2706,11 @@ function bp_group_current_avatar() {
     if ($bp->groups->current_group->avatar_full) {
         ?>
 
-        <img src="<?php echo esc_url($bp->groups->current_group->avatar_full); ?>" alt="<?php _e('Group Avatar', 'buddypress') ?>" class="avatar" />
+        <img src="<?php echo esc_url($bp->groups->current_group->avatar_full); ?>" alt="<?php _e('Organisation Avatar', 'buddypress') ?>" class="avatar" />
 
     <?php } else { ?>
 
-        <img src="<?php echo esc_url($bp->groups->image_base . '/none.gif'); ?>" alt="<?php _e('No Group Avatar', 'buddypress') ?>" class="avatar" />
+        <img src="<?php echo esc_url($bp->groups->image_base . '/none.gif'); ?>" alt="<?php _e('No Organisation Avatar', 'buddypress') ?>" class="avatar" />
 
     <?php
     }
@@ -3096,7 +3096,7 @@ function bp_groups_activity_feed() {
         return;
     ?>
 
-    <link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name') ?> | <?php bp_current_group_name() ?> | <?php _e('Group Activity RSS Feed', 'buddypress') ?>" href="<?php bp_group_activity_feed_link() ?>" />
+    <link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name') ?> | <?php bp_current_group_name() ?> | <?php _e('Organisation Activity RSS Feed', 'buddypress') ?>" href="<?php bp_group_activity_feed_link() ?>" />
 
     <?php
 }

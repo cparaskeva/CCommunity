@@ -85,6 +85,9 @@ get_header('buddypress');
             /* CECommunity Patents_Licenses Component */
             elseif (bp_is_patent_license_component()) :
                 locate_template(array('members/single/patents_licenses.php'), true);
+            /* CECommunity Tools_Facilities Component */
+            elseif (bp_is_tool_facility_component()) :
+                locate_template(array('members/single/tools_facilities.php'), true);
 
             // If nothing sticks, load a generic template
             else :
