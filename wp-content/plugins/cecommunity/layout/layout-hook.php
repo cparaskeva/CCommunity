@@ -28,7 +28,7 @@ function hook_head()
 	}</style>\n";
 	
 	// finally, we remove wordpress logo
-	$output .= "<script>jQuery( document ).ready( function() { jQuery('#logo').remove();  }); </script>\n";
+	///$output .= "<script>jQuery( document ).ready( function() { jQuery('#logo').remove();  }); </script>\n";
 		
 	echo $output;
 
