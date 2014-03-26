@@ -5,6 +5,26 @@
 global $firmasite_settings;
 
 get_header();
+
+$current_user = wp_get_current_user();
+
+
+/*
+echo 'Username: ' . $current_user->user_login . "\n";
+echo 'User email: ' . $current_user->user_email . "\n";
+echo 'User first name: ' . $current_user->user_firstname . "\n";
+echo 'User last name: ' . $current_user->user_lastname . "\n";
+echo 'User display name: ' . $current_user->display_name . "\n";
+echo 'User ID: ' . $current_user->ID . "\n";
+*/
+
+
+$create_offer_product = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=1/";
+$create_offer_project = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=2/";
+$create_offer_funding = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=3/";
+
+$org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
+
 ?>
 
 
@@ -42,23 +62,23 @@ get_header();
     </style>
     
 	<div class="col-md-12 borders">
-		<h2>Welcome on <img src="/cecommunity/wp-content/uploads/2013/12/logo1.png"></h2>
+		<h1>Welcome ! </h1>
 	
 		<div class="row">
 			<div class="col-md-6">
 				<h4>SEARCH</h4>
 				- Search for <a href="/cecommunity/groups/">organisations</a><br>
-				- Search for <a href="#">collaborations</a>, either to develop <a href="#">new products or services</a> or to cooperate on <a href="#">funded projects</a>.<br> 
+				- Search for <a href="#">collaborations</a>, either to develop <a href="/cecommunity/groups/?offer_type=1">new products or services</a> or to cooperate on <a href="/cecommunity/groups/?offer_type=2">funded projects</a>.<br> 
 				- Search for <a href="#">patents, fundings, tools</a> for rent.<br>
 			</div>
 			
 			<div class="col-md-6">
 				<h4>OFFER</h4>
-				- <a href="#">Offer a collaboration</a>.<br>
-				- Offer <a href="#">patents, fundings, tools</a> for rent.<br>
+				- Offer a collaboration on a <a href="<?php echo $create_offer_product; ?>">product</a> or a <a href="<?php echo $create_offer_project; ?>">project</a>.<br>
+				- Offer <a href="<?php echo $create_offer_funding; ?>">patents, fundings, tools</a> for rent.<br>
 				<br>
 				<h4>YOUR PROFILE</h4>
-				- Fill in the <a href="#">profile</a> of your organisation, to be sure you can be found by other organisations.
+				- Fill in the <a href="<?php echo $org_profile; ?>">profile</a> of your organisation, to be sure you can be found by other organisations.
 			</div>
 		</div>
 		
@@ -72,15 +92,7 @@ get_header();
 			
 			
 			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="400"  data-widget-id="438354056449241088" data-favorites-screen-name="centralcomm1"></a>
-			<!-- 
-			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="300"  data-widget-id="438354056449241088" data-favorites-screen-name="matteomoci"></a>
-			
-			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="300"  data-widget-id="438354056449241088" data-favorites-screen-name="CybionIT"></a>
-			
-			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="300"  data-widget-id="438354056449241088" data-favorites-screen-name="triverio"></a>
-			 -->
-			 
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 
 			
