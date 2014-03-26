@@ -17,7 +17,11 @@ if (is_user_logged_in()) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>CECommunity</title>
+        <!-- 
         <link href="<?php bloginfo('stylesheet_directory'); ?>/assets/css/login_page.css" rel="stylesheet" type="text/css" />
+         -->
+         <link rel='stylesheet' id='bootstrap-css'  href='/cecommunity/wp-content/themes/firmasite/assets/themes/united/bootstrap.min.css?ver=3.8.1' type='text/css' media='all' />
+         <link rel='stylesheet' id='firmasite-style-css'  href='/cecommunity/wp-content/themes/firmasite/style.css?ver=3.8.1' type='text/css' media='all' />
     </head>
 <?php flush(); ?>
 
@@ -25,64 +29,122 @@ if (is_user_logged_in()) {
 
     <body>
         <div id="wrapper">
-            <div id="left_content">
-                <span class="join"></span>
-                <img class="logo" src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/logo.png" alt="CCommunity" width="321" height="83"  />
-<?php
-$users = BP_Core_User::get_users("active");
-$no_users = count($users["users"]);
-//$no_projects = Project::get_total_project_count();  	
-$no_networks = BP_Groups_Group::get_total_group_count();
-?>
-                <span class="login_message"><?php _e(sprintf("%d Registered Users", $no_users), 'icommunity'); ?></span>
-                 <!-- <span class="login_message"><?php //_e(sprintf("%d projects", $no_projects), 'icommunity');           ?></span>-->
-                <span class="login_message"><?php _e(sprintf("%d Organizations", $no_networks), 'icommunity'); ?></span>
-                <span class="join" style="margin-top:20px">Join Us Today!</span>
+            
+            <style>
+            #nav-main {min-width:1024px}
+           .navbar-nav {
+				background-color: #dd4814;
+				border-color: #bf3e11;
+			}
+			ul.navbar-nav  {height:35px}
+			ul.navbar-left {width: 40%}
+			ul.navbar-right {width: 60%}
+			
+			ul#menu-topbar label, ul#menu-topbar input {display:inline}
+			ul#menu-topbar label {padding-left: 5px; padding-right: 10px}
+			ul#menu-topbar input  {width:120px; margin: 5px; line-height: 15px; }
+			ul#menu-topbar input[type=checkbox] {width: auto; margin:1px}
+			ul#menu-topbar button {margin-top: 6px; padding:1px 5px }
+			ul#menu-topbar li.lost_pw a {color:#444; font-size:11px; line-height:12px; padding: 5px 2px 6px 1px;}
+			
+			ul.platform-feat li {font-size:18px;padding-bottom:8px}
+			
+			.platform-reg {width: 210px}
+			.platform-reg button {float: right; margin-right:4px}
+			
+			#footer {
+				width: 960px;
+				height: auto;
+				padding-top: 80px;
+				margin: 0 auto;
+				color: #666;
+			}
+			#footer_logos {
+				border: solid 0px #ddd;
+				border-top-width: 1px;
+				padding-top:10px;
+			}
+			#footer_logos img { padding: 5px}
+			</style>
+			            
+            <div id="nav-main" class="" >
+            	<form method="post" id="searchform" action="<?php echo site_url('wp-login.php', 'login_post') ?>">
+            		<ul class="nav navbar-nav navbar-left">
+            			<li style="width:100%"> &nbsp; </li>
+            		</ul>
+	                <ul id="menu-topbar" class="nav navbar-nav navbar-right">
+	                	<li><label for="un">Username</label><input id="un" type="text" class="username" value="" name="log"></li>
+	                	
+	                	<li><label for="pw">Password</label><input id="pw" type="password" class="password" value="" name="pwd"></li>
+	                	
+	                	<li>
+	                		<button class="btn-sm" title="Login">Login</button>
+	                		
+	                		<input id="rcb"  type="checkbox" class="checkbox" name="rememberme" value="forever" />
+	                		<label for="rcb"> Remember Me </span>
+	                	</li>
+	                	
+	                	<li class="lost_pw">
+	                		<a href="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>">Lost your<br>password ?</a>
+	                	</li>
+	                	
+	                	<li style="width:30px">&nbsp;</li>
+	             	</ul>
+	             </form>
+             </div>
+            
+            
+            
+            <div class="container">
+            	
+            	<div style="width:100%; height:80px"> </div>
+            
+            		<div style="height:111px">
+            			<img width="400" height="111" src="/cecommunity/wp-content/uploads/2013/12/logo1.png" />
+            		</div>
+            
+            	<div class="col-md-6">
+            		
+            		<h2>On our platform you can:</h2><br>
+            		<ul class="platform-feat">
+						<li>Be part of the first European Life Sciences network</li>
+						<li>Find the partners you need</li>
+						<li>Set-up your R&D or innovation projects</li>
+						<li>Find or rent tools and facilities</li>
+						<li>Buy or sell licences</li>
+					</ul>
+            		
+            	</div>
+            	
+            	<div class="col-md-6">
+            		<h3>New to the platform ?</h3>
+            		<br>
+            		<form method="post" action="<?php echo site_url('/register/') ?>"  class="platform-reg">
+            			<div class="form-group">
+            				<input name="signup_username" type="text" placeholder="Username" autocomplete="off" />
+            			</div>
+            			<div class="form-group">
+            			<input name="signup_email" type="text" placeholder="Email"  autocomplete="off" />
+            			</div>
+            			<button class="btn btn-primary btn-default">Register</button>
+            		</form>
+            	
+            	</div>
+            
             </div>
-
-            <div id="right_content">
-                <span class="title">Sign in to your account</span>
-                <div id="left_form_content">
-                    <div id="search_box">
-                        <form method="post" id="searchform" action="<?php echo site_url('wp-login.php', 'login_post') ?>">
-                            <fieldset class="search">
-
-                                <input type="text" class="username" value="" name="log">
-                                    <input type="password" class="password" value="" name="pwd">
-                                        <input name="text" type="checkbox" class="checkbox" name="rememberme" value="forever" />
-                                        <!-- <input type="hidden" name="redirect_to" value="members/"> -->
-                                        <span class="remember"> Remember Me </span>
-                                        </p>
-                                        <button class="btn" title="Login">Login	</button>
-                                        <span class="remember"> Login </span>
-                                        </fieldset>
-                                        </form>
-                                        </div>
-                                        </div>
-                                        <div id="right_form_content">
-                                            <a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>">Forgot Password?</a>
-<?php //do_action( 'bp_after_sidebar_login_form' )        ?>
-
-                                        </div>
-                                        <div id="info">To start connecting please log in first. You can also <span class="orange"><a href="<?php echo site_url('/register/') ?>">create an account</a></span>.</div>
-                                        </div>
-
-
-
-
-
-                                        <div id="footer">
-                                            <div id="footer_logos">
-                                                <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/footer_logo01.png"  />
-                                                <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/footer_logo02.png"  />
-                                                <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/footer_logo03.jpg" width="43" height="36" />
-                                            </div>
-                                            <div id="footer_text">
-                                                <span class="copyright">Copyright © 2012 COLLECTIVE CENTRAL EUROPE programme | The Central Community project is implemented through the CENTRAL EUROPE programme co-financed by the ERDF.</span><br />
-                                                <a href="<?php bloginfo('stylesheet_directory'); ?>/files/IPR/PRIVACY POLICY 1.1.docx">Privacy Policy</a> |  <a href="<?php bloginfo('stylesheet_directory'); ?>/files/IPR/TERMS OF USE 1.1.docx">Terms of Use</a> | <a href="<?php bloginfo('stylesheet_directory'); ?>/files/IPR/COPYRIGHT POLICY.docx">Copyright</a>
-                                            </div>
-                                        </div>
-                                        </div>
-<?php do_action('wp_footer') ?>
-                                        </body>
-                                        </html>
+   
+			 <div id="footer">
+				<div id="footer_logos">
+					<img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/footer_logo01.png"  />
+					<img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/footer_logo02.png"  />
+					<img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/footer_logo03.jpg" width="43" height="36" />
+				</div>		
+				 <div id="footer_text">
+					<span class="copyright">Copyright © 2012 COLLECTIVE CENTRAL EUROPE programme | The Central Community project is implemented through the CENTRAL EUROPE programme co-financed by the ERDF.</span><br />
+		         </div>
+	         </div>
+        </div>                                    
+		<script type='text/javascript' src='/cecommunity/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
+		<?php /*do_action('wp_footer')*/ ?>
+	</body>
+</html>
