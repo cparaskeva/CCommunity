@@ -135,7 +135,7 @@ class BP_Tools_Facilities_Component extends BP_Component {
             'root_slug' => isset($bp->pages->{$this->id}->slug) ? $bp->pages->{$this->id}->slug : BP_TOOLS_FACILITIES_SLUG,
             'has_directory' => true, // Set to false if not required
             'notification_callback' => 'bp_tools_facilities_format_notifications',
-            'search_string' => __('Search Patents & Licenses...', 'buddypress'),
+            'search_string' => __('Search Tools & Facilities...', 'buddypress'),
             'global_tables' => $global_tables
         );
 
@@ -181,7 +181,7 @@ class BP_Tools_Facilities_Component extends BP_Component {
     function setup_nav() {
         // Add 'Tools_Facilities' to the main navigation
         $main_nav = array(
-            'name' => sprintf(__('Patents & Licenses  <span>%s</span>', 'buddypress'), bp_get_total_tools_facilities_count_for_user()),
+            'name' => sprintf(__('Tools & Facilities  <span>%s</span>', 'buddypress'), bp_get_total_tools_facilities_count_for_user()),
             'slug' => bp_get_tools_facilities_slug(),
             'position' => 80,
             'screen_function' => 'bp_tools_facilities_screen_one',
@@ -192,7 +192,7 @@ class BP_Tools_Facilities_Component extends BP_Component {
 
         // Add a few subnav items under the main Example tab
         $sub_nav[] = array(
-            'name' => __('Published Tools_Facilities', 'cecom-tools_facilities'),
+            'name' => __('Published Tools/Facilities', 'cecom-tools_facilities'),
             'slug' => 'screen-one',
             'parent_url' => $tool_facility_link,
             'parent_slug' => bp_get_tools_facilities_slug(),
@@ -202,7 +202,7 @@ class BP_Tools_Facilities_Component extends BP_Component {
 
         // Add the subnav items to the friends nav item
         $sub_nav[] = array(
-            'name' => __('Create a tool_facility', 'cecom-tools_facilities'),
+            'name' => __('Create a tool/facility rent', 'cecom-tools_facilities'),
             'slug' => 'create-tool_facility',
             'parent_url' => $tool_facility_link,
             'parent_slug' => bp_get_tools_facilities_slug(),

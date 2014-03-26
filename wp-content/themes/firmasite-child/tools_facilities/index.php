@@ -1,8 +1,8 @@
 <?php
 /**
- * CECommunity - Patents & Licenses Directory
+ * CECommunity - Tools & Facilities Directory
  *
- * @package CECommunity Patents_Licenses Component
+ * @package CECommunity Tools_Facilities Component
  */
 ?>
 
@@ -12,11 +12,9 @@ get_header('buddypress');
 
 /* Import JS files */
 wp_enqueue_script('bootstrapformhelpers');
-wp_enqueue_script('bootstrap-multiselect');
 
 /* Import CSS files */
 wp_enqueue_style('bootstrapformhelpers-style');
-wp_enqueue_style('bootstrap-multiselect-style');
 
 global $bp;
 ?>
@@ -28,7 +26,7 @@ global $bp;
 <?php do_action('bp_before_directory_tools_facilities_page'); ?>
 
         <form action="" method="post" id="tools_facilities-directory-form" class="dir-form">
-            <h3  id="tools_facilities-header" class="page-header"><?php _e('Patents & Licenses Directory ', 'firmasite'); ?></h3>
+            <h3  id="tools_facilities-header" class="page-header"><?php _e('Tools & Facilities Directory ', 'firmasite'); ?></h3>
 
 <?php do_action('bp_before_directory_tools_facilities_content'); ?>
 
@@ -36,11 +34,11 @@ global $bp;
             <!-- Quick solution to fix the selected tab using $_Cookie[scope]-->
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
-                    <li  class="<?php echo ($_COOKIE['bp-tools_facilities-scope'] == "all" || (empty($_COOKIE['bp-tools_facilities-scope']) && empty($_COOKIE['bp-tools_facilities-scope']) ) ? "selected" : "") ?>" id="tools_facilities-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_tools_facilities_root_slug()); ?>"><?php printf(__('All Patents & Licenses<span>%s</span>', 'buddypress'), bp_get_total_tools_facilities_count()); ?></a></li>
+                    <li  class="<?php echo ($_COOKIE['bp-tools_facilities-scope'] == "all" || (empty($_COOKIE['bp-tools_facilities-scope']) && empty($_COOKIE['bp-tools_facilities-scope']) ) ? "selected" : "") ?>" id="tools_facilities-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_tools_facilities_root_slug()); ?>"><?php printf(__('All Tools & Facilities<span>%s</span>', 'buddypress'), bp_get_total_tools_facilities_count()); ?></a></li>
 
 
 <?php if (is_user_logged_in() && bp_get_total_tools_facilities_count_for_user(bp_loggedin_user_id())) : ?>
-                        <li class="<?php echo ($_COOKIE['bp-tools_facilities-scope'] == "personal" ? "selected" : "") ?>" id="tools_facilities-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_tools_facilities_slug() . '/my-tools_facilities'); ?>"><?php printf(__('My Patents & Licenses <span>%s</span>', 'firmasite'), bp_get_total_tools_facilities_count_for_user(bp_loggedin_user_id())); ?></a></li>
+                        <li class="<?php echo ($_COOKIE['bp-tools_facilities-scope'] == "personal" ? "selected" : "") ?>" id="tools_facilities-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_tools_facilities_slug() . '/my-tools_facilities'); ?>"><?php printf(__('My Tools & Facilities <span>%s</span>', 'firmasite'), bp_get_total_tools_facilities_count_for_user(bp_loggedin_user_id())); ?></a></li>
 
                     <?php endif; ?>
 
@@ -70,7 +68,6 @@ global $bp;
                         <select id="tools_facilities-order-by">
                             <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
                             <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
-                            <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "tool_facilitytype" ? "selected='selected'" : "") ?> value="tool_facilitytype"><?php _e('Type', 'firmasite'); ?></option> 
 
 <?php do_action('bp_tools_facilities_directory_order_options'); ?>
 

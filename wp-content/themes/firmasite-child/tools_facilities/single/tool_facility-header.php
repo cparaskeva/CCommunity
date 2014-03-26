@@ -1,5 +1,11 @@
 <?php
 global $bp;
+
+/* Import JS files */
+wp_enqueue_script('bootstrapformhelpers');
+
+/* Import CSS files */
+wp_enqueue_style('bootstrapformhelpers-style');
 $details = $bp->tools_facilities->current_tool_facility->get_tool_facility_details();
 ?>
 <div id="item-actions" class="pull-right">
@@ -28,10 +34,12 @@ $details = $bp->tools_facilities->current_tool_facility->get_tool_facility_detai
 
 
 <div class="col-lg-8">
-    <span class="highlight label label-default"><?php echo $details['tdesc']; ?></span> 
+    <span class="bfh-countries" data-country="<?php echo $bp->tools_facilities->current_tool_facility->country_id ?>" data-flags="true"></span>
+    <span class="highlight label label-default"><?php echo "Location: ".$bp->tools_facilities->current_tool_facility->location ?></span> 
 
-    <span class="highlight label label-primary"><?php echo "Exchange type: " . $details['edesc']; ?></span>
-    <span class="highlight label label-warning"><?php echo "Geographical Coverage: " . $details['cname']; ?></span>
+    <span class="highlight label label-primary"><?php echo "Payment qualification: " . $details['pdesc']; ?></span>
+    <span class="highlight label label-warning"><?php echo "Operated: " . $details['odesc']; ?></span>
+    <!--<span class="highlight label label-warning"><?php //echo "Geographical Coverage: " . $details['cname']; ?></span>-->
 
 
 
@@ -40,36 +48,4 @@ $details = $bp->tools_facilities->current_tool_facility->get_tool_facility_detai
     <div id="item-meta">
         <p align="justify"> <?php echo $bp->tools_facilities->current_tool_facility->description; ?> </p>
     </div><!-- #item-meta -->
-    <!-- Show meta of tool_facility -->
-    <?php if (bp_tool_facility_has_sectors()): ?>
-        <div id="item-meta"> 
-            <div><br>
-                <b>Sectors Covered</b> 
-                <?php
-                foreach ($bp->tools_facilities->current_tool_facility->sectors as $sector) {
-                    echo "<br/><span style=\"background-color:" . $sector['color']
-                    . "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>"
-                    . "&nbsp;&nbsp;" . $sector['description'];
-                }
-                ?>
-            </div>
-        </div><!-- #item-meta -->
-    <?php endif; ?>
-    <!-- Show meta of tool_facility -->
-    <?php if (bp_tool_facility_has_subsectors()): ?>
-        <div id="item-meta"> 
-            <div>
-                <br/><br/>
-                <b>Subsectors</b><br/>
-                <?php
-                $subsectors = "";
-                foreach ($bp->tools_facilities->current_tool_facility->subsectors  as $subsector) {
-                    $subsectors .= $subsector['description'] . ", ";
-                }
-                echo substr($subsectors, 0, -2);
-                ?><br/><br/>
-
-            </div>
-        </div><!-- #item-meta -->
-    <?php endif; ?>
 </div><!-- #item-header-content -->

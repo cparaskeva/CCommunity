@@ -1,89 +1,61 @@
 <?php
 /**
- * CECommunity - Create Patent & License
+ * CECommunity - Create Tool/Facility
  *
  */
 global $firmasite_settings;
 get_header('buddypress');
 
-
 /* Import JS files */
-wp_enqueue_script('bootstrap-multiselect');
+wp_enqueue_script('bootstrapformhelpers');
 
 /* Import CSS files */
-wp_enqueue_style('bootstrap-multiselect-style');
+wp_enqueue_style('bootstrapformhelpers-style');
 ?>
 
 
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
     <div class="padder">
         <form action="" method="post" id="tool_facility-form" class="standard-form" enctype="multipart/form-data">
-            <h3  id="tools_facilities-header" class="page-header"><?php _e('Publish a Patent or License  ', 'firmasite'); ?> &nbsp;</h3>
+            <h3  id="tools_facilities-header" class="page-header"><?php _e('Publish a Tool/Facility rent offer  ', 'firmasite'); ?> &nbsp;</h3>
             <?php do_action('template_notices'); ?>
             <div class="item-body" id="group-create-body">
-                <!-- Hidden Fields for Organization Sectors and Subsectors covered-->   
-                <input  type="hidden" class="form-control" name="patent-license-sectors" id="patent-license-sectors" value=""/>
-                <input  type="hidden" class="form-control" name="patent-license-subsectors" id="patent-license-subsectors" value=""/>
-                <!-- End of Hidden Fields -->
-                <label for="patent-license-type"><?php _e('What are you offering? (required)', 'firmasite'); ?></label>
-                <select  name="patent-license-type" id="patent-license-type">
-                    <option value="none"  selected="selected">Please select..</option>
-                    <?php
-                    //Fetch Offer Types form DB
-                    $results = BP_Patent_License::getPatent_LicenseTypes();
-                    if (is_array($results)) {
-                        foreach ($results as $tool_facility_type) {
-                            echo "<option value = '{$tool_facility_type->id }'>{$tool_facility_type->description}</option>";
-                        }
-                    }
-                    ?>
-                </select>
+                <!-- Country Hidden Field -->
+                <input type="hidden" name="tool-facility-country" id='tool-facility-country'/>
+                <label for="tool-facility-description"><?php _e('Describe the tool/facility you want to rent (required)', 'firmasite'); ?></label>
+                <textarea rows="3" type="text" name="tool-facility-description" id="tool-facility-description" aria-required="true" ></textarea> 
                 <br/>
-                <label for="patent-license-description"><?php _e('Describe the patent/licence you want to offer (required)', 'firmasite'); ?></label>
-                <textarea rows="3" type="text" name="patent-license-description" id="patent-license-description" aria-required="true" ></textarea> 
+                <!-- Tool's country field -->
+                <label  for="tool-facility-country"><?php _e('Country where the tool is available (required)', 'firmasite'); ?></label>
+                <div onchange="setCountryValue()"  class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
                 <br/>
-                <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">
-                    <?php
-                    //Fetch Organization Sectos form DB
-                    $results = CECOM_Organization::getOrganizationSector();
-                    if (is_array($results)) {
-
-                        foreach ($results as $org_sector) {
-                            echo "<option value = '{$org_sector->id }'>{$org_sector->description}</option>";
-                        }
-                    }
-                    ?>
-                </select>
-                <br><br>
-                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> </label>
-                <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
-                </select>
-                <br/><br/>
-                <label for="patent-license-exchange"><?php _e('Type of exchange (required)', 'firmasite'); ?></label>
-                <select name="patent-license-exchange" id="patent-license-exchange">
+                <label for="tool-facility-location"><?php _e('Location of the tool (required)', 'firmasite'); ?></label>
+                <input  name="tool-facility-location" id="tool-facility-location"/>
+                <br/>
+                <label for="tool-facility-payment"><?php _e('Payment qualification (required)', 'firmasite'); ?></label>
+                <select name="tool-facility-payment" id="tool-facility-payment">
                     <option value="none"  selected="selected"> Please select..</option>
                     <?php
-                    //Fetch Collaboration Types form DB
-                    $results = BP_Patent_License::getExchangeTypes();
+                    //Fetch Payment Qualification Types form DB
+                    $results = BP_Tool_Facility::getPaymentTypes();
                     if (is_array($results)) {
-                        foreach ($results as $tool_facility_exchange) {
-                            echo "<option value = '{$tool_facility_exchange->id }'>{$tool_facility_exchange->description}</option>";
+                        foreach ($results as $tool_facility_payment) {
+                            echo "<option value = '{$tool_facility_payment->id }'>{$tool_facility_payment->description}</option>";
                         }
                     }
                     ?>
                 </select>
                 <br/>
-                <label for="patent-license-countries"><?php _e('Geographical coverage (required)', 'firmasite'); ?></label>
-                <select  class="form-control" name="patent-license-countries" id="patent-license-countries" aria-required="false">
+                <label for="tool-facility-operation"><?php _e('How the tool/facility is operated? (required)', 'firmasite'); ?></label>
+                <select  class="form-control" name="tool-facility-operation" id="tool-facility-operation" aria-required="false">
                     <option value="none">Please select...</option>
                     <?php
-                    //Fetch All Countries form DB
-                    $results = CECOM_Organization::getAllCountries();
+                    //Fetch Operation Types form DB
+                    $results = BP_Tool_Facility::getOperationTypes();
                     if (is_array($results)) {
 
-                        foreach ($results as $country) {
-                            echo "<option value = '{$country->id }'>{$country->name}</option>";
+                        foreach ($results as $operation) {
+                            echo "<option value = '{$operation->id }'>{$operation->description}</option>";
                         }
                     }
                     ?>
@@ -91,7 +63,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 <!-- Submit Div-->
                 <div align="right" class="submit" >
                     <hr>
-                    <div align="left"><a align="left" href="<?php echo bp_loggedin_user_domain() . bp_get_tools_facilities_root_slug() ?>" title="Are you lost?">&larr; Back to Patents & Licenses</a></div>
+                    <div align="left"><a align="left" href="<?php echo bp_loggedin_user_domain() . bp_get_tools_facilities_root_slug() ?>" title="Are you lost?">&larr; Back to Tools/Facilities</a></div>
                     <input type="submit" class="btn  btn-primary" name="tool_facility_submit" id="tool_facility_submit" value="<?php _e('Publish your proposal', 'firmasite'); ?>" >
                     <?php wp_nonce_field('tools_facilities_create_tool_facility'); ?>
                     <br/><br/>
@@ -103,9 +75,17 @@ wp_enqueue_style('bootstrap-multiselect-style');
     </div><!-- .padder -->
 </div><!-- #content -->
 
+<script type="text/javascript">
+
+
+function setCountryValue(){
+    jQuery("#tool-facility-country").val(jQuery(".bfh-selectbox").val());
+}
+    
+</script>
+
+
 <?php
-//Load JavaScript Files
-include(get_stylesheet_directory() . "/tools_facilities/tools_facilities.php");
 //Load CECommunity Sidebar
 get_sidebar('buddypress');
 //Load CECommunity Footer

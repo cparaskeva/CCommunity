@@ -25,7 +25,7 @@
                             &nbsp;&nbsp;
                         <?php endif; ?>
                         View patent & license <a href="<?php bp_tool_facility_permalink(); ?>">details</a>&nbsp;&nbsp; 
-                        <span class="highlight label label-default"><?php bp_tool_facility_type(); ?></span> 
+                        <!-- <span class="highlight label label-default"><?php //bp_tool_facility_type(); ?></span> -->
                         <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), bp_tool_facility_get_posted_date()); ?></span></div>
 
                     <div class="item-content"> 
@@ -62,7 +62,7 @@
 <?php else: ?>
 
     <div class="clearfix"></div><div id="message" class="info alert alert-info">
-        <p><?php _e('There were no patents & licenses found.', 'firmasite'); ?></p>
+        <p><?php _e('There were no tools/facilities found.', 'firmasite'); ?></p>
     </div>
 
 <?php endif; ?>

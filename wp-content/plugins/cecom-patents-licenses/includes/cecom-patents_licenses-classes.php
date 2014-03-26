@@ -461,7 +461,7 @@ class BP_Patent_License {
         // Get paginated results
         $paged_patents_licenses_sql = apply_filters('bp_patents_licenses_get_paged_patents_licenses_sql', join(' ', (array) $sql), $sql, $r);
         $paged_patents_licenses = $wpdb->get_results($paged_patents_licenses_sql);
-        echo " Paged Query: " . $paged_patents_licenses_sql . "<br> Results count:" . $wpdb->num_rows;
+        //echo " Paged Query: " . $paged_patents_licenses_sql . "<br> Results count:" . $wpdb->num_rows;
 
 
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->patents_licenses->table_name} as patent_license";
@@ -486,7 +486,7 @@ class BP_Patent_License {
         // Get total patent_license results
         $total_patents_licenses_sql = apply_filters('bp_patents_licenses_get_total_patents_licenses_sql', $t_sql, $total_sql, $r);
         $total_patents_licenses = $wpdb->get_var($total_patents_licenses_sql);
-        echo "<br>Count query: " . $total_patents_licenses_sql;
+        //echo "<br>Count query: " . $total_patents_licenses_sql;
 
         $patent_license_ids = array();
         foreach ((array) $paged_patents_licenses as $patent_license) {
@@ -511,7 +511,7 @@ class BP_Patent_License {
                 $tmp = explode(';', $val);
                 $search_extras_args[$tmp[0]] = $tmp[1];
             }
-            print_r($search_extras_args);
+            //print_r($search_extras_args);
             //If calculation is success continue
             if (!empty($search_extras_args)) {
                 //Take into account patent/license type
@@ -541,7 +541,7 @@ class BP_Patent_License {
 
             }
         }
-        echo "Meta Query: " . $serach_extras_query.$search_extras_subquery.$search_organization_query;
+        //echo "Meta Query: " . $serach_extras_query.$search_extras_subquery.$search_organization_query;
         return $serach_extras_query.$search_extras_subquery.$search_organization_query;
     }
 

@@ -10,18 +10,17 @@
  * abstracting database access.
  * 
  */
-class BP_Tool_Facility{
+class BP_Tool_Facility {
 
     var $id;
     var $uid; //User ID
     var $gid; //Group ID
-    var $type_id; //Tool_Facilitytype ID
     var $description;
     var $country_id;
-    var $exchange_id;
+    var $location;
+    var $payment_id;
+    var $operation_id;
     var $date;
-    var $sectors;
-    var $subsectors;
     var $query;
 
     /**
@@ -37,13 +36,12 @@ class BP_Tool_Facility{
             'id' => 0,
             'uid' => 0, //User ID
             'gid' => 0, //Group ID
-            'type_id' => 0, //Tool_Facilitytype ID
             'description' => "",
             'country_id' => Null,
-            'exchange_id' => Null,
+            'location' => "",
+            'payment_id' => Null,
+            'operation_id' => Null,
             'date' => date('Y-m-d H:i:s'),
-            'sectors' => '',
-            'subsectors' => ''
         );
 
         // Parse the defaults with the arguments passed
@@ -77,17 +75,12 @@ class BP_Tool_Facility{
             $this->id = $tool_facility->id;
             $this->uid = $tool_facility->uid; //User ID
             $this->gid = $tool_facility->gid; //Group ID
-            $this->type_id = $tool_facility->type_id; //Tool_Facilitytype ID
             $this->description = $tool_facility->description;
             $this->country_id = $tool_facility->country_id;
-            $this->exchange_id = $tool_facility->exchange_id;
+            $this->location = $tool_facility->location;
+            $this->payment_id = $tool_facility->payment_id;
+            $this->operation_id = $tool_facility->operation_id;
             $this->date = $tool_facility->date;
-        }
-
-        //Fetch tool_facility metadata from DB
-        if ($tool_facility->id) {
-            $this->sectors = $wpdb->get_results("SELECT s.id,s.color,s.description from ext_tool_facility_meta m,ext_organization_sector s where m.mkey='sector' and m.mvalue = s.id and pid=$tool_facility->id", ARRAY_A);
-            $this->subsectors = $wpdb->get_results("SELECT s.id,s.description from ext_tool_facility_meta m,ext_organization_subsector s where m.mkey='subsector' and m.mvalue = s.id and pid=$tool_facility->id", ARRAY_A);
         }
     }
 
@@ -119,72 +112,49 @@ class BP_Tool_Facility{
         $this->id = apply_filters('bp_tools_facilities_data_before_save', $this->id);
         $this->uid = apply_filters('bp_tools_facilities_data_before_save', $this->uid);
         $this->gid = apply_filters('bp_tools_facilities_data_before_save', $this->gid);
-        $this->type_id = apply_filters('bp_tools_facilities_data_before_save', $this->type_id);
         $this->description = apply_filters('bp_tools_facilities_data_before_save', $this->description);
         $this->country_id = apply_filters('bp_tools_facilities_data_before_save', $this->country_id);
-        $this->exchange_id = apply_filters('bp_tools_facilities_data_before_save', $this->exchange_id);
+        $this->location = apply_filters('bp_tools_facilities_data_before_save', $this->location);
+        $this->payment_id = apply_filters('bp_tools_facilities_data_before_save', $this->payment_id);
+        $this->operation_id = apply_filters('bp_tools_facilities_data_before_save', $this->operation_id);
         $this->date = apply_filters('bp_tools_facilities_data_before_save', $this->date);
-        //Tool_Facilityalready exist, Update the current tool_facility
+        //Tool/Facility already exist, Update the current tool_facility
         if ($this->id) {
 
             //Dfeault fields
             $query_args_default = array(
-                'type_id' => $this->type_id,
                 'description' => $this->description,
                 'country_id' => $this->country_id,
-                'exchange_id' => $this->exchange_id,
+                'location' => $this->location,
+                'payment_id' => $this->payment_id,
+                'operation_id' => $this->operation_id,
                 'date' => $this->date);
 
             //Default fields format
-            $query_args_format = array('%d', '%s', '%s', '%d', '%s');
+            $query_args_format = array( '%s', '%s','%s', '%d','%d', '%s');
 
             $query_where = array('ID' => $this->id);
 
             //Update the the tool_facility in the DB
             $result = $wpdb->update($bp->tools_facilities->table_name, $query_args_default, $query_where, $query_args_format);
 
-            //Clear the old metadata
-            $wpdb->get_results("DELETE  FROM `ext_tool_facility_meta` where pid= $this->id");
-
-            //If insertion is success store the meta
-            if ($this->id && !($this->sectors == "null" && $this->subsectors == "null")) {
-
-                if ($this->sectors != "null")
-                    $meta['sector'] = $this->sectors;
-
-                if ($this->subsectors != "null")
-                    $meta["subsector"] = $this->subsectors;
-
-                BP_Patent_License::saveMetadata($this->id, $meta);
-            }
         } else {//Insert the new tool_facility in the database 
             //Dfeault fields
             $query_args_default = array(
                 'uid' => $this->uid, //User ID
                 'gid' => $this->gid, //Group ID
-                'type_id' => $this->type_id, //Tool_Facility type ID
                 'description' => $this->description,
                 'country_id' => $this->country_id,
-                'exchange_id' => $this->exchange_id,
+                'location' => $this->location,
+                'payment_id' => $this->payment_id,
+                'operation_id' => $this->operation_id,
                 'date' => $this->date);
 
             //Default fields format
-            $query_args_format = array('%d', '%d', '%d', '%s', '%s', '%d', '%s');
+            $query_args_format = array( '%d','%d', '%s', '%s','%s', '%d','%d', '%s');
 
             //Insert the data to DB
             $result = $wpdb->insert($bp->tools_facilities->table_name, $query_args_default, $query_args_format);
-
-            //If insertion is success store the meta
-            if ($wpdb->insert_id && !($this->sectors == "null" && $this->subsectors == "null")) {
-
-                if ($this->sectors != "null")
-                    $meta['sector'] = $this->sectors;
-
-                if ($this->subsectors != "null")
-                    $meta["subsector"] = $this->subsectors;
-
-                BP_Patent_License::saveMetadata($wpdb->insert_id, $meta);
-            }
         }
         return $result;
     }
@@ -228,9 +198,9 @@ class BP_Tool_Facility{
         if (!$tool_facility_id)
             $tool_facility_id = $this->id;
 
-        $sql_query_select = "SELECT t.description tdesc,e.description edesc,c.name cname";
-        $sql_query_from = " FROM ext_tool_facility pl, ext_tool_facility_type t,ext_tool_facility_exchange e,ext_organization_country c ";
-        $sql_query_where = " WHERE pl.id=$tool_facility_id AND pl.type_id=t.id AND pl.exchange_id=e.id AND pl.country_id=c.id ";
+        $sql_query_select = "SELECT p.description pdesc,o.description odesc,c.name cname";
+        $sql_query_from = " FROM ext_tool_facility tf, ext_tool_facility_payment p,ext_tool_facility_operation o,ext_organization_country c ";
+        $sql_query_where = " WHERE tf.id=$tool_facility_id AND tf.payment_id=p.id AND tf.operation_id=o.id AND tf.country_id=c.id ";
         $sql_query = $sql_query_select . $sql_query_from . $sql_query_where;
 
         return $wpdb->get_row($sql_query, ARRAY_A);
@@ -304,42 +274,22 @@ class BP_Tool_Facility{
         return $tool_facility_types;
     }
 
-    //Fetch the available exchange types
-    public static function getExchangeTypes() {
+    //Fetch the available payment qualification types
+    public static function getPaymentTypes() {
         global $wpdb;
-        $tool_facility_exchange = $wpdb->get_results("SELECT * FROM ext_tool_facility_exchange order by description asc");
-        if (!is_array($tool_facility_exchange))
+        $tool_facility_payment = $wpdb->get_results("SELECT * FROM ext_tool_facility_payment order by description asc");
+        if (!is_array($tool_facility_payment))
             return nil;
-        return $tool_facility_exchange;
+        return $tool_facility_payment;
     }
 
-    //Fetch the available partner sought types
-    public static function getPartnerTypes() {
+    //Fetch the available operation types
+    public static function getOperationTypes() {
         global $wpdb;
-        $tool_facility_partner_type = $wpdb->get_results("SELECT * FROM ext_tool_facility_partner_type");
+        $tool_facility_partner_type = $wpdb->get_results("SELECT * FROM ext_tool_facility_operation");
         if (!is_array($tool_facility_partner_type))
             return nil;
         return $tool_facility_partner_type;
-    }
-
-    //Save meta data to ext_tool_facility_meta table
-    public static function saveMetadata($tool_facilityID, $metadata) {
-        global $wpdb;
-        //Check if a valid tool_facilityID is given
-        if ($tool_facilityID) {
-            $query = "INSERT INTO ext_tool_facility_meta (pid,mkey,mvalue) VALUES ";
-            //$metadata ($key => Array) Two dimensions array
-            foreach ($metadata as $mkey => $mvalue) {
-                foreach ($mvalue as $key => $value) {
-                    $query .= "($tool_facilityID,'$mkey','$value') ,";
-                }
-            }
-            //Remove last ","
-            $query = substr($query, 0, -1);
-
-            //Execute Query
-            $wpdb->get_results($query);
-        }
     }
 
     /* Queries staff */
@@ -400,14 +350,14 @@ class BP_Tool_Facility{
         $total_sql = array();
 
         //TODO: Proper handle of selection clause
-        $sql['select'] = "SELECT tool_facility.*,type.description tdesc";
+        $sql['select'] = "SELECT tool_facility.*";
 
         //Main table to fetch the information
-        $sql['from'] = " FROM {$bp->tools_facilities->table_name} as tool_facility,`ext_tool_facility_type` as type";
+        $sql['from'] = " FROM {$bp->tools_facilities->table_name} as tool_facility";
 
 
         //Query Where clause 
-        $sql['where'] = "WHERE tool_facility.type_id = type.id ";
+        $sql['where'] = "WHERE 1";
 
         if (!empty($r['user_id'])) {
             $sql['user'] = " AND uid = {$r['user_id']}";
@@ -461,7 +411,7 @@ class BP_Tool_Facility{
         // Get paginated results
         $paged_tools_facilities_sql = apply_filters('bp_tools_facilities_get_paged_tools_facilities_sql', join(' ', (array) $sql), $sql, $r);
         $paged_tools_facilities = $wpdb->get_results($paged_tools_facilities_sql);
-        echo " Paged Query: " . $paged_tools_facilities_sql . "<br> Results count:" . $wpdb->num_rows;
+        //echo " Paged Query: " . $paged_tools_facilities_sql . "<br> Results count:" . $wpdb->num_rows;
 
 
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->tools_facilities->table_name} as tool_facility";
@@ -486,7 +436,7 @@ class BP_Tool_Facility{
         // Get total tool_facility results
         $total_tools_facilities_sql = apply_filters('bp_tools_facilities_get_total_tools_facilities_sql', $t_sql, $total_sql, $r);
         $total_tools_facilities = $wpdb->get_var($total_tools_facilities_sql);
-        echo "<br>Count query: " . $total_tools_facilities_sql;
+        //echo "<br>Count query: " . $total_tools_facilities_sql;
 
         $tool_facility_ids = array();
         foreach ((array) $paged_tools_facilities as $tool_facility) {
@@ -511,38 +461,15 @@ class BP_Tool_Facility{
                 $tmp = explode(';', $val);
                 $search_extras_args[$tmp[0]] = $tmp[1];
             }
-            print_r($search_extras_args);
+            //print_r($search_extras_args);
             //If calculation is success continue
             if (!empty($search_extras_args)) {
-                //Take into account patent/license type
-                $serach_extras_query = ($search_extras_args['patent-license-type'] != "none" ? " AND type_id =' {$search_extras_args['patent-license-type']}' " : "");
-                //Take into account type of exchange
-                $serach_extras_query.= ($search_extras_args['patent-license-exchange'] != 'none' ? "AND exchange_id='{$search_extras_args['patent-license-exchange']}' " : "");
                 //Take into account graphical coverage
-                $serach_extras_query.= ($search_extras_args['patent-license-countries'] != 'none' ? "AND country_id='{$search_extras_args['patent-license-countries']}' " : "");
-
-                //Handle sectors and subsectors fields
-                $search_extras_subquery = '';
-                if (!empty($search_extras_args['patent-license-sectors'])) {
-                    $sectors_query = "(mkey='sector' and mvalue in ({$search_extras_args['patent-license-sectors']})";
-                    $sectors_query = (!empty($search_extras_args['patent-license-subsectors']) ? " (mkey='subsector' and mvalue in ({$search_extras_args['patent-license-subsectors']})" : $sectors_query);
-                    $search_extras_subquery = " AND tool_facility.id in (select pid from ext_tool_facility_meta where {$sectors_query}))";
-                }
-                
-                
-                //Handle organisation fileds query
-                $search_organization_query='';
-                $search_organization_query.= (strlen($search_extras_args['organization-name'])>0  ? " AND name LIKE'%%{$search_extras_args['organization-name']}%%' " : "");
-                $search_organization_query.= ($search_extras_args['organization-country']!= ""?" AND country_id='{$search_extras_args['organization-country']}'"  :"" );
-                $search_organization_query.= ($search_extras_args['organization-type']!= "none"?" AND type_id='{$search_extras_args['organization-type']}'"  :"" );
-                
-                if (!empty($search_organization_query))
-                    $search_organization_query= " AND tool_facility.gid in (SELECT gid from ext_organization WHERE ".substr($search_organization_query,4). ") ";
-
+                $serach_extras_query.= ($search_extras_args['tool-facility-country'] != '' ? "AND country_id='{$search_extras_args['tool-facility-country']}' " : "");
             }
         }
-        echo "Meta Query: " . $serach_extras_query.$search_extras_subquery.$search_organization_query;
-        return $serach_extras_query.$search_extras_subquery.$search_organization_query;
+        //echo "Meta Query: " . $serach_extras_query;
+        return $serach_extras_query;
     }
 
     /**
@@ -569,11 +496,6 @@ class BP_Tool_Facility{
                 $order = 'ASC';
                 $orderby = 'date';
                 break;
-
-            case 'tool_facilitytype' :
-                $order = 'DESC';
-                $orderby = 'tool_facilitytype';
-                break;
         }
 
         return array('order' => $order, 'orderby' => $orderby);
@@ -594,10 +516,6 @@ class BP_Tool_Facility{
             case 'date' :
             default :
                 $order_by_term = 'date';
-                break;
-
-            case 'tool_facilitytype' :
-                $order_by_term = 'type_id, date';
                 break;
 
             case 'name' :

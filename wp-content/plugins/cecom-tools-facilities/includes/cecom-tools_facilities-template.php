@@ -24,7 +24,7 @@ function bp_tools_facilities_get_pagination_count() {
     $to_num = bp_core_number_format(( $start_num + ( $tools_facilities_template->pag_num - 1 ) > $tools_facilities_template->total_tool_facility_count ) ? $tools_facilities_template->total_tool_facility_count : $start_num + ( $tools_facilities_template->pag_num - 1 ) );
     $total = bp_core_number_format($tools_facilities_template->total_tool_facility_count);
 
-    return apply_filters('bp_get_tools_facilities_pagination_count', sprintf(_n('Viewing Patent/License %1$s to %2$s (of %3$s Patents/Licenses)', 'Viewing Patent/License %1$s to %2$s (of %3$s Patents/Licenses)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
+    return apply_filters('bp_get_tools_facilities_pagination_count', sprintf(_n('Viewing Tool/Facility %1$s to %2$s (of %3$s Tools/Facilities)', 'Viewing Tool/Facility %1$s to %2$s (of %3$s Tools/Facilities)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
 }
 
 function bp_tools_facilities_pagination_links() {
@@ -204,20 +204,7 @@ function bp_get_tool_facility_permalink($tool_facility = false) {
     return apply_filters('bp_get_tool_facility_permalink', trailingslashit(bp_get_root_domain() . '/' . bp_get_tools_facilities_root_slug() . '/' . $tool_facility->slug . '/'));
 }
 
-//Return true only if the current tool_facility has sectors
-function bp_tool_facility_has_sectors() {
-    global $bp;
-    return (!empty($bp->tools_facilities->current_tool_facility->sectors));
-}
-
-//Return true only if the current tool_facility and has subsectors
-function bp_tool_facility_has_subsectors() {
-    global $bp;
-    return (!empty($bp->tools_facilities->current_tool_facility->subsectors));
-}
-
-
-//Offers Index Page - Search Form
+//Tools & Facilities Index Page - Search Form
 function bp_directory_tools_facilities_search_form() {
 
     $default_search_value = bp_get_search_default_text('tools_facilities');
@@ -233,7 +220,7 @@ function bp_directory_tools_facilities_search_form() {
 }
 
 /**
- * Is this page part of the Offer component?
+ * Is this page part of the Tool/Facility component?
  *
  * Having a special function just for this purpose makes our code more readable elsewhere, and also
  * allows us to place filter 'bp_is_tool_facility_component' for other components to interact with.
@@ -321,7 +308,7 @@ function bp_get_total_tools_facilities_count_for_user($user_id = 0) {
 add_filter('bp_get_total_tools_facilities_count_for_user', 'bp_core_number_format');
 
 /*
- *  Offers Template Class 
+ *  Tools & Facilities Template Class 
  * Used to hold all the results returned from DB based on current users' query
  */
 
@@ -416,8 +403,8 @@ class BP_Tools_Facilities_Template {
                 'format' => '',
                 'total' => ceil((int) $this->total_tool_facility_count / (int) $this->pag_num),
                 'current' => $this->pag_page,
-                'prev_text' => _x('&larr;', 'Offer pagination previous text', 'buddypress'),
-                'next_text' => _x('&rarr;', 'Offer pagination next text', 'buddypress'),
+                'prev_text' => _x('&larr;', 'Tool/Facility pagination previous text', 'buddypress'),
+                'next_text' => _x('&rarr;', 'Tool/Facility pagination next text', 'buddypress'),
                 'mid_size' => 1
             ));
         }
@@ -508,7 +495,7 @@ function bp_has_tools_facilities($args = '') {
     $user_id = 0;
     $order = '';
 
-    // User filtering - Offers Main Screen
+    // User filtering - Tools & Facilities Main Screen
     if (bp_displayed_user_id())
         $user_id = bp_displayed_user_id();
 
@@ -585,7 +572,7 @@ function tools_facilities_get_tools_facilities($args = '') {
 
     $r = wp_parse_args($args, $defaults);
 
-    $tools_facilities = BP_Patent_License::get(array(
+    $tools_facilities = BP_Tool_Facility::get(array(
                 'type' => $r['type'],
                 'order' => $r['order'],
                 'orderby' => $r['orderby'],

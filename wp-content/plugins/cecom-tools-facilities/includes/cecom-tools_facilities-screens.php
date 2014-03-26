@@ -60,7 +60,7 @@ function bp_tools_facilities_create_tool_facility() {
 
             $errors = false;
             //Check if user has choosen an tool_facility type othen than "none"
-            if (!(($_POST['tool-facility-type'] != "none" && $_POST['tool-facility-exchange'] != "none") && strlen($_POST['tool-facility-description']) > 0 && $_POST['tool-facility-countries'] != "none" ))
+            if (!($_POST['tool-facility-country'] != "" && strlen($_POST['tool-facility-location']) != "" && strlen($_POST['tool-facility-description']) > 0 && $_POST['tool-facility-exchange'] != "none" && $_POST['tool-facility-operation'] != "none"))
                 bp_core_add_message(__('Error puplishing your tool/facility rent. Please fill in all the required fields.', 'bp-tool-facility'), 'error');
             else {
                 //Validation Success Save the tool_facility to DB               
@@ -71,14 +71,12 @@ function bp_tools_facilities_create_tool_facility() {
                     'id' => 0,
                     'uid' => $user_id, //User ID
                     'gid' => $group_id, //Group ID
-                    'type_id' => $_POST['tool-facility-type'], //Tool_Facility type ID
                     'description' => $_POST['tool-facility-description'],
-                    'country_id' => $_POST['tool-facility-countries'],
-                    'exchange_id' => $_POST['tool-facility-exchange'],
-                    'date' => date('Y-m-d H:i:s'),
-                    'sectors' => ( empty($_POST['tool-facility-sectors']) ? "null" : explode(",", $_POST['tool-facility-sectors'])),
-                    'subsectors' => ( empty($_POST['tool-facility-subsectors']) ? "null" : explode(",", $_POST['tool-facility-subsectors'])
-                    )
+                    'country_id' => $_POST['tool-facility-country'],
+                    'location' => $_POST['tool-facility-location'], 
+                    'payment_id' => $_POST['tool-facility-payment'],
+                    'operation_id' => $_POST['tool-facility-operation'],
+                    'date' => date('Y-m-d H:i:s')
                 );
                 if (bp_tools_facilities_publish_tool_facility($tool_facility_new))
                     bp_core_add_message(__('Your tool/facility has been succesfuly published!', 'bp-example'), 'success');

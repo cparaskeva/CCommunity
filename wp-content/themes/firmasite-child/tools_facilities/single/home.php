@@ -63,10 +63,6 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 do_action('bp_before_group_status_message');
                 ?>
 
-                <!-- <div class="clearfix"></div><div id="message" class="info alert alert-info">
-                 <p><?php //bp_group_status_message();   ?></p>
-                 </div> -->
-
                 <?php
                 do_action('bp_after_group_status_message');
 
@@ -76,14 +72,10 @@ wp_enqueue_style('bootstrap-multiselect-style');
 
             endif;
 
-            do_action('bp_after_group_body');
             ?>
 
         </div><!-- #item-body -->
 
-        <?php //do_action( 'bp_after_group_home_content' );   ?>
-
-        <?php //endwhile; endif;   ?>
 
     </div><!-- .padder -->
 </div><!-- #content -->
