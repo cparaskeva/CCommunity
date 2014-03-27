@@ -13,11 +13,13 @@ $details = $bp->tools_facilities->current_tool_facility->get_tool_facility_detai
     <?php if (bp_is_tool_facility_admin_screen('edit-details')) : ?>
 
         <?php do_action('bp_before_group_details_admin'); ?>
+        <!-- Country Hidden Field -->
+        <input type="hidden" name="tool-facility-country" id='tool-facility-country' value="<?php echo $bp->tools_facilities->current_tool_facility->country_id?>"/>
         <br>
-        <label for="patent-license-description"><?php _e('Describe the tool/facility you want to rent (required)', 'firmasite'); ?></label>
+        <label for="tool-facility-description"><?php _e('Describe the tool/facility you want to rent (required)', 'firmasite'); ?></label>
         <?php
         $content = $bp->tools_facilities->current_tool_facility->description;
-        echo firmasite_wp_editor($content, 'patent-license-description');
+        echo firmasite_wp_editor($content, 'tool-facility-description');
         ?>
         <br/>
         <!-- Tool's country field -->
@@ -25,7 +27,7 @@ $details = $bp->tools_facilities->current_tool_facility->get_tool_facility_detai
         <div onchange="setCountryValue()"  class="bfh-selectbox bfh-countries" data-country="<?php echo $bp->tools_facilities->current_tool_facility->country_id ?>" data-flags="true"> </div>
         <br/>
         <label for="tool-facility-location"><?php _e('Location of the tool (required)', 'firmasite'); ?></label>
-        <input  name="tool-facility-location" id="tool-facility-location" value="<?php echo $bp->tools_facilities->current_tool_facility->location?>"/>
+        <input  name="tool-facility-location" id="tool-facility-location" value="<?php echo $bp->tools_facilities->current_tool_facility->location ?>"/>
         <br/>
         <label for="tool-facility-payment"><?php _e('Payment qualification (required)', 'firmasite'); ?></label>
         <select name="tool-facility-payment" id="tool-facility-payment">
@@ -77,18 +79,18 @@ $details = $bp->tools_facilities->current_tool_facility->get_tool_facility_detai
 
     <br/>
     <div class="clearfix"></div><div id="message" class="info alert alert-info">
-        <p><?php _e('WARNING: Deleting this patent/license will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'firmasite'); ?></p>
+        <p><?php _e('WARNING: Deleting this tool/facility will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'firmasite'); ?></p>
     </div>
 
     <label><input type="checkbox" name="delete-tool_facility-understand" id="delete-group-understand" value="1" onclick="if (this.checked) {
-                    document.getElementById('delete-tool_facility-button').disabled = '';
-                } else {
-                    document.getElementById('delete-tool_facility-button').disabled = 'disabled';
-                }" /> <?php _e('I understand the consequences of deleting this patent/license.', 'firmasite'); ?></label>
+                document.getElementById('delete-tool_facility-button').disabled = '';
+            } else {
+                document.getElementById('delete-tool_facility-button').disabled = 'disabled';
+            }" /> <?php _e('I understand the consequences of deleting this tool/facility.', 'firmasite'); ?></label>
 
 
     <div class="submit">
-        <input type="submit" class="btn  btn-primary" disabled="disabled" value="<?php _e('Delete Patent/License', 'firmasite'); ?>" id="delete-tool_facility-button" name="delete-tool_facility-button" />
+        <input type="submit" class="btn  btn-primary" disabled="disabled" value="<?php _e('Delete Tool/Facility', 'firmasite'); ?>" id="delete-tool_facility-button" name="delete-tool_facility-button" />
         <br/><br/>
     </div>
 
@@ -102,3 +104,11 @@ $details = $bp->tools_facilities->current_tool_facility->get_tool_facility_detai
 <?php do_action('bp_after_group_admin_content'); ?>
 </form><!-- #tool_facility-settings-form -->
 
+<script type="text/javascript">
+
+
+    function setCountryValue() {
+        jQuery("#tool-facility-country").val(jQuery(".bfh-selectbox").val());
+    }
+
+</script>

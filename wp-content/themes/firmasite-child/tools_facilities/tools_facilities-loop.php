@@ -24,7 +24,7 @@
                             Offer published by <a href="<?php bp_tools_facilities_owner_permalink(); ?>"><?php bp_tools_facilities_owner_name(); ?></a>
                             &nbsp;&nbsp;
                         <?php endif; ?>
-                        View patent & license <a href="<?php bp_tool_facility_permalink(); ?>">details</a>&nbsp;&nbsp; 
+                        View tool & facility <a href="<?php bp_tool_facility_permalink(); ?>">details</a>&nbsp;&nbsp; 
                         <!-- <span class="highlight label label-default"><?php //bp_tool_facility_type(); ?></span> -->
                         <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), bp_tool_facility_get_posted_date()); ?></span></div>
 

@@ -73,7 +73,7 @@ function bp_tools_facilities_create_tool_facility() {
                     'gid' => $group_id, //Group ID
                     'description' => $_POST['tool-facility-description'],
                     'country_id' => $_POST['tool-facility-country'],
-                    'location' => $_POST['tool-facility-location'], 
+                    'location' => $_POST['tool-facility-location'],
                     'payment_id' => $_POST['tool-facility-payment'],
                     'operation_id' => $_POST['tool-facility-operation'],
                     'date' => date('Y-m-d H:i:s')
@@ -178,17 +178,18 @@ function tools_facilities_screen_tool_facility_admin_edit_details() {
         //Check the nonce
         if (!check_admin_referer('tools_facilities_edit_tool_facility_details'))
             return false;
-
+        //Set a default value if location is not specified
+        if (empty($_POST['tool-facility-location']))
+            $_POST['tool-facility-location']= "<i>unspecified</i>";
+        
         //Put the changes to an array
         $tool_facility_update = array(
-            'type_id' => $_POST['tool-facility-type'], //Tool_Facility type ID
-            'description' => $_POST['tool-facility-description'],
-            'country_id' => $_POST['tool-facility-countries'],
-            'exchange_id' => $_POST['tool-facility-exchange'],
-            'date' => date('Y-m-d H:i:s'),
-            'sectors' => ( empty($_POST['tool-facility-sectors']) ? "null" : explode(",", $_POST['tool-facility-sectors'])),
-            'subsectors' => ( empty($_POST['tool-facility-subsectors']) ? "null" : explode(",", $_POST['tool-facility-subsectors'])
-            )
+        'description' => $_POST['tool-facility-description'],
+        'country_id' => $_POST['tool-facility-country'],
+        'location' => $_POST['tool-facility-location'],
+        'payment_id' => $_POST['tool-facility-payment'],
+        'operation_id' => $_POST['tool-facility-operation'],
+        'date' => date('Y-m-d H:i:s')
         );
         if (bp_tools_facilities_update_tool_facility($tool_facility_update))
             bp_core_add_message(__('Your tool/facility has been succesfuly updated!', 'bp-example'), 'success');

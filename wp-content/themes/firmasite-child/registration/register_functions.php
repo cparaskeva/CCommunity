@@ -58,15 +58,14 @@ function custom_register_user() {
             $errors[] = 'Profile name is required|';
         else {
             $profile_name = $_POST['profile_name'];
-            if (preg_match("/[^A-Za-z'-]/", $profile_name))
+            if (preg_match("/[^A-Za-z'-\s]/", $profile_name))
                 $errors[] = 'Invalid first name|';
         }
         //Validate Profile Surname
         if (!empty($_POST['profile_surname'])) {
-            if (preg_match("/[^A-Za-z'-]/", $_POST['profile_surname']))
+            if (preg_match("/[^A-Za-z'-\s]/", $_POST['profile_surname']))
                 $errors[] = 'Invalid last name|';
         }
-
 
         if (!empty($errors)) {
 

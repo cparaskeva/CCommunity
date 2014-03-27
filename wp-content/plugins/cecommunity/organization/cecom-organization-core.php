@@ -305,8 +305,8 @@ function registerOrganization($organization) {
         $wpdb->update($wpdb->users, array(sanitize_key("user_status") => 2), array('ID' => $user_id));
 
         //Buddypress xprofile data
-        xprofile_set_field_data('Name', $user_id, $organization['firstname']);
-        xprofile_set_field_data('Surname', $user_id, $organization['surname']);
+        xprofile_set_field_data('Name', $user_id,  trim( $organization['firstname'], " \t\n\r\0\x0B\"\'")); 
+        xprofile_set_field_data('Surname', $user_id, trim( $organization['surname']," \t\n\r\0\x0B\"\'")) ;
 
 
         //Send confirmation email to the user
