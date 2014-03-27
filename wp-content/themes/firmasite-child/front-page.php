@@ -47,7 +47,15 @@ if (is_user_logged_in()) {
 			ul#menu-topbar button {margin-top: 6px; padding:1px 5px }
 			ul#menu-topbar li.lost_pw a {color:#444; font-size:11px; line-height:12px; padding: 5px 2px 6px 1px;}
 			
-			ul.platform-feat li {font-size:18px;padding-bottom:8px}
+			ul.platform-feat {padding-left:5px}
+			ul.platform-feat li {
+				font-size:20px;
+				margin-bottom:15px; 
+				list-style: none;
+				line-height:50px; 
+				padding: 0px 0px 0px 65px; 
+				background: url() no-repeat left top
+			}
 			
 			.platform-reg {width: 210px}
 			.platform-reg button {float: right; margin-right:4px}
@@ -103,20 +111,20 @@ if (is_user_logged_in()) {
             			<img width="400" height="111" src="/cecommunity/wp-content/uploads/2013/12/logo1.png" />
             		</div>
             
-            	<div class="col-md-6">
+            	<div class="col-md-7">
             		
             		<h2>On our platform you can:</h2><br>
             		<ul class="platform-feat">
-						<li>Be part of the first European Life Sciences network</li>
-						<li>Find the partners you need</li>
-						<li>Set-up your R&D or innovation projects</li>
-						<li>Find or rent tools and facilities</li>
-						<li>Buy or sell licences</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/LifeSciences-Network.png)">Be part of the first European Life Sciences network</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/Partners.png)">Find the partners you need</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/RD_innovation_projects.png)">Set-up your R&D or innovation projects</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/ToolsFacilities.png)">Find or rent tools and facilities</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/Licences.png)">Buy or sell licences</li>
 					</ul>
             		
             	</div>
             	
-            	<div class="col-md-6">
+            	<div class="col-md-5">
             		<h3>New to the platform ?</h3>
             		<br>
             		<form method="post" action="<?php echo site_url('/register/') ?>"  class="platform-reg">
@@ -145,6 +153,21 @@ if (is_user_logged_in()) {
 	         </div>
         </div>                                    
 		<script type='text/javascript' src='/cecommunity/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
+		<script>
+
+			jQuery("ul.platform-feat li").hover(function(){
+				var img = jQuery(this).css("background-image");
+				var i = img.indexOf('.png');
+				img = img.substr(0,i)+'2'+img.substr(i);
+				jQuery(this).css("background-image", img);
+			 },function(){
+				 var img = jQuery(this).css("background-image");
+				 var i = img.indexOf('.png');
+				 img = img.substr(0,i-1)+img.substr(i);
+				 jQuery(this).css("background-image", img);
+			});
+		
+		</script>
 		<?php /*do_action('wp_footer')*/ ?>
 	</body>
 </html>
