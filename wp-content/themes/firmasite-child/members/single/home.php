@@ -88,6 +88,9 @@ get_header('buddypress');
             /* CECommunity Tools_Facilities Component */
             elseif (bp_is_tool_facility_component()) :
                 locate_template(array('members/single/tools_facilities.php'), true);
+            /* CECommunity Alerts Component */
+            elseif (bp_is_alert_component()) :
+                locate_template(array('members/single/alerts.php'), true);
 
             // If nothing sticks, load a generic template
             else :

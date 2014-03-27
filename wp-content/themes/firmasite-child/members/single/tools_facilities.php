@@ -22,7 +22,6 @@ get_header('buddypress');
             <select id="tools_facilities-order-by">
                 <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
                 <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
-                <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "tool_facilitytype" ? "selected='selected'" : "") ?> value="offertype"><?php _e('Patent & License Type', 'firmasite'); ?></option> 
             </select>
         </li>
         <?php do_action('bp_offers_directory_example_filter'); ?>

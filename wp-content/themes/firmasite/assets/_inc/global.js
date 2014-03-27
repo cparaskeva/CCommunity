@@ -3,7 +3,7 @@
 var search_extras="";
 
 //Define CECommunity Components
-var cecom_components=["offers","organizations","patents_licenses","tools_facilities"]; 
+var cecom_components=["offers","organizations","patents_licenses","tools_facilities","alerts"]; 
 
 
 //Checks if the given component is one of the CECommunity Plugins
@@ -34,6 +34,9 @@ function completeSearchExtras(current_component){
         break;
     case "tools_facilities":
         search_extras =(jQuery('#tool_facility_serach_extras').serialize()+"&tool-facility-country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
+        break;
+    case "alerts":
+        //search_extras =jQuery('alert_serach_extras').serialize().replace(/=/g,";").replace(/&/g,"|");
         break;
     default:
         search_extras="";        
