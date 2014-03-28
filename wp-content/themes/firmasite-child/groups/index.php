@@ -16,7 +16,6 @@ wp_enqueue_script('bootstrap-multiselect');
 wp_enqueue_style('bootstrapformhelpers-style');
 wp_enqueue_style('bootstrap-multiselect-style');
 ?>
-
 <?php do_action('bp_before_directory_groups_page'); ?>
 
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">

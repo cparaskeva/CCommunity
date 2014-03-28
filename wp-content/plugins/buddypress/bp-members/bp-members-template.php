@@ -706,7 +706,8 @@ function bp_directory_members_search_form() {
 	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
 
 	$search_form_html = '<form action="" method="get" id="search-members-form">
-		<label><input type="text" name="s" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+            <span data-toggle="tooltip" data-placement="left" title="Fill in the name/username of the member you are looking for..." class="glyphicon glyphicon-question-sign"></span>
+		<label style="vertical-align:middle"><input type="text" name="s" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . __( 'Search', 'buddypress' ) . '" />
 	</form>';
 

@@ -144,7 +144,7 @@
             </div>
 
             <!-- Search checkboxes column -->
-            <div class="col-lg-7" >
+            <div hidden="true" id="organization-checkboxes" class="col-lg-7" >
                 <br>
                 <label  for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>
                 <input type="radio"   name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
@@ -189,19 +189,14 @@
         var offer_type = jQuery("#offer-type").val();
         //Handle the different type of offers
 
-        //None is selected
-        if (offer_type == "none") {
-            jQuery("#collaboration-commons-extra").hide();
-            jQuery("#collaboration-develop").hide();
-            jQuery("#collaboration-participate").hide();
-        }
-
 
         //Hide all Divs
         jQuery("#collaboration-develop").hide();
         jQuery("#collaboration-participate").hide();
         jQuery("#offer-funding").hide();
         jQuery("#collaboration-commons-extra").hide();
+        jQuery("#organization-checkboxes").hide();
+        
 
 
         //Offer type: Develop products and services
@@ -215,6 +210,10 @@
         }//Offer type: Funding
         else if (offer_type == "3") {
             jQuery("#offer-funding").show();
+        }
+        //None is selected
+        if (offer_type == "none") {
+            jQuery("#organization-checkboxes").show();
         }
 
 

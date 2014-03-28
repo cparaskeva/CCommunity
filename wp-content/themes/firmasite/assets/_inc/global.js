@@ -36,7 +36,7 @@ function completeSearchExtras(current_component){
         search_extras =(jQuery('#tool_facility_serach_extras').serialize()+"&tool-facility-country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
         break;
     case "alerts":
-        //search_extras =jQuery('alert_serach_extras').serialize().replace(/=/g,";").replace(/&/g,"|");
+        search_extras ="alert-status;"+ jQuery("#alert-status").val();
         break;
     default:
         search_extras="";        

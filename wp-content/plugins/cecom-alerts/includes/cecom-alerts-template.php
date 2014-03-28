@@ -24,7 +24,7 @@ function bp_alerts_get_pagination_count() {
     $to_num = bp_core_number_format(( $start_num + ( $alerts_template->pag_num - 1 ) > $alerts_template->total_alert_count ) ? $alerts_template->total_alert_count : $start_num + ( $alerts_template->pag_num - 1 ) );
     $total = bp_core_number_format($alerts_template->total_alert_count);
 
-    return apply_filters('bp_get_alerts_pagination_count', sprintf(_n('Viewing Tool/Facility %1$s to %2$s (of %3$s Tools/Facilities)', 'Viewing Tool/Facility %1$s to %2$s (of %3$s Tools/Facilities)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
+    return apply_filters('bp_get_alerts_pagination_count', sprintf(_n('Viewing Alert %1$s to %2$s (of %3$s Alerts)', 'Viewing Alert %1$s to %2$s (of %3$s Alerts)', $total, 'buddypress'), $from_num, $to_num, $total), $from_num, $to_num, $total);
 }
 
 function bp_alerts_pagination_links() {
@@ -63,15 +63,14 @@ function bp_alert_posted_date() {
     echo bp_alert_get_posted_date();
 }
 
-function bp_alert_triggered_times(){
-        global $alerts_template;
+function bp_alert_triggered_times() {
+    global $alerts_template;
     return $alerts_template->alert->triggered_num;
-    
 }
-function bp_alert_active(){
+
+function bp_alert_active() {
     global $alerts_template;
     return $alerts_template->alert->active;
-   
 }
 
 function bp_alert_get_posted_date() {
@@ -101,6 +100,34 @@ function bp_alert_get_permalink() {
 
     //return bloginfo("url") . "/" . $bp->alerts->root_slug . "/" . $bp->alerts->alerts_subdomain . $alerts_template->alert->id;
     return apply_filters("bp_alert_get_permalink", trailingslashit(bp_get_root_domain() . "/" . $bp->alerts->root_slug . "/" . $slug));
+}
+
+//Check for alert actions (delete-activate/deactivate an alert)
+function bp_alerts_check_modifications() {
+    $alert_action = (isset($_GET['delete']) ? "delete" : "");
+    $alert_action = (isset($_GET['activate']) ? "activate" : $alert_action);
+
+    switch ($alert_action) {
+
+        //Delete the current alert
+        case("delete") :
+            if (BP_Alert::delete_by_alert_id($_GET['delete']))
+                bp_core_add_message(__('Alert has been successfuly deleted!', 'bp-alerts'), 'success');
+            else
+                bp_core_add_message(__('An error was occured!Alert was not able to be deleted...', 'bp-alerts'), 'error');
+            break;
+        //Activate deactivate current alert
+        case("activate"):
+            if (BP_Alert::modify_alert_status_by_id($_GET['alert'], $_GET['activate']))
+                bp_core_add_message(__('Alert state has been changed!', 'bp-alerts'), 'success');
+            else
+                bp_core_add_message(__('An error was occured!Alert state was not able to be changed...', 'bp-alerts'), 'error');
+            break;
+
+        default:
+            return;
+    }
+    bp_core_redirect(bp_alert_get_permalink());
 }
 
 function bp_alerts_owner_name() {
@@ -222,16 +249,22 @@ function bp_directory_alerts_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-alerts-form"> 
-        <span data-toggle="tooltip" data-placement="left" title="Fill in the description of the alert you are looking for..." class="glyphicon glyphicon-question-sign"></span>
-		<label style="vertical-align:middle"><input type="text" name="s" id="alerts_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" id="alerts_search_submit" name="alerts_search_submit" value="' . __('Search', 'buddypress') . '" />
+        <span data-toggle="tooltip" data-placement="left" title="Filter the results by the status of the alerts.." class="glyphicon glyphicon-question-sign"></span>
+		<label style="vertical-align:middle">
+       <select name="alert-status" id="alert-status">
+            <option value="none"  selected="selected"> (ALL)</option>
+            <option value = "1">Active</option>"
+            <option value = "0">Deactive</option>"
+        </select>
+                    </label>
+		<input type="submit" id="alerts_search_submit" name="alerts_search_submit" value="' . __('Filter', 'buddypress') . '" /><br><br>
 	</form>';
 
     echo apply_filters('bp_directory_alerts_search_form', $search_form_html);
 }
 
 /**
- * Is this page part of the Tool/Facility component?
+ * Is this page part of the Alert component?
  *
  * Having a special function just for this purpose makes our code more readable elsewhere, and also
  * allows us to place filter 'bp_is_alert_component' for other components to interact with.
@@ -366,7 +399,7 @@ class BP_Alerts_Template {
             echo "<b>Unsupported operation exception</b><br>single-alert";
             die();
         } else {
-            
+
             //Store the alerts of the user to an array()
             $this->alerts = alerts_get_alerts(array(
                 'type' => $type,
@@ -414,8 +447,8 @@ class BP_Alerts_Template {
                 'format' => '',
                 'total' => ceil((int) $this->total_alert_count / (int) $this->pag_num),
                 'current' => $this->pag_page,
-                'prev_text' => _x('&larr;', 'Tool/Facility pagination previous text', 'buddypress'),
-                'next_text' => _x('&rarr;', 'Tool/Facility pagination next text', 'buddypress'),
+                'prev_text' => _x('&larr;', 'Alert pagination previous text', 'buddypress'),
+                'next_text' => _x('&rarr;', 'Alert pagination next text', 'buddypress'),
                 'mid_size' => 1
             ));
         }

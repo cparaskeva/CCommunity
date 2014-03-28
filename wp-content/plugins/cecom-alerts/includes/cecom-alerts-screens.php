@@ -19,7 +19,7 @@ function bp_alerts_directory_setup() {
 
         // Add an action so that plugins can add content or modify behavior
         do_action('bp_alerts_directory_setup');
-        bp_core_load_template(apply_filters('example_directory_template', 'alerts/index'));
+        bp_core_load_template(apply_filters('alerts_directory_template', 'alerts/index'));
     }
 }
 

@@ -16,7 +16,7 @@ class BP_Alert {
     var $uid; //User ID
     var $gid; //Group ID
     var $action_id;
-    var $action_type;
+    var $action_query;
     var $active;
     var $date;
     var $triggered_num;
@@ -35,7 +35,7 @@ class BP_Alert {
             'uid' => 0, //User ID
             'gid' => 0, //Group ID
             'action_id' => "0",
-            'action_type' => "",
+            'action_query' => "",
             'active' => "",
             'date' => date('Y-m-d H:i:s'),
             'triggered_num' => 0,
@@ -73,7 +73,7 @@ class BP_Alert {
             $this->uid = $alert->uid; //User ID
             $this->gid = $alert->gid; //Group ID
             $this->action_id = $alert->action_id;
-            $this->action_type = $alert->action_type;
+            $this->action_query = $alert->action_query;
             $this->active = $alert->active;
             $this->date = $alert->date;
             $this->triggered_num = $alert->triggered_num;
@@ -109,7 +109,7 @@ class BP_Alert {
         $this->uid = apply_filters('bp_alerts_data_before_save', $this->uid);
         $this->gid = apply_filters('bp_alerts_data_before_save', $this->gid);
         $this->action_id = apply_filters('bp_alerts_data_before_save', $this->action_id);
-        $this->action_type = apply_filters('bp_alerts_data_before_save', $this->action_type);
+        $this->action_query = apply_filters('bp_alerts_data_before_save', $this->action_query);
         $this->active = apply_filters('bp_alerts_data_before_save', $this->active);
         $this->date = apply_filters('bp_alerts_data_before_save', $this->date);
         $this->triggered_num = apply_filters('bp_alerts_data_before_save', $this->triggered_num);
@@ -136,7 +136,7 @@ class BP_Alert {
                 'uid' => $this->uid, //User ID
                 'gid' => $this->gid, //Group ID
                 'action_id' => $this->action_id,
-                'action_type' => $this->action_type,
+                'action_query' => $this->action_query,
                 'active' => $this->active,
                 'date' => $this->date,
                 'triggered_num' => $this->triggered_num,);
@@ -181,6 +181,32 @@ class BP_Alert {
 
     function delete_by_user_id() {
         
+    }
+
+    //Delete an alert from the DB based on it's ID
+    static function delete_by_alert_id($alert_id) {
+        if (!$alert_id)
+            return false;
+
+        global $wpdb, $bp;
+
+        wp_cache_delete('bp_alerts_alert_' . $alert_id, 'bp');
+
+        // Remove the alert entry from the DB
+        if (!$wpdb->query($wpdb->prepare("DELETE FROM {$bp->alerts->table_name} WHERE id = %d", $alert_id)))
+            return false;
+
+        return true;
+    }
+
+    //Change status of a specific alert to be active or not
+    static function modify_alert_status_by_id($alert_id, $status) {
+        if (!$alert_id || ($status != 0 && $status != 1 ))
+            return false;
+        global $wpdb, $bp;
+        if (!$wpdb->update($bp->alerts->table_name, array('active' => $status), array('ID' => $alert_id), array('%d')))
+            return false;
+        return true;
     }
 
     function get_alert_details($alert_id = 0) {
@@ -254,19 +280,7 @@ class BP_Alert {
         }
     }
 
-
- /*   //Fetch the available payment qualification types
-    public static function getPaymentTypes() {
-        global $wpdb;
-        $alert_payment = $wpdb->get_results("SELECT * FROM ext_alert_payment order by description asc");
-        if (!is_array($alert_payment))
-            return nil;
-        return $alert_payment;
-    } */
-
-
     /* Queries staff */
-
 
     public static function get($args = array()) {
 
@@ -404,8 +418,8 @@ class BP_Alert {
             //print_r($search_extras_args);
             //If calculation is success continue
             if (!empty($search_extras_args)) {
-                //Take into account graphical coverage
-                $serach_extras_query.= ($search_extras_args['alert-country'] != '' ? "AND country_id='{$search_extras_args['alert-country']}' " : "");
+                //Take into account alert activation state
+                $serach_extras_query.= ($search_extras_args['alert-status'] != 'none' ? "AND active='{$search_extras_args['alert-status']}' " : "");
             }
         }
         //echo "Meta Query: " . $serach_extras_query;
@@ -457,7 +471,6 @@ class BP_Alert {
             default :
                 $order_by_term = 'date';
                 break;
-
             case 'name' :
                 $order_by_term = 'g.name';
                 break;
@@ -466,6 +479,46 @@ class BP_Alert {
         return $order_by_term;
     }
 
+}
+
+final class BP_Alert_Factory {
+
+    public function __construct() {
+        define("SEARCH_ORGANIZATION_ARGS", md5("organization-sectors;|organization-subsectors;|organization-collaboration;|organization-transaction;|organization-size;none|organization-type;none|collaboration-description;|collaboration-type;none|collaboration-partner-sought;none|collaboration-programs;none|offer-type;none|organization-country;"));
+        define("SEARCH_ORGANIZATION_READY_TO_COLLABORATE_DEVELOP_ARGS", md5(""));
+        define("SEARCH_ORGANIZATION_READY_TO_COLLABORATE_FUNDING_ARGS", md5(""));
+        define("SEARCH_OFFER_PATENT_LICENSE_ARGS", md5(""));
+        define("SEARCH_OFFER_FUNDING_ARGS", md5(""));
+        add_action("cecom_alert_box","cecom_get_alert_div");
+    }
+
+    //Check whenever or not an alert can be set in a specific query
+    static function isAlertPermited($action, $action_hash) {
+        switch ($action) {
+            case(1):return $action_hash === SEARCH_ORGANIZATION_ARGS;
+            case(2):return $action_hash === SEARCH_ORGANIZATION_READY_TO_COLLABORATE_DEVELOP_ARGS;
+            case(3):return $action_hash === SEARCH_ORGANIZATION_READY_TO_COLLABORATE_FUNDING_ARGS;
+            case(4):return $action_hash === SEARCH_OFFER_PATENT_LICENSE_ARGS;
+            case(5):return $action_hash === SEARCH_OFFER_FUNDING_ARGS;
+            default: return false;
+        }
+    }
+
+    
+    function cecom_get_alert_div(){
+        die();
+        echo '<div style="text-align:center;"><br>
+                 <span data-toggle="tooltip" data-placement="left" title="Clicking this button will set an alert on this query. You will receive a notification when a new organisation registration  corresponds to your needs." class="glyphicon glyphicon-question-sign"></span>
+                 <input disabled="true" type="submit" class="btn btn-warning" value="Set an alert!"/> 
+            </div>';
+        
+        
+        
+    }
+    
+   
+    
+    
 }
 
 ?>

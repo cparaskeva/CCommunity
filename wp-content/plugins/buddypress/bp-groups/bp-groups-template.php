@@ -278,6 +278,8 @@ class BP_Groups_Template {
  * @return bool True if there are groups to display that match the params
  */
 function bp_has_groups($args = '') {
+    
+    print_r($_POST);
     global $groups_template, $bp;
 
     /*     * *
