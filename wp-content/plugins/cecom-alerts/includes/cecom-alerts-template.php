@@ -104,9 +104,10 @@ function bp_alert_get_permalink() {
 
 //Check for alert actions (delete-activate/deactivate an alert)
 function bp_alerts_check_modifications() {
+    
     $alert_action = (isset($_GET['delete']) ? "delete" : "");
     $alert_action = (isset($_GET['activate']) ? "activate" : $alert_action);
-
+    $alert_action = (isset($_GET['action_id']) ? "new_alert" : $alert_action );
     switch ($alert_action) {
 
         //Delete the current alert
@@ -122,6 +123,28 @@ function bp_alerts_check_modifications() {
                 bp_core_add_message(__('Alert state has been changed!', 'bp-alerts'), 'success');
             else
                 bp_core_add_message(__('An error was occured!Alert state was not able to be changed...', 'bp-alerts'), 'error');
+            break;
+
+        //Create a new alert   
+        case("new_alert"):
+
+            global $bp;
+            $group_id = CECOM_Organization::getUserGroupID();
+            $user_id = $bp->loggedin_user->id;
+            $alert_new = array(
+                'id' => 0,
+                'uid' => $user_id, //User ID
+                'gid' => $group_id, //Group ID
+                'action_id' => $_GET['action_id'], //Action ID
+                'action_query' => urldecode($_GET['query']),
+                'active' => 1,
+                'date' => date('Y-m-d H:i:s')
+            ); 
+             if (bp_alerts_publish_alert($alert_new))
+                    bp_core_add_message(__('Your alert has been succesfuly set!', 'bp-alerts'), 'success');
+                else
+                    bp_core_add_message(__('Unable to insert infromation to database..', 'bp-alerts'), 'error');
+
             break;
 
         default:

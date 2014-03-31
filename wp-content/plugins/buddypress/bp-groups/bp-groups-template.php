@@ -279,7 +279,6 @@ class BP_Groups_Template {
  */
 function bp_has_groups($args = '') {
     
-    print_r($_POST);
     global $groups_template, $bp;
 
     /*     * *

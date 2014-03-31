@@ -7,7 +7,6 @@
 ?>
 
 <?php
-
 /*if (isset($_COOKIE["offer_type"])) {
     echo "cookie is set! with val ".$_COOKIE["offer_type"];
     unset($_COOKIE["offer_type"]);

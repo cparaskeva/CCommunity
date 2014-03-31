@@ -50,6 +50,9 @@
 
     <?php do_action('bp_after_directory_offers_list'); ?>
 
+        <?php if (bp_offers_current_category() == 3) BP_Alert_Factory::getAlertBox(); ?>
+
+
     <div id="pag-bottom" class="pagination text-muted">
 
         <div class="pag-count" id="offers-dir-count-bottom">

@@ -143,28 +143,7 @@ class BP_Alerts_Component extends BP_Component {
 
         //Set the subdomain for each alert e.g. /cecommunity/alerts/{subdomain}{alertID}
         $bp->{$this->id}->alerts_subdomain = 'alert';
-
-        /** Single Alert Globals ********************************************* */
-        // Are we viewing a single alert?
-        if (bp_is_alert_component() && $alert_id = BP_Alert::alert_exists(bp_current_action())) {
-            $bp->is_single_item = true;
-            $current_alert_class = apply_filters('bp_alerts_current_alert_class', 'BP_Alert');
-            $this->current_alert = apply_filters('bp_alerts_current_alert_object', new $current_alert_class(Array('id' => $alert_id)));
-            $this->current_alert->slug = $bp->{$this->id}->alerts_subdomain . $alert_id;
-
-            // When in a single alert, the first action is bumped down one because of the
-            // alert name, so we need to adjust this and set the group name to current_item.
-            $bp->current_item = bp_current_action();
-            $bp->current_action = bp_action_variable(0);
-            array_shift($bp->action_variables);
-
-            //Set if the user is owner of the alert
-            bp_update_is_item_admin(bp_loggedin_user_id() == $this->current_alert->uid, 'alerts');
-
-            //echo "Current Action: ".$bp->current_action." AlertID: ".$alert_id. "   ". $bp->is_single_item. "Single item? ". bp_is_single_item() ; //die();
-        } else {
-            $this->current_alert = 0;
-        }
+        $this->current_alert = 0;
     }
 
     /**
@@ -199,56 +178,9 @@ class BP_Alerts_Component extends BP_Component {
             'position' => 10
         );
 
-        // Add the subnav items to the friends nav item
-        $sub_nav[] = array(
-            'name' => __('Alerts Other', 'cecom-alerts'),
-            'slug' => 'create-alert',
-            'parent_url' => $alert_link,
-            'parent_slug' => bp_get_alerts_slug(),
-            'screen_function' => 'bp_alerts_create_alert',
-            'position' => 20
-        );
 
-        
         parent::setup_nav($main_nav, $sub_nav);
 
-
-        if (bp_is_alert_component() && bp_is_single_item()) {
-
-            // Reset sub nav
-            $sub_nav = array();
-
-            // Add 'Groups' to the main navigation
-            $main_nav = array(
-                'name' => __('Home', 'buddypress'),
-                'slug' => $this->current_alert->slug,
-                'position' => -1, // Do not show in BuddyBar
-                'screen_function' => 'alerts_screen_alert_home',
-                'default_subnav_slug' => $this->default_extension,
-                'item_css_id' => $this->id
-            );
-
-            $alert_link = trailingslashit(bp_get_root_domain() . '/' . bp_get_alerts_root_slug() . '/' . $this->current_alert->slug . '/');
-
-            // If the user is alert ownner, then show the alert admin nav item
-            if (bp_is_item_admin()) {
-                global $bp;
-                $sub_nav[] = array(
-                    'name' => __('Admin', 'buddypress'),
-                    'slug' => 'admin',
-                    'parent_url' => $alert_link,
-                    'parent_slug' => $this->current_alert->slug,
-                    'screen_function' => 'alerts_screen_alert_admin',
-                    'position' => 40,
-                    'user_has_access' => true,
-                    'item_css_id' => 'admin'
-                );
-            }
-
-
-
-            parent::setup_nav($main_nav, $sub_nav);
-        }
 
         if (isset($this->current_alert->user_has_access)) {
             do_action('alerts_setup_nav', $this->current_alert->user_has_access);

@@ -2,9 +2,9 @@
 
 //Set true, enabling debug mode
 if (!defined('DEBUG'))
-    define('DEBUG',true);
+    define('DEBUG', true);
 
-define('CECOM_DISABLE_ADMIN_BAR',false);
+define('CECOM_DISABLE_ADMIN_BAR', false);
 
 
 /* DO NOT MODIFY THE FOLLOWING FUNCTIONS
@@ -25,7 +25,7 @@ function cecom_is_register_page() {
 function cecom_is_activation_page() {
     preg_match('/(\/[a-z]*\/[a-z]*\/).*$/i', $_SERVER['REQUEST_URI'], $matches);
     return ($matches[1] == "/cecommunity/activate/");
-    
+
     //return (rtrim($_SERVER['REQUEST_URI'], "/") == "/cecommunity/activate");
 }
 
@@ -142,8 +142,30 @@ if (defined('DEBUG') && DEBUG) {
 }
 
 //Disable the admin bar but still show it if the user is a wordpress admin
-if (defined('CECOM_DISABLE_ADMIN_BAR') && CECOM_DISABLE_ADMIN_BAR == true && !current_user_can( 'manage_options' ))
+if (defined('CECOM_DISABLE_ADMIN_BAR') && CECOM_DISABLE_ADMIN_BAR == true && !current_user_can('manage_options'))
     show_admin_bar(false);
+
+//Define all alerts fingertips -- Used only within BP_Alert_Factory CLASS:
+define("SEARCH_ORGANIZATION_ARGS", md5("organization-sectors;|organization-subsectors;|organization-collaboration;|organization-transaction;|organization-size;none|organization-type;none|collaboration-description;|collaboration-type;none|collaboration-partner-sought;none|collaboration-programs;none|offer-type;none|organization-country;|text;"));
+define("SEARCH_ORGANIZATION_READY_TO_COLLABORATE_DEVELOP_ARGS", md5("organization-sectors;|organization-subsectors;|organization-collaboration;|organization-transaction;|organization-size;none|organization-type;none|collaboration-description;|collaboration-type;none|collaboration-partner-sought;none|collaboration-programs;none|offer-type;1|organization-country;|text;"));
+define("SEARCH_ORGANIZATION_READY_TO_COLLABORATE_FUNDING_ARGS", md5("organization-sectors;|organization-subsectors;|organization-collaboration;|organization-transaction;|organization-size;none|organization-type;none|collaboration-description;|collaboration-type;none|collaboration-partner-sought;none|collaboration-programs;none|offer-type;2|organization-country;|text;"));
+define("SEARCH_OFFER_PATENT_LICENSE_ARGS", md5("patent-license-sectors;|patent-license-subsectors;|patent-license-type;none|patent-license-exchange;none|patent-license-countries;none|organization-name;|organization-type;none|organization-country;|text;"));
+define("SEARCH_OFFER_FUNDING_ARGS", md5("offer-sectors;|offer-type;3|collaboration-type;none|collaboration-partner-sought;none|collaboration-programs;none|applyable-countries;none|finance-stage;none|text;"));
+
+
+
+ function cron_add_minute( $schedules ) {
+     
+ 	// Adds once weekly to the existing schedules.
+ 	$schedules['minute'] = array(
+ 		'interval' => 1,
+ 		'display' => __( 'Every Minute' )
+ 	);
+ 	return $schedules;
+ }
+
+  add_filter('cron_schedules', 'cron_add_minute');
+
 
 
 ?>

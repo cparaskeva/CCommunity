@@ -42,6 +42,7 @@
 
     </ul>
 
+    <?php BP_Alert_Factory::getAlertBox(); ?>
 
     <div id="pag-bottom" class="pagination text-muted">
 

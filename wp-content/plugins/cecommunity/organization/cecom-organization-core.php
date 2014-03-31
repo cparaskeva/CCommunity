@@ -257,7 +257,7 @@ class CECOM_Organization {
                     $search_offers_subquery = " AND g.id in (SELECT gid from ext_offer WHERE type_id='{$search_extras_args['offer-type']}' ".$search_offers_subquery. " ) ";
                     
                 //echo "Supported category ".bp_offers_current_category(); 
-                echo "Offers Subquery : " .$search_offers_subquery;
+                //echo "Offers Subquery : " .$search_offers_subquery;
                     // and gid in (select gid from ext_offer where type_id =1)
                     
                 }

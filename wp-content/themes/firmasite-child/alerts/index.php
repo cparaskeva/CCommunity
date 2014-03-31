@@ -10,8 +10,6 @@
 //Before anything happens check for alert modifications
 bp_alerts_check_modifications();
 
-
-
 global $firmasite_settings;
 get_header('buddypress');
 
@@ -21,6 +19,9 @@ wp_enqueue_script('bootstrapformhelpers');
 /* Import CSS files */
 wp_enqueue_style('bootstrapformhelpers-style');
 
+
+print_r(wp_get_schedules());
+echo "Next event: ".wp_next_scheduled("trexenadoume");
 global $bp;
 ?>
 
@@ -45,8 +46,11 @@ global $bp;
             <!-- Quick solution to fix the selected tab using $_Cookie[scope]-->
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
+                    
+                    <?php if (current_user_can('manage_options')):?>
+                    
                     <li  class="<?php echo ($_COOKIE['bp-alerts-scope'] == "all" || (empty($_COOKIE['bp-alerts-scope']) && empty($_COOKIE['bp-alerts-scope']) ) ? "selected" : "") ?>" id="alerts-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_alerts_root_slug()); ?>"><?php printf(__('All Alerts<span>%s</span>', 'buddypress'), bp_get_total_alerts_count()); ?></a></li>
-
+                    <?php endif; ?>
 
                     <?php if (is_user_logged_in() && bp_get_total_alerts_count_for_user(bp_loggedin_user_id())) : ?>
                         <li class="<?php echo ($_COOKIE['bp-alerts-scope'] == "personal" ? "selected" : "") ?>" id="alerts-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_alerts_slug() . '/my-alerts'); ?>"><?php printf(__('My Alerts <span>%s</span>', 'firmasite'), bp_get_total_alerts_count_for_user(bp_loggedin_user_id())); ?></a></li>

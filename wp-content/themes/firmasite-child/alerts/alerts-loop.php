@@ -36,9 +36,10 @@
                         <?php else: ?>
                             <span class="activity label label-danger">Alert is NOT active!</span>
                         <?php endif; ?>
-                        <span class="activity label label-info"><?php printf(__('Created: %s', 'firmasite'), bp_alert_get_posted_date()); ?></span></div>
+                        <span class="activity label label-info"><?php printf(__('Created: %s', 'firmasite'), bp_alert_get_posted_date()); ?></span>
+                    </div>
                     The alert has been triggered <span class="badge"><?php echo bp_alert_triggered_times(); ?></span> times!
-                    <div class="pull-right">
+                    <div class="pull-right"> 
                         <input onclick="window.location.href = '/cecommunity/alerts?delete=<?php bp_alert_id(); ?>'" name="alert-delete" class="btn-warning" type="submit" value="Delete alert!" />
                         <input onclick="window.location.href = '/cecommunity/alerts?activate=<?php echo (bp_alert_active()?0:1) ?>&alert=<?php bp_alert_id(); ?>'" name="alert-activate" class="<?php echo (bp_alert_active()?"btn-danger":"btn-success") ?>" type="submit" value="<?php echo (bp_alert_active()?"Deactivate alert!":"Activate alert!") ?>" />
                     </div>

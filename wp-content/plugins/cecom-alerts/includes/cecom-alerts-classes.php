@@ -34,9 +34,9 @@ class BP_Alert {
             'id' => 0,
             'uid' => 0, //User ID
             'gid' => 0, //Group ID
-            'action_id' => "0",
+            'action_id' => 0,
             'action_query' => "",
-            'active' => "",
+            'active' => 1,
             'date' => date('Y-m-d H:i:s'),
             'triggered_num' => 0,
         );
@@ -304,14 +304,14 @@ class BP_Alert {
         $total_sql = array();
 
         //TODO: Proper handle of selection clause
-        $sql['select'] = "SELECT alert.*";
+        $sql['select'] = "SELECT alert.*,action.description ";
 
         //Main table to fetch the information
-        $sql['from'] = " FROM {$bp->alerts->table_name} as alert";
+        $sql['from'] = " FROM {$bp->alerts->table_name} as alert,ext_alert_action as action";
 
 
         //Query Where clause 
-        $sql['where'] = "WHERE 1";
+        $sql['where'] = "WHERE 1 AND alert.action_id=action.id";
 
         if (!empty($r['user_id'])) {
             $sql['user'] = " AND uid = {$r['user_id']}";
@@ -483,42 +483,81 @@ class BP_Alert {
 
 final class BP_Alert_Factory {
 
-    public function __construct() {
-        define("SEARCH_ORGANIZATION_ARGS", md5("organization-sectors;|organization-subsectors;|organization-collaboration;|organization-transaction;|organization-size;none|organization-type;none|collaboration-description;|collaboration-type;none|collaboration-partner-sought;none|collaboration-programs;none|offer-type;none|organization-country;"));
-        define("SEARCH_ORGANIZATION_READY_TO_COLLABORATE_DEVELOP_ARGS", md5(""));
-        define("SEARCH_ORGANIZATION_READY_TO_COLLABORATE_FUNDING_ARGS", md5(""));
-        define("SEARCH_OFFER_PATENT_LICENSE_ARGS", md5(""));
-        define("SEARCH_OFFER_FUNDING_ARGS", md5(""));
-        add_action("cecom_alert_box","cecom_get_alert_div");
-    }
-
     //Check whenever or not an alert can be set in a specific query
     static function isAlertPermited($action, $action_hash) {
         switch ($action) {
-            case(1):return $action_hash === SEARCH_ORGANIZATION_ARGS;
-            case(2):return $action_hash === SEARCH_ORGANIZATION_READY_TO_COLLABORATE_DEVELOP_ARGS;
-            case(3):return $action_hash === SEARCH_ORGANIZATION_READY_TO_COLLABORATE_FUNDING_ARGS;
-            case(4):return $action_hash === SEARCH_OFFER_PATENT_LICENSE_ARGS;
-            case(5):return $action_hash === SEARCH_OFFER_FUNDING_ARGS;
+            case(1):return $action_hash !== SEARCH_ORGANIZATION_ARGS;
+            case(2):return $action_hash !== SEARCH_ORGANIZATION_READY_TO_COLLABORATE_DEVELOP_ARGS;
+            case(3):return $action_hash !== SEARCH_ORGANIZATION_READY_TO_COLLABORATE_FUNDING_ARGS;
+            case(4):return $action_hash !== SEARCH_OFFER_PATENT_LICENSE_ARGS;
+            case(5):return $action_hash !== SEARCH_OFFER_FUNDING_ARGS;
             default: return false;
         }
     }
 
-    
-    function cecom_get_alert_div(){
-        die();
+    static function getAlertBox() {
+
+        //Check if the user is using the seatch
+        if (empty($_POST))
+            return;
+
+        //Get current alert_id based on the current component
+        $action_id = self::getAlertActionID();
+        $query = $_POST['search_extras'] . "|text;" . $_POST['search_terms'];
+        $action_hash = md5($query);
+
+
+        //Check if alert is permitted to be set in the current state
+        if (self::isAlertPermited($action_id, $action_hash)) {
+            $is_allowed = self::check_existed_alert(urldecode($query), $action_id);
+
+            $url = "/cecommunity/alerts?" . ("action_id=" . $action_id . "&query=" . urlencode($query));
+            self::print_alert_div($is_allowed, $url);
+            return;
+        }
+       // echo "Not permitted!";
+    }
+
+    //Returns the action id for a specific alert based on the current component
+    static function getAlertActionID() {
+        global $bp;
+        $alert_action = $bp->current_component;
+
+        switch ($alert_action) {
+            case("groups"): {
+                    $current_category = bp_offers_current_category();
+                    if ($current_category == "none")
+                        return 1;
+                    return ( $current_category > 2 ? 0 : $current_category + 1);
+                }
+            case("offers"): {//Funding Only
+                    return 3;
+                }
+            case("patents_licenses"): {
+                    return 4;
+                }
+            //If nothing else match return 0 which means that action id cannot be retrieved!    
+            default: return 0;
+        }
+    }
+
+    static function print_alert_div($is_exist = false, $url = "") {
         echo '<div style="text-align:center;"><br>
                  <span data-toggle="tooltip" data-placement="left" title="Clicking this button will set an alert on this query. You will receive a notification when a new organisation registration  corresponds to your needs." class="glyphicon glyphicon-question-sign"></span>
-                 <input disabled="true" type="submit" class="btn btn-warning" value="Set an alert!"/> 
+                 <input ' . ( $is_exist ? "disabled='true'" : "") . ' onclick="window.location.href=\' ' . $url . '\'"  type="submit" class="btn btn-warning" value="' . ( $is_exist ? "Alert already set!" : "Set an alert!") . ' "/> 
             </div>';
-        
-        
-        
     }
-    
-   
-    
-    
+
+    //Check if an already alert has been set to a sepcific search query
+    static function check_existed_alert($query, $action_id) {
+        global $wpdb, $bp;
+        $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->alerts->table_name} WHERE uid={$bp->loggedin_user->id} AND action_query='$query';");
+        /*echo "Counted matched : " . $count;
+        echo "Mysql query: " . "SELECT COUNT(id) FROM {$bp->alerts->table_name} WHERE uid={$bp->loggedin_user->id} AND action_id=$action_id AND action_query='$query';" . "<br>";
+        echo "Query: " . $query . "<br>";*/
+        return $count;
+    }
+
 }
 
 ?>
