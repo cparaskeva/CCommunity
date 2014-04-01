@@ -38,32 +38,22 @@ register_activation_hook(__FILE__, 'bp_alerts_activate');
 /* Put setup procedures to be run when the plugin is activated in the following function */
 
 function bp_alerts_activate() {
-
-    global $wpdb;
-    $wpdb->insert("temp", array('posted' => date('Y-m-d H:i:s')), "%s");
-   
-
-    wp_schedule_event(time(), 'minute', 'trexenadoume');
-}
-
-add_action('trexenadoume', 'trexenadoumefunction');
-
-/**
- * On the scheduled action hook, run the function.
- */
-function trexenadoumefunction() {
-    global $wpdb;
-    $wpdb->insert("temp", array('posted' => date('Y-m-d H:i:s')), "%s");
+    wp_schedule_event(time(), 'minute', 'cecom_alerts');
 }
 
 /* On deacativation, clean up anything your component has added. */
 
 function bp_alerts_deactivate() {
-
-
-    wp_clear_scheduled_hook('trexenadoume');
+    wp_clear_scheduled_hook('cecom_alerts');
     /* You might want to delete any options or tables that your component created. */
 }
 
 register_deactivation_hook(__FILE__, 'bp_alerts_deactivate');
+
+add_action('cecom_alerts', 'cecom_tigger_alert_system');
+
+function cecom_tigger_alert_system() {    
+    BP_Alert_Factory::activate_alert_system();
+}
+
 ?>

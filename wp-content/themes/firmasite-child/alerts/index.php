@@ -19,9 +19,9 @@ wp_enqueue_script('bootstrapformhelpers');
 /* Import CSS files */
 wp_enqueue_style('bootstrapformhelpers-style');
 
-
-//print_r(wp_get_schedules());
-//echo "Next event: ".wp_next_scheduled("trexenadoume");
+//do_action("cecom_alerts");
+print_r(wp_get_schedules());
+//echo "Next event: ".wp_next_scheduled("cecom_alerts");
 global $bp;
 ?>
 

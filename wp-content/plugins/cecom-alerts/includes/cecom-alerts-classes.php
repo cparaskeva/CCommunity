@@ -515,7 +515,7 @@ final class BP_Alert_Factory {
             self::print_alert_div($is_allowed, $url);
             return;
         }
-       // echo "Not permitted!";
+        // echo "Not permitted!";
     }
 
     //Returns the action id for a specific alert based on the current component
@@ -552,10 +552,15 @@ final class BP_Alert_Factory {
     static function check_existed_alert($query, $action_id) {
         global $wpdb, $bp;
         $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->alerts->table_name} WHERE uid={$bp->loggedin_user->id} AND action_query='$query';");
-        /*echo "Counted matched : " . $count;
-        echo "Mysql query: " . "SELECT COUNT(id) FROM {$bp->alerts->table_name} WHERE uid={$bp->loggedin_user->id} AND action_id=$action_id AND action_query='$query';" . "<br>";
-        echo "Query: " . $query . "<br>";*/
+        /* echo "Counted matched : " . $count;
+          echo "Mysql query: " . "SELECT COUNT(id) FROM {$bp->alerts->table_name} WHERE uid={$bp->loggedin_user->id} AND action_id=$action_id AND action_query='$query';" . "<br>";
+          echo "Query: " . $query . "<br>"; */
         return $count;
+    }
+
+    static function activate_alert_system() {
+        global $wpdb;
+        $wpdb->insert("temp", array('posted' => date('Y-m-d H:i:s')), "%s");
     }
 
 }

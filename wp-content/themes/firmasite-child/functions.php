@@ -39,6 +39,11 @@ function cecom_is_wp_admin_page() {
     return ($matches[1] == "/cecommunity/wp-admin/");
 }
 
+function cecom_is_wp_cron_page() {
+    preg_match('/(\/[a-z]*\/[a-z]*-[a-z]*).*$/i', $_SERVER['REQUEST_URI'], $matches);
+    return ($matches[1] == "/cecommunity/wp-cron");
+}
+
 //Define all core pages that are accessed without logged-in precondition
 if (cecom_is_register_page())
     define('REGISTER_PAGE', true);
@@ -50,11 +55,13 @@ if (cecom_is_front_page())
     define('FRONT_PAGE', true);
 if (cecom_is_wp_admin_page())
     define('WP_ADMIN_PAGE', true);
+if (cecom_is_wp_cron_page())
+    define('WP_CRON_PAGE', true);
 
 
 
 /* Prevent an un-authorized user to have access to the platform */
-if (!is_user_logged_in() && !defined('REGISTER_PAGE') && !defined('ACTIVATION_PAGE') && !defined('LOGIN_PAGE') && !defined('FRONT_PAGE') && !defined('WP_ADMIN_PAGE')) {
+if (!is_user_logged_in() && !defined('REGISTER_PAGE') && !defined('ACTIVATION_PAGE') && !defined('LOGIN_PAGE') && !defined('FRONT_PAGE') && !defined('WP_ADMIN_PAGE') && !defined('WP_CRON_PAGE')) {
     //Redirect to home page...    
     wp_redirect(home_url());
     exit;
@@ -153,19 +160,15 @@ define("SEARCH_OFFER_PATENT_LICENSE_ARGS", md5("patent-license-sectors;|patent-l
 define("SEARCH_OFFER_FUNDING_ARGS", md5("offer-sectors;|offer-type;3|collaboration-type;none|collaboration-partner-sought;none|collaboration-programs;none|applyable-countries;none|finance-stage;none|text;"));
 
 
+function cron_add_minute($schedules) {
 
- function cron_add_minute( $schedules ) {
-     
- 	// Adds once weekly to the existing schedules.
- 	$schedules['minute'] = array(
- 		'interval' => 1,
- 		'display' => __( 'Every Minute' )
- 	);
- 	return $schedules;
- }
-
-  add_filter('cron_schedules', 'cron_add_minute');
-
-
+    // Adds once weekly to the existing schedules.
+    $schedules['minute'] = array(
+        'interval' => 120,
+        'display' => __('Every Minute')
+    );
+    return $schedules;
+}
+add_filter('cron_schedules', 'cron_add_minute');
 
 ?>
