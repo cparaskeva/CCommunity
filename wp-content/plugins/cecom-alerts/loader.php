@@ -38,7 +38,7 @@ register_activation_hook(__FILE__, 'bp_alerts_activate');
 /* Put setup procedures to be run when the plugin is activated in the following function */
 
 function bp_alerts_activate() {
-    wp_schedule_event(time(), 'minute', 'cecom_alerts');
+    wp_schedule_event(time(), 'alert_system', 'cecom_alerts');
 }
 
 /* On deacativation, clean up anything your component has added. */
@@ -53,7 +53,7 @@ register_deactivation_hook(__FILE__, 'bp_alerts_deactivate');
 add_action('cecom_alerts', 'cecom_tigger_alert_system');
 
 function cecom_tigger_alert_system() {    
-    BP_Alert_Factory::activate_alert_system();
+    BP_Alert_Factory::run_alert_system();
 }
 
 ?>

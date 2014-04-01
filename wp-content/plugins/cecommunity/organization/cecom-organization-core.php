@@ -157,7 +157,7 @@ class CECOM_Organization {
     public static function getOrganizationOfferDetails($groupID) {
         global $wpdb;
         if ($groupID)
-            return $wpdb->get_row('select name,slug,id from wp_bp_groups where id=' . $groupID,ARRAY_A);
+            return $wpdb->get_row('select name,slug,id from wp_bp_groups where id=' . $groupID, ARRAY_A);
     }
 
     //Update Organization Profile 
@@ -277,6 +277,25 @@ class CECOM_Organization {
         return $search_extras_query . $search_offers_subquery;
     }
 
+    /* The following static functions are used only by the Alerts Component */
+
+    //Return the most recent registered organizations since the previous Cron check
+    public static function fetch_recent_registered_organizations($since_time) {
+        global $wpdb;
+        return $wpdb->get_results("SELECT organizations.* FROM wp_bp_groups groups,ext_organization organizations WHERE groups.id =organizations.gid AND groups.date_created >= '$since_time' ", ARRAY_A);
+    }
+
+    public static function check_for_interested_organizations($new_organizations, $interested_organizations) {
+        foreach ($new_organizations as $organization)
+            foreach ($interested_organizations as $interested_organization)
+                self::check_for_matching_criteria($organization, $interested_organization);
+    }
+
+    public static function check_for_matching_criteria($organization,$interested_organization) {
+        echo "Organization: ".$organization['id']." Action ID: ".$interested_organization['action_id'];
+    }
+
+    /* End of alerts component functions */
 }
 
 //Initialize Organization object

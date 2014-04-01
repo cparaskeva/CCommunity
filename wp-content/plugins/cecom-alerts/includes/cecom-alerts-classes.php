@@ -558,9 +558,66 @@ final class BP_Alert_Factory {
         return $count;
     }
 
-    static function activate_alert_system() {
+    //==================================>    /* Implementation of Alert System*/
+
+    static function run_alert_system() {
+        $alert_schedule = (wp_get_schedules()['alert_system']);
+
+        //Check if alert system is not activated exit - Run only when Alerts plugin is activated!
+        if (empty($alert_schedule) && !BP_ALERTS_IS_INSTALLED)
+            return;
+
+        //Calaculate time since previous check
+        $since_time = date('Y-m-d H:i:s', time() - $alert_schedule['interval']);
+        //Get the current number of actions
+        $action_num = self::get_num_of_alert_actions();
+
+        for ($action_id = 1; $action_id <= $action_num; $action_id++) {
+            self::execute_action_alert($action_id, $since_time);
+        }
+        //global $wpdb;
+        //$wpdb->insert("temp", array('posted' => date('Y-m-d H:i:s')), "%s");
+    }
+
+    static function execute_action_alert($action_id, $since_time) {
+        switch ($action_id) {
+            case(1): {
+                    $recent_registered_organizations = (CECOM_Organization::fetch_recent_registered_organizations("2014-02-05 15:13:40"));
+                    if (count($recent_registered_organizations) && count($users_interested_organizations=self::get_alert_action_query($action_id)))
+                        CECOM_Organization::check_for_interested_organizations($recent_registered_organizations,$users_interested_organizations);
+                    break;
+                }
+            case(2): {
+
+                    break;
+                }
+            case(3): {
+
+                    break;
+                }
+
+            case(4): {
+
+                    break;
+                }
+            case(5): {
+
+                    break;
+                }
+            default:return;
+        }
+    }
+
+    //Get the total number of all the different actions of alerts
+    static function get_num_of_alert_actions() {
         global $wpdb;
-        $wpdb->insert("temp", array('posted' => date('Y-m-d H:i:s')), "%s");
+        return $wpdb->get_var("SELECT count(distinct id) FROM ext_alert_action");
+    }
+
+    //Get the queries for all the users of specific action
+    static function get_alert_action_query($action_id) {
+        global $wpdb;
+        return $wpdb->get_results("SELECT * FROM ext_alert  WHERE action_id=$action_id AND active=1 ", ARRAY_A);
     }
 
 }

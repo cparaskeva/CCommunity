@@ -160,15 +160,21 @@ define("SEARCH_OFFER_PATENT_LICENSE_ARGS", md5("patent-license-sectors;|patent-l
 define("SEARCH_OFFER_FUNDING_ARGS", md5("offer-sectors;|offer-type;3|collaboration-type;none|collaboration-partner-sought;none|collaboration-programs;none|applyable-countries;none|finance-stage;none|text;"));
 
 
-function cron_add_minute($schedules) {
+
+
+/* Used for: Alerts Component Used by: WP Cron Tiggered by: Crond(UNIX/LINUX)
+ * Function used to add custom time for CRON scheduled jobs
+ */
+
+function cron_add_alert_system_time($schedules) {
 
     // Adds once weekly to the existing schedules.
-    $schedules['minute'] = array(
+    $schedules['alert_system'] = array(
         'interval' => 120,
-        'display' => __('Every Minute')
+        'display' => __('Alert System Time')
     );
     return $schedules;
 }
-add_filter('cron_schedules', 'cron_add_minute');
+add_filter('cron_schedules', 'cron_add_alert_system_time');
 
 ?>
