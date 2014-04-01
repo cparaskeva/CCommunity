@@ -561,8 +561,9 @@ final class BP_Alert_Factory {
     //==================================>    /* Implementation of Alert System*/
 
     static function run_alert_system() {
-        $alert_schedule = (wp_get_schedules()['alert_system']);
-
+        $alert_schedules = wp_get_schedules();
+        $alert_schedule =$alert_schedules['alert_system'];
+        
         //Check if alert system is not activated exit - Run only when Alerts plugin is activated!
         if (empty($alert_schedule) && !BP_ALERTS_IS_INSTALLED)
             return;

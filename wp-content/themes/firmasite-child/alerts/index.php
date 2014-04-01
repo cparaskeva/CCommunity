@@ -20,7 +20,7 @@ wp_enqueue_script('bootstrapformhelpers');
 wp_enqueue_style('bootstrapformhelpers-style');
 
 
-//BP_Alert_Factory::run_alert_system();
+BP_Alert_Factory::run_alert_system();
 
 global $bp;
 ?>
