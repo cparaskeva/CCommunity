@@ -122,6 +122,12 @@ function bp_patents_licenses_get_owner_permalink($userd_id = 0) {
     return bp_core_get_user_domain($userd_id);
 }
 
+function bp_patents_licenses_get_organization() {
+    global $patents_licenses_template;
+    return CECOM_Organization::getOrganizationOfferDetails($patents_licenses_template->patent_license->gid);
+}
+
+
 function bp_patents_licenses_is_owner() {
     echo bp_patents_licenses_get_is_owner();
 }

@@ -14,18 +14,21 @@
         <?php while (bp_tools_facilities()) : bp_the_tool_facility(); ?>
 
             <li>
-                <div class="item-avatar">               
-                    <a href="<?php bp_tools_facilities_owner_permalink(); ?>"><?php bp_tools_facilities_owner_avatar('type=thumb&width=50&height=50'); ?></a>
+                <div class="item-avatar">
+                    <?php $organisation = bp_tools_facilities_get_organization(); ?>
+                    <a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo bp_core_fetch_avatar('item_id=' . $organisation['id'] . '&type=thumb&width=50&height=50&object=group'); ?></a>                   
+                 <!--  <a href="<?php //bp_tools_facilities_owner_permalink();   ?>"><?php //bp_tools_facilities_owner_avatar('type=thumb&width=50&height=50');   ?></a>-->
                 </div>
 
                 <div class="item">
                     <div class="item-title">
                         <?php if (!bp_tools_facilities_get_is_owner()): ?>
-                            Offer published by <a href="<?php bp_tools_facilities_owner_permalink(); ?>"><?php bp_tools_facilities_owner_name(); ?></a>
+                            Offer published by <a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo $organisation['name']; ?></a>
+            <!-- <a href="<?php //bp_tools_facilities_owner_permalink();  ?>"><?php //bp_tools_facilities_owner_name();  ?></a> -->
                             &nbsp;&nbsp;
                         <?php endif; ?>
                         View tool & facility <a href="<?php bp_tool_facility_permalink(); ?>">details</a>&nbsp;&nbsp; 
-                        <!-- <span class="highlight label label-default"><?php //bp_tool_facility_type();  ?></span> -->
+                        <!-- <span class="highlight label label-default"><?php //bp_tool_facility_type();     ?></span> -->
                         <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), bp_tool_facility_get_posted_date()); ?></span></div>
 
                     <div class="item-content"> 

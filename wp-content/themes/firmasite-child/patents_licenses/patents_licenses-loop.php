@@ -14,14 +14,17 @@
         <?php while (bp_patents_licenses()) : bp_the_patent_license(); ?>
 
             <li>
-                <div class="item-avatar">               
-                    <a href="<?php bp_patents_licenses_owner_permalink(); ?>"><?php bp_patents_licenses_owner_avatar('type=thumb&width=50&height=50'); ?></a>
+                <div class="item-avatar">   
+                    <?php $organisation = bp_patents_licenses_get_organization(); ?>
+                    <a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo bp_core_fetch_avatar('item_id=' . $organisation['id'] . '&type=thumb&width=50&height=50&object=group'); ?></a>                   
+                  <!-- <a href="<?php //bp_patents_licenses_owner_permalink();  ?>"><?php //bp_patents_licenses_owner_avatar('type=thumb&width=50&height=50');  ?></a> -->
                 </div>
 
                 <div class="item">
                     <div class="item-title">
                         <?php if (!bp_patents_licenses_get_is_owner()): ?>
-                            Offer published by <a href="<?php bp_patents_licenses_owner_permalink(); ?>"><?php bp_patents_licenses_owner_name(); ?></a>
+                            Offer published by <a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo $organisation['name']; ?></a>
+            <!-- <a href="<?php //bp_patents_licenses_owner_permalink();  ?>"><?php //bp_patents_licenses_owner_name();  ?></a>-->
                             &nbsp;&nbsp;
                         <?php endif; ?>
                         View patent & license <a href="<?php bp_patent_license_permalink(); ?>">details</a>&nbsp;&nbsp; 

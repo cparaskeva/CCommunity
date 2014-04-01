@@ -114,6 +114,12 @@ function bp_tools_facilities_owner_permalink($userd_id = 0) {
     echo bp_tools_facilities_get_owner_permalink($userd_id);
 }
 
+function bp_tools_facilities_get_organization() {
+    global $tools_facilities_template;
+    return CECOM_Organization::getOrganizationOfferDetails($tools_facilities_template->tool_facility->gid);
+}
+
+
 function bp_tools_facilities_get_owner_permalink($userd_id = 0) {
     global $tools_facilities_template;
     if (!$userd_id)

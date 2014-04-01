@@ -20,8 +20,8 @@ wp_enqueue_script('bootstrapformhelpers');
 wp_enqueue_style('bootstrapformhelpers-style');
 
 
-print_r(wp_get_schedules());
-echo "Next event: ".wp_next_scheduled("trexenadoume");
+//print_r(wp_get_schedules());
+//echo "Next event: ".wp_next_scheduled("trexenadoume");
 global $bp;
 ?>
 

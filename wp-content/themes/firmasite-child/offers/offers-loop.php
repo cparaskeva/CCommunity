@@ -15,14 +15,17 @@
         <?php while (bp_offers()) : bp_the_offer(); ?>
 
             <li>
-                <div class="item-avatar">               
-                    <a href="<?php bp_offers_owner_permalink(); ?>"><?php bp_offers_owner_avatar('type=thumb&width=50&height=50'); ?></a>
+                <div class="item-avatar">   
+                    <?php $organisation = bp_offers_get_organization(); ?>
+                    <a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo bp_core_fetch_avatar('item_id=' . $organisation['id'] . '&type=thumb&width=50&height=50&object=group'); ?></a>                   
+                    <!--
+                    <a href="<?php // bp_offers_owner_permalink();   ?>"><?php // bp_offers_owner_avatar('type=thumb&width=50&height=50');   ?></a> -->
                 </div>
-
                 <div class="item">
                     <div class="item-title">
                         <?php if (!bp_offers_get_is_owner()): ?>
-                            Offer published by <a href="<?php bp_offers_owner_permalink(); ?>"><?php bp_offers_owner_name(); ?></a>
+                            Offer published by <a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo $organisation['name']; ?></a>
+                <!-- <a href="<?php //bp_offers_owner_permalink();   ?>"><?php //bp_offers_owner_name();   ?></a> -->
                             &nbsp;&nbsp;
                         <?php endif; ?>
                         View offer <a href="<?php bp_offer_permalink(); ?>">details</a>&nbsp;&nbsp; 
@@ -50,7 +53,7 @@
 
     <?php do_action('bp_after_directory_offers_list'); ?>
 
-        <?php if (bp_offers_current_category() == 3) BP_Alert_Factory::getAlertBox(); ?>
+    <?php if (bp_offers_current_category() == 3) BP_Alert_Factory::getAlertBox(); ?>
 
 
     <div id="pag-bottom" class="pagination text-muted">

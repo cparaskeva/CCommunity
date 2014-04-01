@@ -122,6 +122,11 @@ function bp_offers_get_owner_permalink($userd_id = 0) {
     return bp_core_get_user_domain($userd_id);
 }
 
+function bp_offers_get_organization() {
+    global $offers_template;
+    return CECOM_Organization::getOrganizationOfferDetails($offers_template->offer->gid);
+}
+
 function bp_offers_is_owner() {
     echo bp_offers_get_is_owner();
 }
