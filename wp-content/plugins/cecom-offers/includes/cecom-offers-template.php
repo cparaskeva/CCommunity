@@ -123,8 +123,9 @@ function bp_offers_get_owner_permalink($userd_id = 0) {
 }
 
 function bp_offers_get_organization() {
-    global $offers_template;
-    return CECOM_Organization::getOrganizationOfferDetails($offers_template->offer->gid);
+    global $offers_template,$bp;
+    $group_id= ($offers_template->offer ) ? $offers_template->offer->gid : $bp->offers->current_offer->gid;
+    return CECOM_Organization::getOrganizationOfferDetails($group_id);
 }
 
 function bp_offers_is_owner() {

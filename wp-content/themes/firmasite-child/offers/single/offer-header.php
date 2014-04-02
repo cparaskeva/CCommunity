@@ -1,11 +1,9 @@
 <?php
 global $bp;
 
-//$cecom->organization->setOrganizationDetails($bp->offers->current_offer->gid);
-//print_r($cecom->organization->details);
-//print_r($bp->offers->current_offer);
 $details = $bp->offers->current_offer->get_offer_details();
-//print_r($details);
+$organisation = bp_offers_get_organization();
+
 ?>
 <div id="item-actions" class="pull-right">
     <strong><?php _e('Offer Owner', 'firmasite'); ?></strong>
@@ -28,7 +26,8 @@ $details = $bp->offers->current_offer->get_offer_details();
     <!-- Organization Details Area-->
     <div class="well" style="float:left;width:140px;margin-top:5px">
         <p>
-            <strong>Contact Person</strong><br> <?php echo xprofile_get_field_data('name', $bp->offers->current_offer->uid) . " " . xprofile_get_field_data('surname', $bp->offers->current_offer->uid); ?></br></br>
+            <strong>Organisation</strong><br><a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo $organisation['name']; ?></a><br><br>
+            <strong>Contact Person</strong><br><a href="<?php bp_offers_owner_permalink($bp->offers->current_offer->uid); ?>"><?php echo xprofile_get_field_data('name', $bp->offers->current_offer->uid) . " " . xprofile_get_field_data('surname', $bp->offers->current_offer->uid); ?></a></br></br>         
             <strong>Email</strong><br><a target="_blank" href="<?php echo "mailto:" . $user_email = get_userdata($bp->offers->current_offer->uid)->user_email ?>" ><?php echo ( strlen($user_email) < 18 ? $user_email : substr($user_email, 0, 16) . "..."); ?></a>
         </p>
     </div>

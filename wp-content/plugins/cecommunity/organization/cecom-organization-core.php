@@ -282,7 +282,8 @@ class CECOM_Organization {
     //Return the most recent registered organizations since the previous Cron check
     public static function fetch_recent_registered_organizations($since_time) {
         global $wpdb;
-        return $wpdb->get_results("SELECT organizations.* FROM wp_bp_groups groups,ext_organization organizations WHERE groups.id =organizations.gid AND groups.date_created >= '$since_time' ", ARRAY_A);
+        $prefix_values = "org.*";
+        return $wpdb->get_results("SELECT $prefix_values FROM wp_bp_groups groups,ext_organization org WHERE groups.id=org.gid AND groups.date_created >= '$since_time' ", ARRAY_A);
     }
 
     public static function check_for_interested_organizations($new_organizations, $interested_organizations) {
@@ -291,8 +292,22 @@ class CECOM_Organization {
                 self::check_for_matching_criteria($organization, $interested_organization);
     }
 
-    public static function check_for_matching_criteria($organization,$interested_organization) {
-        echo "Organization: ".$organization['id']." Action ID: ".$interested_organization['action_id'];
+    public static function check_for_matching_criteria($organization, $interested_organization) {
+        return;
+        print_r($organization);
+        echo "<br><br>";
+        print_r($interested_organization);
+        echo "<br><br>";
+
+        $organization_criteria = array();
+        $tmp_array = explode('|', $interested_organization['action_query']);
+
+        foreach ($tmp_array as $val) {
+            $tmp = explode(';', $val);
+            $organization_criteria[  ( strpos($tmp[0],"rganization-") ==1 ?  substr($tmp[0], 13) :$tmp[0])] = $tmp[1];
+        }
+        echo "<br><br>";
+        print_r($organization_criteria);    echo "<br><br>";
     }
 
     /* End of alerts component functions */

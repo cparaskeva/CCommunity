@@ -115,10 +115,10 @@ function bp_tools_facilities_owner_permalink($userd_id = 0) {
 }
 
 function bp_tools_facilities_get_organization() {
-    global $tools_facilities_template;
-    return CECOM_Organization::getOrganizationOfferDetails($tools_facilities_template->tool_facility->gid);
+    global $tools_facilities_template, $bp;
+    $group_id = ($tools_facilities_template->tool_facility ) ? $tools_facilities_template->tool_facility->gid : $bp->tools_facilities->current_tool_facility->gid;
+    return CECOM_Organization::getOrganizationOfferDetails($group_id);
 }
-
 
 function bp_tools_facilities_get_owner_permalink($userd_id = 0) {
     global $tools_facilities_template;
@@ -361,7 +361,7 @@ class BP_Tools_Facilities_Template {
             echo "<b>Unsupported operation exception</b><br>single-tool_facility";
             die();
         } else {
-            
+
             //Store the tools_facilities of the user to an array()
             $this->tools_facilities = tools_facilities_get_tools_facilities(array(
                 'type' => $type,

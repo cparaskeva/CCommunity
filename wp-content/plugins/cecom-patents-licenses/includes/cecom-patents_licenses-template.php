@@ -123,10 +123,10 @@ function bp_patents_licenses_get_owner_permalink($userd_id = 0) {
 }
 
 function bp_patents_licenses_get_organization() {
-    global $patents_licenses_template;
-    return CECOM_Organization::getOrganizationOfferDetails($patents_licenses_template->patent_license->gid);
+    global $patents_licenses_template, $bp;
+    $group_id = ($patents_licenses_template->patent_license ) ? $patents_licenses_template->patent_license->gid : $bp->patents_licenses->current_patent_license->gid;
+    return CECOM_Organization::getOrganizationOfferDetails($group_id);
 }
-
 
 function bp_patents_licenses_is_owner() {
     echo bp_patents_licenses_get_is_owner();
@@ -221,7 +221,6 @@ function bp_patent_license_has_subsectors() {
     global $bp;
     return (!empty($bp->patents_licenses->current_patent_license->subsectors));
 }
-
 
 //Offers Index Page - Search Form
 function bp_directory_patents_licenses_search_form() {
@@ -374,7 +373,7 @@ class BP_Patents_Licenses_Template {
             echo "<b>Unsupported operation exception</b><br>single-patent_license";
             die();
         } else {
-            
+
             //Store the patents_licenses of the user to an array()
             $this->patents_licenses = patents_licenses_get_patents_licenses(array(
                 'type' => $type,

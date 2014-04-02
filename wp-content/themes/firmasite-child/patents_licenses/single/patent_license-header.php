@@ -1,6 +1,7 @@
 <?php
 global $bp;
 $details = $bp->patents_licenses->current_patent_license->get_patent_license_details();
+$organisation = bp_patents_licenses_get_organization();
 ?>
 <div id="item-actions" class="pull-right">
     <strong><?php _e('Offer Owner', 'firmasite'); ?></strong>
@@ -20,7 +21,10 @@ $details = $bp->patents_licenses->current_patent_license->get_patent_license_det
     <!-- Organization Details Area-->
     <div class="well" style="float:left;width:140px;margin-top:5px">
         <p>
-            <strong>Contact Person</strong><br> <?php echo xprofile_get_field_data('name', $bp->patents_licenses->current_patent_license->uid) . " " . xprofile_get_field_data('surname', $bp->patents_licenses->current_patent_license->uid); ?></br></br>
+            
+            
+            <strong>Organisation</strong><br><a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo $organisation['name']; ?></a><br><br>
+            <strong>Contact Person</strong><br><a href="<?php bp_patents_licenses_owner_permalink($bp->patents_licenses->current_patent_license->uid); ?>"><?php echo xprofile_get_field_data('name', $bp->patents_licenses->current_patent_license->uid) . " " . xprofile_get_field_data('surname', $bp->patents_licenses->current_patent_license->uid); ?></a></br></br>
             <strong>Email</strong><br><a target="_blank" href="<?php echo "mailto:" . $user_email = get_userdata($bp->patents_licenses->current_patent_license->uid)->user_email ?>" ><?php echo ( strlen($user_email) < 18 ? $user_email : substr($user_email, 0, 16) . "..."); ?></a>
         </p>
     </div>
