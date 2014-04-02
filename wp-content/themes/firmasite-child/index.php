@@ -69,7 +69,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
 					</li>
 					<li>
 						<img src="/cecommunity/wp-content/uploads/2014/03/Partners.png" width="25" height="25"> 
-						Search for collaborations, either to develop <a href="/cecommunity/groups/?offer_type=1">new products or services</a> or to cooperate on <a href="/cecommunity/groups/?offer_type=2">funded projects</a>.
+						Search for collaborations, either to develop <a href="/cecommunity/offers/?offer_type=1">new products or services</a> or to cooperate on <a href="/cecommunity/offers/?offer_type=2">funded projects</a>.
 					</li>
 					<li> 
 						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 

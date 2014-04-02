@@ -27,9 +27,23 @@ function hook_head()
 	    to   { opacity: 1; }
 	}</style>\n";
 	
+		
+	$output .= '<style>';
+	/* /cecommunity/groups/ : no "active 7 hours, 1 minute ago", no "​Request membership", 
+	 * no "​Private Organisation / x member", no ​"This is a private group and you...", no "​Create a group", 
+	 * no title "Organisations Directory ", no "All organisations" */
+	$output .= "body.groups span.activity,  body.groups span.highlight, body.groups #groups-dir-list div.action, body.groups h3#offers-header, body.groups div.item-list-tabs { display:none }\n";
+	
+	
+	$output .= '</style>';
+	
+	
 	// finally, we remove wordpress logo
 	///$output .= "<script>jQuery( document ).ready( function() { jQuery('#logo').remove();  }); </script>\n";
-		
+	
+	
+	
+	
 	echo $output;
 
 }
