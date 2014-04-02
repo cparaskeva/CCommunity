@@ -115,11 +115,11 @@ if (is_user_logged_in()) {
             		
             		<h2>On our platform you can:</h2><br>
             		<ul class="platform-feat">
-						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/LifeSciences-Network.png)">Be part of the first European Life Sciences network</li>
-						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/Partners.png)">Find the partners you need</li>
-						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/RD_innovation_projects.png)">Set-up your R&D or innovation projects</li>
-						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/ToolsFacilities.png)">Find or rent tools and facilities</li>
-						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/Licences.png)">Buy or sell licences</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/LifeSciences-Network2.png)">Be part of the first European Life Sciences network</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/Partners2.png)">Find the partners you need</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/RD_innovation_projects2.png)">Set-up your R&D or innovation projects</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/ToolsFacilities2.png)">Find or rent tools and facilities</li>
+						<li style="background-image: url(/cecommunity/wp-content/uploads/2014/03/Licences2.png)">Buy or sell licences</li>
 					</ul>
             		
             	</div>
@@ -153,21 +153,7 @@ if (is_user_logged_in()) {
 	         </div>
         </div>                                    
 		<script type='text/javascript' src='/cecommunity/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
-		<script>
-
-			jQuery("ul.platform-feat li").hover(function(){
-				var img = jQuery(this).css("background-image");
-				var i = img.indexOf('.png');
-				img = img.substr(0,i)+'2'+img.substr(i);
-				jQuery(this).css("background-image", img);
-			 },function(){
-				 var img = jQuery(this).css("background-image");
-				 var i = img.indexOf('.png');
-				 img = img.substr(0,i-1)+img.substr(i);
-				 jQuery(this).css("background-image", img);
-			});
 		
-		</script>
 		<?php /*do_action('wp_footer')*/ ?>
 	</body>
 </html>
