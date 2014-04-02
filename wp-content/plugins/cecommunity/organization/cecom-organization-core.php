@@ -282,7 +282,7 @@ class CECOM_Organization {
     //Return the most recent registered organizations since the previous Cron check
     public static function fetch_recent_registered_organizations($since_time) {
         global $wpdb;
-        $prefix_values = "org.*";
+        $prefix_values = "org.id,gid,org.name,org.description,size_id size,type_id type,country_id country,collaboration,transaction,slug";
         return $wpdb->get_results("SELECT $prefix_values FROM wp_bp_groups groups,ext_organization org WHERE groups.id=org.gid AND groups.date_created >= '$since_time' ", ARRAY_A);
     }
 
@@ -293,21 +293,93 @@ class CECOM_Organization {
     }
 
     public static function check_for_matching_criteria($organization, $interested_organization) {
-        return;
-        print_r($organization);
-        echo "<br><br>";
-        print_r($interested_organization);
-        echo "<br><br>";
+        //print_r($organization);
+        //echo "<br><br>";
+        //print_r($interested_organization);
+        //echo "<br><br>";
 
         $organization_criteria = array();
         $tmp_array = explode('|', $interested_organization['action_query']);
 
         foreach ($tmp_array as $val) {
             $tmp = explode(';', $val);
-            $organization_criteria[  ( strpos($tmp[0],"rganization-") ==1 ?  substr($tmp[0], 13) :$tmp[0])] = $tmp[1];
+            if ($tmp[1] != "" && $tmp[1] != "none" && $tmp[1] != "on") {
+                if ($tmp[0] == "text")
+                    $text = $tmp[1];
+                else {
+                    if ($tmp[0] == "organization-sectors") {
+                        $sectors_criteria = $tmp[1];
+                        $sectors_tmp = explode(',', $tmp[1]);
+                        foreach ($sectors_tmp as $value) {
+                            $sectors["sector" . $value] = $value;
+                        }
+                        unset($sectors_tmp);
+                    } else if ($tmp[0] == "organization-subsectors") {
+                        $subsectors_criteria = $tmp[1];
+                        $subsectors_tmp = explode(',', $tmp[1]);
+                        foreach ($subsectors_tmp as $value) {
+                            $subsectors["subsector" . $value] = $value;
+                        }
+                        unset($subsectors_tmp);
+                    } else if (!strpos("@" . $tmp[0], "organization_"))
+                        $organization_criteria[( strpos("@" . $tmp[0], "organization-") > 0 ? substr($tmp[0], 13) : $tmp[0])] = $tmp[1];
+                }
+            }
         }
-        echo "<br><br>";
-        print_r($organization_criteria);    echo "<br><br>";
+
+        print_r($organization_criteria);
+        $criteria_num = count($organization_criteria);
+        $extra_criteria_num = count($sectors_criteria) + count($subsectors_criteria);
+        $text_criteria = (empty($text) ? 0 : 1);
+        $total_criteria_num = $criteria_num + $extra_criteria_num + $text_criteria;
+        $sectors;
+        $subsectors;
+        $matched_extra_criteria = 0;
+
+        //Calculate sectors and subsectors matches
+        if ($extra_criteria_num) {
+
+            global $wpdb;
+
+            $complexArray = ($wpdb->get_results("SELECT mvalue sector FROM `ext_organization_meta` WHERE oid={$organization['id']} and mkey='sector'", ARRAY_A));
+            $singleArray = array();
+
+            if (!empty($sectors)) {
+                foreach ($complexArray as $key => $value) {
+                    $singleArray["sector" . $value['sector']] = $value['sector'];
+                }
+                if (count($sectors) == count(array_intersect_assoc($sectors, $singleArray)))
+                    $matched_extra_criteria++;
+            }
+
+            if (!empty($subsectors)) {
+                $complexArray = ($wpdb->get_results("SELECT mvalue subsector FROM `ext_organization_meta` WHERE oid={$organization['id']} and mkey='subsector'", ARRAY_A));
+                $singleArray = array();
+                foreach ($complexArray as $key => $value) {
+                    $singleArray["subsector" . $value['subsector']] = $value['subsector'];
+                }
+                if (count($subsectors) == count(array_intersect_assoc($subsectors, $singleArray)))
+                    $matched_extra_criteria++;
+            }
+        }
+
+        $matched_criteria = count(array_intersect_assoc($organization, $organization_criteria));
+
+        //Check if description or  name of the organization match the text of interested organization
+        $matched_text_criteria = (strpos("@" . $organization['name'], $text) > 0 || strpos("@" . $organization['description'], $text) > 0 ? 1 : 0 );
+        $matched_all_criteria = ($total_criteria_num == ($matched_criteria + $matched_extra_criteria + $matched_text_criteria));
+        
+        echo "Criteria: $criteria_num  Extra criteria: $extra_criteria_num Text criteria: $text_criteria <br>";
+        echo "Total criteria: $total_criteria_num Matched criteria: $matched_criteria Matched extra criteria: $matched_extra_criteria Matched text: $matched_text_criteria <br><br>";
+        
+        if ($matched_all_criteria){
+            $user_email=get_userdata($interested_organization['uid'])->user_email;
+            $organization_url =bp_get_group_permalink().$organization['slug'];
+            $alert_disable_url = bp_get_root_domain()."/".bp_get_alerts_slug()."?activate=0&alert={$interested_organization['id']}"; 
+            //echo $alert_disable_url; 
+           wp_mail($user_email, 'CECommunity Alert System', 'An interesting organisation registered to CECommunity platform check it out <a target="_blank" href=\''.$organization_url.'\'>here!</a>.<br><br><i>You can deactivate the alert <a target="_blank" href=\''.$alert_disable_url.'\'>here!</a></i>','Content-type: text/html');
+           
+        }
     }
 
     /* End of alerts component functions */

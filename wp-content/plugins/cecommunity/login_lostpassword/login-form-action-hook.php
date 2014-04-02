@@ -13,7 +13,7 @@ $content=ob_get_contents();
 
 $path = bp_get_root_domain();
 
-$content= preg_replace('/<a href="http:\/\/wordpress.org\/" title="Powered by WordPress">CECommunity<\/a>/', 
+$content= preg_replace('/<a href="http:\/\/wordpress.org\/" title="Powered by WordPress">Central Community<\/a>/', 
 '<img src="'.$path.'/wp-content/uploads/2013/12/logo1.png" alt="The central community project!" title="CECommunity" id="logo-img">',
 $content);
 

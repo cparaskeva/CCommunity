@@ -9,19 +9,11 @@ get_header();
 $current_user = wp_get_current_user();
 
 
-/*
-echo 'Username: ' . $current_user->user_login . "\n";
-echo 'User email: ' . $current_user->user_email . "\n";
-echo 'User first name: ' . $current_user->user_firstname . "\n";
-echo 'User last name: ' . $current_user->user_lastname . "\n";
-echo 'User display name: ' . $current_user->display_name . "\n";
-echo 'User ID: ' . $current_user->ID . "\n";
-*/
-
-
 $create_offer_product = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=1/";
 $create_offer_project = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=2/";
 $create_offer_funding = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=3/";
+$create_patent = "/cecommunity/members/".$current_user->user_login."/patents_licenses/create-patent_license/";
+$create_tool = "/cecommunity/members/".$current_user->user_login."/tools_facilities/create-tool_facility/";
 
 $org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
 
@@ -43,46 +35,71 @@ $org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
     <style>
     
     body {
-    -webkit-animation-delay: 0.1s;
-    -webkit-animation-name: fontfix;
-    -webkit-animation-duration: 0.1s;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-}
+	    -webkit-animation-delay: 0.1s;
+	    -webkit-animation-name: fontfix;
+	    -webkit-animation-duration: 0.1s;
+	    -webkit-animation-iteration-count: 1;
+	    -webkit-animation-timing-function: linear;
+	}
 
 @-webkit-keyframes fontfix {
-    from { opacity: 1; }
-    to   { opacity: 1; }
-}
-    
-    
+	    from { opacity: 1; }
+	    to   { opacity: 1; }
+	}
+        
     .borders {border:solid 1px #eee;border-radius:10px; margin-bottom:5px}
     .no-margin-left {margin-left:0}
     .offers li, .organisations li {list-style-type: none; padding-bottom:7px}
+    
+    .links ul {padding:2px 0 5px 0}
+    .links li {list-style-type: none; margin: 5px 0}
+    .links img {padding:3px}
     </style>
     
 	<div class="col-md-12 borders">
 		<h1>Welcome ! </h1>
 	
-		<div class="row">
+		<div class="row links">
 			<div class="col-md-6">
 				<h4>SEARCH</h4>
-				- Search for <a href="/cecommunity/groups/">organisations</a><br>
-				- Search for <a href="#">collaborations</a>, either to develop <a href="/cecommunity/groups/?offer_type=1">new products or services</a> or to cooperate on <a href="/cecommunity/groups/?offer_type=2">funded projects</a>.<br> 
-				- Search for <a href="#">patents, fundings, tools</a> for rent.<br>
+				<ul>
+					<li>
+						<img src="/cecommunity/wp-content/uploads/2014/03/LifeSciences-Network.png" width="25" height="25"> 
+						Search for <a href="/cecommunity/groups/">organisations</a>.
+					</li>
+					<li>
+						<img src="/cecommunity/wp-content/uploads/2014/03/Partners.png" width="25" height="25"> 
+						Search for collaborations, either to develop <a href="/cecommunity/offers/?offer_type=1">new products or services</a> or to cooperate on <a href="/cecommunity/offers/?offer_type=2">funded projects</a>.
+					</li>
+					<li> 
+						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
+						Search for <a href="/cecommunity/patents_licenses/">patents</a>, <a href="#">fundings</a>, <a href="/cecommunity/tools_facilities/">tools for rent</a>.
+					</li>
 			</div>
 			
 			<div class="col-md-6">
 				<h4>OFFER</h4>
-				- Offer a collaboration on a <a href="<?php echo $create_offer_product; ?>">product</a> or a <a href="<?php echo $create_offer_project; ?>">project</a>.<br>
-				- Offer <a href="<?php echo $create_offer_funding; ?>">patents, fundings, tools</a> for rent.<br>
-				<br>
+				<ul>
+					<li>
+						<img src="/cecommunity/wp-content/uploads/2014/03/Partners.png" width="25" height="25"> 
+						Offer a collaboration on a <a href="<?php echo $create_offer_product; ?>">product</a> or a <a href="<?php echo $create_offer_project; ?>">project</a>.
+					</li>
+					<li>
+						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
+						Offer <a href="<?php echo $create_patent; ?>">patents</a>, <a href="<?php echo $create_offer_funding; ?>">fundings</a>, <a href="<?php echo $create_tool; ?>">tools for rent</a>.
+					</li>
+				</ul>
+				
 				<h4>YOUR PROFILE</h4>
-				- Fill in the <a href="<?php echo $org_profile; ?>">profile</a> of your organisation, to be sure you can be found by other organisations.
+				<ul>
+					<li>
+						<img src="/cecommunity/wp-content/uploads/2014/03/LifeSciences-Network.png" width="25" height="25"> 
+						Fill in the <a href="<?php echo $org_profile; ?>">profile</a> of your organisation, to be sure you can be found by other organisations.
+					</li>
+				</ul>
 			</div>
 		</div>
 		
-		<br>
 	</div>
 
 	<div class="row no-margin-left">
@@ -91,7 +108,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
 			<h3>News from the influencers</h3>
 			
 			
-			<a class="twitter-timeline" href="https://twitter.com/centralcomm1"  height="400"  data-widget-id="438354056449241088" data-favorites-screen-name="centralcomm1"></a>
+			<a class="twitter-timeline" href="https://twitter.com/centralcomm1/favorites"  height="400"  data-widget-id="438354056449241088" data-favorites-screen-name="centralcomm1"></a>
 			 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 

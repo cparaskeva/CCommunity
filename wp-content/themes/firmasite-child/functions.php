@@ -170,7 +170,7 @@ function cron_add_alert_system_time($schedules) {
 
     // Adds once weekly to the existing schedules.
     $schedules['alert_system'] = array(
-        'interval' => 120,
+        'interval' => 60,
         'display' => __('Alert System Time')
     );
     return $schedules;
