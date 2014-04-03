@@ -34,17 +34,26 @@ function hook_head()
 	 * no title "Organisations Directory ", no "All organisations" */
 	$output .= "body.groups span.activity,  body.groups span.highlight, body.groups #groups-dir-list div.action, body.groups h3#offers-header, body.groups div.item-list-tabs { display:none }\n";
 							
-	/* all search boxes left aligned*/
-	$output .= "#group-dir-search {float:left !important}     body.groups div.padder div.panel {clear:left}\n".
-						"#offer-dir-search {float:left !important}     body.offers div.padder div.panel {clear:left}\n".
-						"#patent_license-dir-search {float:left !important}     body.patents_licenses div.padder div.panel {clear:left}\n".
-						"#tool_facility-dir-search {float:left !important}     body.tools_facilities div.padder div.panel {clear:left}\n".
-						"";
+	/* all search boxes left aligned + no "?" */
+	$output .= "#group-dir-search {float:left !important; margin:10px 0 0 30px} #group-dir-search input[type=text] {width: 240px}   body.groups div.padder div.panel {padding-top:50px} body.groups .glyphicon-question-sign {display:none}\n".
+						"#offer-dir-search {float:left !important; margin:10px 0 0 30px} #offer-dir-search  input[type=text] {width: 240px}  body.offers div.padder div.panel {padding-top:50px} body.offers .glyphicon-question-sign {display:none}\n".
+						"#patent_license-dir-search {float:left !important; margin:10px 0 0 30px} #patent_license-dir-search input[type=text] {width: 240px}   body.patents_licenses div.padder div.panel {padding-top:50px} body.patents_licenses .glyphicon-question-sign {display:none}\n".
+						"#tool_facility-dir-search {float:left !important; margin:10px 0 0 30px}  #tool_facility-dir-search input[type=text] {width: 240px}  body.tools_facilities div.padder div.panel {padding-top:50px} body.tools_facilities .glyphicon-question-sign {display:none}\n".
+						"#groups_search_submit, #offers_search_submit, #patents_licenses_search_submit, #tools_facilities_search_submit { position: relative;top: -3px }";  
 	
+	/* avatars are not displayed */
+	$output .= "img.avatar, div.item-avatar, #item-header-avatar {display: none}";
 	
+	/* offer owner + group admins + ... not displayed */
+	$output .= "#item-header #item-actions  {display: none}";
 	
 	$output .= '</style>';
 	
+	// search buttons should be more visible
+	$output .= '<script>jQuery(function() { 
+			jQuery("#groups_search_submit, #offers_search_submit, #patents_licenses_search_submit, #tools_facilities_search_submit").addClass("btn-primary")
+			});</script>';
+	 	
 	
 	// finally, we remove wordpress logo
 	///$output .= "<script>jQuery( document ).ready( function() { jQuery('#logo').remove();  }); </script>\n";
