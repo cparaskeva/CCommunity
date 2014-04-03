@@ -33,6 +33,14 @@ function hook_head()
 	 * no "​Private Organisation / x member", no ​"This is a private group and you...", no "​Create a group", 
 	 * no title "Organisations Directory ", no "All organisations" */
 	$output .= "body.groups span.activity,  body.groups span.highlight, body.groups #groups-dir-list div.action, body.groups h3#offers-header, body.groups div.item-list-tabs { display:none }\n";
+							
+	/* all search boxes left aligned*/
+	$output .= "#group-dir-search {float:left !important}     body.groups div.padder div.panel {clear:left}\n".
+						"#offer-dir-search {float:left !important}     body.offers div.padder div.panel {clear:left}\n".
+						"#patent_license-dir-search {float:left !important}     body.patents_licenses div.padder div.panel {clear:left}\n".
+						"#tool_facility-dir-search {float:left !important}     body.tools_facilities div.padder div.panel {clear:left}\n".
+						"";
+	
 	
 	
 	$output .= '</style>';
