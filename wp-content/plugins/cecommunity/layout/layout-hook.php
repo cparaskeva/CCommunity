@@ -32,7 +32,7 @@ function hook_head()
 	/* /cecommunity/groups/ : no "active 7 hours, 1 minute ago", no "​Request membership", 
 	 * no "​Private Organisation / x member", no ​"This is a private group and you...", no "​Create a group", 
 	 * no title "Organisations Directory ", no "All organisations" */
-	$output .= "body.groups span.activity,  body.groups span.highlight, body.groups #groups-dir-list div.action, body.groups h3#offers-header, body.groups div.item-list-tabs { display:none }\n";
+	$output .= "body.groups span.activity,  body.groups span.highlight, body.groups #groups-dir-list div.action, body.groups h3#offers-header a.button, body.groups div.item-list-tabs, body.groups div#message { display:none }\n";
 							
 	/* all search boxes left aligned + no "?" */
 	$output .= "#group-dir-search {float:left !important; margin:10px 0 0 30px} #group-dir-search input[type=text] {width: 240px}   body.groups div.padder div.panel {padding-top:50px} body.groups .glyphicon-question-sign {display:none}\n".
@@ -55,10 +55,16 @@ function hook_head()
 	
 	$output .= '</style>';
 	
-	// search buttons should be more visible + wider left column on offer detail 
+	/* search buttons should be more visible +
+	 *  wider left column on offer detail + 
+	 *  change "groups search" title + 
+	 *  change "groups search" placeholder */
 	$output .= '<script>jQuery(function() { 
 			jQuery("#groups_search_submit, #offers_search_submit, #patents_licenses_search_submit, #tools_facilities_search_submit").addClass("btn-primary");
 			jQuery("#item-header-avatar").addClass("col-sm-4").removeClass("col-sm-2");
+			jQuery("body.groups h3#offers-header").text("Find organisations");
+			jQuery("body.groups #groups_search").attr("placeholder", "Organisation name");
+			   
 			});</script>';
 	 	
 	
