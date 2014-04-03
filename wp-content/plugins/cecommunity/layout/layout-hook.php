@@ -42,16 +42,23 @@ function hook_head()
 						"#groups_search_submit, #offers_search_submit, #patents_licenses_search_submit, #tools_facilities_search_submit { position: relative;top: -3px }";  
 	
 	/* avatars are not displayed */
-	$output .= "img.avatar, div.item-avatar, #item-header-avatar {display: none}";
+	$output .= "img.avatar, div.item-avatar, div#item-header-avatar a.thumbnail {display: none}";
 	
 	/* offer owner + group admins + ... not displayed */
-	$output .= "#item-header #item-actions  {display: none}";
+	$output .= "#item-header #item-actions strong {display: none}";
+	
+	/* no "2x organisation" on /cecommunity/tools_facilities/tool_facility1/ or /cecommunity/patents_licenses/patent_license26 */
+	$output .= "#item-header-avatar > strong {display: none}";
+	
+	/* wider left box on /cecommunity/groups/organization36/ */
+	$output .= "#item-header-avatar .well, body.offers #item-header-avatar .well  {width: 350px !important}";
 	
 	$output .= '</style>';
 	
-	// search buttons should be more visible
+	// search buttons should be more visible + wider left column on offer detail 
 	$output .= '<script>jQuery(function() { 
-			jQuery("#groups_search_submit, #offers_search_submit, #patents_licenses_search_submit, #tools_facilities_search_submit").addClass("btn-primary")
+			jQuery("#groups_search_submit, #offers_search_submit, #patents_licenses_search_submit, #tools_facilities_search_submit").addClass("btn-primary");
+			jQuery("#item-header-avatar").addClass("col-sm-4").removeClass("col-sm-2");
 			});</script>';
 	 	
 	
