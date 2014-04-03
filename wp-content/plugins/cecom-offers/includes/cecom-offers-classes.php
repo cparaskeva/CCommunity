@@ -328,8 +328,8 @@ class BP_Offer {
      */
     public static function offers_get_total_offers_count() {
         global $wpdb, $bp;
-        $offer_category= (bp_offers_current_category() != "none"? " WHERE type_id=".bp_offers_current_category(): "");
-        $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->offers->table_name}".$offer_category);
+        $offer_category = (bp_offers_current_category() != "none" ? " WHERE type_id=" . bp_offers_current_category() : "");
+        $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->offers->table_name}" . $offer_category);
 
         return $count;
     }
@@ -350,8 +350,8 @@ class BP_Offer {
         if (!bp_loggedin_user_id()) {
             return null;
         } else {
-            $offer_category= (bp_offers_current_category() != "none"? " AND type_id=".bp_offers_current_category(): "");
-            return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d". $offer_category, $user_id));
+            $offer_category = (bp_offers_current_category() != "none" ? " AND type_id=" . bp_offers_current_category() : "");
+            return $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} WHERE uid = %d" . $offer_category, $user_id));
         }
     }
 
@@ -550,7 +550,7 @@ class BP_Offer {
         }
 
         if (bp_offers_current_category() != "none")
-        $total_sql['where'][] = " type_id=" . bp_offers_current_category();
+            $total_sql['where'][] = " type_id=" . bp_offers_current_category();
 
         //True: All Offers / False: My offers tab
         if (!empty($r['user_id'])) {
@@ -573,9 +573,6 @@ class BP_Offer {
         foreach ((array) $paged_offers as $offer) {
             $offer_ids[] = $offer->id;
         }
-
-        // Grab all groupmeta
-        //bp_groups_update_meta_cache($offer_ids);
 
         unset($sql, $total_sql);
 
@@ -695,6 +692,109 @@ class BP_Offer {
         }
 
         return $order_by_term;
+    }
+
+    /* The following static functions are used only by the Alerts Component */
+
+    //Return the most recent registered organizations since the previous Cron check
+    public static function fetch_recent_published_offers($since_time, $offer_type) {
+        global $wpdb;
+        //echo "Query: "."SELECT offer.* FROM ext_offer offer WHERE offer.type_id=$offer_type AND offer.date >= '$since_time'";
+        return $wpdb->get_results("SELECT offer.* FROM ext_offer offer WHERE offer.type_id=$offer_type AND offer.date >= '$since_time' ", ARRAY_A);
+    }
+
+    public static function check_for_interested_offers($new_offers, $interested_offers) {
+        foreach ($new_offers as $offer)
+            foreach ($interested_offers as $interested_offer)
+                self::check_for_matching_criteria($offer, $interested_offer);
+    }
+
+    public static function check_for_matching_criteria($offer, $interested_offer) {
+
+        //If the offer belongs to the organisation of the user who sets the alert return
+        if ($offer['gid'] == $interested_offer['gid'])
+            return;
+
+        global $wpdb;
+        $org_id = $wpdb->get_var("SELECT id from ext_organization WHERE gid = {$offer['gid']}");
+
+        /*print_r($offer);
+        echo "<br><br>";
+        print_r($interested_offer);
+        echo "<br><br>";*/
+
+
+        //If is an offer serach normalize the fields
+        $interested_offer['action_query'] = str_replace("offer-type", "type_id", $interested_offer['action_query']);
+        $interested_offer['action_query'] = str_replace("applyable-countries", "country_id", $interested_offer['action_query']);
+        $interested_offer['action_query'] = str_replace("finance-stage", "finance_stage_id", $interested_offer['action_query']);
+
+
+
+        $offer_criteria = array();
+        $tmp_array = explode('|', $interested_offer['action_query']);
+
+        foreach ($tmp_array as $val) {
+            $tmp = explode(';', $val);
+            if ($tmp[1] != "" && $tmp[1] != "none" && $tmp[1] != "on") {
+                if ($tmp[0] == "text")
+                    $text = $tmp[1];
+                else {
+                    if ($tmp[0] == "offer-sectors") {
+                        $sectors_criteria = $tmp[1];
+                        $sectors_tmp = explode(',', $tmp[1]);
+                        foreach ($sectors_tmp as $value) {
+                            $sectors["sector" . $value] = $value;
+                        }
+                        unset($sectors_tmp);
+                    } else if ($tmp[0] != "offer-sector")
+                        $offer_criteria[$tmp[0]] = $tmp[1];
+                }
+            }
+        }
+
+        //print_r($offer_criteria);
+        $criteria_num = count($offer_criteria);
+        $extra_criteria_num = count($sectors_criteria);
+        $text_criteria = (empty($text) ? 0 : 1);
+        $total_criteria_num = $criteria_num + $extra_criteria_num + $text_criteria;
+        $sectors;
+        $matched_extra_criteria = 0;
+
+        //Calculate sectors and subsectors matches
+        if ($extra_criteria_num) {
+
+            $complexArray = ($wpdb->get_results("SELECT mvalue sector FROM `ext_organization_meta` WHERE oid=$org_id  and mkey='sector'", ARRAY_A));
+            $singleArray = array();
+
+            if (!empty($sectors)) {
+                foreach ($complexArray as $key => $value) {
+                    $singleArray["sector" . $value['sector']] = $value['sector'];
+                }
+                if (count($sectors) == count(array_intersect_assoc($sectors, $singleArray)))
+                    $matched_extra_criteria++;
+            }
+        }
+
+        $matched_criteria = count(array_intersect_assoc($offer, $offer_criteria));
+
+        //Check if description or  name of the organization match the text of interested organization
+        $matched_text_criteria = (strpos("@" . $offer['description'], $text) > 0 ? 1 : 0 );
+        $matched_all_criteria = ($total_criteria_num == ($matched_criteria + $matched_extra_criteria + $matched_text_criteria));
+
+        if ($_GET['debug']) {
+            echo "Criteria: $criteria_num  Extra criteria: $extra_criteria_num Text criteria: $text_criteria <br>";
+            echo "Total criteria: $total_criteria_num Matched criteria: $matched_criteria Matched extra criteria: $matched_extra_criteria Matched text: $matched_text_criteria <br><br>";
+        }
+
+        //Organization matches all the criteria of the alert
+        if ($matched_all_criteria) {
+            if ($_GET['debug'])
+                echo "<b>Found exact criteria matched! OrgID:$org_id  OfferID: {$offer['id']} AlertID:{$interested_offer['id']}  </b>";
+            BP_Alert_Factory::notify_alert_user($interested_offer['action_id'], $interested_offer['uid'], $interested_offer['id'], array('slug' => "organization".$org_id, 'offer_id' => ($offer['id'] ? $offer['id'] : 0)));
+        }
+        if ($_GET['debug'])
+            echo "<hr>";
     }
 
 }

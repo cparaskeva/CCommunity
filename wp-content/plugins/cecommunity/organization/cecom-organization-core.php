@@ -286,6 +286,14 @@ class CECOM_Organization {
         return $wpdb->get_results("SELECT $prefix_values FROM wp_bp_groups groups,ext_organization org WHERE groups.id=org.gid AND groups.date_created >= '$since_time' ", ARRAY_A);
     }
 
+    //Return the most recent offers of an organizations since the previous Cron check
+    public static function fetch_recent_organization_offers($since_time, $offer_type) {
+        global $wpdb;
+        $prefix_values = "org.id,org.gid,org.name,org.description,size_id size,org.type_id type,org.country_id country,collaboration,transaction,slug,offer.id oid,offer.type_id offtype_id,offer.collaboration_id,offer.description offdescription," . ($offer_type == 1 ? "partner_type_id" : "program_id");
+        //echo "Query: "."SELECT $prefix_values FROM ext_organization org,ext_offer offer,wp_bp_groups groups WHERE groups.id=org.gid AND org.gid=offer.gid AND offer.type_id=$offer_type AND offer.date >= '$since_time'";
+        return $wpdb->get_results("SELECT $prefix_values FROM ext_organization org,ext_offer offer,wp_bp_groups groups WHERE groups.id=org.gid AND org.gid=offer.gid AND offer.type_id=$offer_type AND offer.date >= '$since_time' ", ARRAY_A);
+    }
+
     public static function check_for_interested_organizations($new_organizations, $interested_organizations) {
         foreach ($new_organizations as $organization)
             foreach ($interested_organizations as $interested_organization)
@@ -293,10 +301,23 @@ class CECOM_Organization {
     }
 
     public static function check_for_matching_criteria($organization, $interested_organization) {
-        //print_r($organization);
-        //echo "<br><br>";
-        //print_r($interested_organization);
-        //echo "<br><br>";
+        /* print_r($organization);
+          echo "<br><br>";
+          print_r($interested_organization);
+          echo "<br><br>"; */
+
+        if ($organization['gid'] == $interested_organization['gid'])
+            return;
+        
+        //If is an offer serach normalize the fields
+        if ($organization['offtype_id']) {
+            $organization['collaboration'] = "none";
+            $organization['transaction'] = "none";
+            $interested_organization['action_query'] = str_replace("collaboration-type", "collaboration_id", $interested_organization['action_query']);
+            $interested_organization['action_query'] = str_replace("collaboration-partner-sought", "partner_type_id", $interested_organization['action_query']);
+            $interested_organization['action_query'] = str_replace("offer-type", "offtype_id", $interested_organization['action_query']);
+            $interested_organization['action_query'] = str_replace("collaboration-programs", "program_id", $interested_organization['action_query']);
+        }
 
         $organization_criteria = array();
         $tmp_array = explode('|', $interested_organization['action_query']);
@@ -306,6 +327,8 @@ class CECOM_Organization {
             if ($tmp[1] != "" && $tmp[1] != "none" && $tmp[1] != "on") {
                 if ($tmp[0] == "text")
                     $text = $tmp[1];
+                else if ($tmp[0] == "collaboration-description")
+                    $offer_text = $tmp[1];
                 else {
                     if ($tmp[0] == "organization-sectors") {
                         $sectors_criteria = $tmp[1];
@@ -327,10 +350,10 @@ class CECOM_Organization {
             }
         }
 
-        print_r($organization_criteria);
+        //print_r($organization_criteria);
         $criteria_num = count($organization_criteria);
         $extra_criteria_num = count($sectors_criteria) + count($subsectors_criteria);
-        $text_criteria = (empty($text) ? 0 : 1);
+        $text_criteria = (empty($text) ? 0 : 1) + (empty($offer_text) ? 0 : 1);
         $total_criteria_num = $criteria_num + $extra_criteria_num + $text_criteria;
         $sectors;
         $subsectors;
@@ -340,7 +363,6 @@ class CECOM_Organization {
         if ($extra_criteria_num) {
 
             global $wpdb;
-
             $complexArray = ($wpdb->get_results("SELECT mvalue sector FROM `ext_organization_meta` WHERE oid={$organization['id']} and mkey='sector'", ARRAY_A));
             $singleArray = array();
 
@@ -366,20 +388,22 @@ class CECOM_Organization {
         $matched_criteria = count(array_intersect_assoc($organization, $organization_criteria));
 
         //Check if description or  name of the organization match the text of interested organization
-        $matched_text_criteria = (strpos("@" . $organization['name'], $text) > 0 || strpos("@" . $organization['description'], $text) > 0 ? 1 : 0 );
+        $matched_text_criteria = (strpos("@" . $organization['name'], $text) > 0 || strpos("@" . $organization['description'], $text) > 0 ? 1 : 0 ) + (strpos("@" . $organization['offdescription'], $offer_text) > 0 ? 1 : 0 );
         $matched_all_criteria = ($total_criteria_num == ($matched_criteria + $matched_extra_criteria + $matched_text_criteria));
-        
-        echo "Criteria: $criteria_num  Extra criteria: $extra_criteria_num Text criteria: $text_criteria <br>";
-        echo "Total criteria: $total_criteria_num Matched criteria: $matched_criteria Matched extra criteria: $matched_extra_criteria Matched text: $matched_text_criteria <br><br>";
-        
-        if ($matched_all_criteria){
-            $user_email=get_userdata($interested_organization['uid'])->user_email;
-            $organization_url =bp_get_group_permalink().$organization['slug'];
-            $alert_disable_url = bp_get_root_domain()."/".bp_get_alerts_slug()."?activate=0&alert={$interested_organization['id']}"; 
-            //echo $alert_disable_url; 
-           wp_mail($user_email, 'CECommunity Alert System', 'An interesting organisation registered to CECommunity platform check it out <a target="_blank" href=\''.$organization_url.'\'>here!</a>.<br><br><i>You can deactivate the alert <a target="_blank" href=\''.$alert_disable_url.'\'>here!</a></i>','Content-type: text/html');
-           
+
+        if ($_GET['debug']) {
+            echo "Criteria: $criteria_num  Extra criteria: $extra_criteria_num Text criteria: $text_criteria <br>";
+            echo "Total criteria: $total_criteria_num Matched criteria: $matched_criteria Matched extra criteria: $matched_extra_criteria Matched text: $matched_text_criteria <br><br>";
         }
+
+        //Organization matches all the criteria of the alert
+        if ($matched_all_criteria) {
+            if ($_GET['debug'])
+                echo "<b>Found exact criteria matched! OrgID:{$organization['id']}  OfferID: {$organization['oid']} AlertID:{$interested_organization['id']}  </b>";
+            BP_Alert_Factory::notify_alert_user($interested_organization['action_id'], $interested_organization['uid'], $interested_organization['id'], array('slug' => $organization['slug'], 'offer_id' => ($organization['oid'] ? $organization['oid'] : 0)));
+        }
+        if ($_GET['debug'])
+            echo "<hr>";
     }
 
     /* End of alerts component functions */

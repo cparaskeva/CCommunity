@@ -52,8 +52,15 @@ register_deactivation_hook(__FILE__, 'bp_alerts_deactivate');
 
 add_action('cecom_alerts', 'cecom_tigger_alert_system');
 
-function cecom_tigger_alert_system() {    
+//Function which is called by the CRON scheduler
+function cecom_tigger_alert_system() {
+    if ($_GET['debug']) {
+        $time_start = microtime(true); // time in Microseconds
+        echo("<h4>Alert System started at: ") . date('Y-m-d H:i:s', $time_start . "</h4><hr><br><br>");
+    }
     BP_Alert_Factory::run_alert_system();
+    if ($_GET['debug'])
+        echo ("<br><h4>Alert System ended at: " . date('Y-m-d H:i:s', time()) . " Total Time: " . (microtime(true) - $time_start ) . " sec</h4>");
 }
 
 ?>
