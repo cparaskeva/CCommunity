@@ -195,7 +195,7 @@
         if (jQuery("#offer-type").val() == "none")
             jQuery("#offer-type-div").show();
         else
-            jQuery("#offers-header").append("<h4>(" + jQuery("#offer-type option:selected").text() + ")</h4>");
+           jQuery("#offers-header").text(jQuery("#offer-type option:selected").text());
 
 
     });
