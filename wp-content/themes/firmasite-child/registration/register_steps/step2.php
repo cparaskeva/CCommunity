@@ -1,4 +1,4 @@
-<div class="page" id="register-page-step2">
+<div class="page" id="register-page-step2" hidden="true" >
 
     <form action="" name="organization_form" id="register_step2" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
 

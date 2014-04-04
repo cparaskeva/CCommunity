@@ -189,7 +189,6 @@ jQuery("#register_step2").submit(function(event) {
                      jQuery("#organization_link").hide();
                      jQuery("#organization_import").hide();
                  }
-                     //document.getElementById("organization_link").style.setProperty("visibility", "hidden"); 
                  else{
                     jQuery("#organization_link").show();
                     jQuery("#organization_import").attr("type","button");
@@ -302,12 +301,6 @@ jQuery("#register_step2").submit(function(event) {
     }
 });
      
-     
- /*jQuery( "#lang_id" ).click(function() {
-    alert(jQuery(".bfh-selectbox").val());    
-
-});*/     
-
 
 /*
  * Checkbox buttons for autocomplete LinkedIn Company Profile Activation
@@ -412,8 +405,8 @@ setSubsctorValues(jQuery('.multiselect').val(),selectedTexts);
  */
 jQuery(document).ready(function() {
     document.getElementById("mainmenu").style.setProperty("display", "none");
-    document.getElementById("register-page-step2").style.setProperty("display", "none");
-    document.getElementById("register-page-step3").style.setProperty("display", "none");
+   // document.getElementById("register-page-step2").style.setProperty("display", "none");
+    //document.getElementById("register-page-step3").style.setProperty("display", "none");
     //jQuery("#organization_sector_div").find('.multiselect').multiselect({ numberDisplayed: 1 });
     jQuery("#organization_sector").multiselect({ numberDisplayed: 1 });
     jQuery("#organization_subsector").multiselect({ numberDisplayed: 5 , maxHeight: 300, enableFiltering: true});
