@@ -601,13 +601,17 @@ final class BP_Alert_Factory {
                 $offer_url = bp_offer_get_permalink() . "offer" . $extras['offer_id'];
                 $body_email = 'An interesting offer was published by an organisation,  view the organisation <a target="_blank" href=\'' . $organization_url . '\'>here!</a>. Additionally you can view the published offer <a target="_blank" href=\'' . $offer_url . '\'>here!</a>' . $body_email;
                 break;
+            case(4):
+                $patent_license_url = bp_patent_license_get_permalink() . "patent_license" . $extras['patent_license_id'];
+                $body_email = 'An interesting patent/license was published by an organisation,  view the organisation <a target="_blank" href=\'' . $organization_url . '\'>here!</a>. Additionally you can view the published patent/license <a target="_blank" href=\'' . $patent_license_url . '\'>here!</a>' . $body_email;
+                break;
             case(5):
                 $offer_url = bp_offer_get_permalink() . "offer" . $extras['offer_id'];
                 $body_email = 'An interesting offer was published by an organisation,  view the organisation <a target="_blank" href=\'' . $organization_url . '\'>here!</a>. Additionally you can view the published offer <a target="_blank" href=\'' . $offer_url . '\'>here!</a>' . $body_email;
                 break;
         }
         //Inform user - Send notification email
-        //wp_mail($user_email, $subject_email, $body_email, $headers_email);
+        wp_mail($user_email, $subject_email, $body_email, $headers_email);
         //Update alert trigger number
         self::update_alert_tigger_num($alert_id);
     }
@@ -622,7 +626,7 @@ final class BP_Alert_Factory {
         if (empty($alert_schedule) && !BP_ALERTS_IS_INSTALLED)
             return;
 
-        if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON )
+        if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON)
             echo "<br><br><span style='color:green'><b>Alert System is fully activated!</b></span>";
         else
             echo "<br><br><span style='color:red'><b>Warning Alert System is not configured properly...</b></span>";
@@ -651,7 +655,7 @@ final class BP_Alert_Factory {
             case(1): {//"2014-02-05 15:13:40"
                     if ($_GET['debug'])
                         echo "<h3>Start Search Organization Alerts Action </h3><hr>";
-                    $recent_registered_organizations = (CECOM_Organization::fetch_recent_registered_organizations("2014-02-05 15:13:40"));
+                    $recent_registered_organizations = (CECOM_Organization::fetch_recent_registered_organizations($since_time));
                     if (count($recent_registered_organizations) && count($users_interested_organizations = self::get_alert_action_query($action_id)))
                         CECOM_Organization::check_for_interested_organizations($recent_registered_organizations, $users_interested_organizations);
                     break;
@@ -660,7 +664,7 @@ final class BP_Alert_Factory {
             case(2): {
                     if ($_GET['debug'])
                         echo "<h3>Start Search Organization Offers Alerts Action (develop products and services) </h3><hr>";
-                    $recent_organization_offers_product_service = (CECOM_Organization::fetch_recent_organization_offers("2014-02-05 15:13:40", $action_id - 1));
+                    $recent_organization_offers_product_service = (CECOM_Organization::fetch_recent_organization_offers($since_time, $action_id - 1));
                     if (count($recent_organization_offers_product_service) && count($users_interested_organization_offers = self::get_alert_action_query($action_id)))
                         CECOM_Organization::check_for_interested_organizations($recent_organization_offers_product_service, $users_interested_organization_offers);
                     break;
@@ -669,7 +673,7 @@ final class BP_Alert_Factory {
             case(3): {
                     if ($_GET['debug'])
                         echo "<h3>Start Search Organization Offers Alerts Action (funded project)</h3><hr>";
-                    $recent_organization_offers_funded_project = (CECOM_Organization::fetch_recent_organization_offers("2014-02-05 15:13:40", $action_id - 1));
+                    $recent_organization_offers_funded_project = (CECOM_Organization::fetch_recent_organization_offers($since_time, $action_id - 1));
                     if (count($recent_organization_offers_funded_project) && count($users_interested_organization_offers = self::get_alert_action_query($action_id)))
                         CECOM_Organization::check_for_interested_organizations($recent_organization_offers_funded_project, $users_interested_organization_offers);
                     break;
@@ -677,6 +681,12 @@ final class BP_Alert_Factory {
 
             //Search patent/license
             case(4): {
+                    if ($_GET['debug'])
+                        echo "<h3>Start Search Patents/Licenses Alerts Action (funded project)</h3><hr>";
+                    $recent_patent_licenses_offers = (BP_Patent_License::fetch_recent_published_patents_licenses($since_time));
+                    if (count($recent_patent_licenses_offers) && count($users_interested_patents_licenses = self::get_alert_action_query($action_id)))
+                        BP_Patent_License::check_for_interested_patents_licenses($recent_patent_licenses_offers, $users_interested_patents_licenses);
+                    //print_r($recent_patent_licenses_offers);
 
                     break;
                 }
@@ -684,7 +694,7 @@ final class BP_Alert_Factory {
             case(5): {
                     if ($_GET['debug'])
                         echo "<h3>Start Search Offers Alerts Action (Funding)</h3><hr>";
-                    $recent_funding_offers = (BP_Offer::fetch_recent_published_offers("2014-02-05 15:13:40", $offer_type = 3));
+                    $recent_funding_offers = (BP_Offer::fetch_recent_published_offers($since_time, $offer_type = 3));
                     if (count($recent_funding_offers) && count($users_interested_funding_offers = self::get_alert_action_query($action_id)))
                         BP_Offer::check_for_interested_offers($recent_funding_offers, $users_interested_funding_offers);
 

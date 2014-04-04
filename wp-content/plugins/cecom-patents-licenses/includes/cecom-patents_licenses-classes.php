@@ -649,6 +649,133 @@ class BP_Patent_License {
 
         return array('patents_licenses' => $paged_patents_licenses, 'total' => $total_patents_licenses);
     }
+    
+    
+    
+    
+        /* The following static functions are used only by the Alerts Component */
+
+    //Return the most recent registered organizations since the previous Cron check
+    public static function fetch_recent_published_patents_licenses($since_time) {
+        global $wpdb;
+        $prefix_values = "org.id,org.gid,org.name,org.description,org.type_id type,org.country_id country,slug,patent_license.id pid,patent_license.type_id pltype_id,patent_license.country_id pl_country_id, patent_license.exchange_id,patent_license.description pldescription ";
+        //echo "Query: "."SELECT $prefix_values FROM ext_organization org,ext_offer offer,wp_bp_groups groups WHERE groups.id=org.gid AND org.gid=offer.gid AND offer.type_id=$offer_type AND offer.date >= '$since_time'";
+        return $wpdb->get_results("SELECT $prefix_values FROM ext_organization org,ext_patent_license patent_license,wp_bp_groups groups WHERE groups.id=org.gid AND org.gid=patent_license.gid AND patent_license.date >= '$since_time' ", ARRAY_A);
+    }
+
+
+    public static function check_for_interested_patents_licenses($new_patents_licenses, $interested_patents_licenses) {
+        foreach ($new_patents_licenses as $patent_license)
+            foreach ($interested_patents_licenses as $interested_patent_license)
+                self::check_for_matching_criteria($patent_license, $interested_patent_license);
+    }
+
+    public static function check_for_matching_criteria($patent_license, $interested_patent_license) {
+
+          /*print_r($patent_license);
+          echo "<br><br>";
+          print_r($interested_patent_license);
+          echo "<br><br>"; */
+
+        if ($patent_license['gid'] == $interested_patent_license['gid'])
+            return;
+        
+        //If is an offer serach normalize the fields
+
+            $interested_patent_license['action_query'] = str_replace("patent-license-type", "pltype_id", $interested_patent_license['action_query']);
+            $interested_patent_license['action_query'] = str_replace("patent-license-exchange", "exchange_id", $interested_patent_license['action_query']);
+            $interested_patent_license['action_query'] = str_replace("patent-license-countries", "pl_country_id", $interested_patent_license['action_query']);
+            
+
+
+        $patent_license_criteria = array();
+        $tmp_array = explode('|', $interested_patent_license['action_query']);
+
+        foreach ($tmp_array as $val) {
+            $tmp = explode(';', $val);
+            if ($tmp[1] != "" && $tmp[1] != "none" && $tmp[1] != "on") {
+                if ($tmp[0] == "text")
+                    $text = $tmp[1];
+                else if ($tmp[0] == "organization-name")
+                    $organization_name = $tmp[1];
+                else {
+                    if ($tmp[0] == "patent-license-sectors") {
+                        $sectors_criteria = $tmp[1];
+                        $sectors_tmp = explode(',', $tmp[1]);
+                        foreach ($sectors_tmp as $value) {
+                            $sectors["sector" . $value] = $value;
+                        }
+                        unset($sectors_tmp);
+                    } else if ($tmp[0] == "patent-license-subsectors") {
+                        $subsectors_criteria = $tmp[1];
+                        $subsectors_tmp = explode(',', $tmp[1]);
+                        foreach ($subsectors_tmp as $value) {
+                            $subsectors["subsector" . $value] = $value;
+                        }
+                        unset($subsectors_tmp);
+                    } else if (!strpos("@" . $tmp[0], "organization_"))
+                        $patent_license_criteria[( strpos("@" . $tmp[0], "organization-") > 0 ? substr($tmp[0], 13) : $tmp[0])] = $tmp[1];
+                }
+            }
+        }
+
+        //print_r($patent_license_criteria);
+        $criteria_num = count($patent_license_criteria);
+        $extra_criteria_num = count($sectors_criteria) + count($subsectors_criteria);
+        $text_criteria = (empty($text) ? 0 : 1) + (empty($organization_name) ? 0 : 1);
+        $total_criteria_num = $criteria_num + $extra_criteria_num + $text_criteria;
+        $sectors;
+        $subsectors;
+        $matched_extra_criteria = 0;
+
+        //Calculate sectors and subsectors matches
+        if ($extra_criteria_num) {
+
+            global $wpdb;
+            $complexArray = ($wpdb->get_results("SELECT mvalue sector FROM `ext_patent_license_meta` WHERE pid={$patent_license['pid']} and mkey='sector'", ARRAY_A));
+            $singleArray = array();
+
+            if (!empty($sectors)) {
+                foreach ($complexArray as $key => $value) {
+                    $singleArray["sector" . $value['sector']] = $value['sector'];
+                }
+                if (count($sectors) == count(array_intersect_assoc($sectors, $singleArray)))
+                    $matched_extra_criteria++;
+            }
+
+            if (!empty($subsectors)) {
+                $complexArray = ($wpdb->get_results("SELECT mvalue subsector FROM `ext_patent_license_meta` WHERE pid={$patent_license['pid']} and mkey='subsector'", ARRAY_A));
+                $singleArray = array();
+                foreach ($complexArray as $key => $value) {
+                    $singleArray["subsector" . $value['subsector']] = $value['subsector'];
+                }
+                if (count($subsectors) == count(array_intersect_assoc($subsectors, $singleArray)))
+                    $matched_extra_criteria++;
+            }
+        }
+
+        $matched_criteria = count(array_intersect_assoc($patent_license, $patent_license_criteria));
+
+        //Check if description or  name of the organization match the text of interested organization
+        $matched_text_criteria = (strpos("@" . $patent_license['pldescription'], $text) > 0 ? 1 : 0 ) + (strpos("@" . $patent_license['name'], $organization_name) > 0 ? 1 : 0 );
+        $matched_all_criteria = ($total_criteria_num == ($matched_criteria + $matched_extra_criteria + $matched_text_criteria));
+
+        if ($_GET['debug']) {
+            echo "Criteria: $criteria_num  Extra criteria: $extra_criteria_num Text criteria: $text_criteria <br>";
+            echo "Total criteria: $total_criteria_num Matched criteria: $matched_criteria Matched extra criteria: $matched_extra_criteria Matched text: $matched_text_criteria <br><br>";
+        }
+
+        //Organization matches all the criteria of the alert
+        if ($matched_all_criteria) {
+            if ($_GET['debug'])
+                echo "<b>Found exact criteria matched! OrgID:{$patent_license['id']}  Patent_LicenseID: {$patent_license['pid']} AlertID:{$interested_patent_license['id']}  </b>";
+            BP_Alert_Factory::notify_alert_user($interested_patent_license['action_id'], $interested_patent_license['uid'], $interested_patent_license['id'], array('slug' => $patent_license['slug'], 'patent_license_id' => ($patent_license['pid'] ? $patent_license['pid'] : 0)));
+        }
+        if ($_GET['debug'])
+            echo "<hr>";
+    }
+
+    /* End of alerts component functions */
 
 }
 

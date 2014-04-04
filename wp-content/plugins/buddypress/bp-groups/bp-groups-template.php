@@ -1502,7 +1502,7 @@ function bp_group_admin_tabs($group = false) {
         return false;
     ?>
 
-    <li<?php if ('group-settings' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-settings') ?>"><?php _e('Settings', 'buddypress'); ?></a></li>
+    <!--<li<?php if ('group-settings' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-settings') ?>"><?php _e('Settings', 'buddypress'); ?></a></li>-->
 
     <?php if (!(int) bp_get_option('bp-disable-avatar-uploads')) : ?>
 
