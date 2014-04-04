@@ -68,10 +68,21 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
                 $max = "";
             }
             echo $min . $minus . $max . " Employees";
+            
+            $gr_creator_id = bp_get_group_creator_id();
+            /* dirty :-( */
+            global $wpdb;
+            $admins = $wpdb->get_results("SELECT user_login, user_email  FROM wp_users WHERE ID = $gr_creator_id");
+            $adm = $admins[0];
+            $admin_name = $adm->user_login;
+            $admin_email = '<a href="mailto:'.$adm->user_email.'">'.$adm->user_email.'</a>';
+            
             ?>
             </br></br>
-            <strong>Website</strong></br><a target="_blank" href="<?php echo $cecom->organization->details['website'] ?>" ><?php echo substr($cecom->organization->details['website'], 0, 21); ?></a></br></br>
-            <strong>Location</strong></br><span class="bfh-countries" data-country="<?php echo $cecom->organization->details['country'] ?>" data-flags="true"></span>
+            <strong>Website</strong></br><a target="_blank" href="<?php echo $cecom->organization->details['website'] ?>" ><?php echo $cecom->organization->details['website'] /*substr($cecom->organization->details['website'], 0, 21);*/ ?></a></br></br>
+            <strong>Location</strong></br><span class="bfh-countries" data-country="<?php echo $cecom->organization->details['country'] ?>" data-flags="true"></span><br><br>
+            
+            <strong>Administrator</strong></br><span><?php echo $admin_name." ".$admin_email  ?></span>
         </p>
 
         <?php ?>
