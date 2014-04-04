@@ -5,9 +5,11 @@
  * and open the template in the editor.
  */
 ?>
+
+<?php $group_id = bp_get_group_id(); ?>
 <h4> Collaboration Offers</h4>
 <h5> Develop products and services</h5>
-<?php if (bp_has_offers(bp_ajax_querystring('offers') . (!empty(bp_ajax_querystring('offers')) ? "&" : "") . "group_id=" . bp_get_group_id() . "&offer_type=1")) : ?>
+<?php if (bp_has_offers(bp_ajax_querystring('offers') . (!empty(bp_ajax_querystring('offers')) ? "&" : "") . "group_id=" . $group_id . "&offer_type=1")) : ?>
     <ul id="offers-list" class="item-list" role="main">
         <?php while (bp_offers()) : bp_the_offer(); ?>
             <li>
@@ -48,7 +50,7 @@ endif;
 ?>
 
 <h5> Funded Projects</h5>
-<?php if (bp_has_offers(bp_ajax_querystring('offers') . (!empty(bp_ajax_querystring('offers')) ? "&" : "") . "group_id=" . bp_get_group_id() . "&offer_type=2")) : ?>
+<?php if (bp_has_offers(bp_ajax_querystring('offers') . (!empty(bp_ajax_querystring('offers')) ? "&" : "") . "group_id=" . $group_id . "&offer_type=2")) : ?>
     <ul id="offers-list" class="item-list" role="main">
         <?php while (bp_offers()) : bp_the_offer(); ?>
             <li>
@@ -88,7 +90,7 @@ else: echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>No <b>Funded Projects</b> offers ha
 endif;
 ?>
 <h4> Funding Offers</h4>
-<?php if (bp_has_offers(bp_ajax_querystring('offers') . (!empty(bp_ajax_querystring('offers')) ? "&" : "") . "group_id=" . bp_get_group_id() . "&offer_type=3")) : ?>
+<?php if (bp_has_offers(bp_ajax_querystring('offers') . (!empty(bp_ajax_querystring('offers')) ? "&" : "") . "group_id=" . $group_id . "&offer_type=3")) : ?>
     <ul id="offers-list" class="item-list" role="main">
         <?php while (bp_offers()) : bp_the_offer(); ?>
             <li>
@@ -127,7 +129,7 @@ else: echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>No <b>Funding</b> offers has been p
 endif;
 ?>
 <h4> Patents/Licenses</h4>
-<?php if (bp_has_patents_licenses(bp_ajax_querystring('patents_licenses') . (!empty(bp_ajax_querystring('patents_licenses')) ? "&" : "") . "group_id=" . bp_get_group_id())) : ?>
+<?php if (bp_has_patents_licenses(bp_ajax_querystring('patents_licenses') . (!empty(bp_ajax_querystring('patents_licenses')) ? "&" : "") . "group_id=" . $group_id)) : ?>
 
     <ul id="patents_licenses-list" class="item-list" role="main">
 
@@ -170,7 +172,7 @@ else: echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>No <b>Patents/Licenses</b> has been
 endif;
 ?>
 <h4> Tools/Facilities Rent Offers</h4>
-<?php if (bp_has_tools_facilities(bp_ajax_querystring('tools_facilities') . (!empty(bp_ajax_querystring('tools_facilities')) ? "&" : "") . "group_id=" . bp_get_group_id())) : ?>
+<?php if (bp_has_tools_facilities(bp_ajax_querystring('tools_facilities') . (!empty(bp_ajax_querystring('tools_facilities')) ? "&" : "") . "group_id=" . $group_id)) : ?>
 
     <ul id="tools_facilities-list" class="item-list" role="main">
 
