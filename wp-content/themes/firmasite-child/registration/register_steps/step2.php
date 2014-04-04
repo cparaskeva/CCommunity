@@ -2,7 +2,7 @@
 
     <form action="" name="organization_form" id="register_step2" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
 
-        <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/step2.jpg" height="60" width="60">        
+        <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/2.png" height="60" width="60">        
             <?php _e('Register an Organization', 'firmasite'); ?></h2>
 
         <?php do_action('template_notices'); ?>

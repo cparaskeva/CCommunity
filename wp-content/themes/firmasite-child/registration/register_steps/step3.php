@@ -1,5 +1,5 @@
 <div name="page" id="register-page-step3">
-    <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/step3.jpg" height="60" width="60">        
+    <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/3.png" height="60" width="60">        
         <?php _e('Account Activation', 'firmasite'); ?></h2>
     <h3>Congratulations, you have successfuly registered to Central Community Platform!</h3><br>
 

@@ -1,7 +1,7 @@
 <div class="page" id="register-page-step1"> 
     <form name="signup_form" id="register_step1" class="standard-form form-horizontal" method="post" enctype="multipart/form-data" action="">
         <?php
-        _e("<h2>  <img src=\"" . get_stylesheet_directory_uri() . "/assets/img/step1.jpg\" height=\"60\" width=\"60\">        
+        _e("<h2>  <img src=\"" . get_stylesheet_directory_uri() . "/assets/img/1.png\" height=\"60\" width=\"60\">        
                            Create an Account</h2>");
         _e("<div class=\"register-section\" id=\"basic-details-section\">");
         ?>    
