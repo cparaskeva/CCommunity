@@ -134,7 +134,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
 				return $offers;
 			}
 			
-			$max_desc_len = 30;
+			$max_desc_len = 60;
 			$offers = getLatestOffers();
 			foreach ($offers as $off) {
 				$org_slug =  bp_get_root_domain().'/groups/'.$off->slug;
@@ -142,11 +142,11 @@ $org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
 				
 				$off_type = $off->type;
 				$o_url = bp_get_root_domain().'/offers/offer'.$off->id;
-				$desc = $off->description;
+				$desc = stripslashes($off->description);
 				if (strlen($desc) > $max_desc_len)
 					$desc = substr($desc, 0, $max_desc_len) . '...';
 				
-				echo "<li><a href='$org_slug'>$org</a> - $off_type : ".
+				echo "<li><a href='$org_slug'>$org</a> - $off_type :<br>".
 					"<a href='$o_url'>$desc</a></li>";
 			}
 			?>
