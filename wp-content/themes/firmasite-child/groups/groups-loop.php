@@ -38,7 +38,57 @@
 
                 <div class="item">
                     <div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a></div>
-                    <div class="item-meta"><span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span></div>
+                    <div class="item-meta">
+                    	<span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
+                    	<span class="extra">
+                    		<?php 
+                    		$gid = bp_get_group_id();
+                    	
+                    		$org = CECOM_Organization::instance();
+                    		$org->setOrganizationDetails($gid);
+                    		
+                    		$country = '';
+                    		$countries = CECOM_Organization::getAllCountries();
+                    		foreach ($countries as $c) {
+								if ($c->id == $org->details['country']) {
+									$country = $c->name; 									
+									break;
+								}                    			
+                    		}
+                    		
+                    		$smax = $org->details['size_max'];
+                    		$size = $org->details['size_min'].($smax > 0 ? '-'.$smax : '+').' Employees';
+                    		
+                    		$sectors = '...';
+                    		foreach ($org->details['sectors'] as $s) {
+                    			$s_a[] = trim($s['description']);
+                    		}
+                    		if (count($s_a) > 0)
+                    			$sectors = join(', ', $s_a);
+                    		
+                    		$subsectors = '...';
+                    		foreach ($org->details['subsectors'] as $s) {
+                    			$ss_a[] = trim($s['description']);
+                    		}
+                    		if (count($ss_a) > 0)
+                    			$subsectors = join(', ', $ss_a);
+                    		
+                    		$type = $org->details['type'];
+                    		
+                    		
+                    		$gr_creator_id = bp_get_group_creator_id();
+                    		                    		
+                    		/* dirty :-( */
+                    		global $wpdb;
+                    		$admins = $wpdb->get_results("SELECT display_name, user_email  FROM wp_users WHERE ID = $gr_creator_id");
+                    		$adm = $admins[0];
+                    		$admin_name = $adm->display_name;
+                    		$admin_email = '<a href="mailto:'.$adm->user_email.'">'.$adm->user_email.'</a>';
+                    		
+                    		echo "$country <b>/</b> $size <b>/</b> $sectors <b>/</b> $subsectors <b>/</b> $type <b>/</b> $admin_name: $admin_email<hr>";
+                    		?>
+                    	</span>
+                    </div>
 
                     <div class="item-desc"><?php bp_group_description_excerpt(); ?></div>
 
@@ -57,7 +107,7 @@
     <?php do_action('bp_after_directory_groups_list'); ?>
 
 
-    <?php BP_Alert_Factory::getAlertBox(); ?>
+    <?php /*BP_Alert_Factory::getAlertBox();*/ ?>
 
     <div id="pag-bottom" class="pagination text-muted">
 
