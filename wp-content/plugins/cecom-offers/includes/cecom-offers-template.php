@@ -123,8 +123,8 @@ function bp_offers_get_owner_permalink($userd_id = 0) {
 }
 
 function bp_offers_get_organization() {
-    global $offers_template,$bp;
-    $group_id= ($offers_template->offer ) ? $offers_template->offer->gid : $bp->offers->current_offer->gid;
+    global $offers_template, $bp;
+    $group_id = ($offers_template->offer ) ? $offers_template->offer->gid : $bp->offers->current_offer->gid;
     return CECOM_Organization::getOrganizationOfferDetails($group_id);
 }
 
@@ -351,6 +351,8 @@ class BP_Offers_Template {
             'slug' => false,
             'search_terms' => '',
             'search_extras' => '',
+            'group_id' => $r['group_id'],
+            'offer_type' => $r['offer_type']
         );
 
         $r = wp_parse_args($args, $defaults);
@@ -378,6 +380,8 @@ class BP_Offers_Template {
                 'search_terms' => $search_terms,
                 'search_extras' => $search_extras,
                 'user_id' => $user_id,
+                'group_id' => $r['group_id'],
+                'offer_type' => $r['offer_type']
             ));
         }
 
@@ -494,7 +498,7 @@ function bp_get_offer_id($offer = false) {
 }
 
 function bp_has_offers($args = '') {
-//print_r($args);
+    //print_r($args);
     global $offers_template, $bp;
 
     /*
@@ -530,13 +534,15 @@ function bp_has_offers($args = '') {
         'order' => 'DESC',
         'orderby' => 'newest',
         'page' => 1,
-        'per_page' => 10,
+        'per_page' => 20,
         'max' => false,
         'page_arg' => 'offpage',
         'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
         'slug' => $slug, // Pass an offer slug to only return that offer
         'search_terms' => '', // Pass search terms to return only matching offers
         'search_extras' => '',
+        'group_id' => 0,
+        'offer_type' => 0
     );
 
 
@@ -565,12 +571,15 @@ function bp_has_offers($args = '') {
         'slug' => $r['slug'],
         'search_terms' => $r['search_terms'],
         'search_extras' => $r['search_extras'],
+        'group_id' => $r['group_id'],
+        'offer_type' => $r['offer_type']
     ));
 
     return apply_filters('bp_has_offers', $offers_template->has_offers(), $offers_template, $r);
 }
 
 function offers_get_offers($args = '') {
+
     $defaults = array(
         'type' => false, // active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts
         'order' => 'DESC', // 'ASC' or 'DESC'
@@ -580,22 +589,32 @@ function offers_get_offers($args = '') {
         'search_terms' => false, // Limit to groups that match these search terms
         'search_extras' => false,
         'user_id' => false, // Pass a user_id to limit to only groups that this user is a member of
+        'group_id' => 0,
+        'offer_type' => 0
     );
 
     $r = wp_parse_args($args, $defaults);
 
-    $offers = BP_Offer::get(array(
-                'type' => $r['type'],
-                'order' => $r['order'],
-                'orderby' => $r['orderby'],
-                'per_page' => $r['per_page'],
-                'page' => $r['page'],
-                'user_id' => $r['user_id'],
-                'search_terms' => $r['search_terms'],
-                'search_extras' => $r['search_extras'],
-    ));
+    if ($r['group_id'] && $r['offer_type']) {
+        $offers = BP_Offer::get_organization_offers(array(
+                    'per_page' => 20, // The number of results to return per page
+                    'page' => 1, // The page to return if limiting per page
+                    'group_id' => $r['group_id'],
+                    'offer_type' => $r['offer_type']
+        ));
+    } else {
 
-
+        $offers = BP_Offer::get(array(
+                    'type' => $r['type'],
+                    'order' => $r['order'],
+                    'orderby' => $r['orderby'],
+                    'per_page' => $r['per_page'],
+                    'page' => $r['page'],
+                    'user_id' => $r['user_id'],
+                    'search_terms' => $r['search_terms'],
+                    'search_extras' => $r['search_extras'],
+        ));
+    }
     return apply_filters_ref_array('offers_get_offers', array(&$offers, &$r));
 }
 ?>

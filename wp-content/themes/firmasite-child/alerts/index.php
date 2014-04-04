@@ -19,8 +19,8 @@ wp_enqueue_script('bootstrapformhelpers');
 /* Import CSS files */
 wp_enqueue_style('bootstrapformhelpers-style');
 
-
-BP_Alert_Factory::run_alert_system();
+if ($_GET['debug'] == 1)
+    BP_Alert_Factory::run_alert_system();
 
 global $bp;
 ?>

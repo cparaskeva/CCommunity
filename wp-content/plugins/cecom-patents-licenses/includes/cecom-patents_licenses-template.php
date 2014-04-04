@@ -384,6 +384,7 @@ class BP_Patents_Licenses_Template {
                 'search_terms' => $search_terms,
                 'search_extras' => $search_extras,
                 'user_id' => $user_id,
+                'group_id' => $r['group_id'],
             ));
         }
 
@@ -543,6 +544,7 @@ function bp_has_patents_licenses($args = '') {
         'slug' => $slug, // Pass an patent_license slug to only return that patent_license
         'search_terms' => '', // Pass search terms to return only matching patents_licenses
         'search_extras' => '',
+        'group_id' => 0,
     );
 
 
@@ -571,6 +573,7 @@ function bp_has_patents_licenses($args = '') {
         'slug' => $r['slug'],
         'search_terms' => $r['search_terms'],
         'search_extras' => $r['search_extras'],
+        'group_id' => $r['group_id'],
     ));
 
     return apply_filters('bp_has_patents_licenses', $patents_licenses_template->has_patents_licenses(), $patents_licenses_template, $r);
@@ -586,22 +589,30 @@ function patents_licenses_get_patents_licenses($args = '') {
         'search_terms' => false, // Limit to groups that match these search terms
         'search_extras' => false,
         'user_id' => false, // Pass a user_id to limit to only groups that this user is a member of
+        'group_id' => 0,
     );
 
     $r = wp_parse_args($args, $defaults);
 
-    $patents_licenses = BP_Patent_License::get(array(
-                'type' => $r['type'],
-                'order' => $r['order'],
-                'orderby' => $r['orderby'],
-                'per_page' => $r['per_page'],
-                'page' => $r['page'],
-                'user_id' => $r['user_id'],
-                'search_terms' => $r['search_terms'],
-                'search_extras' => $r['search_extras'],
-    ));
+    if ($r['group_id']) {
+        $patents_licenses = BP_Patent_License::get_organization_patents_licenses(array(
+                    'per_page' => 20, // The number of results to return per page
+                    'page' => 1, // The page to return if limiting per page
+                    'group_id' => $r['group_id'],
+        ));
+    } else {
 
-
+        $patents_licenses = BP_Patent_License::get(array(
+                    'type' => $r['type'],
+                    'order' => $r['order'],
+                    'orderby' => $r['orderby'],
+                    'per_page' => $r['per_page'],
+                    'page' => $r['page'],
+                    'user_id' => $r['user_id'],
+                    'search_terms' => $r['search_terms'],
+                    'search_extras' => $r['search_extras'],
+        ));
+    }
     return apply_filters_ref_array('patents_licenses_get_patents_licenses', array(&$patents_licenses, &$r));
 }
 ?>

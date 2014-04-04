@@ -528,21 +528,20 @@ class BP_Patent_License {
                     $sectors_query = (!empty($search_extras_args['patent-license-subsectors']) ? " (mkey='subsector' and mvalue in ({$search_extras_args['patent-license-subsectors']})" : $sectors_query);
                     $search_extras_subquery = " AND patent_license.id in (select pid from ext_patent_license_meta where {$sectors_query}))";
                 }
-                
-                
-                //Handle organisation fileds query
-                $search_organization_query='';
-                $search_organization_query.= (strlen($search_extras_args['organization-name'])>0  ? " AND name LIKE'%%{$search_extras_args['organization-name']}%%' " : "");
-                $search_organization_query.= ($search_extras_args['organization-country']!= ""?" AND country_id='{$search_extras_args['organization-country']}'"  :"" );
-                $search_organization_query.= ($search_extras_args['organization-type']!= "none"?" AND type_id='{$search_extras_args['organization-type']}'"  :"" );
-                
-                if (!empty($search_organization_query))
-                    $search_organization_query= " AND patent_license.gid in (SELECT gid from ext_organization WHERE ".substr($search_organization_query,4). ") ";
 
+
+                //Handle organisation fileds query
+                $search_organization_query = '';
+                $search_organization_query.= (strlen($search_extras_args['organization-name']) > 0 ? " AND name LIKE'%%{$search_extras_args['organization-name']}%%' " : "");
+                $search_organization_query.= ($search_extras_args['organization-country'] != "" ? " AND country_id='{$search_extras_args['organization-country']}'" : "" );
+                $search_organization_query.= ($search_extras_args['organization-type'] != "none" ? " AND type_id='{$search_extras_args['organization-type']}'" : "" );
+
+                if (!empty($search_organization_query))
+                    $search_organization_query = " AND patent_license.gid in (SELECT gid from ext_organization WHERE " . substr($search_organization_query, 4) . ") ";
             }
         }
         //echo "Meta Query: " . $serach_extras_query.$search_extras_subquery.$search_organization_query;
-        return $serach_extras_query.$search_extras_subquery.$search_organization_query;
+        return $serach_extras_query . $search_extras_subquery . $search_organization_query;
     }
 
     /**
@@ -606,6 +605,49 @@ class BP_Patent_License {
         }
 
         return $order_by_term;
+    }
+
+    public static function get_organization_patents_licenses($args = array()) {
+
+        //print_r($args);
+        global $wpdb, $bp;
+
+        $limit = " limit 10";
+
+        $sql = array();
+        $total_sql = array();
+
+        //TODO: Proper handle of selection clause
+        $sql['select'] = "SELECT patent_license.*,type.description tdesc";
+
+        //Main table to fetch the information
+        $sql['from'] = " FROM {$bp->patents_licenses->table_name} as patent_license,`ext_patent_license_type` as type";
+
+
+        //Query Where clause 
+        $sql['where'] = "WHERE patent_license.type_id = type.id AND patent_license.gid={$args['group_id']} ";
+
+
+        $sql['orderby'] = "ORDER BY date DESC" . $limit;
+        ;
+        /* End of Order Calculation */
+
+
+        // Get paginated results
+        $paged_patents_licenses_sql = apply_filters('bp_patents_licenses_get_paged_patents_licenses_sql', join(' ', (array) $sql), $sql);
+        //echo "Offer query paginates results: " . $paged_patents_licenses_sql;
+        $paged_patents_licenses = $wpdb->get_results($paged_patents_licenses_sql);
+
+
+        $total_patents_licenses_sql = "SELECT COUNT(DISTINCT id) FROM {$bp->patents_licenses->table_name}  as patent_license WHERE gid={$args['group_id']} ";
+        // Get total offer results
+
+        $total_patents_licenses = $wpdb->get_var($total_patents_licenses_sql);
+        //echo " <br>Offer count query: " . $total_patents_licenses;
+
+        unset($sql, $total_sql);
+
+        return array('patents_licenses' => $paged_patents_licenses, 'total' => $total_patents_licenses);
     }
 
 }

@@ -372,6 +372,7 @@ class BP_Tools_Facilities_Template {
                 'search_terms' => $search_terms,
                 'search_extras' => $search_extras,
                 'user_id' => $user_id,
+                'group_id' => $r['group_id']
             ));
         }
 
@@ -531,6 +532,7 @@ function bp_has_tools_facilities($args = '') {
         'slug' => $slug, // Pass an tool_facility slug to only return that tool_facility
         'search_terms' => '', // Pass search terms to return only matching tools_facilities
         'search_extras' => '',
+        'group_id' => 0,
     );
 
 
@@ -559,6 +561,7 @@ function bp_has_tools_facilities($args = '') {
         'slug' => $r['slug'],
         'search_terms' => $r['search_terms'],
         'search_extras' => $r['search_extras'],
+        'group_id' => $r['group_id'],
     ));
 
     return apply_filters('bp_has_tools_facilities', $tools_facilities_template->has_tools_facilities(), $tools_facilities_template, $r);
@@ -574,22 +577,31 @@ function tools_facilities_get_tools_facilities($args = '') {
         'search_terms' => false, // Limit to groups that match these search terms
         'search_extras' => false,
         'user_id' => false, // Pass a user_id to limit to only groups that this user is a member of
+        'group_id' => 0,
     );
 
     $r = wp_parse_args($args, $defaults);
 
-    $tools_facilities = BP_Tool_Facility::get(array(
-                'type' => $r['type'],
-                'order' => $r['order'],
-                'orderby' => $r['orderby'],
-                'per_page' => $r['per_page'],
-                'page' => $r['page'],
-                'user_id' => $r['user_id'],
-                'search_terms' => $r['search_terms'],
-                'search_extras' => $r['search_extras'],
-    ));
 
+    if ($r['group_id']) {
+        $tools_facilities = BP_Tool_Facility::get_organization_tools_facilities(array(
+                    'per_page' => 20, // The number of results to return per page
+                    'page' => 1, // The page to return if limiting per page
+                    'group_id' => $r['group_id'],
+        ));
+    } else {
 
+        $tools_facilities = BP_Tool_Facility::get(array(
+                    'type' => $r['type'],
+                    'order' => $r['order'],
+                    'orderby' => $r['orderby'],
+                    'per_page' => $r['per_page'],
+                    'page' => $r['page'],
+                    'user_id' => $r['user_id'],
+                    'search_terms' => $r['search_terms'],
+                    'search_extras' => $r['search_extras'],
+        ));
+    }
     return apply_filters_ref_array('tools_facilities_get_tools_facilities', array(&$tools_facilities, &$r));
 }
 ?>

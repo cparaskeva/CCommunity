@@ -694,6 +694,49 @@ class BP_Offer {
         return $order_by_term;
     }
 
+    public static function get_organization_offers($args = array()) {
+
+        //print_r($args);
+        global $wpdb, $bp;
+
+        $limit = " limit 10";
+
+        $sql = array();
+        $total_sql = array();
+
+        //TODO: Proper handle of selection clause
+        $sql['select'] = "SELECT offer.*,type.description tdesc";
+
+        //Main table to fetch the information
+        $sql['from'] = " FROM {$bp->offers->table_name} as offer,`ext_offer_type` as type";
+
+
+        //Query Where clause 
+        $sql['where'] = "WHERE offer.type_id = type.id AND type.id= {$args['offer_type']} AND offer.gid={$args['group_id']} " ;
+
+
+
+        $sql['orderby'] = "ORDER BY date DESC" . $limit;;
+        /* End of Order Calculation */
+
+
+        // Get paginated results
+        $paged_offers_sql = apply_filters('bp_offers_get_paged_offers_sql', join(' ', (array) $sql), $sql);
+        //echo "Offer query paginates results: " . $paged_offers_sql;
+        $paged_offers = $wpdb->get_results($paged_offers_sql);
+
+
+        $total_offers_sql = "SELECT COUNT(DISTINCT id) FROM {$bp->offers->table_name} as offer WHERE gid={$args['group_id']} AND offer.type_id={$args['offer_type']} ";
+        // Get total offer results
+
+        $total_offers = $wpdb->get_var($total_offers_sql);
+        //echo " <br>Offer count query: " . $total_offers;
+
+        unset($sql, $total_sql);
+
+        return array('offers' => $paged_offers, 'total' => $total_offers);
+    }
+
     /* The following static functions are used only by the Alerts Component */
 
     //Return the most recent registered organizations since the previous Cron check
@@ -718,10 +761,10 @@ class BP_Offer {
         global $wpdb;
         $org_id = $wpdb->get_var("SELECT id from ext_organization WHERE gid = {$offer['gid']}");
 
-        /*print_r($offer);
-        echo "<br><br>";
-        print_r($interested_offer);
-        echo "<br><br>";*/
+        /* print_r($offer);
+          echo "<br><br>";
+          print_r($interested_offer);
+          echo "<br><br>"; */
 
 
         //If is an offer serach normalize the fields
@@ -791,7 +834,7 @@ class BP_Offer {
         if ($matched_all_criteria) {
             if ($_GET['debug'])
                 echo "<b>Found exact criteria matched! OrgID:$org_id  OfferID: {$offer['id']} AlertID:{$interested_offer['id']}  </b>";
-            BP_Alert_Factory::notify_alert_user($interested_offer['action_id'], $interested_offer['uid'], $interested_offer['id'], array('slug' => "organization".$org_id, 'offer_id' => ($offer['id'] ? $offer['id'] : 0)));
+            BP_Alert_Factory::notify_alert_user($interested_offer['action_id'], $interested_offer['uid'], $interested_offer['id'], array('slug' => "organization" . $org_id, 'offer_id' => ($offer['id'] ? $offer['id'] : 0)));
         }
         if ($_GET['debug'])
             echo "<hr>";

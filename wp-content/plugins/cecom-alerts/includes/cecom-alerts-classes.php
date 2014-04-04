@@ -584,7 +584,7 @@ final class BP_Alert_Factory {
         $headers_email = 'Content-type: text/html';
         $alert_deactivation_message = '<br><br><i>You can deactivate the alert <a target="_blank" href=\'' . $alert_disable_url . '\'>here!</a></i>';
         $body_email = $alert_deactivation_message;
-        
+
         if ($_GET['debug'])
             echo "<br><b>Sending email to: $user_email </b>";
 
@@ -622,13 +622,21 @@ final class BP_Alert_Factory {
         if (empty($alert_schedule) && !BP_ALERTS_IS_INSTALLED)
             return;
 
+        if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON )
+            echo "<br><br><span style='color:green'><b>Alert System is fully activated!</b></span>";
+        else
+            echo "<br><br><span style='color:red'><b>Warning Alert System is not configured properly...</b></span>";
+
+
+        echo "<br><br>Alert Schedule Interval: " . $alert_schedule['interval'] . " secs";
+
         //Calaculate time since previous check
         $since_time = date('Y-m-d H:i:s', time() - $alert_schedule['interval']);
         //Get the current number of actions
         $action_num = self::get_num_of_alert_actions();
 
         if ($_GET['debug'])
-            echo "<br><br>Since Time: $since_time Actions Number: $action_num<br><hr>";
+            echo "<br>Since Time: $since_time Actions Number: $action_num<br><hr>";
 
         for ($action_id = 1; $action_id <= $action_num; $action_id++) {
             self::execute_action_alert($action_id, $since_time);

@@ -525,6 +525,51 @@ class BP_Tool_Facility {
 
         return $order_by_term;
     }
+    
+    
+    
+        public static function get_organization_tools_facilities($args = array()) {
+
+        //print_r($args);
+        global $wpdb, $bp;
+
+        $limit = " limit 10";
+
+        $sql = array();
+        $total_sql = array();
+
+        //TODO: Proper handle of selection clause
+        $sql['select'] = "SELECT tool_facility.*";
+
+        //Main table to fetch the information
+        $sql['from'] = " FROM {$bp->tools_facilities->table_name} as tool_facility";
+
+
+        //Query Where clause 
+        $sql['where'] = "WHERE tool_facility.gid={$args['group_id']} ";
+
+
+        $sql['orderby'] = "ORDER BY date DESC" . $limit;
+        ;
+        /* End of Order Calculation */
+
+
+        // Get paginated results
+        $paged_tools_facilities_sql = apply_filters('bp_tools_facilities_get_paged_tools_facilities_sql', join(' ', (array) $sql), $sql);
+        //echo "Offer query paginates results: " . $paged_tools_facilities_sql;
+        $paged_tools_facilities = $wpdb->get_results($paged_tools_facilities_sql);
+
+
+        $total_tools_facilities_sql = "SELECT COUNT(DISTINCT id) FROM {$bp->tools_facilities->table_name}  as tool_facility WHERE gid={$args['group_id']} ";
+        // Get total offer results
+
+        $total_tools_facilities = $wpdb->get_var($total_tools_facilities_sql);
+        //echo " <br>Offer count query: " . $total_tools_facilities;
+
+        unset($sql, $total_sql);
+
+        return array('tools_facilities' => $paged_tools_facilities, 'total' => $total_tools_facilities);
+    }
 
 }
 
