@@ -115,7 +115,7 @@
     <?php do_action('bp_after_directory_groups_list'); ?>
 
 
-    <?php /*BP_Alert_Factory::getAlertBox();*/ ?>
+    <?php BP_Alert_Factory::getAlertBox(); ?>
 
     <div id="pag-bottom" class="pagination text-muted">
 
