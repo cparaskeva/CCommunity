@@ -60,19 +60,27 @@
                     		$size = $org->details['size_min'].($smax > 0 ? '-'.$smax : '+').' Employees';
                     		
                     		$sectors = '...';
+                    		//<span style=\"background-color:" . $sector['color']. "\">
+                    		if (count($org->details['sectors'])) {
+                    			$sectors = '';
+                    			foreach ($org->details['sectors'] as $s) {
+                    				$sectors .= "<span style=\"background-color:" . $s['color']. "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ". trim($s['description']);
+                    			}
+                    		}
+                    		/*
                     		foreach ($org->details['sectors'] as $s) {
                     			$s_a[] = trim($s['description']);
                     		}
                     		if (count($s_a) > 0)
                     			$sectors = join(', ', $s_a);
-                    		
-                    		$subsectors = '...';
+                    		*/
+                    		/*$subsectors = '...';
                     		foreach ($org->details['subsectors'] as $s) {
                     			$ss_a[] = trim($s['description']);
                     		}
                     		if (count($ss_a) > 0)
                     			$subsectors = join(', ', $ss_a);
-                    		
+                    		*/
                     		$type = $org->details['type'];
                     		
                     		
@@ -80,12 +88,12 @@
                     		                    		
                     		/* dirty :-( */
                     		global $wpdb;
-                    		$admins = $wpdb->get_results("SELECT display_name, user_email  FROM wp_users WHERE ID = $gr_creator_id");
+                    		$admins = $wpdb->get_results("SELECT user_login, user_email  FROM wp_users WHERE ID = $gr_creator_id");
                     		$adm = $admins[0];
-                    		$admin_name = $adm->display_name;
+                    		$admin_name = $adm->user_login;
                     		$admin_email = '<a href="mailto:'.$adm->user_email.'">'.$adm->user_email.'</a>';
                     		
-                    		echo "$country <b>/</b> $size <b>/</b> $sectors <b>/</b> $subsectors <b>/</b> $type <b>/</b> $admin_name: $admin_email<hr>";
+                    		echo "<b>Country</b>: $country <b>/ Size</b>: $size <b>/ Sectors</b>: $sectors <b>/ Type</b>: $type <b>/ Administrator</b>: $admin_name $admin_email<hr>";
                     		?>
                     	</span>
                     </div>
