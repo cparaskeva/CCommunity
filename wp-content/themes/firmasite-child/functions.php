@@ -177,4 +177,20 @@ function cron_add_alert_system_time($schedules) {
 }
 add_filter('cron_schedules', 'cron_add_alert_system_time');
 
+
+
+//Set default buddypress navugation bar "Profile"
+define( "BP_DEFAULT_COMPONENT", "profile" );
+
+
+//Remove activity menu
+function bp_remove_nav_tabs() {
+bp_core_remove_nav_item( "activity" );
+
+}
+add_action( "bp_setup_nav", "bp_remove_nav_tabs", 15 );
+
+
+
+
 ?>
