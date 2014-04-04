@@ -9,7 +9,9 @@
 <?php $group_id = bp_get_group_id(); ?>
 <h4> Collaboration Offers</h4>
 <h5> Develop products and services</h5>
-<?php if (bp_has_offers(bp_ajax_querystring('offers') . (!empty(bp_ajax_querystring('offers')) ? "&" : "") . "group_id=" . $group_id . "&offer_type=1")) : ?>
+<?php 
+$seperator= (!empty(bp_ajax_querystring('offers')) ? "&" : "");
+if (bp_has_offers(bp_ajax_querystring('offers') . $seperator . "group_id=" . $group_id . "&offer_type=1")) : ?>
     <ul id="offers-list" class="item-list" role="main">
         <?php while (bp_offers()) : bp_the_offer(); ?>
             <li>
