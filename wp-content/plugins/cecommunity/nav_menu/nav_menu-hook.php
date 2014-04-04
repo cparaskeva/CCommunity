@@ -21,7 +21,7 @@ jQuery( document ).ready( function() {
 	jQuery("#menu-topbar-right").append( jQuery(".menu-about").remove() );
 
 	/* "edit your profile" link */
-	var profile_url = "/cecommunity/members/<?php echo $current_user->user_login; ?>/profile/";
+	var profile_url = "/cecommunity/members/<?php echo $current_user->user_nicename; ?>/profile/";
 	jQuery("li.menu-edit-your-profile a").attr('href', profile_url);
 	
 	/* logout link */
@@ -32,8 +32,7 @@ jQuery( document ).ready( function() {
 	if (document.URL.indexOf("/publish-an-offer/") > 0) {
 		jQuery("div.entry-content a").each(function() {
 			var url = jQuery(this).attr('href');
-			var url2 = url.replace('\/members\/cecom\/', '\/members\/<?php echo $current_user->user_login; ?>\/');
-			/*console.log(url); 	console.log(url2);*/
+			var url2 = url.replace('\/members\/cecom\/', '\/members\/<?php echo $current_user->user_nicename; ?>\/');
 			jQuery(this).attr('href', url2);
 		});
 	}
