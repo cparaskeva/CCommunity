@@ -5,8 +5,8 @@
  * 
  */
 ?>
-
-<?php if (bp_has_alerts(bp_ajax_querystring('alerts'))) : ?>
+<?php if (!current_user_can('manage_options')) $extra_arg="&user_id=". bp_loggedin_user_id();?>
+<?php if (bp_has_alerts(bp_ajax_querystring('alerts').$extra_arg)) : ?>
     <?php do_action('bp_before_directory_alerts_list'); ?>
 
     <ul id="alerts-list" class="item-list" role="main">
