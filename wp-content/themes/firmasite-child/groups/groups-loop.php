@@ -64,7 +64,7 @@
                     		if (count($org->details['sectors'])) {
                     			$sectors = '';
                     			foreach ($org->details['sectors'] as $s) {
-                    				$sectors .= "<span style=\"background-color:" . $s['color']. "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ". trim($s['description']);
+                    				$sectors .= "<span style=\"background-color:" . $s['color']. "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> "; //. trim($s['description']);
                     			}
                     		}
                     		/*
