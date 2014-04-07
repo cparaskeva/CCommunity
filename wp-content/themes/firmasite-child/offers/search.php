@@ -194,9 +194,13 @@
                
         if (jQuery("#offer-type").val() == "none")
             jQuery("#offer-type-div").show();
-        else
-           jQuery("#offers-header").text(jQuery("#offer-type option:selected").text());
-
+        else {
+           var offer_type = jQuery("#offer-type option:selected").text();
+           if (offer_type == "Offer Funding")
+               offer_type = "Find fundings"; 
+                   
+           jQuery("#offers-header").text(offer_type);
+        }
 
     });
 </script>
