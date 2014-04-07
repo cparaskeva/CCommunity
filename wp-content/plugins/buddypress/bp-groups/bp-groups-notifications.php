@@ -85,11 +85,11 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'Membership request for group: %s', 'buddypress' ), $group->name ) ) );
 
 $message = sprintf( __(
-'%1$s wants to join the group "%2$s".
+'%1$s wants to join the organisation "%2$s".
 
-Because you are the administrator of this group, you must either accept or reject the membership request.
+Because you are the administrator of this organisation, you must either accept or reject the membership request.
 
-To view all pending membership requests for this group, please visit:
+To view all pending membership requests for this organisation, please visit:
 %3$s
 
 To view %4$s\'s profile: %5$s
@@ -142,17 +142,17 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	$to       = $ud->user_email;
 
 	if ( $accepted ) {
-		$subject = bp_get_email_subject( array( 'text' => sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), $group->name ) ) );
+		$subject = bp_get_email_subject( array( 'text' => sprintf( __( 'Membership request for organisation "%s" accepted', 'buddypress' ), $group->name ) ) );
 		$message = sprintf( __(
-'Your membership request for the group "%1$s" has been accepted.
+'Your membership request for the organisation "%1$s" has been accepted.
 
-To view the group please login and visit: %2$s
+To view the organisation please login and visit: %2$s
 
 ---------------------
 ', 'buddypress' ), $group->name, $group_link );
 
 	} else {
-		$subject = bp_get_email_subject( array( 'text' => sprintf( __( 'Membership request for group "%s" rejected', 'buddypress' ), $group->name ) ) );
+		$subject = bp_get_email_subject( array( 'text' => sprintf( __( 'Membership request for organisation "%s" rejected', 'buddypress' ), $group->name ) ) );
 		$message = sprintf( __(
 'Your membership request for the group "%1$s" has been rejected.
 
@@ -212,7 +212,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), $group->name ) ) );
+	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'You have been promoted in the organisation: "%s"', 'buddypress' ), $group->name ) ) );
 	$message  = sprintf( __(
 'You have been promoted to %1$s for the group: "%2$s".
 
@@ -270,14 +270,14 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 		// Set up and send the message
 		$to       = $invited_ud->user_email;
-		$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), $group->name ) ) );
+		$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'You have an invitation to the organisation: "%s"', 'buddypress' ), $group->name ) ) );
 
 		$message = sprintf( __(
-'One of your friends %1$s has invited you to the group: "%2$s".
+'One of your friends %1$s has invited you to the organisation: "%2$s".
 
-To view your group invites visit: %3$s
+To view your organisation invites visit: %3$s
 
-To view the group visit: %4$s
+To view the organisation visit: %4$s
 
 To view %5$s\'s profile visit: %6$s
 
@@ -326,7 +326,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			// Because different values are passed to the filters, we'll return the
 			// values inline
 			if ( (int) $total_items > 1 ) {
-				$text = sprintf( __( '%1$d new membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
+				$text = sprintf( __( '%1$d new membership requests for the organisation "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
 				$filter = 'bp_groups_multiple_new_membership_requests_notification';
 				$notification_link = $group_link . 'admin/membership-requests/?n=1';
 
@@ -345,7 +345,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = $group_link . 'admin/membership-requests/?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname ) . '">' . $text . '</a>', $group_link, $user_fullname, $group->name, $text, $notification_link );
+					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . sprintf( __( '%s requests organisation membership', 'buddypress' ), $user_fullname ) . '">' . $text . '</a>', $group_link, $user_fullname, $group->name, $text, $notification_link );
 				} else {
 					return apply_filters( $filter, array(
 						'link' => $notification_link,
@@ -363,7 +363,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int) $total_items > 1 ) {
-				$text = sprintf( __( '%d accepted group membership requests', 'buddypress' ), (int) $total_items, $group->name );
+				$text = sprintf( __( '%d accepted organisation membership requests', 'buddypress' ), (int) $total_items, $group->name );
 				$filter = 'bp_groups_multiple_membership_request_accepted_notification';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
@@ -399,7 +399,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int) $total_items > 1 ) {
-				$text = sprintf( __( '%d rejected group membership requests', 'buddypress' ), (int) $total_items, $group->name );
+				$text = sprintf( __( '%d rejected organisation membership requests', 'buddypress' ), (int) $total_items, $group->name );
 				$filter = 'bp_groups_multiple_membership_request_rejected_notification';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
@@ -412,7 +412,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					), $total_items, $group->name, $text, $notification_link );
 				}
 			} else {
-				$text = sprintf( __( 'Membership for group "%s" rejected', 'buddypress' ), $group->name );
+				$text = sprintf( __( 'Membership for organisation "%s" rejected', 'buddypress' ), $group->name );
 				$filter = 'bp_groups_single_membership_request_rejected_notification';
 				$notification_link = $group_link . '?n=1';
 
@@ -435,7 +435,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int) $total_items > 1 ) {
-				$text = sprintf( __( 'You were promoted to an admin in %d groups', 'buddypress' ), (int) $total_items );
+				$text = sprintf( __( 'You were promoted to an admin in %d organisations', 'buddypress' ), (int) $total_items );
 				$filter = 'bp_groups_multiple_member_promoted_to_admin_notification';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
@@ -448,7 +448,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					), $total_items, $text, $notification_link );
 				}
 			} else {
-				$text = sprintf( __( 'You were promoted to an admin in the group "%s"', 'buddypress' ), $group->name );
+				$text = sprintf( __( 'You were promoted to an admin in the organisation "%s"', 'buddypress' ), $group->name );
 				$filter = 'bp_groups_single_member_promoted_to_admin_notification';
 				$notification_link = $group_link . '?n=1';
 
@@ -471,7 +471,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int) $total_items > 1 ) {
-				$text = sprintf( __( 'You were promoted to a mod in %d groups', 'buddypress' ), (int) $total_items );
+				$text = sprintf( __( 'You were promoted to a mod in %d organisations', 'buddypress' ), (int) $total_items );
 				$filter = 'bp_groups_multiple_member_promoted_to_mod_notification';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
@@ -484,7 +484,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					), $total_items, $text, $notification_link );
 				}
 			} else {
-				$text = sprintf( __( 'You were promoted to a mod in the group "%s"', 'buddypress' ), $group->name );
+				$text = sprintf( __( 'You were promoted to a mod in the organisation "%s"', 'buddypress' ), $group->name );
 				$filter = 'bp_groups_single_member_promoted_to_mod_notification';
 				$notification_link = $group_link . '?n=1';
 
@@ -508,7 +508,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$notification_link = bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/?n=1';
 
 			if ( (int) $total_items > 1 ) {
-				$text = sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int) $total_items );
+				$text = sprintf( __( 'You have %d new organisation invitations', 'buddypress' ), (int) $total_items );
 				$filter = 'bp_groups_multiple_group_invite_notification';
 
 				if ( 'string' == $format ) {
@@ -520,7 +520,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					), $total_items, $text, $notification_link );
 				}
 			} else {
-				$text = sprintf( __( 'You have an invitation to the group: %s', 'buddypress' ), $group->name );
+				$text = sprintf( __( 'You have an invitation to the organisation: %s', 'buddypress' ), $group->name );
 				$filter = 'bp_groups_single_group_invite_notification';
 
 				if ( 'string' == $format ) {

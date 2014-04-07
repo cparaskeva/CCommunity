@@ -385,12 +385,12 @@
                                 <?php else : ?>
 
                                     <a href="<?php bp_group_member_ban_link(); ?>" class="button btn btn-default confirm member-ban" title="<?php _e('Kick and ban this member', 'firmasite'); ?>"><?php _e('Kick &amp; Ban', 'firmasite'); ?></a>
-                                    <a href="<?php bp_group_member_promote_mod_link(); ?>" class="button btn btn-default confirm member-promote-to-mod" title="<?php _e('Promote to Mod', 'firmasite'); ?>"><?php _e('Promote to Mod', 'firmasite'); ?></a>
+                                   <!-- <a href="<?php bp_group_member_promote_mod_link(); ?>" class="button btn btn-default confirm member-promote-to-mod" title="<?php _e('Promote to Mod', 'firmasite'); ?>"><?php _e('Promote to Mod', 'firmasite'); ?></a>-->
                                     <a href="<?php bp_group_member_promote_admin_link(); ?>" class="button btn btn-default confirm member-promote-to-admin" title="<?php _e('Promote to Admin', 'firmasite'); ?>"><?php _e('Promote to Admin', 'firmasite'); ?></a>
 
                                 <?php endif; ?>
 
-                                <a href="<?php bp_group_member_remove_link(); ?>" class="button btn btn-default confirm" title="<?php _e('Remove this member', 'firmasite'); ?>"><?php _e('Remove from group', 'firmasite'); ?></a>
+                                <a href="<?php bp_group_member_remove_link(); ?>" class="button btn btn-default confirm" title="<?php _e('Remove this member', 'firmasite'); ?>"><?php _e('Remove from organisation', 'firmasite'); ?></a>
 
                                 <?php do_action('bp_group_manage_members_admin_item'); ?>
 
