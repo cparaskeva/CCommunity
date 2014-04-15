@@ -59,7 +59,7 @@
                             <a hidden="true" id="organization_link" href="" target="_blank" >Visit!</a>&nbsp;&nbsp;
                             <label>
                                 <input id="linkedin" type="checkbox" value="">
-                                Use your oganisation information as present on LinkedIn
+                                Use your organisation information as present on LinkedIn
                             </label>
                         </p>    
                     </div>
