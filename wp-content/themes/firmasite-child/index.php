@@ -9,13 +9,13 @@ get_header();
 $current_user = wp_get_current_user();
 
 
-$create_offer_product = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=1/";
-$create_offer_project = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=2/";
-$create_offer_funding = "/cecommunity/members/".$current_user->user_login."/offers/create-offer/?offer_type=3/";
-$create_patent = "/cecommunity/members/".$current_user->user_login."/patents_licenses/create-patent_license/";
-$create_tool = "/cecommunity/members/".$current_user->user_login."/tools_facilities/create-tool_facility/";
+$create_offer_product = "/cecommunity/members/".$current_user->user_nicename."/offers/create-offer/?offer_type=1/";
+$create_offer_project = "/cecommunity/members/".$current_user->user_nicename."/offers/create-offer/?offer_type=2/";
+$create_offer_funding = "/cecommunity/members/".$current_user->user_nicename."/offers/create-offer/?offer_type=3/";
+$create_patent = "/cecommunity/members/".$current_user->user_nicename."/patents_licenses/create-patent_license/";
+$create_tool = "/cecommunity/members/".$current_user->user_nicename."/tools_facilities/create-tool_facility/";
 
-$org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
+$org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 
 ?>
 
@@ -73,7 +73,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_login."/groups/";
 					</li>
 					<li> 
 						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
-						Search for <a href="/cecommunity/patents_licenses/">patents</a>, <a href="#">fundings</a>, <a href="/cecommunity/tools_facilities/">tools for rent</a>.
+						Search for <a href="/cecommunity/patents_licenses/">patents</a>, <a href="/cecommunity/offers/?offer_type=3">fundings</a>, <a href="/cecommunity/tools_facilities/">tools for rent</a>.
 					</li>
 			</div>
 			
