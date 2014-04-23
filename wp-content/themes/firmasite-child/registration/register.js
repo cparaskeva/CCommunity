@@ -312,6 +312,7 @@ jQuery("#linkedin").click(function(){
     if (jQuery(this).is(":checked")){
         jQuery("#organization_name").attr("placeholder","Type in the name of your company as registered in LinkedIn");
         jQuery("#organization_name" ).autocomplete({ disabled: false });
+        jQuery( "#organization_name").autocomplete("search");
     }
     //Deactivate Linked Autocomplete Functionality
     else{

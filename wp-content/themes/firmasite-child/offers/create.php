@@ -23,22 +23,22 @@ wp_enqueue_style('bootstrap-multiselect-style');
             <div class="item-body" id="group-create-body">
                 <!-- Hidden Fields for Offer Sectors covered-->  
                 <div hidden="hidden" id="offer-type-div">
-                <input type="hidden" class="form-control" name="offer-sectors" id="offer-sectors" value=""/>
-                <!-- End of Hidden Fields -->
-                <label for="offer-type"><?php _e('Type of offer (required)', 'firmasite'); ?></label>
-                <select  name="offer-type" id="offer-type">
-                    <option value="none"  selected="selected">Please select..</option>
-                    <?php
-                    //Fetch Offer Types form DB
-                    $results = BP_Offer::getOfferTypes();
-                    if (is_array($results)) {
-                        foreach ($results as $offer_type) {
-                            echo "<option value = '{$offer_type->id }'>{$offer_type->description}</option>";
+                    <input type="hidden" class="form-control" name="offer-sectors" id="offer-sectors" value=""/>
+                    <!-- End of Hidden Fields -->
+                    <label for="offer-type"><?php _e('Type of offer (required)', 'firmasite'); ?></label>
+                    <select  name="offer-type" id="offer-type">
+                        <option value="none"  selected="selected">Please select..</option>
+                        <?php
+                        //Fetch Offer Types form DB
+                        $results = BP_Offer::getOfferTypes();
+                        if (is_array($results)) {
+                            foreach ($results as $offer_type) {
+                                echo "<option value = '{$offer_type->id }'>{$offer_type->description}</option>";
+                            }
                         }
-                    }
-                    ?>
-                </select>
-                <br/>
+                        ?>
+                    </select>
+                    <br/>
                 </div>
                 <div hidden="true" id="collaboration-commons">
                     <div hidden="true" id="collaboration-commons-extra">
@@ -145,7 +145,9 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 <div align="right" class="submit" >
                     <hr>
                     <div align="left"><a align="left" href="<?php echo bp_loggedin_user_domain() . bp_get_offers_root_slug() ?>" title="Are you lost?">&larr; Back to Offers</a></div>
-                    <input type="submit" class="btn  btn-primary" name="offer_submit" id="offer_submit" value="<?php _e('Publish your proposal', 'firmasite'); ?>" >
+                    <?php if (!empty($_GET)): ?>
+                        <input type="submit" class="btn  btn-primary" name="offer_submit" id="offer_submit" value="<?php _e('Publish your proposal', 'firmasite'); ?>" >
+                    <?php endif; ?>
                     <?php wp_nonce_field('offers_create_offer'); ?>
                     <br/><br/>
                 </div>

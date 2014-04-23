@@ -69,6 +69,22 @@ class CECOM_Organization {
         self::$instance->details['subsectors'] = $wpdb->get_results("SELECT s.id,s.description from ext_organization_meta m,ext_organization_subsector s where m.mkey='subsector' and m.mvalue = s.id and oid=$org_details->id", ARRAY_A);
     }
 
+    //Checks if a use has a valid membership to an organization
+    public static function check_user_organization_membership($user) {
+        $username = $user->data->user_login;
+        $user_id = $user->data->ID;
+        if (!$user_id)
+            return;
+        global $wpdb;
+        $membership_status = $wpdb->get_var('SELECT is_confirmed from wp_bp_groups_members where user_id=' . $user_id);
+        //echo "Membership status: ".$membership_status;die();
+        if (!$membership_status) {
+            $user = new WP_Error('authentication_failed', __('<strong>ERROR</strong>: You organisation admin has not yet accepted your membership!'));
+            do_action('wp_login_failed', $username);
+        }
+        return $user;
+    }
+
     //Fetch the available types for an organization
     public static function getOrganizationType() {
         global $wpdb;
@@ -308,7 +324,7 @@ class CECOM_Organization {
 
         if ($organization['gid'] == $interested_organization['gid'])
             return;
-        
+
         //If is an offer serach normalize the fields
         if ($organization['offtype_id']) {
             $organization['collaboration'] = "none";
