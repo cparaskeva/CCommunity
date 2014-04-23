@@ -42,8 +42,8 @@ function hook_head()
 						"#tool_facility-dir-search {float:left !important; margin:10px 0 0 30px}  #tool_facility-dir-search input[type=text] {width: 240px}  body.tools_facilities div.padder div.panel {padding-top:50px} body.tools_facilities .glyphicon-question-sign {display:none}\n".
 						"#groups_search_submit, #offers_search_submit, #patents_licenses_search_submit, #tools_facilities_search_submit { position: relative;top: -3px }";  
 	
-	/* avatars are not displayed */
-	$output .= "img.avatar, div.item-avatar, div#item-header-avatar a.thumbnail {display: none}";
+	/* avatars are not displayed + no "change avatar" link */
+	$output .= "img.avatar, div.item-avatar, div#item-header-avatar a.thumbnail, #change-avatar-personal-li {display: none}";
 	
 	/* offer owner + group admins + ... not displayed */
 	$output .= "#item-header #item-actions strong {display: none}";
@@ -53,6 +53,9 @@ function hook_head()
 	
 	/* wider left box on /cecommunity/groups/organization36/ */
 	$output .= "#item-header-avatar .well, body.offers #item-header-avatar .well  {width: 350px !important}";
+	
+	/* profile page: no "nice name" (eg. @verarossi), no "Organisations" link  */
+	$output .= "body.profile #primary .user-nicename, body.profile a#user-groups {display: none}";
 	
 	$output .= '</style>';
 	
@@ -69,7 +72,7 @@ function hook_head()
 			   
 			/* #patent-license-countries, #applyable-countries */
 			jQuery("#patent-license-countries option[value=XE], #applyable-countries option[value=XE]").remove();
-			jQuery("#patent-license-countries option[value=XA], #applyable-countries option[value=XE]").remove();
+			jQuery("#patent-license-countries option[value=XA], #applyable-countries option[value=XA]").remove();
 			jQuery("#patent-license-countries, #applyable-countries").prepend("<option value=\'XA\'>All countries</option>");
 			jQuery("#patent-license-countries, #applyable-countries").prepend("<option value=\'XE\'>All Europe countries</option>");
 			
