@@ -23,7 +23,7 @@ wp-content/plugins/wp-minify
 
 test.php
 .gitignore
-
+.buildpath
 
 #LinkedIn #
 
