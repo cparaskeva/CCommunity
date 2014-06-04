@@ -85,7 +85,7 @@ function hook_head()
 	
 	
 	
-	echo $output;
+	//echo $output;
 
 }
 
