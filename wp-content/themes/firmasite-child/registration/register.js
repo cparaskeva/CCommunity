@@ -110,8 +110,8 @@ jQuery("#register_step2").submit(function(event) {
                 
     /* Get some values from elements on the page: */
     var values = "action=custom_register_user&" 
-                 +jQuery(this).serialize()+"&organization_country="
-                 +jQuery(".bfh-selectbox").val()+"&"
+                 +jQuery(this).serialize() +"&"
+                 //+"&organization_country="+jQuery(".bfh-selectbox").val()+"&"
                  +organization_sectors
                  +organization_subsectors
                  +jQuery("#register_step1").serialize()

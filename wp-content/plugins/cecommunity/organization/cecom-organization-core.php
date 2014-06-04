@@ -148,6 +148,16 @@ class CECOM_Organization {
         return $organizations;
     }
 
+    //Fetch All countries
+    public static function getAllRegistrationCountries() {
+        global $wpdb;
+        $organizations = $wpdb->get_results("SELECT * FROM ext_organization_country WHERE id!='XA' AND id!='XE' order by name asc");
+        if (!is_array($organizations))
+            return nil;
+        return $organizations;
+    }
+    
+    
     //Returns the group ID which is associated with the organization
     public static function getUserGroupID($organization_id = 0) {
         global $wpdb;
