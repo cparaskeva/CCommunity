@@ -93,7 +93,10 @@
                     		$admin_name = $adm->user_login;
                     		$admin_email = '<a href="mailto:'.$adm->user_email.'">'.$adm->user_email.'</a>';
                     		
-                    		echo "<img width=\"16\" src=\"/cecommunity/wp-content/uploads/2014/03/country.png)\"></img>$country <b>/ Size</b>: $size <b>/ Sectors</b>: $sectors <b>/ Type</b>: $type <b>/ Administrator</b>: $admin_name $admin_email<hr>";
+                    		echo "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/country.png\"></img>$country " .
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/size.png\"></img>$size " .
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/sectors.png\"></img>$sectors " . 
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/type.png\"></img>$type <b>/ Administrator</b>: $admin_name $admin_email<hr>";
                     		?>
                     	</span>
                     </div>
