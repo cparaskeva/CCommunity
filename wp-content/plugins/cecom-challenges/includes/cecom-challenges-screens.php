@@ -67,8 +67,14 @@ function bp_challenges_create_challenge() {
 
             //Check if user has choosen an challenge type othen than "none"
             if (!($_POST['challenge-rights'] != "none" && strlen($_POST['challenge-title']) > 0 && strlen($_POST['challenge-description']) > 0) && !$date_val)
-                bp_core_add_message(__('Error puplishing your challenge. Please fill in all the required fields.', 'bp-patent-license'), 'error');
-            else {
+                bp_core_add_message(__('Error publishing your challenge. Please fill in all the required fields.', 'bp-patent-license'), 'error');
+            else
+
+            if (time() > strtotime($_POST['challenge-deadline'])) {
+                bp_core_add_message(__('Error publishing your challenge. Invalid deadline date entered', 'bp-example'), 'error');
+            } else if (!(intval($_POST['challenge-reward']) > 0)) {
+                bp_core_add_message(__('Error publishing your challenge , reward field must be a positive numeric value... ', 'bp-example'), 'error');
+            } else {
                 //Validation Success Save the challenge to DB               
                 $group_id = CECOM_Organization::getUserGroupID();
                 $user_id = bp_current_user_id();
@@ -164,115 +170,122 @@ function bp_challenges_screen_settings_menu_content() {
         <p class="submit">
             <input type="submit" value="<?php _e('Save Settings', 'bp-example') ?> &raquo;" id="submit" name="submit" />
         </p>
-        <?php
-        /* This is very important, don't leave it out. */
-        wp_nonce_field('bp-example-admin');
-        ?>
-    </form>
     <?php
-}
-
-function challenges_screen_challenge_admin_edit_details() {
-
-    if ('edit-details' != bp_get_challenge_current_admin_tab())
-        return false;
-
-
-    if (!bp_is_item_admin())
-        return false;
-
-    if (isset($_POST['save'])) {
-
-        //Check the nonce
-        if (!check_admin_referer('challenges_edit_challenge_details'))
-            return false;
-
-        //Put the changes to an array
-        $challenge_update = array(
-            'title' => $_POST['challenge-title'],
-            'description' => $_POST['challenge-description'],
-            'deadline' => $_POST['challenge-deadline'],
-            'reward' => $_POST['challenge-reward'],
-            'right_id' => $_POST['challenge-rights'],
-            'date' => date('Y-m-d H:i:s'),
-            'sectors' => ( empty($_POST['challenge-sectors']) ? "null" : explode(",", $_POST['challenge-sectors']))
-        );
-
-        if (bp_challenges_update_challenge($challenge_update))
-            bp_core_add_message(__('Your challenge has been succesfuly updated!', 'bp-example'), 'success');
-        else
-            bp_core_add_message(__('Unable to update the current challenge...', 'bp-example'), 'error');
-
-        do_action('challenges_challenge_details_edited', $bp->challenges->current_challenge->id);
-
-        bp_core_redirect(bp_challenge_get_permalink() . "admin/edit-details");
+    /* This is very important, don't leave it out. */
+    wp_nonce_field('bp-example-admin');
+    ?>
+    </form>
+        <?php
     }
 
+    function challenges_screen_challenge_admin_edit_details() {
 
-    do_action('challenges_screen_challenge_admin_edit_details', $bp->challenges->current_challenge->id);
+        if ('edit-details' != bp_get_challenge_current_admin_tab())
+            return false;
 
-    bp_core_load_template(apply_filters('challenges_template_challenge_admin', 'challenges/single/home'));
-}
 
-add_action('bp_screens', 'challenges_screen_challenge_admin_edit_details');
+        if (!bp_is_item_admin())
+            return false;
 
-function challenges_screen_challenge_admin_delete_challenge() {
+        if (isset($_POST['save'])) {
 
-    if ('delete-challenge' != bp_get_challenge_current_admin_tab())
-        return false;
-
-    global $bp;
-
-    if (bp_is_item_admin()) {
-
-        if (isset($_REQUEST['delete-challenge-button']) && isset($_REQUEST['delete-challenge-understand'])) {
-
-            // Check the nonce first.
-            if (!check_admin_referer('challenges_delete_challenge')) {
+            //Check the nonce
+            if (!check_admin_referer('challenges_edit_challenge_details'))
                 return false;
-            }
 
+            if (time() > strtotime($_POST['challenge-deadline'])) {
+                bp_core_add_message(__('Error publishing your challenge. Invalid deadline date entered', 'bp-example'), 'error');
+            }else
 
-            // Patent_License admin has deleted the group, now do it. 
-            if (!$bp->challenges->current_challenge->delete()) {
-                bp_core_add_message(__('There was an error deleting the challenge, please try again.', 'buddypress'), 'error');
+            if (!(intval($_POST['challenge-reward']) > 0)) {
+                bp_core_add_message(__('Error updating your challenge , reward field must be a positive numeric value... ', 'bp-example'), 'error');
             } else {
-                bp_core_add_message(__('The challenge was deleted successfully', 'buddypress'));
+                //Put the changes to an array
+                $challenge_update = array(
+                    'title' => $_POST['challenge-title'],
+                    'description' => $_POST['challenge-description'],
+                    'deadline' => $_POST['challenge-deadline'],
+                    'reward' => $_POST['challenge-reward'],
+                    'right_id' => $_POST['challenge-rights'],
+                    'date' => date('Y-m-d H:i:s'),
+                    'sectors' => ( empty($_POST['challenge-sectors']) ? "null" : explode(",", $_POST['challenge-sectors']))
+                );
 
-                do_action('challenges_challenge_deleted', $bp->groups->current_group->id);
+                if (bp_challenges_update_challenge($challenge_update))
+                    bp_core_add_message(__('Your challenge has been succesfuly updated!', 'bp-example'), 'success');
+                else
+                    bp_core_add_message(__('Unable to update the current challenge...', 'bp-example'), 'error');
+            }
+            do_action('challenges_challenge_details_edited', $bp->challenges->current_challenge->id);
+
+            bp_core_redirect(bp_challenge_get_permalink() . "admin/edit-details");
+        }
+
+
+        do_action('challenges_screen_challenge_admin_edit_details', $bp->challenges->current_challenge->id);
+
+        bp_core_load_template(apply_filters('challenges_template_challenge_admin', 'challenges/single/home'));
+    }
+
+    add_action('bp_screens', 'challenges_screen_challenge_admin_edit_details');
+
+    function challenges_screen_challenge_admin_delete_challenge() {
+
+        if ('delete-challenge' != bp_get_challenge_current_admin_tab())
+            return false;
+
+        global $bp;
+
+        if (bp_is_item_admin()) {
+
+            if (isset($_REQUEST['delete-challenge-button']) && isset($_REQUEST['delete-challenge-understand'])) {
+
+                // Check the nonce first.
+                if (!check_admin_referer('challenges_delete_challenge')) {
+                    return false;
+                }
+
+
+                // Patent_License admin has deleted the group, now do it. 
+                if (!$bp->challenges->current_challenge->delete()) {
+                    bp_core_add_message(__('There was an error deleting the challenge, please try again.', 'buddypress'), 'error');
+                } else {
+                    bp_core_add_message(__('The challenge was deleted successfully', 'buddypress'));
+
+                    do_action('challenges_challenge_deleted', $bp->groups->current_group->id);
+
+                    bp_core_redirect(trailingslashit(bp_loggedin_user_domain() . bp_get_challenges_slug()));
+                }
 
                 bp_core_redirect(trailingslashit(bp_loggedin_user_domain() . bp_get_challenges_slug()));
             }
-
-            bp_core_redirect(trailingslashit(bp_loggedin_user_domain() . bp_get_challenges_slug()));
         }
-    }
-    do_action('challenges_screen_challenge_admin_delete_challenge', $bp->challenges->current_challenge->id);
+        do_action('challenges_screen_challenge_admin_delete_challenge', $bp->challenges->current_challenge->id);
 
-    bp_core_load_template(apply_filters('challenges_template_challenge_admin_delete_challenge', 'challenges/single/home'));
-}
-
-add_action('bp_screens', 'challenges_screen_challenge_admin_delete_challenge');
-
-function challenges_screen_challenge_admin() {
-    if (!bp_is_challenge_component() || !bp_is_current_action('admin'))
-        return false;
-
-    if (bp_action_variables())
-        return false;
-
-    bp_core_redirect('edit-details');
-}
-
-function challenges_screen_challenge_home() {
-
-    if (!bp_is_single_item()) {
-        return false;
+        bp_core_load_template(apply_filters('challenges_template_challenge_admin_delete_challenge', 'challenges/single/home'));
     }
 
-    bp_core_load_template(apply_filters('challenges_template_challenge_home', 'challenges/single/home'));
-}
-?>
+    add_action('bp_screens', 'challenges_screen_challenge_admin_delete_challenge');
+
+    function challenges_screen_challenge_admin() {
+        if (!bp_is_challenge_component() || !bp_is_current_action('admin'))
+            return false;
+
+        if (bp_action_variables())
+            return false;
+
+        bp_core_redirect('edit-details');
+    }
+
+    function challenges_screen_challenge_home() {
+
+        if (!bp_is_single_item()) {
+            return false;
+        }
+
+        bp_core_load_template(apply_filters('challenges_template_challenge_home', 'challenges/single/home'));
+    }
+    ?>
 
 
 

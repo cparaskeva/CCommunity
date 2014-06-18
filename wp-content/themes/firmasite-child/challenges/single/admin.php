@@ -45,7 +45,7 @@ $details = $bp->challenges->current_challenge->get_challenge_details();
         <label for="challenge-deadline"><?php _e('Deadline of answering in YYYY/MM/DD format (required)', 'firmasite'); ?></label>
         <input class="form-control" name="challenge-deadline" id="challenge-deadline" value="<?php echo $bp->challenges->current_challenge->deadline ?>"/>
         <br><br>
-        <label for="challenge-reward"><?php _e('Amount of the reward (required)', 'firmasite'); ?></label>
+        <label for="challenge-reward"><?php _e('Amount of the reward in Euro (required)', 'firmasite'); ?></label>
         <input class="form-control" name="challenge-reward" id="challenge-reward" value="<?php echo $bp->challenges->current_challenge->reward ?>"/>
         <br/><br/>
         <label for="challenge-exchange"><?php _e('Type of exchange (required)', 'firmasite'); ?></label>

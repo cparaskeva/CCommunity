@@ -47,7 +47,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 <label for="challenge-deadline"><?php _e('Deadline of answering in YYYY/MM/DD format (required)', 'firmasite'); ?></label>
                 <input class="form-control" name="challenge-deadline" id="challenge-deadline" />
                 <br><br>
-                <label for="challenge-reward"><?php _e('Amount of the reward (required)', 'firmasite'); ?></label>
+                <label for="challenge-reward"><?php _e('Amount of the reward in Euro (required)', 'firmasite'); ?></label>
                 <input class="form-control" name="challenge-reward" id="challenge-reward" />
                 <br/>
                 <label for="challenge-rights"><?php _e('Rights (required)', 'firmasite'); ?></label>

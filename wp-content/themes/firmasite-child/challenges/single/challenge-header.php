@@ -34,7 +34,7 @@ $organisation = bp_challenges_get_organization();
 <div class="col-lg-8">
     <span class="highlight label label-default"><?php echo "Deadline: ". $details['deadline']; ?></span> 
     <span class="highlight label label-primary"><?php echo "License: " . $details['rdesc']; ?></span>&nbsp;
-    <span class="highlight label label-warning"><?php echo "Reward ammount: " . $details['reward']; ?></span>
+    <span class="highlight label label-warning"><?php echo "Reward ammount(Euro): " . $details['reward']; ?></span>
 
     <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), substr($bp->challenges->current_challenge->date, 0, 10)); ?></span>
 

@@ -391,7 +391,7 @@ class BP_Challenge {
 
 
         //Query Where clause 
-        $sql['where'] = "WHERE 1 ";
+        $sql['where'] = "WHERE 1 AND deadline >= NOW() ";
 
         if (!empty($r['user_id'])) {
             $sql['user'] = " AND uid = {$r['user_id']}";
@@ -593,7 +593,7 @@ class BP_Challenge {
 
 
         //Query Where clause 
-        $sql['where'] = "WHERE challenge.type_id = type.id AND challenge.gid={$args['group_id']} ";
+        $sql['where'] = "WHERE challenge.type_id = type.id AND challenge.gid={$args['group_id']} AND deadline >= NOW()";
 
 
         $sql['orderby'] = "ORDER BY date DESC" . $limit;
@@ -607,7 +607,7 @@ class BP_Challenge {
         $paged_challenges = $wpdb->get_results($paged_challenges_sql);
 
 
-        $total_challenges_sql = "SELECT COUNT(DISTINCT id) FROM {$bp->challenges->table_name}  as challenge WHERE gid={$args['group_id']} ";
+        $total_challenges_sql = "SELECT COUNT(DISTINCT id) FROM {$bp->challenges->table_name}  as challenge WHERE gid={$args['group_id']} AND deadline >= NOW() ";
         // Get total offer results
 
         $total_challenges = $wpdb->get_var($total_challenges_sql);
