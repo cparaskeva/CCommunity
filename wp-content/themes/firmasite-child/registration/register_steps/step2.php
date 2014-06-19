@@ -39,7 +39,7 @@
                     <p style="margin:5px" class="field-visibility-settings-toggle text-muted" id="">
                         <label>
                             <input id="organization_details_checkbox" type="checkbox" value="">
-                            My organisation is not in the list, i want to add it!
+                            My organisation is not in the list, I want to add it!
                         </label>
                     </p>    
                 </div>
