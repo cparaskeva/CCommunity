@@ -270,8 +270,7 @@ class BP_Challenge {
     public static function challenges_get_total_challenges_count() {
         global $wpdb, $bp;
         $challenge_category = (bp_challenges_current_category() != "none" ? " WHERE type_id=" . bp_challenges_current_category() : "");
-        $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->challenges->table_name}" . $challenge_category);
-
+        $count = $wpdb->get_var("SELECT COUNT(id) FROM {$bp->challenges->table_name} WHERE deadline >= NOW()" . $challenge_category);
         return $count;
     }
 
@@ -308,7 +307,7 @@ class BP_Challenge {
     //Save meta data to ext_challenge_meta table
     public static function saveMetadata($challengeID, $metadata) {
         global $wpdb;
-        
+
         //Check if a valid challengeID is given
         if ($challengeID) {
             $query = "INSERT INTO ext_challenge_meta (cid,mkey,mvalue) VALUES ";
@@ -391,7 +390,7 @@ class BP_Challenge {
 
 
         //Query Where clause 
-        $sql['where'] = "WHERE 1 AND deadline >= NOW() ";
+        $sql['where'] = "WHERE 1" . (empty($r['user_id']) ? " AND deadline >= NOW()" : "");
 
         if (!empty($r['user_id'])) {
             $sql['user'] = " AND uid = {$r['user_id']}";
@@ -445,7 +444,7 @@ class BP_Challenge {
         // Get paginated results
         $paged_challenges_sql = apply_filters('bp_challenges_get_paged_challenges_sql', join(' ', (array) $sql), $sql, $r);
         $paged_challenges = $wpdb->get_results($paged_challenges_sql);
-        //echo " Paged Query: " . $paged_challenges_sql . "<br> Results count:" . $wpdb->num_rows;
+        echo " Paged Query: " . $paged_challenges_sql . "<br> Results count:" . $wpdb->num_rows;
 
 
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->challenges->table_name} as challenge";
@@ -458,7 +457,8 @@ class BP_Challenge {
         //True: All Patent_Licenses / False: My challenges tab
         if (!empty($r['user_id'])) {
             $total_sql['where'][] = $wpdb->prepare(" uid = %d", $r['user_id']);
-        }
+        } else
+            $total_sql['where'][] = "deadline >= NOW()";
 
         $t_sql = $total_sql['select'];
 
@@ -470,7 +470,7 @@ class BP_Challenge {
         // Get total challenge results
         $total_challenges_sql = apply_filters('bp_challenges_get_total_challenges_sql', $t_sql, $total_sql, $r);
         $total_challenges = $wpdb->get_var($total_challenges_sql);
-        //echo "<br>Count query: " . $total_challenges_sql;
+        echo "<br>Count query: " . $total_challenges_sql;
 
         $challenge_ids = array();
         foreach ((array) $paged_challenges as $challenge) {
@@ -498,18 +498,18 @@ class BP_Challenge {
             //If calculation is success continue
             if (!empty($search_extras_args)) {
                 //Take into account patent/license type
-                $serach_extras_query = ( is_numeric($search_extras_args['challenge-reward'])  ? " AND reward >=' {$search_extras_args['challenge-reward']}' " : "");
+                $serach_extras_query = ( is_numeric($search_extras_args['challenge-reward']) ? " AND reward >=' {$search_extras_args['challenge-reward']}' " : "");
 
                 //Handle sectors and subsectors fields
                 $search_extras_subquery = '';
                 if (!empty($search_extras_args['challenge-sectors'])) {
                     $sectors_query = "(mkey='sector' and mvalue in ({$search_extras_args['challenge-sectors']})";
                     $search_extras_subquery = " AND challenge.id in (select cid from ext_challenge_meta where {$sectors_query}))";
-                }              
+                }
             }
         }
         //echo "Meta Query: " . $serach_extras_query.$search_extras_subquery;
-        return $serach_extras_query . $search_extras_subquery ;
+        return $serach_extras_query . $search_extras_subquery;
     }
 
     /**
