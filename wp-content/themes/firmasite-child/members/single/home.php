@@ -92,6 +92,10 @@ get_header('buddypress');
             elseif (bp_is_alert_component()) :
                 locate_template(array('members/single/alerts.php'), true);
 
+            /* CECommunity Challenges Component */
+            elseif (bp_is_challenge_component()) :
+                 locate_template(array('members/single/challenges.php'), true);
+ 
             // If nothing sticks, load a generic template
             else :
                 locate_template(array('members/single/plugins.php'), true);

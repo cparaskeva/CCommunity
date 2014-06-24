@@ -33,9 +33,11 @@ function bp_dtheme_register_actions() {
                 /*CECommunity Platform Custom Filters*/
 		'offers_filter'   => 'bp_dtheme_object_template_loader',
  		'patents_licenses_filter'   => 'bp_dtheme_object_template_loader',
-                'tools_facilities_filter'   => 'bp_dtheme_object_template_loader', 
-                'alerts_filter'   => 'bp_dtheme_object_template_loader', 
-                /* EoF */
+               'tools_facilities_filter'   => 'bp_dtheme_object_template_loader', 
+               'alerts_filter'   => 'bp_dtheme_object_template_loader', 
+               'challenges_filter'  => 'bp_dtheme_object_template_loader',
+               
+               /* EoF */
 		'members_filter'  => 'bp_dtheme_object_template_loader',
 		'messages_filter' => 'bp_dtheme_messages_template_loader',
 		// Friends

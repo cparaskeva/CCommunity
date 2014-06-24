@@ -2,7 +2,7 @@
 
 //Set true, enabling debug mode
 if (!defined('DEBUG'))
-    define('DEBUG', false);
+    define('DEBUG', true);
 
 define('CECOM_DISABLE_ADMIN_BAR', true);
 
