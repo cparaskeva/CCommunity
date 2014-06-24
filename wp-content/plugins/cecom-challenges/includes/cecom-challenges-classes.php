@@ -319,7 +319,7 @@ class BP_Challenge {
             }
             //Remove last ","
             $query = substr($query, 0, -1);
-
+			
             //Execute Query
             $wpdb->get_results($query);
         }
