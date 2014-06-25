@@ -37,10 +37,16 @@
                 </div>
 
                 <div class="item">
-                    <div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a></div>
-                    <div class="item-meta">
-                    	<span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
-                    	<span class="extra">
+		<div style="height: 5px"></div>
+                    <div class="item-title">&nbsp&nbsp&nbsp<a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			<span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
+	            </div>
+	            
+                    	
+                    <div style="height: 20px"></div>
+		    <div class="item-meta">
+                    	<div style="height: 5px"></div>
+		       <span class="extra">
                     		<?php 
                     		$gid = bp_get_group_id();
                     	
@@ -93,10 +99,10 @@
                     		$admin_name = $adm->user_login;
                     		$admin_email = '<a href="mailto:'.$adm->user_email.'">'.$adm->user_email.'</a>';
                     		
-                         	echo "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/country.png\"></img>$country " .
-                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/size.png\"></img>$size " .
-                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/sectors.png\"></img>$sectors " . 
-                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/type.png\"></img>$type <b>/ Administrator</b>: $admin_name $admin_email<hr>";
+                         	echo "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/country.png\"></img>&nbsp $country &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" .
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/size.png\"></img>&nbsp $size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" .
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/sectors.png\"></img>&nbsp $sectors &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" . 
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/type.png\"></img>&nbsp $type <b>&nbsp&nbsp&nbsp&nbsp Administrator</b>: $admin_name $admin_email<hr>";
                           	?>
                     	</span>
                     </div>
