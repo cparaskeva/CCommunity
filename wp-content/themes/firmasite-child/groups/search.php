@@ -77,7 +77,7 @@
                     if (is_array($results)) {
 
                         foreach ($results as $org_sector) {
-                            echo "<option value = '{$org_sector->id }'>{$org_sector->description}</option>";
+                            echo "<option value = '{$org_sector->id }'>{$org_sector->description} ({$org_sector->color})</option>";
                         }
                     }
                     ?>
