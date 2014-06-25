@@ -20,7 +20,7 @@
                 <input  class="form-control" name="challenge-reward" id="challenge-reward" value=""/>
                 <!--<label for="challenge-type"><?php //_e('What are you looking for?', 'firmasite'); ?></label>
                 <select  name="challenge-type" id="challenge-type">
-                    <option value="none"  selected="selected">(Anyone)</option>
+                    <option value="none"  selected="selected">(Any)</option>
                     <?php /*
                     //Fetch Offer Types form DB
                     $results = BP_Patent_License::getPatent_LicenseTypes();

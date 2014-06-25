@@ -28,7 +28,7 @@
                 <!-- Organization size field -->
                 <label  for="organization-size"><?php _e('Organization Size', 'firmasite'); ?> </label>
                 <select  class="form-control" name="organization-size" id="organization-size">
-                    <option value="none">(Anyone)</option>
+                    <option value="none">(Any)</option>
                     <?php
                     //Fetch Organization Size form DB
                     $results = CECOM_Organization::getOrganizationSize();
@@ -54,7 +54,7 @@
                 <!-- Organization type field -->
                 <label  for="organization-type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
                 <select  class="form-control" name="organization-type" id="organization-type" aria-required="false">
-                    <option value="none">(Anyone)</option>
+                    <option value="none">(Any)</option>
                     <?php
                     //Fetch Organization Types form DB
                     $results = CECOM_Organization::getOrganizationType();
@@ -96,7 +96,7 @@
                 <br>
                 <label for="collaboration-type"><?php _e('Type of collaboration', 'firmasite'); ?></label>
                 <select name="collaboration-type" id="collaboration-type">
-                    <option value="none"  selected="selected">(Anyone)</option>
+                    <option value="none"  selected="selected">(Any)</option>
                     <?php
                     //Fetch Collaboration Types form DB
                     $results = BP_Offer::getCollaborationTypes();
@@ -112,7 +112,7 @@
                 <div name="collaboration-develop" id="collaboration-develop" hidden="true">
                     <label for="collaboration-partner-sought"><?php _e('Type of partner sought', 'firmasite'); ?></label>
                     <select name="collaboration-partner-sought" id="collaboration-partner-sought">
-                        <option value="none"  selected="selected">(Anyone)</option>
+                        <option value="none"  selected="selected">(Any)</option>
                         <?php
                         //Fetch Partner sought Types form DB
                         $results = BP_Offer::getPartnerTypes();
@@ -128,7 +128,7 @@
                 <div hidden="true" id="collaboration-participate">
                     <label for="collaboration-programs"><?php _e('Grant Programms', 'firmasite'); ?></label>
                     <select name="collaboration-programs" id="collaboration-programs">
-                        <option value="none">(Anyone)</option>
+                        <option value="none">(Any)</option>
                         <?php
                         //Fetch Grant Programs form DB
                         $results = BP_Offer::getGrantPrograms();
@@ -157,7 +157,7 @@
 
             <div  hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
                 <select name="offer-type" id="offer-type">
-                    <option value="none"  selected="selected">(Anyone)</option>
+                    <option value="none"  selected="selected">(Any)</option>
                     <?php
                     //Fetch Grant Programs form DB
                     $results = BP_Offer::getOfferTypes();

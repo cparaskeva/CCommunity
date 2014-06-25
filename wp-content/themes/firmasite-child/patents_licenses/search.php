@@ -19,7 +19,7 @@
                 <!-- End of Hidden Fields -->
                 <label for="patent-license-type"><?php _e('What are you looking for?', 'firmasite'); ?></label>
                 <select  name="patent-license-type" id="patent-license-type">
-                    <option value="none"  selected="selected">(Anyone)</option>
+                    <option value="none"  selected="selected">(Any)</option>
                     <?php
                     //Fetch Offer Types form DB
                     $results = BP_Patent_License::getPatent_LicenseTypes();
@@ -33,7 +33,7 @@
                 <br/>
                 <label for="patent-license-exchange"><?php _e('Type of exchange', 'firmasite'); ?></label>
                 <select name="patent-license-exchange" id="patent-license-exchange">
-                    <option value="none"  selected="selected"> (Anyone)</option>
+                    <option value="none"  selected="selected"> (Any)</option>
                     <?php
                     //Fetch Collaboration Types form DB
                     $results = BP_Patent_License::getExchangeTypes();
@@ -47,7 +47,7 @@
                 <br/>
                 <label for="patent-license-countries"><?php _e('Geographical coverage', 'firmasite'); ?></label>
                 <select  class="form-control" name="patent-license-countries" id="patent-license-countries" aria-required="false">
-                    <option value="none">(Anyone)</option>
+                    <option value="none">(Any)</option>
                     <?php
                     //Fetch All Countries form DB
                     $results = CECOM_Organization::getAllCountries();
@@ -94,7 +94,7 @@
                 <!-- Organization type field -->
                 <label  for="organization-type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
                 <select  class="form-control" name="organization-type" id="organization-type" aria-required="false">
-                    <option value="none">(Anyone)</option>
+                    <option value="none">(Any)</option>
                     <?php
                     //Fetch Organization Types form DB
                     $results = CECOM_Organization::getOrganizationType();
