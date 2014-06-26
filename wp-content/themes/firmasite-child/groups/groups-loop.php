@@ -37,9 +37,9 @@
                 </div>
 
                 <div class="item">
-		<div style="height: 5px"></div>
-                    <div class="item-title">&nbsp&nbsp&nbsp<a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
+				<div style="height: 5px"></div>
+                <div class="item-title">&nbsp&nbsp&nbsp<a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
 	            </div>
 	            
                     	
@@ -101,7 +101,7 @@
                     		
                          	echo "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/country.png\"></img>&nbsp $country &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" .
                     		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/size.png\"></img>&nbsp $size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" .
-                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/sectors.png\"></img>&nbsp Sectors $sectors &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" . 
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/sectors.png\"></img>&nbsp $sectors &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" . 
                     		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/type.png\"></img>&nbsp $type <b>&nbsp&nbsp&nbsp&nbsp Administrator</b>: $admin_name $admin_email<hr>";
                           	?>
                     	</span>

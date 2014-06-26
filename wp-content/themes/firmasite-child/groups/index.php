@@ -25,7 +25,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
 
         <form action="" method="post" id="groups-directory-form" class="dir-form">
 
-            <h3 id="offers-header" class="page-header"><?php _e('Organisations Directory', 'firmasite'); ?><?php if (is_user_logged_in() && bp_user_can_create_groups()) : ?> &nbsp;<a class="button btn btn-default" href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create'); ?>"><?php _e('Create a Group', 'firmasite'); ?></a><?php endif; ?></h3>
+            <h3 id="offers-header" class="page-header"><?php _e('Organisations', 'firmasite'); ?></h3>
 
             <?php do_action('bp_before_directory_groups_content'); ?>
 
@@ -39,22 +39,27 @@ wp_enqueue_style('bootstrap-multiselect-style');
 
                     <?php endif; ?>
 
+<?php if (is_user_logged_in() && bp_user_can_create_groups()) : ?> &nbsp;<a class="button btn btn-default" href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create'); ?>"><?php _e('Create an Organisation', 'firmasite'); ?></a><?php endif; ?>
+
                     <?php do_action('bp_groups_directory_group_filter'); ?>
 
                 </ul>
-            </div><!-- .item-list-tabs -->
 
-            <div id="group-dir-search" class="dir-search" role="search">
+		<div id="group-dir-search" class="dir-search" role="search">
 
                 <br> <?php bp_directory_groups_search_form(); ?>
 
-            </div><!-- #group-dir-search -->
+                </div><!-- #group-dir-search -->
+
+            </div><!-- .item-list-tabs -->
+
+            
 
             <!-- Include the UI for the search form -->
             <?php include(get_stylesheet_directory() . "/groups/search.php"); ?>
 
             <?php do_action('template_notices'); ?>
-
+            
             <div class="item-list-tabs" id="subnav" role="navigation">
                 <ul class="nav nav-pills">
 
@@ -75,7 +80,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                     </li>
                 </ul>
             </div>
-
+	    
             <div id="groups-dir-list" class="groups dir-list">
 
                 <?php locate_template(array('groups/groups-loop.php'), true); ?>
