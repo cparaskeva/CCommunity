@@ -65,7 +65,7 @@ function bp_offers_create_offer() {
             $errors = false;
             //Check if user has choosen an offer type othen than "none"
             if (($_POST['offer-type'] != "3" && $_POST['collaboration-type'] == "none") || strlen($_POST['collaboration-description']) < 1 || (($_POST['collaboration-partner-sought'] == none ) && ($_POST['collaboration-programs'] == 'none') && ($_POST['applyable-countries'] == "none" ) && ($_POST['finance-stage'] == "none" )))
-                bp_core_add_message(__('Error puplishing your proposal. Please fill in all the required fields.', 'bp-example'), 'error');
+                bp_core_add_message(__('Error publishing your proposal. Please fill in all the required fields.', 'bp-example'), 'error');
             else {
                 //Validation Success Save the offer to DB               
                 $group_id = CECOM_Organization::getUserGroupID();
@@ -86,9 +86,9 @@ function bp_offers_create_offer() {
                     'sectors' => ( empty($_POST['offer-sectors']) ? "null" : array("sector" => explode(",", $_POST['offer-sectors'])))
                 );
                 if (bp_offers_publish_offer($offer_new))
-                    bp_core_add_message(__('Your offer has been succesfuly published!', 'bp-example'), 'success');
+                    bp_core_add_message(__('Your offer has been successfully published!', 'bp-example'), 'success');
                 else
-                    bp_core_add_message(__('Unable to insert infromation to database..', 'bp-example'), 'error');
+                    bp_core_add_message(__('Unable to insert information to database..', 'bp-example'), 'error');
             }
 
 
