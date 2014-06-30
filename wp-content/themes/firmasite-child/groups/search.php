@@ -83,7 +83,7 @@
                     ?>
                 </select>
                 <br><br>
-                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> </label>
+                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
                 </select>
             </div>

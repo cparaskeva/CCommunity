@@ -210,6 +210,7 @@ class BP_Core extends BP_Component {
 	 *        description.
 	 */
          public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+		
 		$bp = buddypress();
 
 		 // If xprofile component is disabled, revert to WordPress profile

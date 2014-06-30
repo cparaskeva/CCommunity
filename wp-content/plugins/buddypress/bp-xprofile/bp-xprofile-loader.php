@@ -199,16 +199,6 @@ class BP_XProfile_Component extends BP_Component {
 			'user_has_access' => bp_core_can_edit_settings()
 		);
 
-		// Change Avatar
-		$sub_nav[] = array(
-			'name'            => __( 'Change Avatar', 'buddypress' ),
-			'slug'            => 'change-avatar',
-			'parent_url'      => $profile_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'xprofile_screen_change_avatar',
-			'position'        => 30,
-			'user_has_access' => bp_core_can_edit_settings()
-		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
