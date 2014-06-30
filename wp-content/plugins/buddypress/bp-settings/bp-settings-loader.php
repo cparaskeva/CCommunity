@@ -91,7 +91,7 @@ class BP_Settings_Component extends BP_Component {
 
 		// Add General Settings nav item
 		$sub_nav[] = array(
-			'name'            => __( 'General', 'buddypress' ),
+			'name'            => __( 'Edit email & password', 'buddypress' ),
 			'slug'            => 'general',
 			'parent_url'      => $settings_link,
 			'parent_slug'     => $this->slug,

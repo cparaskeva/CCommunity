@@ -208,3 +208,18 @@ function xprofile_screen_change_avatar() {
 
 	bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'members/single/home' ) );
 }
+
+/**
+ * Show the general settings template
+ *
+ * @since BuddyPress (1.5)
+ */
+function xprofile_screen_general() {
+
+	if ( bp_action_variables() ) {
+		bp_do_404();
+		return;
+	}
+
+	bp_core_load_template( apply_filters( 'xprofile_screen_general_settings', 'members/single/profile/general' ) );
+}

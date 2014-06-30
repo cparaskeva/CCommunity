@@ -31,9 +31,9 @@
 		if ( bp_is_current_action( 'edit' ) )
 			locate_template( array( 'members/single/profile/edit.php' ), true );
 
-		// Change Avatar
-		elseif ( bp_is_current_action( 'change-avatar' ) )
-			locate_template( array( 'members/single/profile/change-avatar.php' ), true );
+		// Profile General
+		elseif ( bp_is_current_action( 'general' ) )
+			locate_template( array( 'members/single/profile/general.php' ), true );
 
 		// Display XProfile
 		elseif ( bp_is_active( 'xprofile' ) )

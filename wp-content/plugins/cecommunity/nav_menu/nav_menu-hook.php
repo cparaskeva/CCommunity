@@ -19,14 +19,10 @@ jQuery( document ).ready( function() {
 
 	jQuery("#menu-topbar-right").append( jQuery(".menu-your-profile").remove() );
 	jQuery("#menu-topbar-right").append( jQuery(".menu-your-offers").remove() );
-	/* "see your offers" link */
-	var offers_url = "/cecommunity/members/<?php echo $current_user->user_nicename; ?>/offers/";
-        jQuery("li.menu-edit-your-offers a").attr('href', offers_url);
-	
 	jQuery("#menu-topbar-right").append( jQuery(".menu-about").remove() );
+
 	/* logout link */
 	var logout_url = "<?php echo htmlspecialchars_decode(wp_logout_url()) ?>";
-	
 	jQuery("#menu-topbar-right").append( jQuery(".menu-log-out").remove() );
 	jQuery(".menu-log-out a").attr('href', logout_url);
 
