@@ -87,6 +87,7 @@ global $bp;
                 </ul>
             </div><!-- .item-list-tabs -->
 
+		
             <div id="alerts-dir-list" class="alerts dir-list">
                 <?php locate_template(array('/alerts/alerts-loop.php'), true); ?>
             </div><!-- #alerts-dir-list -->

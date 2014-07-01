@@ -31,6 +31,8 @@ get_header('buddypress');
 
 </div><!-- .item-list-tabs -->
 
+<div style="height:20px;"></div>
+
 <div class="patents_licenses mypatents_licenses">
 
     <?php locate_template(array('patents_licenses/patents_licenses-loop.php'), true); ?>

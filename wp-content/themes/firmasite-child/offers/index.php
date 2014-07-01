@@ -55,8 +55,10 @@ global $bp;
 <?php do_action('bp_offers_directory_offer_filter'); ?>
 
                 </ul>
-            </div><!-- .item-list-tabs -->
-            <div id="offer-dir-search" class="dir-search" role="search">
+            </div>
+	    <!-- .item-list-tabs -->
+            
+	    <div id="offer-dir-search" class="dir-search" role="search">
 
                 <br>  <?php bp_directory_offers_search_form(); ?> 
 

@@ -444,7 +444,7 @@ class BP_Challenge {
         // Get paginated results
         $paged_challenges_sql = apply_filters('bp_challenges_get_paged_challenges_sql', join(' ', (array) $sql), $sql, $r);
         $paged_challenges = $wpdb->get_results($paged_challenges_sql);
-        echo " Paged Query: " . $paged_challenges_sql . "<br> Results count:" . $wpdb->num_rows;
+        //echo " Paged Query: " . $paged_challenges_sql . "<br> Results count:" . $wpdb->num_rows;
 
 
         $total_sql['select'] = "SELECT COUNT(DISTINCT id) FROM {$bp->challenges->table_name} as challenge";
@@ -470,7 +470,7 @@ class BP_Challenge {
         // Get total challenge results
         $total_challenges_sql = apply_filters('bp_challenges_get_total_challenges_sql', $t_sql, $total_sql, $r);
         $total_challenges = $wpdb->get_var($total_challenges_sql);
-        echo "<br>Count query: " . $total_challenges_sql;
+        //echo "<br>Count query: " . $total_challenges_sql;
 
         $challenge_ids = array();
         foreach ((array) $paged_challenges as $challenge) {
