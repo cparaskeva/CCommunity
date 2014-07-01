@@ -787,18 +787,14 @@ function bp_get_loggedin_user_nav() {
 function bp_get_displayed_user_nav() {
 	global $bp;
 
-	// TODO: display only all profile items or only all offers items 
+	//display only all profile items or only all offers items 
 	$selected = '';
 	$selected_nav_item = '';
 	$profile_array = array("profile", "alerts", "notifications");
-	$offers_array = array("offers", "challenges", "fundings", "tools");
+	$offers_array = array("offers", "challenges", "patents_licenses", "tools_facilities");
 	foreach ( (array) $bp->bp_nav as $user_nav_item ) {
-		if ( empty( $user_nav_item['show_for_displayed_user'] ) && !bp_is_my_profile() )
-			continue;
-
-		
+			
 		if ( bp_is_current_component( $user_nav_item['slug'] ) ) {
-			$selected = ' class="current selected"';
 			$selected_nav_item = $user_nav_item['slug'];
 		}
 	}
@@ -813,8 +809,19 @@ function bp_get_displayed_user_nav() {
 			$link = trailingslashit( bp_displayed_user_domain() . $user_nav_item['link'] );
 		}
 
+		
+		if(( in_array($selected_nav_item, $profile_array)  && in_array($user_nav_item['slug'], $profile_array) ) ||
+		     in_array($selected_nav_item, $offers_array) && in_array($user_nav_item['slug'], $offers_array) ) {
+
 		if ( bp_is_current_component( $user_nav_item['slug'] ) ) {
-			echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
+			$selected = ' class="current selected"';
+		}
+		else {
+			$selected = '';
+		}
+		
+		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . 				'><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
+
 		}
 	}
 }

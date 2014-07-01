@@ -27,6 +27,7 @@ function xprofile_screen_display_profile() {
 	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'members/single/home' ) );
 }
 
+
 /**
  * Handles the display of the profile edit page by loading the correct template file.
  * Also checks to make sure this can only be accessed for the logged in users profile.
@@ -36,6 +37,8 @@ function xprofile_screen_display_profile() {
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_edit_profile() {
+
+
 
 	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
@@ -136,90 +139,24 @@ function xprofile_screen_edit_profile() {
 		}
 	}
 
-	do_action( 'xprofile_screen_edit_profile' );
-	bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'members/single/home' ) );
+	//do_action( 'xprofile_screen_edit_profile' );
+	//bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'members/single/home' ) );
+
+	bp_core_load_template( apply_filters( 'xprofile_screen_edit_settings', 'members/single/profile/edit' ) );
 }
 
-/**
- * Handles the uploading and cropping of a user avatar. Displays the change avatar page.
- *
- * @package BuddyPress XProfile
- * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
- */
-function xprofile_screen_change_avatar() {
-
-	// Bail if not the correct screen
-	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
-		return false;
-
-	// Bail if there are action variables
-	if ( bp_action_variables() ) {
-		bp_do_404();
-		return;
-	}
-
-	$bp = buddypress();
-
-	if ( ! isset( $bp->avatar_admin ) )
-		$bp->avatar_admin = new stdClass();
-
-	$bp->avatar_admin->step = 'upload-image';
-
-	if ( !empty( $_FILES ) ) {
-
-		// Check the nonce
-		check_admin_referer( 'bp_avatar_upload' );
-
-		// Pass the file to the avatar upload handler
-		if ( bp_core_avatar_handle_upload( $_FILES, 'xprofile_avatar_upload_dir' ) ) {
-			$bp->avatar_admin->step = 'crop-image';
-
-			// Make sure we include the jQuery jCrop file for image cropping
-			add_action( 'wp_print_scripts', 'bp_core_add_jquery_cropper' );
-		}
-	}
-
-	// If the image cropping is done, crop the image and save a full/thumb version
-	if ( isset( $_POST['avatar-crop-submit'] ) ) {
-
-		// Check the nonce
-		check_admin_referer( 'bp_avatar_cropstore' );
-
-		$args = array(
-			'item_id'       => bp_displayed_user_id(),
-			'original_file' => $_POST['image_src'],
-			'crop_x'        => $_POST['x'],
-			'crop_y'        => $_POST['y'],
-			'crop_w'        => $_POST['w'],
-			'crop_h'        => $_POST['h']
-		);
-
-		if ( ! bp_core_avatar_handle_crop( $args ) ) {
-			bp_core_add_message( __( 'There was a problem cropping your avatar.', 'buddypress' ), 'error' );
-		} else {
-			do_action( 'xprofile_avatar_uploaded' );
-			bp_core_add_message( __( 'Your new avatar was uploaded successfully.', 'buddypress' ) );
-			bp_core_redirect( bp_loggedin_user_domain() );
-		}
-	}
-
-	do_action( 'xprofile_screen_change_avatar' );
-
-	bp_core_load_template( apply_filters( 'xprofile_template_change_avatar', 'members/single/home' ) );
-}
 
 /**
  * Show the general settings template
  *
  * @since BuddyPress (1.5)
  */
-function xprofile_screen_general() {
+function xprofile_screen_general_profile() {
 
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
 	}
 
-	bp_core_load_template( apply_filters( 'xprofile_screen_general_settings', 'members/single/profile/general' ) );
+	bp_core_load_template( apply_filters( 'xprofile_screen_general_profile', 'members/single/profile/general' ) );
 }

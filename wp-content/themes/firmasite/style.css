@@ -175,3 +175,10 @@ td.mceIframeContainer{padding:0!important}
 .browser_ie .bbp-topics .bbp-author-avatar img{width:14px;height:auto;max-width:none}
 .browser_ie .bbp-forums .bbp-author-avatar img{width:14px;height:auto;max-width:none}
 .browser_ie .firmasite-modal-static .modal-footer{text-align:left}
+
+/* others */
+
+.navbar-inverse {
+
+    background-color: #C8C8C8;
+}

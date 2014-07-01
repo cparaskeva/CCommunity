@@ -13,7 +13,7 @@ get_header( 'buddypress' ); ?>
 	<div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
 		<div class="padder">
 
-			<?php do_action( 'bp_before_member_settings_template' ); ?>
+			<?php do_action( 'bp_before_member_xprofile_template' ); ?>
 
 			<div id="item-header" class="well well-sm media clearfix">
 
@@ -58,7 +58,7 @@ get_header( 'buddypress' ); ?>
 
 				<?php do_action( 'bp_template_content' ); ?>
 
-				<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/general'; ?>" method="post" class="standard-form" id="settings-form">
+				<form action="<?php echo bp_displayed_user_domain() . 'profile/general'; ?>" method="post" class="standard-form" id="settings-form">
 
 					<?php if ( !is_super_admin() ) : ?>
 
@@ -79,15 +79,15 @@ get_header( 'buddypress' ); ?>
 					<?php _e( 'Repeat New Password', 'firmasite' ); ?>
 					<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> 
 					<div style="height:20px;"></div>
-					<?php do_action( 'bp_core_general_settings_before_submit' ); ?>
+					<?php do_action( 'bp_core_general_profile_before_submit' ); ?>
 
 					<div class="submit">
 						<input type="submit" class="btn  btn-primary" name="submit" value="<?php _e( 'Save Changes', 'firmasite' ); ?>" id="submit" class="auto" />
 					</div>
 
-					<?php do_action( 'bp_core_general_settings_after_submit' ); ?>
+					<?php do_action( 'bp_core_general_xprofile_after_submit' ); ?>
 
-					<?php wp_nonce_field( 'bp_settings_general' ); ?>
+					<?php wp_nonce_field( 'bp_xprofile_general_profile' ); ?>
 
 				</form>
                 
@@ -97,7 +97,7 @@ get_header( 'buddypress' ); ?>
 
 			</div><!-- #item-body -->
 
-			<?php do_action( 'bp_after_member_settings_template' ); ?>
+			<?php do_action( 'bp_after_member_xprofile_template' ); ?>
 
 		</div><!-- .padder -->
 	</div><!-- #content -->

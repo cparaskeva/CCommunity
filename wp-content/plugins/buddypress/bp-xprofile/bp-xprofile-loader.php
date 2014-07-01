@@ -190,7 +190,7 @@ class BP_XProfile_Component extends BP_Component {
 
 		// Edit Name and Surname
 		$sub_nav[] = array(
-			'name'            => __( 'Edit name surname', 'buddypress' ),
+			'name'            => __( 'Edit Name & Surname', 'buddypress' ),
 			'slug'            => 'edit',
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,
@@ -201,7 +201,7 @@ class BP_XProfile_Component extends BP_Component {
 		
 		// Edit Email and password
 		$sub_nav[] = array(
-				'name'            => __( 'Edit email password', 'buddypress' ),
+				'name'            => __( 'Edit Password & Email', 'buddypress' ),
 				'slug'            => 'general',
 				'parent_url'      => $profile_link,
 				'parent_slug'     => $this->slug,
@@ -257,7 +257,7 @@ class BP_XProfile_Component extends BP_Component {
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-general',
-				'title'  => __( 'Edia Email Password', 'buddypress' ),
+				'title'  => __( 'Edit Email Password', 'buddypress' ),
 				'href'   => trailingslashit( $profile_link . 'general' )
 			);
 
