@@ -16,6 +16,8 @@
         </li>
     </ul>
 </div>
+<div style="height:20px;"></div>
+
 
 <?php
 switch (bp_current_action()) :
