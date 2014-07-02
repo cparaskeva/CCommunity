@@ -24,7 +24,7 @@ $organisation = bp_offers_get_organization();
 
 
     <!-- Organization Details Area-->
-    <div class="well" style="float:left;width:140px;margin-top:5px">
+    <div class="well" style="float:left;margin-top:5px">
         <p>
             <strong>Organisation</strong><br><a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo $organisation['name']; ?></a><br><br>
             <strong>Contact Person</strong><br><a href="<?php bp_offers_owner_permalink($bp->offers->current_offer->uid); ?>"><?php echo xprofile_get_field_data('name', $bp->offers->current_offer->uid) . " " . xprofile_get_field_data('surname', $bp->offers->current_offer->uid); ?></a></br></br>         
@@ -38,17 +38,23 @@ $organisation = bp_offers_get_organization();
 
 
 <div class="col-lg-8">
-    <span class="highlight label label-default"><?php echo $details['tdesc']; ?></span> 
+    <div class="highlight label label-default"><?php echo $details['tdesc']; ?></div> </br>
+    <div style="height:5px;"></div>
     <?php if ($bp->offers->current_offer->type_id == 1 || $bp->offers->current_offer->type_id == 2): ?>
-        <span class="highlight label label-primary"><?php echo $details['cdesc']; ?></span>
-        <span class="highlight label label-warning"><?php echo ($bp->offers->current_offer->type_id == 1 ? "Partner sought: " : "Grant programs: ") . $details['pdesc']; ?></span>
+        <div class="highlight label label-primary"><?php echo $details['cdesc']; ?></div></br>
+        <div style="height:5px;"></div>
+        <div class="highlight label label-warning"><?php echo ($bp->offers->current_offer->type_id == 1 ? "Partner sought: " : "Grant programs: ") . $details['pdesc']; ?></div></br>
     <?php else: ?>
-        <span class="highlight label label-primary"><?php echo "Finance Stage: " . $details['fdesc']; ?></span>
-        <span class="highlight label label-warning"><?php echo "Applyable Countries: " . $details['cname']; ?></span>
+        <div class="highlight label label-primary"><?php echo "Finance Stage: " . $details['fdesc']; ?></div></br>
+        <div style="height:5px;"></div>
+        <div class="highlight label label-warning"><?php echo "Applyable Countries: " . $details['cname']; ?></div></br>
     <?php endif; ?>    
+    
+    <div style="height:5px;"></div>
 
+    <div class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), substr($bp->offers->current_offer->date, 0, 10)); ?></div>
 
-    <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), substr($bp->offers->current_offer->date, 0, 10)); ?></span>
+    <div style="height:20px;"></div> 
 
     <div id="item-meta">
         <p align="justify"> <?php echo $bp->offers->current_offer->description; ?> </p>
