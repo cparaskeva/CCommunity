@@ -187,7 +187,6 @@ $details = $bp->offers->current_offer->get_offer_details();
 </form><!-- #offer-settings-form -->
 
 
-
 <script type="text/javascript">
 
     /*

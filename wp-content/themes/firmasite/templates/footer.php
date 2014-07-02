@@ -1,6 +1,6 @@
 <?php global $firmasite_settings; ?>
 <footer id="footer" class="site-footer clearfix" role="contentinfo">
-    <div class="site-info <?php echo $firmasite_settings["layout_container_class"]; ?>">
+    <div style="padding:20px;" class="site-info <?php echo $firmasite_settings["layout_container_class"]; ?>">
         <?php do_action( 'open_footer' ); ?>
             <div class="row">
              <?php if ( ! dynamic_sidebar( 'footer-middle' ) ) : ?>
