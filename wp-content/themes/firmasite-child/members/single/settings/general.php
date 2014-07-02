@@ -63,7 +63,7 @@ get_header( 'buddypress' ); ?>
 					<?php if ( !is_super_admin() ) : ?>
 
 						<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'firmasite' ); ?></label>
-						<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" /> &nbsp;<a href="<?php echo site_url( add_query_arg( array( 'action' => 'lostpassword' ), 'wp-login.php' ), 'login' ); ?>" title="<?php _e( 'Password Lost and Found', 'firmasite' ); ?>"><?php _e( 'Lost your password?', 'firmasite' ); ?></a>
+						<input type="password" style="width:300px;" name="pwd" id="pwd" size="16" value="" class="settings-input small" /> &nbsp;<a href="<?php echo site_url( add_query_arg( array( 'action' => 'lostpassword' ), 'wp-login.php' ), 'login' ); ?>" title="<?php _e( 'Password Lost and Found', 'firmasite' ); ?>"><?php _e( 'Lost your password?', 'firmasite' ); ?></a>
 
 					<?php endif; ?>
 
