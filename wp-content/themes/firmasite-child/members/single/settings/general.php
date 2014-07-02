@@ -67,7 +67,7 @@ get_header( 'buddypress' ); ?>
 
 					<?php endif; ?>
 
-					<label for="email"><?php _e( 'Email address', 'firmasite' ); ?></label>
+					<div style="height:20px;"></div><label for="email"><?php _e( 'Email address', 'firmasite' ); ?></label>
 					<input type="text" style="width:300px;" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" />
 				      <div style="height:30px;"></div>
 
