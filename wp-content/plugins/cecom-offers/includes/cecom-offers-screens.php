@@ -199,7 +199,7 @@ function bp_offers_screen_settings_menu_content() {
             );
 
             if (bp_offers_update_offer($offer_update))
-                bp_core_add_message(__('Your offer has been succesfuly updated!', 'bp-example'), 'success');
+                bp_core_add_message(__('Your offer has been successfully updated!', 'bp-example'), 'success');
             else
                 bp_core_add_message(__('Unable to update the current offer...', 'bp-example'), 'error');
 

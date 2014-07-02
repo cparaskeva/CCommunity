@@ -28,7 +28,6 @@
                 <!-- <a href="<?php //bp_offers_owner_permalink();   ?>"><?php //bp_offers_owner_name();   ?></a> -->
                             &nbsp;&nbsp;
                         <?php endif; ?>
-                        View offer <a href="<?php bp_offer_permalink(); ?>">details</a>&nbsp;&nbsp; 
                         <span class="highlight label label-default"><?php bp_offer_type(); ?></span> 
                         <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), bp_offer_get_posted_date()); ?></span></div>
 
@@ -39,7 +38,7 @@
 
 
                     </div>
-
+		    View <a href="<?php bp_offer_permalink(); ?>">offer details</a>&nbsp;&nbsp; 
                     <?php do_action('bp_directory_example_item'); ?>
 
                 </div>

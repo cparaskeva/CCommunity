@@ -320,7 +320,7 @@ class BP_Offers_Component extends BP_Component {
 
             $offer_link = trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug() . '/' . $this->current_offer->slug . '/');
 
-            // If the user is offer ownner, then show the offer admin nav item
+            // If the user is offer owner, then show the offer admin nav item
             if (bp_is_item_admin()) {
                 global $bp;
                 $sub_nav[] = array(

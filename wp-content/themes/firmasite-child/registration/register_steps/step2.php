@@ -92,8 +92,21 @@
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-md-3" for="organization_country"><?php _e('Country', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
-                        <div id="organization_country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
-                    </div>
+                        <!-- <div id="organization_country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>-->
+                          <select  class="form-control" name="organization_country" id="organization_country" aria-required="false">
+                         <option value="">Please select...</option>
+                         <?php
+                         //Fetch All Countries form DB
+                         $results = CECOM_Organization::getAllRegistrationCountries();
+                         if (is_array($results)) {
+ 
+                             foreach ($results as $country) {
+                                 echo "<option value = '{$country->id }'>{$country->name}</option>";
+                             }
+                         }
+                         ?>
+                     </select>
+                     </div> 
                 </div>
 
                 <div class="form-group">
