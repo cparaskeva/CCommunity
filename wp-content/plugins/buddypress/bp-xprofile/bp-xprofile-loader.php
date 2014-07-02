@@ -194,7 +194,7 @@ class BP_XProfile_Component extends BP_Component {
 			'slug'            => 'edit',
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'xprofile_screen_edit',
+			'screen_function' => 'xprofile_screen_edit_profile',
 			'position'        => 20,
 			'user_has_access' => bp_core_can_edit_settings()
 		);
@@ -205,7 +205,7 @@ class BP_XProfile_Component extends BP_Component {
 				'slug'            => 'general',
 				'parent_url'      => $profile_link,
 				'parent_slug'     => $this->slug,
-				'screen_function' => 'xprofile_screen_general',
+				'screen_function' => 'xprofile_screen_general_profile',
 				'position'        => 30,
 				'user_has_access' => bp_core_can_edit_settings()
 		);

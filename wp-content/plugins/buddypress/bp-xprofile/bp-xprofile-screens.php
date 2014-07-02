@@ -139,15 +139,15 @@ function xprofile_screen_edit_profile() {
 		}
 	}
 
-	//do_action( 'xprofile_screen_edit_profile' );
-	//bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'members/single/home' ) );
+	do_action( 'xprofile_screen_edit_profile' );
+	bp_core_load_template( apply_filters( 'xprofile_template_edit_profile', 'members/single/home' ) );
 
-	bp_core_load_template( apply_filters( 'xprofile_screen_edit_settings', 'members/single/profile/edit' ) );
 }
 
 
+
 /**
- * Show the general settings template
+ * Show the general profile template
  *
  * @since BuddyPress (1.5)
  */
@@ -158,5 +158,5 @@ function xprofile_screen_general_profile() {
 		return;
 	}
 
-	bp_core_load_template( apply_filters( 'xprofile_screen_general_profile', 'members/single/profile/general' ) );
+	bp_core_load_template( apply_filters( 'bp_settings_screen_general_settings', 'members/single/settings/general' ) );
 }

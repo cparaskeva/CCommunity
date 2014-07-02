@@ -68,16 +68,16 @@ get_header( 'buddypress' ); ?>
 					<?php endif; ?>
 
 					<label for="email"><?php _e( 'Email address', 'firmasite' ); ?></label>
-					<input type="text" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" />
+					<input type="text" style="width:300px;" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" />
 				      <div style="height:30px;"></div>
 
 					<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'firmasite' ); ?></label>
 				      <div style="height:20px;"></div>
 
 					<?php _e( 'New Password', 'firmasite' ); ?>
-				      <input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /><div style="height:20px;"></div>
+				      <input type="password" style="width:300px;" name="pass1" id="pass1" size="16" value="" class="settings-input small" /><div style="height:20px;"></div>
 					<?php _e( 'Repeat New Password', 'firmasite' ); ?>
-					<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> 
+					<input type="password" style="width:300px;" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> 
 					<div style="height:20px;"></div>
 					<?php do_action( 'bp_core_general_settings_before_submit' ); ?>
 

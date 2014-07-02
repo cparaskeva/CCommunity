@@ -105,13 +105,11 @@ if (is_user_logged_in()) {
             
             <div class="container">
             	
-            	<div style="width:100%; height:80px"> </div>
-            
-            		<div style="height:111px">
-            			<img width="400" height="111" src="/cecommunity/wp-content/uploads/2013/12/logo1.png" />
+            		<div style="height:30px">
+            			<img width="1000" height="111" src="/cecommunity/wp-content/uploads/2014/07/logo_big.jpg" />
             		</div>
             
-            	<div class="col-md-7">
+            	<div class="col-md-8">
             		
             		<h2>On our platform you can:</h2><br>
             		<ul class="platform-feat">
@@ -123,8 +121,8 @@ if (is_user_logged_in()) {
 					</ul>
             		
             	</div>
-            	
-            	<div class="col-md-5">
+            	<div class="col-md-1"></div>
+            	<div class="col-md-3">
             		<h3>New to the platform ?</h3>
             		<br>
             		<form method="post" action="<?php echo site_url('/register/') ?>"  class="platform-reg">
