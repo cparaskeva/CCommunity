@@ -187,3 +187,9 @@ td.mceIframeContainer{padding:0!important}
 
     width: 1130px;
 }
+
+.tabs-top {
+    border-style:solid;
+    border-color:black; 
+    width:210px;
+}
