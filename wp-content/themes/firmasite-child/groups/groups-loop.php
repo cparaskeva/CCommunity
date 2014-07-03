@@ -20,26 +20,21 @@
     <?php while (bp_groups()) : bp_the_group(); ?>
 
             <li>
-                <div class="item-avatar">
-                    <a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar('type=thumb&width=50&height=50'); ?></a>
-                </div>
-
+               
                 <div class="action pull-right">
-
-        <?php do_action('bp_directory_groups_actions'); ?>
 
                     <div class="meta">
 
-        <?php bp_group_type(); ?> / <?php bp_group_member_count(); ?>
+                         <?php bp_group_type(); ?> / <?php bp_group_member_count(); ?>
 
                     </div>
 
                 </div>
 
                 <div class="item">
-				<div style="height: 5px"></div>
-                <div class="item-title">&nbsp&nbsp&nbsp<a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-				<span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
+				
+                <div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a>
+				
 	            </div>
 	            
                     	

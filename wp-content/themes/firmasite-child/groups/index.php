@@ -40,7 +40,6 @@ wp_enqueue_style('bootstrap-multiselect-style');
 
                     <?php endif; ?>
 
-<?php if (is_user_logged_in() && bp_user_can_create_groups()) : ?> &nbsp;<a class="button btn btn-default" href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create'); ?>"><?php _e('Create an Organisation', 'firmasite'); ?></a><?php endif; ?>
 
                     <?php do_action('bp_groups_directory_group_filter'); ?>
 

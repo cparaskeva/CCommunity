@@ -95,7 +95,7 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
 
 <div id="item-header-content" class="fs-have-thumbnail">
     <h2><a href="<?php bp_group_permalink(); ?>" title="<?php bp_group_name(); ?>"><?php bp_group_name(); ?></a></h2>
-    <span class="highlight label label-default"><?php bp_group_type(); ?></span> <span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
+    <span class="highlight label label-default"><?php bp_group_type(); ?></span> 
 
     <?php do_action('bp_before_group_header_meta'); ?>
 
