@@ -47,7 +47,7 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
 <div id="item-header-avatar" class="col-xs-4 col-md-4 fs-content-thumbnail">
     
     <!-- Organization Details Area-->
-    <div class="well" style="float:left;margin-top:10px">
+    <div class="well" style="float:left; margin-top:10px; margin-left:20px;">
      <span>
 	<a href="<?php bp_group_permalink(); ?>" title="<?php bp_group_name(); ?>">
 

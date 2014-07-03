@@ -9,8 +9,7 @@ get_header('buddypress');
         <?php if (bp_has_groups()) : while (bp_groups()) : bp_the_group(); ?>
 
                 <?php do_action('bp_before_group_home_content'); ?>
-
-                <div id="item-header" class="well well-sm media clearfix" role="complementary">
+		<div id="item-header" class="well well-sm media clearfix" role="complementary">
                     <?php locate_template(array('groups/single/group-header.php'), true); ?>
                 </div><!-- #item-header -->
 
