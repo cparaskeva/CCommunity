@@ -63,7 +63,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
             <div class="item-list-tabs" id="subnav" role="navigation">
                 <ul class="nav nav-pills">
 
-                    <?php do_action('bp_groups_directory_group_types'); ?>
+		    <?php do_action('bp_groups_directory_group_types'); ?>
 
                     <li id="groups-order-select" class="last pull-right filter">
 

@@ -15,6 +15,22 @@
 
     <?php do_action('bp_before_directory_groups_list'); ?>
 
+ <div id="pag-bottom" class="pagination text-muted">
+
+        <div class="pag-count" id="group-dir-count-bottom">
+
+    		<?php bp_groups_pagination_count(); ?>
+
+        </div>
+
+        <div class="pagination-links lead" id="group-dir-pag-bottom">
+
+    <?php bp_groups_pagination_links(); ?>
+
+        </div>
+
+    </div>
+
     <ul id="groups-list" class="item-list" role="main">
 
     <?php while (bp_groups()) : bp_the_group(); ?>
@@ -125,7 +141,7 @@
 
         <div class="pag-count" id="group-dir-count-bottom">
 
-    <?php bp_groups_pagination_count(); ?>
+    		<?php bp_groups_pagination_count(); ?>
 
         </div>
 
