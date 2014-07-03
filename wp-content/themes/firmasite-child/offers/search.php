@@ -85,7 +85,7 @@
 
             <!-- Offer type: Funding -->
             <div class="col-xs-12 col-md-3" name="offer-funding" id="offer-funding" hidden="true" >
-                <label for="applyable-countries"><?php _e('Applyable countries', 'firmasite'); ?></label>
+                <label for="applyable-countries"><?php _e('Applicable countries', 'firmasite'); ?></label>
                 <select  class="form-control" name="applyable-countries" id="applyable-countries" aria-required="false">
                     <option value="none">(Any)</option>
                     <?php
@@ -138,7 +138,7 @@
 
 
 
-//Based on the offer type choosen hide/show respectively offer fields
+//Based on the offer type chosen hide/show respectively offer fields
     jQuery("#offer-type").change(function() {
         var offer_type = jQuery("#offer-type").val();
         //Handle the different type of offers
@@ -197,7 +197,7 @@
         else {
            var offer_type = jQuery("#offer-type option:selected").text();
            if (offer_type == "Offer Funding")
-               offer_type = "Find fundings"; 
+               offer_type = "Fundings"; 
                    
            jQuery("#offers-header").text(offer_type);
         }

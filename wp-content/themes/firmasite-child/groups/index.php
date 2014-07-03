@@ -35,7 +35,8 @@ wp_enqueue_style('bootstrap-multiselect-style');
 
                     <?php if (is_user_logged_in() && bp_get_total_group_count_for_user(bp_loggedin_user_id())) : ?>
 
-                        <li id="groups-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_groups_slug() . '/my-groups'); ?>"><?php printf(__('My Organisation <span>%s</span>', 'firmasite'), bp_get_total_group_count_for_user(bp_loggedin_user_id())); ?></a></li>
+                        <li id="groups-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_groups_slug() . '/my-groups'); ?>">
+<?php _e('My Organisation', 'firmasite'); ?></a></li>
 
                     <?php endif; ?>
 

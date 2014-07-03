@@ -20,6 +20,7 @@
         <input type="hidden" class="form-control" name="organization_sectors" id="organization_sectors" value=""/>
         <input type="hidden" class="form-control" name="organization_subsectors" id="organization_subsectors" value=""/>
         <!-- End of Hidden Fields -->
+	<br/><br/>
         <label for="group-name"><?php _e('Organisation Name (required)', 'firmasite'); ?></label>
         <input type="text" name="group-name" id="group-name" value="<?php bp_group_name(); ?>" aria-required="true" /><br/>
 
@@ -37,19 +38,31 @@
         <!-- Start of CECOM Organization Custom Fields --> 
         <div>
             <!-- Hold the ID of the selected country from the organization_country list -->
-            <input type="hidden"  name="organization_countryID" id="organization_countryID" value="<?php echo $cecom->organization->details['country'] ?>" />
-            <br/>
-            <label for="organization_specialties"><?php _e('Specialities', 'firmasite'); ?> </label>
-            <input type="text"  name="organization_specialties" id="organization_specialties" value="<?php echo $cecom->organization->details['specialties'] ?>" aria-required="false"/>
-            <br/>
-            <label for="organization_website"><?php _e('Organisation Website', 'firmasite'); ?> </label>
-            <input type="text"  name="organization_website" id="organization_specialties" value="<?php echo $cecom->organization->details['website'] ?>" aria-required="false"/>
-            <br/>
-            <label  for="organization_country"><?php _e('Country', 'firmasite'); ?></label>
-            <div  onchange="setOrganizationCountryID()" id="organization_country" class="bfh-selectbox bfh-countries" data-country="<?php echo $cecom->organization->details['country'] ?>" data-flags="true"> </div>
-            <br/>
-            <label  for="organization_size"><?php _e('Organization Size', 'firmasite'); ?> </label>
-            <select   name="organization_size" id="organization_size" >
+            	<input type="hidden"  name="organization_countryID" id="organization_countryID" value="<?php echo $cecom->organization->details['country'] ?>" />
+            
+	    	<br/>
+            
+		<label for="organization_specialties"><?php _e('Specialities', 'firmasite'); ?> </label>
+            
+		<input type="text"  name="organization_specialties" id="organization_specialties" value="<?php echo $cecom->organization->details['specialties'] ?>" aria-required="false"/>
+            
+		<br/>
+            
+		<label for="organization_website"><?php _e('Organisation Website', 'firmasite'); ?> </label>
+            
+		<input type="text"  name="organization_website" id="organization_specialties" value="<?php echo $cecom->organization->details['website'] ?>" aria-required="false"/>
+            	
+		<br/>
+            
+		<label  for="organization_country"><?php _e('Country', 'firmasite'); ?></label>
+            
+		<div  onchange="setOrganizationCountryID()" id="organization_country" class="bfh-selectbox bfh-countries" data-country="<?php echo $cecom->organization->details['country'] ?>" data-flags="true"> </div>
+            
+		<br/>
+            
+		<label  for="organization_size"><?php _e('Organization Size', 'firmasite'); ?> </label>
+            
+		<select   name="organization_size" id="organization_size" >
                 <?php
                 //Fetch Organization Size form DB
                 $results = CECOM_Organization::getOrganizationSize();
@@ -74,10 +87,13 @@
                     }
                 }
                 ?>
-            </select>
-            <br/>
-            <label  for="organization_type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
-            <select   name="organization_type" id="organization_type" aria-required="false">
+            	</select>
+            
+		<br/>
+            
+		<label  for="organization_type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
+            
+		<select   name="organization_type" id="organization_type" aria-required="false">
                 <?php
                 //Fetch Organization Types form DB
                 $results = CECOM_Organization::getOrganizationType();
@@ -91,10 +107,12 @@
                     }
                 }
                 ?>
-            </select>
-            <br/>
-            <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
-            <select  name="organization_sector" id="organization_sector" class="multiselect" multiple="multiple" >
+            	 </select>
+            
+		<br/>
+            
+		<label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?> </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;<select  name="organization_sector" id="organization_sector" class="multiselect" multiple="multiple" >
                 <?php
                 //Fetch Organization Sectors form DB
                 $results = CECOM_Organization::getOrganizationSector();
@@ -105,10 +123,12 @@
                 }
                 ?>
 
-            </select>
-            <br/><br/>
-            <label  for="organization_subsector"><?php _e('Subector', 'firmasite'); ?> </label>
-            <select name="organization_subsector" id="organization_subsector" class="multiselect" multiple="multiple">
+            	</select>
+            
+		<br/><br/>
+            
+		<label  for="organization_subsector"><?php _e('Subector', 'firmasite'); ?> </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;<select name="organization_subsector" id="organization_subsector" class="multiselect" multiple="multiple">
                 <?php
                 //Fetch Organization Subsectors form DB
                 $results = CECOM_Organization::getOrganizationSubsector($cecom->organization->details['sector_id']);
@@ -123,14 +143,19 @@
                 }
                 ?>
 
-            </select><br/>
-            <label  for="organization_collaboration"><?php _e('Available for collaboration', 'firmasite'); ?> </label>
-            <input type="radio" <?php if ($cecom->organization->details['collaboration']) echo "checked=\"yes\""; ?>  name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
-            <input type="radio" <?php if (!$cecom->organization->details['collaboration']) echo "checked=\"yes\""; ?> name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
-            <br/>
-            <label  for="organization_transaction"><?php _e('Available for transaction', 'firmasite'); ?> </label>&nbsp;&nbsp;&nbsp;
-            <input type="radio" <?php if ($cecom->organization->details['transaction']) echo "checked=\"yes\""; ?> name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
-            <input type="radio" <?php if (!$cecom->organization->details['transaction']) echo "checked=\"yes\""; ?>name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
+            	</select><br/><br/>
+            
+		<label  for="organization_collaboration"><?php _e('Available for collaboration', 'firmasite'); ?> </label>
+            
+		<input type="radio" <?php if ($cecom->organization->details['collaboration']) echo "checked=\"yes\""; ?>  name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+            	<input type="radio" <?php if (!$cecom->organization->details['collaboration']) echo "checked=\"yes\""; ?> name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
+            
+		<br/>
+           
+		<label  for="organization_transaction"><?php _e('Available for transaction', 'firmasite'); ?> </label>&nbsp;&nbsp;&nbsp;
+            
+		<input type="radio" <?php if ($cecom->organization->details['transaction']) echo "checked=\"yes\""; ?> name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+            	 <input type="radio" <?php if (!$cecom->organization->details['transaction']) echo "checked=\"yes\""; ?>name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
 
         </div>
         <!-- End of CECOM Organization Custom Fields -->
@@ -142,9 +167,12 @@
         <label for="group-notifiy-members"><?php _e('Notify group members of changes via email', 'firmasite'); ?></label>
         <input type="radio" name="group-notify-members" value="1" /> <?php _e('Yes', 'firmasite'); ?>&nbsp;
         <input type="radio" name="group-notify-members" value="0" checked="checked" /> <?php _e('No', 'firmasite'); ?>&nbsp;
-    </p>
+    	</p>
+	
 
     <?php do_action('bp_after_group_details_admin'); ?>
+
+	<div style="height:30px;"></div>	
 
     <p><input type="submit" class="btn  btn-primary" value="<?php _e('Save Changes', 'firmasite'); ?>" id="save" name="save" /></p>
     <?php wp_nonce_field('groups_edit_group_details'); ?>
@@ -427,20 +455,26 @@
 
                 <li>
                     <?php bp_group_request_user_avatar_thumb(); ?>
-                    <h4 class="page-header"><?php bp_group_request_user_link(); ?> <span class="comments"><?php bp_group_request_comment(); ?></span></h4>
-                    <span class="activity label label-info"><?php bp_group_request_time_since_requested(); ?></span>
+                    <h4 class="page-header"><?php bp_group_request_user_link(); ?> <span class="comments"><?php bp_group_request_comment(); ?></span>&nbsp;&nbsp;<span class="activity label label-info"><?php bp_group_request_time_since_requested(); ?></span></h4>
+                    
 
                     <?php do_action('bp_group_membership_requests_admin_item'); ?>
 
-                    <div class="action">
+		   <div style="float:left; clear:both;">
+		       <h4> What do you want to do? </h4>
+                       <div style="padding:10px;" class="action">
 
-                        <?php bp_button(array('id' => 'group_membership_accept', 'component' => 'groups', 'wrapper_class' => 'accept', 'link_href' => bp_get_group_request_accept_link(), 'link_title' => __('Accept', 'firmasite'), 'link_text' => __('Accept', 'firmasite'))); ?>
+                        <?php bp_button(array('id' => 'group_membership_accept', 'component' => 'groups', 'wrapper_class' => 'accept', 'link_href' => bp_get_group_request_accept_link(), 'link_title' => __('Accept', 'firmasite'), 'link_text' => __('I accept this person as member of my organisation', 'firmasite'))); ?>
+			
+		         <div style="height:10px;"></div>
 
-                        <?php bp_button(array('id' => 'group_membership_reject', 'component' => 'groups', 'wrapper_class' => 'reject', 'link_href' => bp_get_group_request_reject_link(), 'link_title' => __('Reject', 'firmasite'), 'link_text' => __('Reject', 'firmasite'))); ?>
+                        <?php bp_button(array('id' => 'group_membership_reject', 'component' => 'groups', 'wrapper_class' => 'reject', 'link_href' => bp_get_group_request_reject_link(), 'link_title' => __('Reject', 'firmasite'), 'link_text' => __('I reject this person as member of my organisation', 'firmasite'))); ?>
+		
 
                         <?php do_action('bp_group_membership_requests_admin_item_action'); ?>
 
-                    </div>
+                      </div>
+		  </div>
                 </li>
 
             <?php endwhile; ?>

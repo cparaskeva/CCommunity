@@ -541,7 +541,7 @@ function bp_group_avatar_mini($group = false) {
 }
 
 function bp_get_group_avatar_mini($group = false) {
-    return bp_get_group_avatar('type=thumb&width=30&height=30');
+    return bp_get_group_avatar('type=thumb&width=50&height=50');
 }
 
 function bp_group_last_active($group = false) {
@@ -1245,7 +1245,7 @@ function bp_group_admin_memberlist($admin_list = false, $group = false) {
 
                     <li>
 
-                            <?php echo bp_core_fetch_avatar(array('item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), bp_core_get_user_displayname($admin->user_id)))) ?>
+                            <?php echo bp_core_fetch_avatar(array('item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 50, 'height' => 50, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), bp_core_get_user_displayname($admin->user_id)))) ?>
 
                         <h5>
 
@@ -1313,7 +1313,7 @@ function bp_group_mod_memberlist($admin_list = false, $group = false) {
 
                     <li>
 
-                <?php echo bp_core_fetch_avatar(array('item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), bp_core_get_user_displayname($mod->user_id)))) ?>
+                <?php echo bp_core_fetch_avatar(array('item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 50, 'height' => 50, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), bp_core_get_user_displayname($mod->user_id)))) ?>
 
                         <h5>
                     <?php echo bp_core_get_userlink($mod->user_id); ?>
@@ -1504,11 +1504,7 @@ function bp_group_admin_tabs($group = false) {
 
     <!--<li<?php if ('group-settings' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-settings') ?>"><?php _e('Settings', 'buddypress'); ?></a></li>-->
 
-    <?php if (!(int) bp_get_option('bp-disable-avatar-uploads')) : ?>
-
-        <li<?php if ('group-avatar' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-avatar') ?>"><?php _e('Avatar', 'buddypress'); ?></a></li>
-
-    <?php endif; ?>
+    
 
     <li<?php if ('manage-members' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/manage-members') ?>"><?php _e('Members', 'buddypress'); ?></a></li>
 
@@ -1520,8 +1516,7 @@ function bp_group_admin_tabs($group = false) {
 
     <?php do_action('groups_admin_tabs', $current_tab, $group->slug) ?>
 
-    <li<?php if ('delete-group' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/delete-group') ?>"><?php _e('Delete', 'buddypress'); ?></a></li>
-
+    
     <?php
 }
 
@@ -2090,11 +2085,11 @@ function bp_get_group_member_avatar_thumb() {
     return apply_filters('bp_get_group_member_avatar_thumb', bp_core_fetch_avatar(array('item_id' => $members_template->member->user_id, 'type' => 'thumb', 'email' => $members_template->member->user_email, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), $members_template->member->display_name))));
 }
 
-function bp_group_member_avatar_mini($width = 30, $height = 30) {
+function bp_group_member_avatar_mini($width = 50, $height = 50) {
     echo bp_get_group_member_avatar_mini($width, $height);
 }
 
-function bp_get_group_member_avatar_mini($width = 30, $height = 30) {
+function bp_get_group_member_avatar_mini($width = 50, $height = 50) {
     global $members_template;
 
     return apply_filters('bp_get_group_member_avatar_mini', bp_core_fetch_avatar(array('item_id' => $members_template->member->user_id, 'type' => 'thumb', 'width' => $width, 'height' => $height, 'email' => $members_template->member->user_email, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), $members_template->member->display_name))));
@@ -2916,7 +2911,7 @@ function bp_get_group_request_user_link() {
 function bp_group_request_time_since_requested() {
     global $requests_template;
 
-    echo apply_filters('bp_group_request_time_since_requested', sprintf(__('requested %s', 'buddypress'), bp_core_time_since(strtotime($requests_template->request->date_modified))));
+    echo apply_filters('bp_group_request_time_since_requested', sprintf(__('Membership requested %s', 'buddypress'), bp_core_time_since(strtotime($requests_template->request->date_modified))));
 }
 
 function bp_group_request_comment() {
