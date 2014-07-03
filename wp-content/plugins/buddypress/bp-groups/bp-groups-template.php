@@ -1494,7 +1494,7 @@ function bp_group_admin_tabs($group = false) {
     if (bp_is_item_admin()) :
         ?>
 
-        <li<?php if ('edit-details' == $current_tab || empty($current_tab)) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/edit-details') ?>"><?php _e('Details', 'buddypress'); ?></a></li>
+        <li style="font-size:200%"<?php if ('edit-details' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/edit-details') ?>"><?php _e('Edit', 'buddypress'); ?></a></li>
 
     <?php endif; ?>
 
@@ -1502,15 +1502,15 @@ function bp_group_admin_tabs($group = false) {
         return false;
     ?>
 
-    <!--<li<?php if ('group-settings' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-settings') ?>"><?php _e('Settings', 'buddypress'); ?></a></li>-->
+    <!--<li style="font-size:200%"<?php if ('group-settings' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-settings') ?>"><?php _e('Settings', 'buddypress'); ?></a></li>-->
 
     
 
-    <li<?php if ('manage-members' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/manage-members') ?>"><?php _e('Members', 'buddypress'); ?></a></li>
+    <li style="font-size:200%"<?php if ('manage-members' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/manage-members') ?>"><?php _e('Members', 'buddypress'); ?></a></li>
 
     <?php if ($groups_template->group->status == 'private') : ?>
 
-        <li<?php if ('membership-requests' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/membership-requests') ?>"><?php _e('Requests', 'buddypress'); ?></a></li>
+        <li style="font-size:200%"<?php if ('membership-requests' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/membership-requests') ?>"><?php _e('Requests', 'buddypress'); ?></a></li>
 
     <?php endif; ?>
 
@@ -2704,12 +2704,11 @@ function bp_group_current_avatar() {
 
         <img src="<?php echo esc_url($bp->groups->current_group->avatar_full); ?>" alt="<?php _e('Organisation Avatar', 'buddypress') ?>" class="avatar" />
 
-    <?php } else { ?>
+    <?php } ?>
 
-        <img src="<?php echo esc_url($bp->groups->image_base . '/none.gif'); ?>" alt="<?php _e('No Organisation Avatar', 'buddypress') ?>" class="avatar" />
-
+   
     <?php
-    }
+    
 }
 
 function bp_get_group_has_avatar() {
