@@ -21,7 +21,7 @@
 
             <!-- Search form first column -->
             <div class="col-xs-12 col-md-3">
-                <!-- Organization country field -->
+		 <!-- Organization country field -->
                 <label  for="organization-country"><?php _e('Organisation country', 'firmasite'); ?></label>
                 <div id="organization-country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
                 <br/>
@@ -69,6 +69,7 @@
             </div>
 	    <!-- Search form second column -->
             <div class="col-xs-12 col-md-4" >
+<div style="height:50px;"></div>
                 <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">
                     <?php

@@ -2594,11 +2594,14 @@ function bp_directory_groups_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-groups-form">
-            <span data-toggle="tooltip" data-placement="left" title="Fill in either the name or a description of the organisation you are looking for..." class="glyphicon glyphicon-question-sign"></span>
-		<div style="margin-right:40px;">
-			<label>Description keywords</label>
-			<input type="text" style="width:300px; height:50px;" name="s" id="groups_search" placeholder="' . esc_attr($search_value) . '" /><div style="height:120px;"></div></div>
-		<input type="submit" style="width:200px; height:50px; margin-left:120px;" id="groups_search_submit" name="groups_search_submit" value="' . __('Search', 'buddypress') . '" />
+            
+		<div>
+			<label style="margin-right:250px;">Description keywords
+			<input style="width:300px;" type="text" name="s" id="groups_search" placeholder="' . esc_attr($search_value) . '" /></label>
+                       <input type="submit" style="width:200px; height:50px; margin-right:30px;" 
+ 			id="groups_search_submit" name="groups_search_submit" value="' . __('Search', 'buddypress') . '" />
+	       </div>
+		
 	</form>';
 
     echo apply_filters('bp_directory_groups_search_form', $search_form_html);
