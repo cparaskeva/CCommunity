@@ -19,7 +19,7 @@ $organisation = bp_challenges_get_organization();
         <a href="<?php echo bp_group_permalink() . "organization" . $bp->challenges->current_challenge->uid ?>"><?php echo bp_core_fetch_avatar('item_id=' . $bp->challenges->current_challenge->gid . '&type=thumb&width=50&height=50&object=group'); ?></a>
     </div>
     <!-- Organization Details Area-->
-    <div class="well" style="float:left;width:140px;margin-top:5px">
+    <div class="well" style="float:left;margin-top:5px">
         <p>
             
             
@@ -34,13 +34,13 @@ $organisation = bp_challenges_get_organization();
 <div class="col-lg-8">
     <span class="highlight label label-default"><?php echo "Deadline: ". $details['deadline']; ?></span> 
     <span class="highlight label label-primary"><?php echo "License: " . $details['rdesc']; ?></span>&nbsp;
-    <span class="highlight label label-warning"><?php echo "Reward ammount(Euro): " . $details['reward']; ?></span>
+    <span class="highlight label label-warning"><?php echo "Reward ammount (Euro): " . $details['reward']; ?></span>
 
     <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), substr($bp->challenges->current_challenge->date, 0, 10)); ?></span>
 
     <div id="item-meta">
         
-        <h3>Title: "<?php echo " ".$bp->challenges->current_challenge->title." "; ?> " </h3>
+        <h3><?php echo " ".$bp->challenges->current_challenge->title." "; ?></h3>
         <p align="justify"> <?php echo $bp->challenges->current_challenge->description; ?> </p>
     </div><!-- #item-meta -->
     <!-- Show meta of challenge -->

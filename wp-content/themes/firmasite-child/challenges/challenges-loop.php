@@ -66,7 +66,7 @@
 <?php else: ?>
 
     <div class="clearfix"></div><div id="message" class="info alert alert-info">
-        <p><?php _e('There were no challenges found.', 'firmasite'); ?></p>
+        <p><?php _e('There are no challenges matching your criteria.', 'firmasite'); ?></p>
     </div>
 
 <?php endif; ?>
