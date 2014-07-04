@@ -28,7 +28,7 @@ global $bp;
 <?php do_action('bp_before_directory_patents_licenses_page'); ?>
 
         <form action="" method="post" id="patents_licenses-directory-form" class="dir-form">
-            <h3  id="patents_licenses-header" class="page-header"><?php _e('Patents & Licenses Directory ', 'firmasite'); ?></h3>
+            <h3  id="patents_licenses-header" class="page-header"><?php _e('Patents & Licenses', 'firmasite'); ?></h3>
 
 <?php do_action('bp_before_directory_patents_licenses_content'); ?>
 

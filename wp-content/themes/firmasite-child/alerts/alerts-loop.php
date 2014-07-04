@@ -29,6 +29,9 @@
                             Alert set by <a href="<?php bp_alerts_owner_permalink(); ?>"><?php bp_alerts_owner_name(); ?></a>
                             &nbsp;&nbsp;
                         <?php endif; ?>
+		<span class="item-content"> 
+                        <b> <?php echo bp_alerts_content(); ?></b>
+                    </span>&nbsp;&nbsp;&nbsp;
                 <!-- View tool & facility <a href="<?php bp_alert_permalink(); ?>">details</a>&nbsp;&nbsp; -->
                 <!-- <span class="highlight label label-default"><?php //bp_alert_type();    ?></span> -->
                         <?php if (bp_alert_active()): ?>
@@ -36,17 +39,18 @@
                         <?php else: ?>
                             <span class="activity label label-danger">Alert is NOT active!</span>
                         <?php endif; ?>
-                        <span class="activity label label-info"><?php printf(__('Created: %s', 'firmasite'), bp_alert_get_posted_date()); ?></span>
+                       &nbsp;<span class="activity label label-info"><?php printf(__('Created: %s', 'firmasite'), bp_alert_get_posted_date()); ?></span>
                     </div>
-                    The alert has been triggered <span class="badge"><?php echo bp_alert_triggered_times(); ?></span> times!
-                    <div class="pull-right"> 
+
+<div class="pull-right"> 
                         <input onclick="window.location.href = '/cecommunity/alerts?delete=<?php bp_alert_id(); ?>'" name="alert-delete" class="btn-warning" type="submit" value="Delete alert!" />
                         <input onclick="window.location.href = '/cecommunity/alerts?activate=<?php echo (bp_alert_active()?0:1) ?>&alert=<?php bp_alert_id(); ?>'" name="alert-activate" class="<?php echo (bp_alert_active()?"btn-danger":"btn-success") ?>" type="submit" value="<?php echo (bp_alert_active()?"Deactivate alert!":"Activate alert!") ?>" />
                     </div>
-                    <div class="item-content"> 
-                        <p><b> <?php echo bp_alerts_content(); ?></b></p>
 
-                    </div>
+<div style="height:10px;"></div>
+                    The alert has been triggered <span class="badge"><?php echo bp_alert_triggered_times(); ?></span> times!
+                    
+                    
 
                 </div>
 

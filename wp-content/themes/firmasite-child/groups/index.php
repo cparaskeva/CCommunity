@@ -33,19 +33,15 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 <ul class="nav nav-pills">
                     <li class="selected" id="groups-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_groups_root_slug()); ?>"><?php printf(__('All Organisations <span>%s</span>', 'firmasite'), bp_get_total_group_count()); ?></a></li>
 
-                    <?php if (is_user_logged_in() && bp_get_total_group_count_for_user(bp_loggedin_user_id())) : ?>
+                    
 
-                        <li id="groups-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_groups_slug() . '/my-groups'); ?>">
-<?php _e('My Organisation', 'firmasite'); ?></a></li>
-
-                    <?php endif; ?>
-
+             
 
                     <?php do_action('bp_groups_directory_group_filter'); ?>
 
                 </ul>
 
-		<div id="group-dir-search" class="dir-search" role="search">
+		<div id="group-dir-search" style="padding-top:30px;" class="dir-search" role="search">
 
                 <br> <?php bp_directory_groups_search_form(); ?>
 

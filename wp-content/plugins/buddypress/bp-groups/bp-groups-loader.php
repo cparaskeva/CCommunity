@@ -143,7 +143,7 @@ class BP_Groups_Component extends BP_Component {
 			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
 			'has_directory'         => true,
 			'notification_callback' => 'groups_format_notifications',
-			'search_string'         => __( 'Search Organisations...', 'buddypress' ),
+			'search_string'         => __( '(No keywords)', 'buddypress' ),
 			'global_tables'         => $global_tables
 		);
 

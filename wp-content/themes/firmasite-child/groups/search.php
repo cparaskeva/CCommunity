@@ -67,7 +67,7 @@
                     ?>
                 </select>
             </div>
-            <!-- Search form second column -->
+	    <!-- Search form second column -->
             <div class="col-xs-12 col-md-4" >
                 <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">
@@ -144,14 +144,17 @@
             </div>
 
             <!-- Search checkboxes column -->
-            <div hidden="true" id="organization-checkboxes" class="col-lg-7" >
+	    
+            <div hidden="true" id="organization-checkboxes" class="col-lg-5" >
                 <br>
+		<div style="height:15px;"></div>
                 <label  for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>
-                <input type="radio"   name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+                <br/><input type="radio" name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                 <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
                 <br>
+		<div style="height:15px;"></div>
                 <label  for="organization_transaction"><?php _e('Is the organisation available for transaction?', 'firmasite'); ?>&nbsp;&nbsp;</label>
-                <input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+                <br/><input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                 <input type="radio"  name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
             </div>
 

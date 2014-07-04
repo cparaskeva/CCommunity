@@ -28,7 +28,7 @@ global $bp;
 <?php do_action('bp_before_directory_challenges_page'); ?>
 
         <form action="" method="post" id="challenges-directory-form" class="dir-form">
-            <h3  id="challenges-header" class="page-header"><?php _e('Challenges Directory ', 'firmasite'); ?></h3>
+            <h3  id="challenges-header" class="page-header"><?php _e('Challenges', 'firmasite'); ?></h3>
 
 <?php do_action('bp_before_directory_challenges_content'); ?>
 

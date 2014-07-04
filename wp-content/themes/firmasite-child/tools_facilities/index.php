@@ -26,7 +26,7 @@ global $bp;
 <?php do_action('bp_before_directory_tools_facilities_page'); ?>
 
         <form action="" method="post" id="tools_facilities-directory-form" class="dir-form">
-            <h3  id="tools_facilities-header" class="page-header"><?php _e('Tools & Facilities Directory ', 'firmasite'); ?></h3>
+            <h3  id="tools_facilities-header" class="page-header"><?php _e('Tools & Facilities', 'firmasite'); ?></h3>
 
 <?php do_action('bp_before_directory_tools_facilities_content'); ?>
 

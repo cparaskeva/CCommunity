@@ -542,9 +542,9 @@ final class BP_Alert_Factory {
     }
 
     static function print_alert_div($is_exist = false, $url = "") {
-        echo '<div style="text-align:center;"><br>
-                 <span data-toggle="tooltip" data-placement="left" title="Clicking this button will set an alert on this query. You will receive a notification when a new organisation registration  corresponds to your needs." class="glyphicon glyphicon-question-sign"></span>
-                 <input ' . ( $is_exist ? "disabled='true'" : "") . ' onclick="window.location.href=\' ' . $url . '\'"  type="submit" class="btn btn-warning" value="' . ( $is_exist ? "Alert already set!" : "Set an alert!") . ' "/> 
+        echo '<div style="text-align:left;"><br>
+                 
+                 <input ' . ( $is_exist ? "disabled='true'" : "") . ' onclick="window.location.href=\' ' . $url . '\'"  type="submit" class="btn btn-warning" value="' . ( $is_exist ? "Alert already set!" : "Alert me when a new organisation with these features joins!") . ' "/>
             </div>';
     }
 

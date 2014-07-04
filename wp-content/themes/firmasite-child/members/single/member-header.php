@@ -11,23 +11,17 @@
 
 <?php do_action( 'bp_before_member_header' ); ?>
 
-<div id="item-header-avatar" class="col-xs-4 col-md-4 fs-content-thumbnail">
-	<a href="<?php bp_displayed_user_link(); ?>">
-
-		<?php bp_displayed_user_avatar( 'type=full' ); ?>
-
-	</a>
-</div><!-- #item-header-avatar -->
-
 <div id="item-header-content" class="fs-have-thumbnail">
 
-	<h2>
-		<span><a href="<?php bp_displayed_user_link(); ?>"><?php bp_displayed_user_fullname(); 
+	<div style="font-size:200%">
+		&nbsp;<span><a href="<?php bp_displayed_user_link(); ?>"><?php bp_displayed_user_fullname(); 
 		// ugly hack to display the "surname":
 		$user_id = bp_displayed_user_id(); $prof = BP_XProfile_ProfileData::get_all_for_user( $user_id );  echo ' '.$prof['Surname']['field_data'].' '; echo '('; $username = bp_loggedin_user_username(); echo ')'; ?></a></span>
-	</h2>
+	</div>
 
-	<h3>
+	<div style="height:10px;"></div>
+
+	<div style="font-size:150%">&nbsp;&nbsp;from
 	<?php 
 	global $wpdb;
 	$query = "SELECT name, slug FROM wp_bp_groups WHERE id IN (SELECT group_id AS id FROM wp_bp_groups_members WHERE user_id = $user_id)";
@@ -38,7 +32,7 @@
 
 	echo @join($links, ", ");
 	?>
-	</h3>
+	</div>
 	
 	<!-- 
 	<span class="user-nicename label label-default">@<?php bp_displayed_user_username(); ?></span>

@@ -2595,8 +2595,10 @@ function bp_directory_groups_search_form() {
 
     $search_form_html = '<form action="" method="get" id="search-groups-form">
             <span data-toggle="tooltip" data-placement="left" title="Fill in either the name or a description of the organisation you are looking for..." class="glyphicon glyphicon-question-sign"></span>
-		<label style="vertical-align:middle"><input type="text" name="s" id="groups_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="' . __('Search', 'buddypress') . '" />
+		<div style="margin-right:40px;">
+			<label>Description keywords</label>
+			<input type="text" style="width:300px; height:50px;" name="s" id="groups_search" placeholder="' . esc_attr($search_value) . '" /><div style="height:120px;"></div></div>
+		<input type="submit" style="width:200px; height:50px; margin-left:120px;" id="groups_search_submit" name="groups_search_submit" value="' . __('Search', 'buddypress') . '" />
 	</form>';
 
     echo apply_filters('bp_directory_groups_search_form', $search_form_html);
