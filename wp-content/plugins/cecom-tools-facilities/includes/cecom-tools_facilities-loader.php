@@ -202,7 +202,7 @@ class BP_Tools_Facilities_Component extends BP_Component {
 
         // Add the subnav items to the friends nav item
         $sub_nav[] = array(
-            'name' => __('Create a tool/facility rent', 'cecom-tools_facilities'),
+            'name' => __('Create a tool or facility rent offer', 'cecom-tools_facilities'),
             'slug' => 'create-tool_facility',
             'parent_url' => $tool_facility_link,
             'parent_slug' => bp_get_tools_facilities_slug(),

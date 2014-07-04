@@ -76,12 +76,14 @@
                     		$smax = $org->details['size_max'];
                     		$size = $org->details['size_min'].($smax > 0 ? '-'.$smax : '+').' Employees';
                     		
-                    		$sectors = '...';
+			      $sectors = '...';
                     		//<span style=\"background-color:" . $sector['color']. "\">
                     		if (count($org->details['sectors'])) {
+				      	
                     			$sectors = '';
                     			foreach ($org->details['sectors'] as $s) {
-                    				$sectors .= "<span style=\"border-style:solid; border-color:black; background-color:" . $s['color']. "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> "; //. trim($s['description']);
+		
+						$sectors .= "<span data-toggle=\"tooltip\" data-container=\"body\" title=\"". $s['description'] . "\" style=\"border-style:solid; border-color:black; background-color:" . $s['color'] . "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> "; //. trim($s['description']);
                     			}
                     		}
                     		/*

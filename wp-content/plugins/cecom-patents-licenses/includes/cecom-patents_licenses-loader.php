@@ -272,7 +272,7 @@ class BP_Patents_Licenses_Component extends BP_Component {
 
         // Add the subnav items to the friends nav item
         $sub_nav[] = array(
-            'name' => __('Create a patent/license', 'cecom-patents_licenses'),
+            'name' => __('Create a patent or license offer', 'cecom-patents_licenses'),
             'slug' => 'create-patent_license',
             'parent_url' => $patent_license_link,
             'parent_slug' => bp_get_patents_licenses_slug(),
