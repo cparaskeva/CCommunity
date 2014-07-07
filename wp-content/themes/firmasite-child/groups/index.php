@@ -39,7 +39,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 </ul>
  		</div><!-- .item-list-tabs -->
 		
-		<div id="group-dir-search" style="padding-top:30px;" class="dir-search" role="search">
+		<div id="group-dir-search" class="dir-search" role="search">
 
                   <br/> <?php bp_directory_groups_search_form(); ?>
 

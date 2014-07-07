@@ -22,8 +22,10 @@
             <!-- Search form first column -->
             <div class="col-xs-12 col-md-3">
 		 <!-- Organization country field -->
+		<div>
                 <label  for="organization-country"><?php _e('Organisation country', 'firmasite'); ?></label>
                  <div id="organization-country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
+		</div>
            	 <br/>
 		 <!-- Organization size field -->
                 <label  for="organization-size"><?php _e('Organisation size', 'firmasite'); ?> </label>
@@ -70,8 +72,7 @@
 
 	    <!-- Search form second column -->
             <div class="col-xs-12 col-md-4" >
-	    <div style="height:50px;"></div>
-                <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+	        <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;</label>
                 <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">          
                     <?php
                     //Fetch Organization Sectos form DB
@@ -85,7 +86,7 @@
                     ?>
                 </select>
                 <br><br>
-                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> &nbsp;&nbsp;</label>
                 <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
                 </select>
             </div>
@@ -147,7 +148,7 @@
 
             <!-- Search checkboxes column -->
 	    
-            <div hidden="true" id="organization-checkboxes" class="col-lg-5" >
+            <div hidden="false" id="organization-checkboxes" >
                 <br>
 		<div style="height:15px;"></div>
                 <label  for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>

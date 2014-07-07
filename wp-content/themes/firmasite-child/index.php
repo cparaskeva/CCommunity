@@ -113,7 +113,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 
 	<div class="row no-margin-left">
 		<div class="col-md-6 borders">
-			<span style="float: right;margin-top: 27px"><a href="/cecommunity/news-from-the-influencers/">More about this</a></span>
+			<span style="float: right;margin-top: 27px"><a href="/cecommunity/news-from-the-influencers/">More about influencers</a></span>
 			<h3>News from the influencers</h3>
 			
 			
