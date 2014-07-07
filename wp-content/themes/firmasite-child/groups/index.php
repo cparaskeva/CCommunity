@@ -33,21 +33,19 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 <ul class="nav nav-pills">
                     <li class="selected" id="groups-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_groups_root_slug()); ?>"><?php printf(__('All Organisations <span>%s</span>', 'firmasite'), bp_get_total_group_count()); ?></a></li>
 
-                    
-
-             
-
+     
                     <?php do_action('bp_groups_directory_group_filter'); ?>
 
                 </ul>
-
+ 		</div><!-- .item-list-tabs -->
+		
 		<div id="group-dir-search" style="padding-top:30px;" class="dir-search" role="search">
 
-                <br> <?php bp_directory_groups_search_form(); ?>
+                  <br/> <?php bp_directory_groups_search_form(); ?>
 
                 </div><!-- #group-dir-search -->
 
-            </div><!-- .item-list-tabs -->
+           
 
             
 

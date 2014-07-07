@@ -23,10 +23,10 @@
             <div class="col-xs-12 col-md-3">
 		 <!-- Organization country field -->
                 <label  for="organization-country"><?php _e('Organisation country', 'firmasite'); ?></label>
-                <div id="organization-country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
-                <br/>
-                <!-- Organization size field -->
-                <label  for="organization-size"><?php _e('Organization Size', 'firmasite'); ?> </label>
+                 <div id="organization-country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
+           	 <br/>
+		 <!-- Organization size field -->
+                <label  for="organization-size"><?php _e('Organisation size', 'firmasite'); ?> </label>
                 <select  class="form-control" name="organization-size" id="organization-size">
                     <option value="none">(Any)</option>
                     <?php
@@ -52,7 +52,7 @@
                 </select>
                 <br/>
                 <!-- Organization type field -->
-                <label  for="organization-type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
+                <label  for="organization-type"><?php _e('Type of organisation', 'firmasite'); ?> </label>
                 <select  class="form-control" name="organization-type" id="organization-type" aria-required="false">
                     <option value="none">(Any)</option>
                     <?php
@@ -67,11 +67,12 @@
                     ?>
                 </select>
             </div>
+
 	    <!-- Search form second column -->
             <div class="col-xs-12 col-md-4" >
-<div style="height:50px;"></div>
+	    <div style="height:50px;"></div>
                 <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">
+                <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">          
                     <?php
                     //Fetch Organization Sectos form DB
                     $results = CECOM_Organization::getOrganizationSector();
@@ -159,7 +160,7 @@
                 <input type="radio"  name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
             </div>
 
-            <div  hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
+            <div hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
                 <select name="offer-type" id="offer-type">
                     <option value="none"  selected="selected">(Any)</option>
                     <?php

@@ -229,7 +229,7 @@ function bp_directory_challenges_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-challenges-form"> 
-        <span data-toggle="tooltip" data-placement="left" title="Fill in the description of the challenge you are looking for..." class="glyphicon glyphicon-question-sign"></span>
+        
 		<label style="vertical-align:middle"><input type="text" name="s" id="challenges_search" placeholder="' . esc_attr($search_value) . '" /></label>
 		<input type="submit" id="challenges_search_submit" name="challenges_search_submit" value="' . __('Search', 'buddypress') . '" />
 	</form>';
