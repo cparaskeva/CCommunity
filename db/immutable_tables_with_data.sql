@@ -664,8 +664,8 @@ CREATE TABLE IF NOT EXISTS `ext_patent_license_type` (
 --
 
 INSERT INTO `ext_patent_license_type` (`id`, `description`) VALUES
-(1, 'Patent'),
-(2, 'License');
+(1, 'Licensing in'),
+(2, 'Licensing out');
 
 -- --------------------------------------------------------
 

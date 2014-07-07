@@ -14,6 +14,7 @@ $create_offer_project = "/cecommunity/members/".$current_user->user_nicename."/o
 $create_offer_funding = "/cecommunity/members/".$current_user->user_nicename."/offers/create-offer/?offer_type=3/";
 $create_patent = "/cecommunity/members/".$current_user->user_nicename."/patents_licenses/create-patent_license/";
 $create_tool = "/cecommunity/members/".$current_user->user_nicename."/tools_facilities/create-tool_facility/";
+$create_challenge = "/cecommunity/members/".$current_user->user_nicename."/challenges/create-challenge/";
 
 $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 
@@ -75,6 +76,10 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
 						Search for <a href="/cecommunity/patents_licenses/">patents</a>, <a href="/cecommunity/offers/?offer_type=3">fundings</a>, <a href="/cecommunity/tools_facilities/">tools for rent</a>.
 					</li>
+					<li> 
+						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
+						Search for <a href="/cecommunity/challenges/">challenges</a>.
+					</li>
 			</div>
 			
 			<div class="col-md-6">
@@ -87,6 +92,10 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 					<li>
 						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
 						Offer <a href="<?php echo $create_patent; ?>">patents</a>, <a href="<?php echo $create_offer_funding; ?>">fundings</a>, <a href="<?php echo $create_tool; ?>">tools for rent</a>.
+					</li>
+					<li>
+						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
+						Launch an <a href="<?php echo $create_challenge; ?>">Open Innovation challenge</a>.
 					</li>
 				</ul>
 				
@@ -104,7 +113,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 
 	<div class="row no-margin-left">
 		<div class="col-md-6 borders">
-			<span style="float: right;margin-top: 27px"><a href="/cecommunity/news-from-the-influencers/">More news</a></span>
+			<span style="float: right;margin-top: 27px"><a href="/cecommunity/news-from-the-influencers/">More about this</a></span>
 			<h3>News from the influencers</h3>
 			
 			
