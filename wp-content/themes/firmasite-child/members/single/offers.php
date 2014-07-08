@@ -17,8 +17,10 @@ get_header('buddypress');
     <ul class="nav nav-pills">
         <?php if (bp_is_my_profile()) bp_get_options_nav(); ?>
 
+	
         <li id="offers-order-select" class="last pull-right filter">
-            <label for="offers-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
+<div style="height:30px;"></div>            
+<label for="offers-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
             <select id="offers-order-by">
                 <option <?php echo ($_COOKIE['bp-offers-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
                 <option <?php echo ($_COOKIE['bp-offers-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
