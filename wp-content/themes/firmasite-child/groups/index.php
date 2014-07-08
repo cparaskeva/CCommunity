@@ -25,7 +25,10 @@ wp_enqueue_style('bootstrap-multiselect-style');
 
         <form action="" method="post" id="groups-directory-form" class="dir-form">
 
-            <h3 id="offers-header" class="page-header"><?php _e('Organisations', 'firmasite'); ?></h3>
+            <h3 id="offers-header"><?php _e('Organisations', 'firmasite'); ?></h3>
+
+	    <div class="page-header">List of all registered organisations.</div>
+	    <div style="height:20px;"></div>
 
             <?php do_action('bp_before_directory_groups_content'); ?>
 

@@ -217,9 +217,9 @@ function bp_directory_tools_facilities_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-tools_facilities-form"> 
-        <span data-toggle="tooltip" data-placement="left" title="Fill in the description of the tool_facility you are looking for..." class="glyphicon glyphicon-question-sign"></span>
-		<label style="vertical-align:middle"><input type="text" name="s" id="tools_facilities_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" id="tools_facilities_search_submit" name="tools_facilities_search_submit" value="' . __('Search', 'buddypress') . '" />
+        
+		<label style="margin-right:100px; margin-top:20px; width:220px;">Description keywords<input type="text" name="s" id="tools_facilities_search" placeholder="' . esc_attr($search_value) . '" /></label>
+		<input type="submit" id="tools_facilities_search_submit" style="width:150px; height:60px;margin-right:30px;" name="tools_facilities_search_submit" value="' . __('Show results', 'buddypress') . '" />
 	</form>';
 
     echo apply_filters('bp_directory_tools_facilities_search_form', $search_form_html);

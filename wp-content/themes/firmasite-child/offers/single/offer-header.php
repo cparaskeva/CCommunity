@@ -14,17 +14,13 @@ $organisation = bp_offers_get_organization();
 </div><!-- #item-actions -->
 
 
-<div id="item-header-avatar" class="col-sm-2 fs-content-thumbnail">
+<div id="item-header-avatar" style="margin-right:30px;"class="col-sm-2 fs-content-thumbnail">
 
-    <strong><?php _e('Organisation', 'firmasite'); ?></strong>
+    <strong><?php _e('Offer details', 'firmasite'); ?></strong>
 
-    <div class="item-avatar" >
-        <a href="<?php echo bp_group_permalink() . "organization" . $bp->offers->current_offer->uid ?>"><?php echo bp_core_fetch_avatar('item_id=' . $bp->offers->current_offer->gid . '&type=thumb&width=50&height=50&object=group'); ?></a>
-    </div>
-
-
+    
     <!-- Organization Details Area-->
-    <div class="well" style="float:left;margin-top:5px">
+    <div class="well" style="float:left;margin-top:15px">
         <p>
             <strong>Organisation</strong><br><a href="<?php echo bp_group_permalink() . $organisation['slug'] ?>"><?php echo $organisation['name']; ?></a><br><br>
             <strong>Contact Person</strong><br><a href="<?php bp_offers_owner_permalink($bp->offers->current_offer->uid); ?>"><?php echo xprofile_get_field_data('name', $bp->offers->current_offer->uid) . " " . xprofile_get_field_data('surname', $bp->offers->current_offer->uid); ?></a></br></br>         
@@ -34,8 +30,6 @@ $organisation = bp_offers_get_organization();
 
 
 </div><!-- #item-header-avatar -->
-
-
 
 <div class="col-lg-8">
     <div class="highlight label label-default"><?php echo $details['tdesc']; ?></div> </br>

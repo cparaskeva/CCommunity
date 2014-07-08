@@ -229,9 +229,13 @@ function bp_directory_patents_licenses_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-patents_licenses-form"> 
-        <span data-toggle="tooltip" data-placement="left" title="Fill in the description of the patent_license you are looking for..." class="glyphicon glyphicon-question-sign"></span>
-		<label style="vertical-align:middle"><input type="text" name="s" id="patents_licenses_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" id="patents_licenses_search_submit" name="patents_licenses_search_submit" value="' . __('Search', 'buddypress') . '" />
+        
+	<div style="clear:both"><input type="submit" style="width:420px; height:68px; margin-right:20px; margin-left:100px; margin-top:30px;"  id="patents_licenses_search_submit" name="patents_licenses_search_submit" value="' . __('Show results', 'buddypress') . '" /></div>
+
+		<div style="float:left;"><label style="margin-right:32px; margin-left:200px; margin-top:25px; padding-left:20px;">Description keywords<input style="width:300px;" type="text" name="s" id="patents_licenses_search" placeholder="' . esc_attr($search_value) . '" /></label></div>
+
+
+		
 	</form>';
 
     echo apply_filters('bp_directory_patents_licenses_search_form', $search_form_html);

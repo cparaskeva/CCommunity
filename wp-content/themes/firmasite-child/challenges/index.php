@@ -28,7 +28,10 @@ global $bp;
 <?php do_action('bp_before_directory_challenges_page'); ?>
 
         <form action="" method="post" id="challenges-directory-form" class="dir-form">
-            <h3  id="challenges-header" class="page-header"><?php _e('Challenges', 'firmasite'); ?></h3>
+           
+	 <h3  id="challenges-header"><?php _e('Challenges', 'firmasite'); ?></h3>
+	<div class="page-header">List of all published Open Innovation challenges.</div>
+	    <div style="height:20px;"></div>
 
 <?php do_action('bp_before_directory_challenges_content'); ?>
 
@@ -36,7 +39,7 @@ global $bp;
             <!-- Quick solution to fix the selected tab using $_Cookie[scope]-->
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
-                    <li  class="<?php echo ($_COOKIE['bp-challenges-scope'] == "all" || (empty($_COOKIE['bp-challenges-scope']) && empty($_COOKIE['bp-challenges-scope']) ) ? "selected" : "") ?>" id="challenges-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_challenges_root_slug()); ?>"><?php printf(__('All Challenges<span>%s</span>', 'buddypress'), bp_get_total_challenges_count()); ?></a></li>
+                    <li  class="<?php echo ($_COOKIE['bp-challenges-scope'] == "all" || (empty($_COOKIE['bp-challenges-scope']) && empty($_COOKIE['bp-challenges-scope']) ) ? "selected" : "") ?>" id="challenges-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_challenges_root_slug()); ?>"><?php printf(__('All Challenges <span>%s</span>', 'buddypress'), bp_get_total_challenges_count()); ?></a></li>
 
 
 <?php if (is_user_logged_in() && bp_get_total_challenges_count_for_user(bp_loggedin_user_id())) : ?>
@@ -79,6 +82,7 @@ global $bp;
                 </ul>
             </div><!-- .item-list-tabs -->
 
+		<div style="height:30px;"></div>
             <div id="challenges-dir-list" class="challenges dir-list">
 <?php locate_template(array('/challenges/challenges-loop.php'), true); ?>
             </div><!-- #challenges-dir-list -->

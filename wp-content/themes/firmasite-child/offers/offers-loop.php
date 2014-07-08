@@ -6,10 +6,29 @@
  */
 ?>
 
+
+
 <?php do_action('bp_before_example_loop'); ?>
+ 
+
 <?php if (bp_has_offers(bp_ajax_querystring('offers'))) : ?>
     <?php do_action('bp_before_directory_offers_list'); ?>
 
+<div id="pag-bottom" class="pagination text-muted">
+
+        <div class="pag-count" id="offers-dir-count-bottom">
+
+            <?php bp_offers_pagination_count(); ?>
+
+        </div>
+
+        <div class="pagination-links lead" id="example-dir-pag-bottom">
+
+            <?php bp_offers_pagination_links(); ?>
+
+        </div>
+
+    </div>
     <ul id="offers-list" class="item-list" role="main">
 
         <?php while (bp_offers()) : bp_the_offer(); ?>
@@ -31,13 +50,23 @@
                         <span class="highlight label label-default"><?php bp_offer_type(); ?></span> 
                         <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), bp_offer_get_posted_date()); ?></span></div>
 
+<div style="height:10px;"></div>
+
                     <div class="item-content"> 
-                        <p><b> <?php echo bp_offers_content(); ?></b></p>
+                        <p><b> 
+				<?php 
+					$content = bp_offers_content();
+					echo $content;
+				 ?>
+				
+
+			</b></p>
 
 
 
 
                     </div>
+<div style="height:20px;"></div>
 		    View <a href="<?php bp_offer_permalink(); ?>">offer details</a>&nbsp;&nbsp; 
                     <?php do_action('bp_directory_example_item'); ?>
 

@@ -17,7 +17,7 @@
                 <input  type="hidden" class="form-control" name="challenge-sectors" id="challenge-sectors" value=""/>             
                 <!-- End of Hidden Fields -->
                 <label for="challenge-type"><?php _e('Minimum amount of the reward', 'firmasite'); ?></label>
-                <input  class="form-control" name="challenge-reward" id="challenge-reward" value=""/>
+                <input  class="form-control" style="width:180px;" name="challenge-reward" id="challenge-reward" value=""/>
                 <!--<label for="challenge-type"><?php //_e('What are you looking for?', 'firmasite'); ?></label>
                 <select  name="challenge-type" id="challenge-type">
                     <option value="none"  selected="selected">(Any)</option>

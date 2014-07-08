@@ -205,7 +205,7 @@ class BP_Challenges_Component extends BP_Component {
             'root_slug' => isset($bp->pages->{$this->id}->slug) ? $bp->pages->{$this->id}->slug : BP_CHALLENGE_SLUG,
             'has_directory' => true, // Set to false if not required
             'notification_callback' => 'bp_challenges_format_notifications',
-            'search_string' => __('Search Challenges...', 'buddypress'),
+            'search_string' => __('(No keywords)', 'buddypress'),
             'global_tables' => $global_tables
         );
 

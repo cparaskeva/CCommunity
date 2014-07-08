@@ -26,7 +26,9 @@ global $bp;
 <?php do_action('bp_before_directory_tools_facilities_page'); ?>
 
         <form action="" method="post" id="tools_facilities-directory-form" class="dir-form">
-            <h3  id="tools_facilities-header" class="page-header"><?php _e('Tools & Facilities', 'firmasite'); ?></h3>
+            <h3  id="tools_facilities-header"><?php _e('Tools & Facilities', 'firmasite'); ?></h3>
+		<div class="page-header">List of all published offers about renting tools or facilities.</div>
+	    <div style="height:20px;"></div>
 
 <?php do_action('bp_before_directory_tools_facilities_content'); ?>
 
@@ -34,7 +36,7 @@ global $bp;
             <!-- Quick solution to fix the selected tab using $_Cookie[scope]-->
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
-                    <li  class="<?php echo ($_COOKIE['bp-tools_facilities-scope'] == "all" || (empty($_COOKIE['bp-tools_facilities-scope']) && empty($_COOKIE['bp-tools_facilities-scope']) ) ? "selected" : "") ?>" id="tools_facilities-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_tools_facilities_root_slug()); ?>"><?php printf(__('All Tools & Facilities<span>%s</span>', 'buddypress'), bp_get_total_tools_facilities_count()); ?></a></li>
+                    <li  class="<?php echo ($_COOKIE['bp-tools_facilities-scope'] == "all" || (empty($_COOKIE['bp-tools_facilities-scope']) && empty($_COOKIE['bp-tools_facilities-scope']) ) ? "selected" : "") ?>" id="tools_facilities-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_tools_facilities_root_slug()); ?>"><?php printf(__('All Tools & Facilities <span>%s</span>', 'buddypress'), bp_get_total_tools_facilities_count()); ?></a></li>
 
 
 <?php if (is_user_logged_in() && bp_get_total_tools_facilities_count_for_user(bp_loggedin_user_id())) : ?>
@@ -75,8 +77,7 @@ global $bp;
                     </li>
                 </ul>
             </div><!-- .item-list-tabs -->
-
-            <div id="tools_facilities-dir-list" class="tools_facilities dir-list">
+	    <div id="tools_facilities-dir-list" class="tools_facilities dir-list">
 <?php locate_template(array('/tools_facilities/tools_facilities-loop.php'), true); ?>
             </div><!-- #tools_facilities-dir-list -->
 

@@ -230,8 +230,8 @@ function bp_directory_challenges_search_form() {
 
     $search_form_html = '<form action="" method="get" id="search-challenges-form"> 
         
-		<label style="vertical-align:middle"><input type="text" name="s" id="challenges_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" id="challenges_search_submit" name="challenges_search_submit" value="' . __('Search', 'buddypress') . '" />
+		<label style="margin-right:100px; margin-top:20px; width:220px;">Description keywords<input type="text" name="s" id="challenges_search" placeholder="' . esc_attr($search_value) . '" /></label>
+		<input type="submit" style="width:150px; height:60px;margin-right:30px;" id="challenges_search_submit" name="challenges_search_submit" value="' . __('Show results', 'buddypress') . '" />
 	</form>';
 
     echo apply_filters('bp_directory_challenges_search_form', $search_form_html);
