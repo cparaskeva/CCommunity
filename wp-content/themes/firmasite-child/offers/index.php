@@ -36,7 +36,9 @@ global $bp;
 <?php do_action('bp_before_directory_offers_page'); ?>
 
         <form action="" method="post" id="offers-directory-form" class="dir-form">
-            <h3  id="offers-header" class="page-header"><?php _e('Offers Directory ', 'firmasite'); ?></h3>
+            <h3  id="offers-header"><?php _e('Offers', 'firmasite'); ?></h3>
+<div class="page-header">List of all published offers.</div>
+	    <div style="height:20px;"></div>
 
 <?php do_action('bp_before_directory_offers_content'); ?>
 
@@ -44,7 +46,7 @@ global $bp;
             <!-- Quick solution to fix the selected tab using $_Cookie[scope]-->
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
-                    <li  class="<?php echo ($_COOKIE['bp-offers-scope'] == "all" || (empty($_COOKIE['bp-offers-scope']) && empty($_COOKIE['bp-offers-scope']) ) ? "selected" : "") ?>" id="offers-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug()); ?>"><?php printf(__('All Offers<span>%s</span>', 'buddypress'), bp_get_total_offers_count()); ?></a></li>
+                    <li  class="<?php echo ($_COOKIE['bp-offers-scope'] == "all" || (empty($_COOKIE['bp-offers-scope']) && empty($_COOKIE['bp-offers-scope']) ) ? "selected" : "") ?>" id="offers-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_offers_root_slug()); ?>"><?php printf(__('All Offers <span>%s</span>', 'buddypress'), bp_get_total_offers_count()); ?></a></li>
 
 
 <?php if (is_user_logged_in() && bp_get_total_offers_count_for_user(bp_loggedin_user_id())) : ?>
@@ -55,8 +57,10 @@ global $bp;
 <?php do_action('bp_offers_directory_offer_filter'); ?>
 
                 </ul>
-            </div><!-- .item-list-tabs -->
-            <div id="offer-dir-search" class="dir-search" role="search">
+            </div>
+	    <!-- .item-list-tabs -->
+            
+	    <div id="offer-dir-search" class="dir-search" role="search">
 
                 <br>  <?php bp_directory_offers_search_form(); ?> 
 
@@ -86,6 +90,8 @@ global $bp;
                     </li>
                 </ul>
             </div><!-- .item-list-tabs -->
+
+        
 
             <div id="offers-dir-list" class="offers dir-list">
 <?php locate_template(array('offers/offers-loop.php'), true); ?>

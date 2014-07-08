@@ -45,14 +45,17 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
 </div><!-- #item-actions -->
 
 <div id="item-header-avatar" class="col-xs-4 col-md-4 fs-content-thumbnail">
-    <a href="<?php bp_group_permalink(); ?>" title="<?php bp_group_name(); ?>">
+    
+    <!-- Organization Details Area-->
+    <div class="well" style="float:left; margin-top:10px; margin-left:20px;">
+     <span>
+	<a href="<?php bp_group_permalink(); ?>" title="<?php bp_group_name(); ?>">
 
         <?php bp_group_avatar(); ?>
 
-    </a>
-    <!-- Organization Details Area-->
-    <div class="well" style="float:left;width:160px;margin-top:10px">
-        <p>
+    	</a>
+     </span><br/><br/><br/>
+        <div>
             <strong>Type</strong></br> <?php echo $cecom->organization->details['type'] ?></br></br>
             <strong>Organization Size</strong></br>
             <?php
@@ -83,7 +86,7 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
             <strong>Location</strong></br><span class="bfh-countries" data-country="<?php echo $cecom->organization->details['country'] ?>" data-flags="true"></span><br><br>
             
             <strong>Administrator</strong></br><span><?php echo $admin_name." ".$admin_email  ?></span>
-        </p>
+        </div>
 
         <?php ?>
 
@@ -92,13 +95,15 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
 
 <div id="item-header-content" class="fs-have-thumbnail">
     <h2><a href="<?php bp_group_permalink(); ?>" title="<?php bp_group_name(); ?>"><?php bp_group_name(); ?></a></h2>
-    <span class="highlight label label-default"><?php bp_group_type(); ?></span> <span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
+    <span class="highlight label label-default"><?php bp_group_type(); ?></span> 
 
     <?php do_action('bp_before_group_header_meta'); ?>
 
     <div id="item-meta">
 
+	<div style="height:10px;"></div>
         <?php bp_group_description(); ?>
+	<div style="height:10px;"></div>
         <div>
             <strong>Specialties</strong> <br/><?php echo $cecom->organization->details['specialties'] ?><br/><br/>
             <b>Sectors</b> 

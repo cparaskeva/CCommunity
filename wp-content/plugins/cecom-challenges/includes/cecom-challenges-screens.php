@@ -93,9 +93,9 @@ function bp_challenges_create_challenge() {
                 );
 
                 if (bp_challenges_publish_challenge($challenge_new))
-                    bp_core_add_message(__('Your challenge has been succesfuly published!', 'bp-example'), 'success');
+                    bp_core_add_message(__('Your challenge has been successfully published!', 'bp-example'), 'success');
                 else
-                    bp_core_add_message(__('Unable to insert infromation to database..', 'bp-example'), 'error');
+                    bp_core_add_message(__('Unable to insert information to database..', 'bp-example'), 'error');
             }
 
 
@@ -212,7 +212,7 @@ function bp_challenges_screen_settings_menu_content() {
                 );
 
                 if (bp_challenges_update_challenge($challenge_update))
-                    bp_core_add_message(__('Your challenge has been succesfuly updated!', 'bp-example'), 'success');
+                    bp_core_add_message(__('Your challenge has been successfully updated!', 'bp-example'), 'success');
                 else
                     bp_core_add_message(__('Unable to update the current challenge...', 'bp-example'), 'error');
             }

@@ -3,7 +3,7 @@
 var search_extras="";
 
 //Define CECommunity Components
-var cecom_components=["offers","organizations","patents_licenses","tools_facilities","alerts","challenges"]; 
+var cecom_components=["offers","organizations","patents_licenses","tools_facilities","alerts","challenges"];
 
 
 //Checks if the given component is one of the CECommunity Plugins
@@ -41,7 +41,6 @@ function completeSearchExtras(current_component){
     case "challenges":
         search_extras =jQuery('#challenge_serach_extras').serialize().replace(/=/g,";").replace(/&/g,"|");;
         break;
-        
     default:
         search_extras="";        
     }

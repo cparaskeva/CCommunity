@@ -787,14 +787,21 @@ function bp_get_loggedin_user_nav() {
 function bp_get_displayed_user_nav() {
 	global $bp;
 
+	//display only all profile items or only all offers items 
+	$selected = '';
+	$selected_nav_item = '';
+	$profile_array = array("profile", "alerts", "notifications");
+	$offers_array = array("offers", "challenges", "patents_licenses", "tools_facilities");
+	foreach ( (array) $bp->bp_nav as $user_nav_item ) {
+			
+		if ( bp_is_current_component( $user_nav_item['slug'] ) ) {
+			$selected_nav_item = $user_nav_item['slug'];
+		}
+	}
+
 	foreach ( (array) $bp->bp_nav as $user_nav_item ) {
 		if ( empty( $user_nav_item['show_for_displayed_user'] ) && !bp_is_my_profile() )
 			continue;
-
-		$selected = '';
-		if ( bp_is_current_component( $user_nav_item['slug'] ) ) {
-			$selected = ' class="current selected"';
-		}
 
 		if ( bp_loggedin_user_domain() ) {
 			$link = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $user_nav_item['link'] );
@@ -802,7 +809,20 @@ function bp_get_displayed_user_nav() {
 			$link = trailingslashit( bp_displayed_user_domain() . $user_nav_item['link'] );
 		}
 
-		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
+		
+		if(( in_array($selected_nav_item, $profile_array)  && in_array($user_nav_item['slug'], $profile_array) ) ||
+		     in_array($selected_nav_item, $offers_array) && in_array($user_nav_item['slug'], $offers_array) ) {
+
+		if ( bp_is_current_component( $user_nav_item['slug'] ) ) {
+			$selected = ' class="current selected"';
+		}
+		else {
+			$selected = '';
+		}
+		
+		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . 				'><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
+
+		}
 	}
 }
 

@@ -9,6 +9,22 @@
 <?php if (bp_has_tools_facilities(bp_ajax_querystring('tools_facilities'))) : ?>
     <?php do_action('bp_before_directory_tools_facilities_list'); ?>
 
+<div id="pag-bottom" class="pagination text-muted">
+
+        <div class="pag-count" id="tools_facilities-dir-count-bottom">
+
+            <?php bp_tools_facilities_pagination_count(); ?>
+
+        </div>
+
+        <div class="pagination-links lead" id="example-dir-pag-bottom">
+
+            <?php bp_tools_facilities_pagination_links(); ?>
+
+        </div>
+
+    </div>
+
     <ul id="tools_facilities-list" class="item-list" role="main">
 
         <?php while (bp_tools_facilities()) : bp_the_tool_facility(); ?>
@@ -27,14 +43,17 @@
             <!-- <a href="<?php //bp_tools_facilities_owner_permalink();  ?>"><?php //bp_tools_facilities_owner_name();  ?></a> -->
                             &nbsp;&nbsp;
                         <?php endif; ?>
-                        View tool & facility <a href="<?php bp_tool_facility_permalink(); ?>">details</a>&nbsp;&nbsp; 
+                         
                         <!-- <span class="highlight label label-default"><?php //bp_tool_facility_type();     ?></span> -->
                         <span class="activity label label-info"><?php printf(__('Posted: %s', 'firmasite'), bp_tool_facility_get_posted_date()); ?></span></div>
 
-                    <div class="item-content"> 
+                    <div class="item-content"><div style="height:10px;"></div>
                         <p><b> <?php echo bp_tools_facilities_content(); ?></b></p>
 
                     </div>
+		<div style="height:10px;"></div>
+
+		View tool & facility <a href="<?php bp_tool_facility_permalink(); ?>">details</a>&nbsp;&nbsp;
 
                 </div>
 

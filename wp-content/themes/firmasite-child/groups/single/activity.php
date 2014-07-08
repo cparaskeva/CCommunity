@@ -1,6 +1,5 @@
 <div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 	<ul class="nav nav-pills">
-		<li class="feed"><a href="<?php bp_group_activity_feed_link(); ?>" title="<?php _e( 'RSS Feed', 'firmasite' ); ?>"><?php _e( 'RSS', 'firmasite' ); ?></a></li>
 
 		<?php do_action( 'bp_group_activity_syndication_options' ); ?>
 
@@ -22,7 +21,7 @@
 		</li>
 	</ul>
 </div><!-- .item-list-tabs -->
-
+<br/>
 <?php do_action( 'bp_before_group_activity_post_form' ); ?>
 
 <?php if ( is_user_logged_in() && bp_group_is_member() ) : ?>

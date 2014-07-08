@@ -91,7 +91,7 @@ class BP_Settings_Component extends BP_Component {
 
 		// Add General Settings nav item
 		$sub_nav[] = array(
-			'name'            => __( 'General', 'buddypress' ),
+			'name'            => __( 'Edit email & password', 'buddypress' ),
 			'slug'            => 'general',
 			'parent_url'      => $settings_link,
 			'parent_slug'     => $this->slug,
@@ -100,18 +100,7 @@ class BP_Settings_Component extends BP_Component {
 			'user_has_access' => bp_core_can_edit_settings()
 		);
 
-		// Add Email nav item. Formerly called 'Notifications', we
-		// retain the old slug and function names for backward compat
-		$sub_nav[] = array(
-			'name'            => __( 'Email', 'buddypress' ),
-			'slug'            => 'notifications',
-			'parent_url'      => $settings_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_settings_screen_notification',
-			'position'        => 20,
-			'user_has_access' => bp_core_can_edit_settings()
-		);
-
+	
 		// Add Spam Account nav item
 		if ( bp_current_user_can( 'bp_moderate' ) ) {
 			$sub_nav[] = array(

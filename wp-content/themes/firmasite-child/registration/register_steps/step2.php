@@ -51,6 +51,7 @@
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-md-3" for="organization_name"><?php _e('Company Name', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
+                        <!-- <input type="hidden" class="form-control" name="cecom_organization_id" id="cecom_organization_id" value="undefined"/> -->
                         <input type="hidden" class="form-control" name="organization_id" id="organization_id" value=""/>
                         <input type="text" placeholder="Type the name of your organization" class="form-control" name="organization_name" id="organization_name" value="" aria-required="true"/>
                         <p style="margin:5px" class="field-visibility-settings-toggle text-muted" id="">
@@ -92,24 +93,20 @@
                     <label class="control-label col-xs-12 col-md-3" for="organization_country"><?php _e('Country', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
                         <!-- <div id="organization_country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>-->
-                         <select  class="form-control" name="organization_country" id="organization_country" aria-required="false">
-                        <option value="">Please select...</option>
-                        <?php
-                        //Fetch All Countries form DB
-                        $results = CECOM_Organization::getAllRegistrationCountries();
-                        if (is_array($results)) {
-
-                            foreach ($results as $country) {
-                                echo "<option value = '{$country->id }'>{$country->name}</option>";
-                            }
-                        }
-                        ?>
-                    </select>
-                    </div> 
-
-                   
-
-
+                          <select  class="form-control" name="organization_country" id="organization_country" aria-required="false">
+                         <option value="">Please select...</option>
+                         <?php
+                         //Fetch All Countries form DB
+                         $results = CECOM_Organization::getAllRegistrationCountries();
+                         if (is_array($results)) {
+ 
+                             foreach ($results as $country) {
+                                 echo "<option value = '{$country->id }'>{$country->name}</option>";
+                             }
+                         }
+                         ?>
+                     </select>
+                     </div> 
                 </div>
 
                 <div class="form-group">

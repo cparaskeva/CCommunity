@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress - Create Group
+ * BuddyPress - Create Organisation
  *
  * @package BuddyPress
  * @subpackage bp-default
@@ -16,7 +16,7 @@ get_header( 'buddypress' ); ?>
 		<?php do_action( 'bp_before_create_group_content_template' ); ?>
 
 		<form action="<?php bp_group_creation_form_action(); ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
-			<h3 class="page-header"><?php _e( 'Create a Group', 'firmasite' ); ?> &nbsp;<a class="button btn btn-default" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ); ?>"><?php _e( 'Groups Directory', 'firmasite' ); ?></a></h3>
+			<h3 class="page-header"><?php _e( 'Create an Organisation', 'firmasite' ); ?> &nbsp;<a class="button btn btn-default" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ); ?>"><?php _e( 'Organisations', 'firmasite' ); ?></a></h3>
 
 			<?php do_action( 'bp_before_create_group' ); ?>
 
@@ -36,11 +36,11 @@ get_header( 'buddypress' ); ?>
 				<?php if ( bp_is_group_creation_step( 'group-details' ) ) : ?>
 
 					<?php do_action( 'bp_before_group_details_creation_step' ); ?>
-
-					<label for="group-name"><?php _e( 'Group Name (required)', 'firmasite' ); ?></label>
+				      <div style="height:40px;"></div>
+					<label for="group-name"><?php _e( 'Organisation Name (required)', 'firmasite' ); ?></label>
 					<input type="text" name="group-name" id="group-name" aria-required="true" value="<?php bp_new_group_name(); ?>" />
-
-					<label for="group-desc"><?php _e( 'Group Description (required)', 'firmasite' ); ?></label>
+				      <div style="height:40px;"></div>
+					<label for="group-desc"><?php _e( 'Organisation Description (required)', 'firmasite' ); ?></label>
 					<?php $content = bp_get_new_group_description(); 
                     echo firmasite_wp_editor($content , 'group-desc' ); 
                     /*

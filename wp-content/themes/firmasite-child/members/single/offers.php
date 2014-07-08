@@ -31,6 +31,8 @@ get_header('buddypress');
 
 </div><!-- .item-list-tabs -->
 
+<div style="height:20px;"></div>
+
 <div class="offers myoffers">
 
     <?php locate_template(array('offers/offers-loop.php'), true); ?>

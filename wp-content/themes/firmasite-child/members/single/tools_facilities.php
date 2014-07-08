@@ -30,6 +30,8 @@ get_header('buddypress');
 
 </div><!-- .item-list-tabs -->
 
+<div style="height:20px;"></div>
+
 <div class="tools_facilities mytools_facilities">
 
     <?php locate_template(array('tools_facilities/tools_facilities-loop.php'), true); ?>

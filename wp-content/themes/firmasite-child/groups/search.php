@@ -21,14 +21,16 @@
 
             <!-- Search form first column -->
             <div class="col-xs-12 col-md-3">
-                <!-- Organization country field -->
+		 <!-- Organization country field -->
+		<div>
                 <label  for="organization-country"><?php _e('Organisation country', 'firmasite'); ?></label>
-                <div id="organization-country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
-                <br/>
-                <!-- Organization size field -->
-                <label  for="organization-size"><?php _e('Organization Size', 'firmasite'); ?> </label>
+                 <div id="organization-country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
+		</div>
+           	 <br/>
+		 <!-- Organization size field -->
+                <label  for="organization-size"><?php _e('Organisation size', 'firmasite'); ?> </label>
                 <select  class="form-control" name="organization-size" id="organization-size">
-                    <option value="none">(Anyone)</option>
+                    <option value="none">(Any)</option>
                     <?php
                     //Fetch Organization Size form DB
                     $results = CECOM_Organization::getOrganizationSize();
@@ -52,9 +54,9 @@
                 </select>
                 <br/>
                 <!-- Organization type field -->
-                <label  for="organization-type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
+                <label  for="organization-type"><?php _e('Type of organisation', 'firmasite'); ?> </label>
                 <select  class="form-control" name="organization-type" id="organization-type" aria-required="false">
-                    <option value="none">(Anyone)</option>
+                    <option value="none">(Any)</option>
                     <?php
                     //Fetch Organization Types form DB
                     $results = CECOM_Organization::getOrganizationType();
@@ -67,23 +69,24 @@
                     ?>
                 </select>
             </div>
-            <!-- Search form second column -->
+
+	    <!-- Search form second column -->
             <div class="col-xs-12 col-md-4" >
-                <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">
+	        <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;</label>
+                <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">          
                     <?php
                     //Fetch Organization Sectos form DB
                     $results = CECOM_Organization::getOrganizationSector();
                     if (is_array($results)) {
 
                         foreach ($results as $org_sector) {
-                            echo "<option value = '{$org_sector->id }'>{$org_sector->description}</option>";
+                            echo "<option value = '{$org_sector->id }'>{$org_sector->description} ({$org_sector->color})</option>";
                         }
                     }
                     ?>
                 </select>
                 <br><br>
-                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> </label>
+                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> &nbsp;&nbsp;</label>
                 <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
                 </select>
             </div>
@@ -96,7 +99,7 @@
                 <br>
                 <label for="collaboration-type"><?php _e('Type of collaboration', 'firmasite'); ?></label>
                 <select name="collaboration-type" id="collaboration-type">
-                    <option value="none"  selected="selected">(Anyone)</option>
+                    <option value="none"  selected="selected">(Any)</option>
                     <?php
                     //Fetch Collaboration Types form DB
                     $results = BP_Offer::getCollaborationTypes();
@@ -112,7 +115,7 @@
                 <div name="collaboration-develop" id="collaboration-develop" hidden="true">
                     <label for="collaboration-partner-sought"><?php _e('Type of partner sought', 'firmasite'); ?></label>
                     <select name="collaboration-partner-sought" id="collaboration-partner-sought">
-                        <option value="none"  selected="selected">(Anyone)</option>
+                        <option value="none"  selected="selected">(Any)</option>
                         <?php
                         //Fetch Partner sought Types form DB
                         $results = BP_Offer::getPartnerTypes();
@@ -128,7 +131,7 @@
                 <div hidden="true" id="collaboration-participate">
                     <label for="collaboration-programs"><?php _e('Grant Programms', 'firmasite'); ?></label>
                     <select name="collaboration-programs" id="collaboration-programs">
-                        <option value="none">(Anyone)</option>
+                        <option value="none">(Any)</option>
                         <?php
                         //Fetch Grant Programs form DB
                         $results = BP_Offer::getGrantPrograms();
@@ -144,20 +147,23 @@
             </div>
 
             <!-- Search checkboxes column -->
-            <div hidden="true" id="organization-checkboxes" class="col-lg-7" >
+	    
+            <div hidden="false" id="organization-checkboxes" >
                 <br>
+		<div style="height:15px;"></div>
                 <label  for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>
-                <input type="radio"   name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+                <br/><input type="radio" name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                 <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
                 <br>
+		<div style="height:15px;"></div>
                 <label  for="organization_transaction"><?php _e('Is the organisation available for transaction?', 'firmasite'); ?>&nbsp;&nbsp;</label>
-                <input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
+                <br/><input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                 <input type="radio"  name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
             </div>
 
-            <div  hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
+            <div hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
                 <select name="offer-type" id="offer-type">
-                    <option value="none"  selected="selected">(Anyone)</option>
+                    <option value="none"  selected="selected">(Any)</option>
                     <?php
                     //Fetch Grant Programs form DB
                     $results = BP_Offer::getOfferTypes();

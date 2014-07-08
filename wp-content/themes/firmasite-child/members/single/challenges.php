@@ -29,6 +29,8 @@ get_header('buddypress');
 
 </div><!-- .item-list-tabs -->
 
+<div style="height:20px;"></div>
+
 <div class="challenges mychallenges">
 
     <?php locate_template(array('challenges/challenges-loop.php'), true); ?>

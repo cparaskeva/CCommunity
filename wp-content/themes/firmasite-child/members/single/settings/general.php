@@ -56,8 +56,6 @@ get_header( 'buddypress' ); ?>
 
 				<div class="modal firmasite-modal-static"><div class="modal-dialog"><div class="modal-content"><div class="modal-body">
 
-				<h3 ><?php _e( 'General Settings', 'firmasite' ); ?></h3>
-
 				<?php do_action( 'bp_template_content' ); ?>
 
 				<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/general'; ?>" method="post" class="standard-form" id="settings-form">
@@ -65,17 +63,22 @@ get_header( 'buddypress' ); ?>
 					<?php if ( !is_super_admin() ) : ?>
 
 						<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'firmasite' ); ?></label>
-						<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" /> &nbsp;<a href="<?php echo site_url( add_query_arg( array( 'action' => 'lostpassword' ), 'wp-login.php' ), 'login' ); ?>" title="<?php _e( 'Password Lost and Found', 'firmasite' ); ?>"><?php _e( 'Lost your password?', 'firmasite' ); ?></a>
+						<input type="password" style="width:300px;" name="pwd" id="pwd" size="16" value="" class="settings-input small" /> &nbsp;<a href="<?php echo site_url( add_query_arg( array( 'action' => 'lostpassword' ), 'wp-login.php' ), 'login' ); ?>" title="<?php _e( 'Password Lost and Found', 'firmasite' ); ?>"><?php _e( 'Lost your password?', 'firmasite' ); ?></a>
 
 					<?php endif; ?>
 
-					<label for="email"><?php _e( 'Account Email', 'firmasite' ); ?></label>
-					<input type="text" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" />
+					<div style="height:20px;"></div><label for="email"><?php _e( 'Email address', 'firmasite' ); ?></label>
+					<input type="text" style="width:300px;" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" />
+				      <div style="height:30px;"></div>
 
 					<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'firmasite' ); ?></label>
-					<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'firmasite' ); ?><br />
-					<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'Repeat New Password', 'firmasite' ); ?>
+				      <div style="height:20px;"></div>
 
+					<?php _e( 'New Password', 'firmasite' ); ?>
+				      <input type="password" style="width:300px;" name="pass1" id="pass1" size="16" value="" class="settings-input small" /><div style="height:20px;"></div>
+					<?php _e( 'Repeat New Password', 'firmasite' ); ?>
+					<input type="password" style="width:300px;" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> 
+					<div style="height:20px;"></div>
 					<?php do_action( 'bp_core_general_settings_before_submit' ); ?>
 
 					<div class="submit">

@@ -541,7 +541,7 @@ function bp_group_avatar_mini($group = false) {
 }
 
 function bp_get_group_avatar_mini($group = false) {
-    return bp_get_group_avatar('type=thumb&width=30&height=30');
+    return bp_get_group_avatar('type=thumb&width=50&height=50');
 }
 
 function bp_group_last_active($group = false) {
@@ -1245,7 +1245,7 @@ function bp_group_admin_memberlist($admin_list = false, $group = false) {
 
                     <li>
 
-                            <?php echo bp_core_fetch_avatar(array('item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), bp_core_get_user_displayname($admin->user_id)))) ?>
+                            <?php echo bp_core_fetch_avatar(array('item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 50, 'height' => 50, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), bp_core_get_user_displayname($admin->user_id)))) ?>
 
                         <h5>
 
@@ -1313,7 +1313,7 @@ function bp_group_mod_memberlist($admin_list = false, $group = false) {
 
                     <li>
 
-                <?php echo bp_core_fetch_avatar(array('item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), bp_core_get_user_displayname($mod->user_id)))) ?>
+                <?php echo bp_core_fetch_avatar(array('item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 50, 'height' => 50, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), bp_core_get_user_displayname($mod->user_id)))) ?>
 
                         <h5>
                     <?php echo bp_core_get_userlink($mod->user_id); ?>
@@ -1494,7 +1494,7 @@ function bp_group_admin_tabs($group = false) {
     if (bp_is_item_admin()) :
         ?>
 
-        <li<?php if ('edit-details' == $current_tab || empty($current_tab)) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/edit-details') ?>"><?php _e('Details', 'buddypress'); ?></a></li>
+        <li style="font-size:200%"<?php if ('edit-details' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/edit-details') ?>"><?php _e('Edit', 'buddypress'); ?></a></li>
 
     <?php endif; ?>
 
@@ -1502,26 +1502,21 @@ function bp_group_admin_tabs($group = false) {
         return false;
     ?>
 
-    <!--<li<?php if ('group-settings' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-settings') ?>"><?php _e('Settings', 'buddypress'); ?></a></li>-->
+    <!--<li style="font-size:200%"<?php if ('group-settings' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-settings') ?>"><?php _e('Settings', 'buddypress'); ?></a></li>-->
 
-    <?php if (!(int) bp_get_option('bp-disable-avatar-uploads')) : ?>
+    
 
-        <li<?php if ('group-avatar' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/group-avatar') ?>"><?php _e('Avatar', 'buddypress'); ?></a></li>
-
-    <?php endif; ?>
-
-    <li<?php if ('manage-members' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/manage-members') ?>"><?php _e('Members', 'buddypress'); ?></a></li>
+    <li style="font-size:200%"<?php if ('manage-members' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/manage-members') ?>"><?php _e('Members', 'buddypress'); ?></a></li>
 
     <?php if ($groups_template->group->status == 'private') : ?>
 
-        <li<?php if ('membership-requests' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/membership-requests') ?>"><?php _e('Requests', 'buddypress'); ?></a></li>
+        <li style="font-size:200%"<?php if ('membership-requests' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/membership-requests') ?>"><?php _e('Requests', 'buddypress'); ?></a></li>
 
     <?php endif; ?>
 
     <?php do_action('groups_admin_tabs', $current_tab, $group->slug) ?>
 
-    <li<?php if ('delete-group' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_group_permalink($group) . 'admin/delete-group') ?>"><?php _e('Delete', 'buddypress'); ?></a></li>
-
+    
     <?php
 }
 
@@ -2090,11 +2085,11 @@ function bp_get_group_member_avatar_thumb() {
     return apply_filters('bp_get_group_member_avatar_thumb', bp_core_fetch_avatar(array('item_id' => $members_template->member->user_id, 'type' => 'thumb', 'email' => $members_template->member->user_email, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), $members_template->member->display_name))));
 }
 
-function bp_group_member_avatar_mini($width = 30, $height = 30) {
+function bp_group_member_avatar_mini($width = 50, $height = 50) {
     echo bp_get_group_member_avatar_mini($width, $height);
 }
 
-function bp_get_group_member_avatar_mini($width = 30, $height = 30) {
+function bp_get_group_member_avatar_mini($width = 50, $height = 50) {
     global $members_template;
 
     return apply_filters('bp_get_group_member_avatar_mini', bp_core_fetch_avatar(array('item_id' => $members_template->member->user_id, 'type' => 'thumb', 'width' => $width, 'height' => $height, 'email' => $members_template->member->user_email, 'alt' => sprintf(__('Profile picture of %s', 'buddypress'), $members_template->member->display_name))));
@@ -2599,10 +2594,17 @@ function bp_directory_groups_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-groups-form">
-            <span data-toggle="tooltip" data-placement="left" title="Fill in either the name or a description of the organisation you are looking for..." class="glyphicon glyphicon-question-sign"></span>
-		<label style="vertical-align:middle"><input type="text" name="s" id="groups_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="' . __('Search', 'buddypress') . '" />
-	</form>';
+            
+			<div>
+			 <input type="submit" style="width:500px; height:80px; margin-right:30px; margin-left:100px; margin-top:30px;" 
+  			id="groups_search_submit" name="groups_search_submit" value="' . __('Show results', 'buddypress') . '" />
+<div style="height:50px;"></div> 			
+<label style="margin-right:300px; margin-left:30px;">Description keywords
+ 			<input style="width:300px;" type="text" name="s" id="groups_search" placeholder="' . esc_attr($search_value) . '" /></label>
+		      
+ 	       		</div>
+			<div style="height:50px;"></div>
+			</form>';
 
     echo apply_filters('bp_directory_groups_search_form', $search_form_html);
 }
@@ -2709,12 +2711,11 @@ function bp_group_current_avatar() {
 
         <img src="<?php echo esc_url($bp->groups->current_group->avatar_full); ?>" alt="<?php _e('Organisation Avatar', 'buddypress') ?>" class="avatar" />
 
-    <?php } else { ?>
+    <?php } ?>
 
-        <img src="<?php echo esc_url($bp->groups->image_base . '/none.gif'); ?>" alt="<?php _e('No Organisation Avatar', 'buddypress') ?>" class="avatar" />
-
+   
     <?php
-    }
+    
 }
 
 function bp_get_group_has_avatar() {
@@ -2916,7 +2917,7 @@ function bp_get_group_request_user_link() {
 function bp_group_request_time_since_requested() {
     global $requests_template;
 
-    echo apply_filters('bp_group_request_time_since_requested', sprintf(__('requested %s', 'buddypress'), bp_core_time_since(strtotime($requests_template->request->date_modified))));
+    echo apply_filters('bp_group_request_time_since_requested', sprintf(__('Membership requested %s', 'buddypress'), bp_core_time_since(strtotime($requests_template->request->date_modified))));
 }
 
 function bp_group_request_comment() {

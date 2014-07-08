@@ -272,10 +272,10 @@ function bp_directory_alerts_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-alerts-form"> 
-        <span data-toggle="tooltip" data-placement="left" title="Filter the results by the status of the alerts.." class="glyphicon glyphicon-question-sign"></span>
+        
 		<label style="vertical-align:middle">
        <select name="alert-status" id="alert-status">
-            <option value="none"  selected="selected"> (ALL)</option>
+            <option value="none"  selected="selected"> (All)</option>
             <option value = "1">Active</option>"
             <option value = "0">Deactive</option>"
         </select>

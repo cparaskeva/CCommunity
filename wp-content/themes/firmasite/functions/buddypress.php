@@ -293,9 +293,9 @@ function firmasite_profile_field_custom_change_field_visibility(){ ?>
             <a class="field-visibility-settings-close" href="#"><?php _e( 'Close', "firmasite" ) ?></a>
         </div>
     <?php else : ?>
-        <div class="field-visibility-settings-notoggle text-muted" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
+        <!--<div class="field-visibility-settings-notoggle text-muted" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
             <?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', "firmasite" ), bp_get_the_profile_field_visibility_level_label() ) ?>
-        </div>
+        </div>-->
     <?php endif ?>
 
     <?php do_action( 'bp_custom_profile_edit_fields' ); ?>

@@ -173,14 +173,14 @@ function bp_challenge_admin_tabs($challenge = false) {
 
     if (bp_is_item_admin()) :
         ?>
-        <li<?php if ('edit-details' == $current_tab || empty($current_tab)) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_challenge_permalink($challenge) . 'admin/edit-details') ?>"><?php _e('Details', 'buddypress'); ?></a></li>
+        <li style="font-size:200%" <?php if ('edit-details' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_challenge_permalink($challenge) . 'admin/edit-details') ?>"><?php _e('Edit', 'buddypress'); ?></a></li>
     <?php endif; ?>
     <?php
     if (!bp_is_item_admin())
         return false;
     ?>
     <?php do_action('challenges_admin_tabs', $current_tab, $challenge->slug) ?>
-    <li<?php if ('delete-challenge' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_challenge_permalink($challenge) . 'admin/delete-challenge') ?>"><?php _e('Delete', 'buddypress'); ?></a></li>
+    <li style="font-size:200%" <?php if ('delete-challenge' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_challenge_permalink($challenge) . 'admin/delete-challenge') ?>"><?php _e('Delete', 'buddypress'); ?></a></li>
 
     <?php
 }
@@ -229,9 +229,9 @@ function bp_directory_challenges_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-challenges-form"> 
-        <span data-toggle="tooltip" data-placement="left" title="Fill in the description of the challenge you are looking for..." class="glyphicon glyphicon-question-sign"></span>
-		<label style="vertical-align:middle"><input type="text" name="s" id="challenges_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" id="challenges_search_submit" name="challenges_search_submit" value="' . __('Search', 'buddypress') . '" />
+        
+		<label style="margin-right:100px; margin-top:20px; width:220px;">Description keywords<input type="text" name="s" id="challenges_search" placeholder="' . esc_attr($search_value) . '" /></label>
+		<input type="submit" style="width:150px; height:60px;margin-right:30px;" id="challenges_search_submit" name="challenges_search_submit" value="' . __('Show results', 'buddypress') . '" />
 	</form>';
 
     echo apply_filters('bp_directory_challenges_search_form', $search_form_html);

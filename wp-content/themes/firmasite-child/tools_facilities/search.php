@@ -11,7 +11,7 @@
     <div class="panel-body">
         <form id="tool_facility_serach_extras" class="page">
             <div class="col-xs-12 col-md-4">
-  <label  for="tool-facility-country"><?php _e('Country where the tool is available', 'firmasite'); ?></label>
+  <label  for="tool-facility-country"><?php _e('Tool or facility rent country', 'firmasite'); ?></label>
                 <div class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
             </div>
         </form>

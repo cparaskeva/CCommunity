@@ -11,11 +11,13 @@
     <ul class="nav nav-pills">
         <?php bp_get_options_nav(); ?>
 
-        <li align="right" id="members-order-select" class="last filter">
+        <li align="right" id="members-order-select" class="last pull-right filter">
             <?php bp_notifications_sort_order_form(); ?>
         </li>
     </ul>
 </div>
+<div style="height:20px;"></div>
+
 
 <?php
 switch (bp_current_action()) :

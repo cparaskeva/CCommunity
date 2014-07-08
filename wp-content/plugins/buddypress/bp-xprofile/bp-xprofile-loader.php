@@ -188,9 +188,9 @@ class BP_XProfile_Component extends BP_Component {
 			'position'        => 10
 		);
 
-		// Edit Profile
+		// Edit Name and Surname
 		$sub_nav[] = array(
-			'name'            => __( 'Edit', 'buddypress' ),
+			'name'            => __( 'Edit Name & Surname', 'buddypress' ),
 			'slug'            => 'edit',
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,
@@ -198,17 +198,18 @@ class BP_XProfile_Component extends BP_Component {
 			'position'        => 20,
 			'user_has_access' => bp_core_can_edit_settings()
 		);
-
-		// Change Avatar
+		
+		// Edit Email and password
 		$sub_nav[] = array(
-			'name'            => __( 'Change Avatar', 'buddypress' ),
-			'slug'            => 'change-avatar',
-			'parent_url'      => $profile_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'xprofile_screen_change_avatar',
-			'position'        => 30,
-			'user_has_access' => bp_core_can_edit_settings()
+				'name'            => __( 'Edit Password & Email', 'buddypress' ),
+				'slug'            => 'general',
+				'parent_url'      => $profile_link,
+				'parent_slug'     => $this->slug,
+				'screen_function' => 'xprofile_screen_general_profile',
+				'position'        => 30,
+				'user_has_access' => bp_core_can_edit_settings()
 		);
+
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
@@ -244,20 +245,20 @@ class BP_XProfile_Component extends BP_Component {
 				'href'   => trailingslashit( $profile_link . 'public' )
 			);
 
-			// Edit Profile
+			// Edit Name and Surname
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-edit',
-				'title'  => __( 'Edit', 'buddypress' ),
+				'title'  => __( 'Edit Name Surname', 'buddypress' ),
 				'href'   => trailingslashit( $profile_link . 'edit' )
 			);
 
-			// Edit Profile
+			// Edit Email and Password
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-change-avatar',
-				'title'  => __( 'Change Avatar', 'buddypress' ),
-				'href'   => trailingslashit( $profile_link . 'change-avatar' )
+				'id'     => 'my-account-' . $this->id . '-general',
+				'title'  => __( 'Edit Email Password', 'buddypress' ),
+				'href'   => trailingslashit( $profile_link . 'general' )
 			);
 
 		}

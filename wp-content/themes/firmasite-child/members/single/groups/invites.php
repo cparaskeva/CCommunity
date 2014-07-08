@@ -18,7 +18,7 @@
 				</p>
 
 				<?php do_action( 'bp_group_invites_item' ); ?>
-
+				
 				<div class="action">
 					<a class="button btn btn-default accept" href="<?php bp_group_accept_invite_link(); ?>"><?php _e( 'Accept', 'firmasite' ); ?></a> &nbsp;
 					<a class="button btn btn-default reject confirm" href="<?php bp_group_reject_invite_link(); ?>"><?php _e( 'Reject', 'firmasite' ); ?></a>

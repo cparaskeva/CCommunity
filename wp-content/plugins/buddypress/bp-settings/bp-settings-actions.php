@@ -190,7 +190,7 @@ function bp_settings_action_general() {
 
 	// No errors so show a simple success message
 	if ( ( ( false === $email_error ) || ( false == $pass_error ) ) && ( ( true === $pass_changed ) || ( true === $email_changed ) ) ) {
-		$feedback[]    = __( 'Your settings have been saved.', 'buddypress' );
+		$feedback[]    = __( 'Changes saved.', 'buddypress' );
 		$feedback_type = 'success';
 
 	// Some kind of errors occurred
@@ -209,7 +209,7 @@ function bp_settings_action_general() {
 	do_action( 'bp_core_general_settings_after_save' );
 
 	// Redirect to prevent issues with browser back button
-	bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() . '/general' ) );
+	bp_core_redirect( trailingslashit( bp_displayed_user_domain() . 'profile/general' ) );
 }
 add_action( 'bp_actions', 'bp_settings_action_general' );
 

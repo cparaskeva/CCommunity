@@ -10,7 +10,7 @@
 
 			<div class="bp-widget <?php bp_the_profile_group_slug(); ?>">
 
-				<h4 ><?php bp_the_profile_group_name(); ?></h4>
+				<h4><?php echo bp_get_displayed_user_mentionname(); ?></h4>
 
 				<table class="table table-hover  profile-fields">
 
@@ -31,11 +31,19 @@
 						<?php do_action( 'bp_profile_field_item' ); ?>
 
 					<?php endwhile; ?>
-                                                        
-                                                        <!-- Custom field: email of user -->
-                                                        		<td class="">Email</td>
 
-								<td class="data"><?php echo bp_get_displayed_user_email(); ?></td>
+					 <!-- Custom field: password of user -->
+                                              
+ 						<tr<?php bp_field_css_class(); ?>>
+						       <td class="">Password</td>
+						       <td class="data"><p>******</p></td>
+						</tr>
+                                                        
+                                      <!-- Custom field: email of user -->
+                                                <tr<?php bp_field_css_class(); ?>>
+							<td class="">Email</td>
+							<td class="data"><?php echo bp_get_displayed_user_email(); ?></td>
+						</tr>
                                                         
 
 				</table>

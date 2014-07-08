@@ -28,7 +28,9 @@ global $bp;
 <?php do_action('bp_before_directory_patents_licenses_page'); ?>
 
         <form action="" method="post" id="patents_licenses-directory-form" class="dir-form">
-            <h3  id="patents_licenses-header" class="page-header"><?php _e('Patents & Licenses Directory ', 'firmasite'); ?></h3>
+            <h3  id="patents_licenses-header"><?php _e('Patents & Licenses', 'firmasite'); ?></h3>
+<div class="page-header">List of all published offers about patents and licenses.</div>
+	    <div style="height:20px;"></div>
 
 <?php do_action('bp_before_directory_patents_licenses_content'); ?>
 
@@ -36,7 +38,7 @@ global $bp;
             <!-- Quick solution to fix the selected tab using $_Cookie[scope]-->
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
-                    <li  class="<?php echo ($_COOKIE['bp-patents_licenses-scope'] == "all" || (empty($_COOKIE['bp-patents_licenses-scope']) && empty($_COOKIE['bp-patents_licenses-scope']) ) ? "selected" : "") ?>" id="patents_licenses-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_patents_licenses_root_slug()); ?>"><?php printf(__('All Patents & Licenses<span>%s</span>', 'buddypress'), bp_get_total_patents_licenses_count()); ?></a></li>
+                    <li  class="<?php echo ($_COOKIE['bp-patents_licenses-scope'] == "all" || (empty($_COOKIE['bp-patents_licenses-scope']) && empty($_COOKIE['bp-patents_licenses-scope']) ) ? "selected" : "") ?>" id="patents_licenses-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_patents_licenses_root_slug()); ?>"><?php printf(__('All Patents & Licenses <span>%s</span>', 'buddypress'), bp_get_total_patents_licenses_count()); ?></a></li>
 
 
 <?php if (is_user_logged_in() && bp_get_total_patents_licenses_count_for_user(bp_loggedin_user_id())) : ?>
@@ -48,7 +50,7 @@ global $bp;
 
                 </ul>
             </div><!-- .item-list-tabs -->
-            <div id="patent_license-dir-search" class="dir-search" role="search">
+           <div id="patent_license-dir-search" class="dir-search" role="search">
 
                 <br>  <?php bp_directory_patents_licenses_search_form(); ?> 
 

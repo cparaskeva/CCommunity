@@ -1,7 +1,7 @@
 <div name="page" id="register-page-step3" hidden="true" >
     <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/3.png" height="60" width="60">        
         <?php _e('Account Activation', 'firmasite'); ?></h2>
-    <h3>Congratulations, you have successfuly registered to LifeScienceRoom!</h3><br>
+    <h3>Congratulations, you have successfully registered to LifeScienceRoom!</h3><br>
     <?php do_action('template_notices'); ?>
     <?php do_action('bp_before_account_details_fields'); ?>
     <p><?php _e('Please check your email and click the validation link in the email we just sent you to access LifeScienceRoom.', 'firmasite'); ?></p>

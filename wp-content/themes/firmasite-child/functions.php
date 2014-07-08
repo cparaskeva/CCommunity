@@ -2,7 +2,7 @@
 
 //Set true, enabling debug mode
 if (!defined('DEBUG'))
-    define('DEBUG', true);
+    define('DEBUG', false);
 
 define('CECOM_DISABLE_ADMIN_BAR', true);
 
@@ -92,7 +92,7 @@ function custom_javascripts() {
 
 add_action('wp_enqueue_scripts', 'custom_javascripts');
 
-//Implemantation of AJAX Calls need fo the registration process of a user
+//Implementation of AJAX Calls need for the registration process of a user
 require(get_stylesheet_directory() . "/registration/register_functions.php");
 
 
@@ -179,7 +179,7 @@ add_filter('cron_schedules', 'cron_add_alert_system_time');
 
 
 
-//Set default buddypress navugation bar "Profile"
+//Set default buddypress navigation bar "Profile"
 define( "BP_DEFAULT_COMPONENT", "profile" );
 
 

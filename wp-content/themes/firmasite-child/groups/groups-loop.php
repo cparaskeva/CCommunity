@@ -15,32 +15,49 @@
 
     <?php do_action('bp_before_directory_groups_list'); ?>
 
+ <div id="pag-bottom" class="pagination text-muted">
+
+        <div class="pag-count" id="group-dir-count-bottom">
+
+    		<?php bp_groups_pagination_count(); ?>
+
+        </div>
+
+        <div class="pagination-links lead" id="group-dir-pag-bottom">
+
+    <?php bp_groups_pagination_links(); ?>
+
+        </div>
+
+    </div>
+
     <ul id="groups-list" class="item-list" role="main">
 
     <?php while (bp_groups()) : bp_the_group(); ?>
 
             <li>
-                <div class="item-avatar">
-                    <a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar('type=thumb&width=50&height=50'); ?></a>
-                </div>
-
+               
                 <div class="action pull-right">
-
-        <?php do_action('bp_directory_groups_actions'); ?>
 
                     <div class="meta">
 
-        <?php bp_group_type(); ?> / <?php bp_group_member_count(); ?>
+                         <?php bp_group_type(); ?> / <?php bp_group_member_count(); ?>
 
                     </div>
 
                 </div>
 
                 <div class="item">
-                    <div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a></div>
-                    <div class="item-meta">
-                    	<span class="activity label label-info"><?php printf(__('active %s', 'firmasite'), bp_get_group_last_active()); ?></span>
-                    	<span class="extra">
+				
+                <div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a>
+				
+	            </div>
+	            
+                    	
+                    <div style="height: 20px"></div>
+		    <div class="item-meta">
+                    	<div style="height: 5px"></div>
+		       <span class="extra">
                     		<?php 
                     		$gid = bp_get_group_id();
                     	
@@ -59,12 +76,14 @@
                     		$smax = $org->details['size_max'];
                     		$size = $org->details['size_min'].($smax > 0 ? '-'.$smax : '+').' Employees';
                     		
-                    		$sectors = '...';
+			      $sectors = '...';
                     		//<span style=\"background-color:" . $sector['color']. "\">
                     		if (count($org->details['sectors'])) {
+				      	
                     			$sectors = '';
                     			foreach ($org->details['sectors'] as $s) {
-                    				$sectors .= "<span style=\"background-color:" . $s['color']. "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> "; //. trim($s['description']);
+		
+						$sectors .= "<span data-toggle=\"tooltip\" data-container=\"body\" title=\"". $s['description'] . "\" style=\"border-style:solid; border-color:black; background-color:" . $s['color'] . "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> "; //. trim($s['description']);
                     			}
                     		}
                     		/*
@@ -93,11 +112,11 @@
                     		$admin_name = $adm->user_login;
                     		$admin_email = '<a href="mailto:'.$adm->user_email.'">'.$adm->user_email.'</a>';
                     		
-                    		echo "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/country.png\"></img>$country " .
-                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/size.png\"></img>$size " .
-                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/sectors.png\"></img>$sectors " . 
-                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/type.png\"></img>$type <b>/ Administrator</b>: $admin_name $admin_email<hr>";
-                    		?>
+                         	echo "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/country.png\"></img>&nbsp $country &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" .
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/size.png\"></img>&nbsp $size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" .
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/sectors.png\"></img>&nbsp Sectors &nbsp $sectors &nbsp&nbsp&nbsp&nbsp&nbsp" . 
+                    		     "<img width=\"20\" src=\"/cecommunity/wp-content/uploads/2014/03/type.png\"></img>&nbsp $type <b>&nbsp&nbsp&nbsp&nbsp Administrator</b>: $admin_name $admin_email<hr>";
+                          	?>
                     	</span>
                     </div>
 
@@ -124,7 +143,7 @@
 
         <div class="pag-count" id="group-dir-count-bottom">
 
-    <?php bp_groups_pagination_count(); ?>
+    		<?php bp_groups_pagination_count(); ?>
 
         </div>
 

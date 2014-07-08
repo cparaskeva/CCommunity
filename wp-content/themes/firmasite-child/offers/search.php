@@ -19,7 +19,7 @@
             <div hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
                 <label for="offer-type"><?php _e('Type of offer', 'firmasite'); ?></label>
                 <select name="offer-type" id="offer-type">
-                    <option value="none"  selected="selected">(Anyone)</option>
+                    <option value="none"  selected="selected">(Any)</option>
                     <?php
                     //Fetch Grant Programs form DB
                     $results = BP_Offer::getOfferTypes();
@@ -36,7 +36,7 @@
             <div class="col-xs-12 col-md-3" hidden="true" id="collaboration-commons-extra">
                 <label for="collaboration-type"><?php _e('Type of collaboration', 'firmasite'); ?></label>
                 <select name="collaboration-type" id="collaboration-type">
-                    <option value="none"  selected="selected">(Anyone)</option>
+                    <option value="none"  selected="selected">(Any)</option>
                     <?php
                     //Fetch Collaboration Types form DB
                     $results = BP_Offer::getCollaborationTypes();
@@ -52,7 +52,7 @@
                 <div name="collaboration-develop" id="collaboration-develop" hidden="true">
                     <label for="collaboration-partner-sought"><?php _e('Type of partner sought', 'firmasite'); ?></label>
                     <select name="collaboration-partner-sought" id="collaboration-partner-sought">
-                        <option value="none"  selected="selected">(Anyone)</option>
+                        <option value="none"  selected="selected">(Any)</option>
                         <?php
                         //Fetch Partner sought Types form DB
                         $results = BP_Offer::getPartnerTypes();
@@ -66,9 +66,9 @@
                 </div>
                 <!-- Offer type: Collaboration to participate to funded projects -->
                 <div hidden="true" id="collaboration-participate">
-                    <label for="collaboration-programs"><?php _e('Grant Programms', 'firmasite'); ?></label>
+                    <label for="collaboration-programs"><?php _e('Programs', 'firmasite'); ?></label>
                     <select name="collaboration-programs" id="collaboration-programs">
-                        <option value="none">(Anyone)</option>
+                        <option value="none">(Any)</option>
                         <?php
                         //Fetch Grant Programs form DB
                         $results = BP_Offer::getGrantPrograms();
@@ -85,9 +85,9 @@
 
             <!-- Offer type: Funding -->
             <div class="col-xs-12 col-md-3" name="offer-funding" id="offer-funding" hidden="true" >
-                <label for="applyable-countries"><?php _e('Applyable countries', 'firmasite'); ?></label>
+                <label for="applyable-countries"><?php _e('Applicable countries', 'firmasite'); ?></label>
                 <select  class="form-control" name="applyable-countries" id="applyable-countries" aria-required="false">
-                    <option value="none">(Anyone)</option>
+                    <option value="none">(Any)</option>
                     <?php
                     //Fetch All Countries form DB
                     $results = CECOM_Organization::getAllCountries();
@@ -102,7 +102,7 @@
                 <br/>
                 <label for="finance-stage"><?php _e('Financing Stage', 'firmasite'); ?></label>
                 <select  class="form-control" name="finance-stage" id="finance-stage" aria-required="false">
-                    <option value="none">(Anyone)</option>
+                    <option value="none">(Any)</option>
                     <?php
                     //Fetch Financing stages form DB
                     $results = BP_Offer::getFinanceStages();
@@ -138,7 +138,7 @@
 
 
 
-//Based on the offer type choosen hide/show respectively offer fields
+//Based on the offer type chosen hide/show respectively offer fields
     jQuery("#offer-type").change(function() {
         var offer_type = jQuery("#offer-type").val();
         //Handle the different type of offers
@@ -197,7 +197,7 @@
         else {
            var offer_type = jQuery("#offer-type option:selected").text();
            if (offer_type == "Offer Funding")
-               offer_type = "Find fundings"; 
+               offer_type = "Fundings"; 
                    
            jQuery("#offers-header").text(offer_type);
         }

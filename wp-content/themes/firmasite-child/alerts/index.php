@@ -32,7 +32,7 @@ global $bp;
         <?php do_action('bp_before_directory_alerts_page'); ?>
 
         <form action="" method="post" id="alerts-directory-form" class="dir-form">
-            <h3  id="alerts-header" class="page-header"><?php _e('Alerts Directory ', 'firmasite'); ?></h3>
+            <h3  id="alerts-header" class="page-header"><?php _e('Alerts', 'firmasite'); ?></h3>
             <?php do_action('template_notices'); ?>
 
             <div id="tool_facility-dir-search" class="dir-search" role="search">
@@ -71,7 +71,9 @@ global $bp;
 
 
             <div class="item-list-tabs" id="subnav" role="navigation">
+		
                 <ul class="nav nav-pills">
+
                     <?php do_action('bp_alerts_directory_tool_facility_types'); ?>
 
                     <li id="alerts-order-select" class="last pull-right filter">
@@ -85,8 +87,10 @@ global $bp;
                         </select>
                     </li>
                 </ul>
+		<div style="height:20px;"></div>
             </div><!-- .item-list-tabs -->
 
+		
             <div id="alerts-dir-list" class="alerts dir-list">
                 <?php locate_template(array('/alerts/alerts-loop.php'), true); ?>
             </div><!-- #alerts-dir-list -->

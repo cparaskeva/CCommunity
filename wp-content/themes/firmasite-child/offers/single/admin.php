@@ -74,7 +74,7 @@ $details = $bp->offers->current_offer->get_offer_details();
             ?>
 
 
-            <label for="collaboration-countries"><?php _e('Grant Programms (required)', 'firmasite'); ?></label>
+            <label for="collaboration-countries"><?php _e('Grant Programs (required)', 'firmasite'); ?></label>
             <select name="collaboration-programs" id="collaboration-programs">
                 <?php
                 //Fetch Grant Programs form DB
@@ -185,7 +185,6 @@ $details = $bp->offers->current_offer->get_offer_details();
 
 <?php do_action('bp_after_group_admin_content'); ?>
 </form><!-- #offer-settings-form -->
-
 
 
 <script type="text/javascript">

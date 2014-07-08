@@ -173,14 +173,14 @@ function bp_offer_admin_tabs($offer = false) {
 
     if (bp_is_item_admin()) :
         ?>
-        <li<?php if ('edit-details' == $current_tab || empty($current_tab)) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_offer_permalink($offer) . 'admin/edit-details') ?>"><?php _e('Details', 'buddypress'); ?></a></li>
+        <li style="font-size:200%" <?php if ('edit-details' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_offer_permalink($offer) . 'admin/edit-details') ?>"><?php _e('Edit', 'buddypress'); ?></a></li>
     <?php endif; ?>
     <?php
     if (!bp_is_item_admin())
         return false;
     ?>
     <?php do_action('offers_admin_tabs', $current_tab, $offer->slug) ?>
-    <li<?php if ('delete-offer' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_offer_permalink($offer) . 'admin/delete-offer') ?>"><?php _e('Delete', 'buddypress'); ?></a></li>
+    <li style="font-size:200%" <?php if ('delete-offer' == $current_tab) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit(bp_get_offer_permalink($offer) . 'admin/delete-offer') ?>"><?php _e('Delete', 'buddypress'); ?></a></li>
 
     <?php
 }
@@ -223,9 +223,8 @@ function bp_directory_offers_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-offers-form"> 
-        <span data-toggle="tooltip" data-placement="left" title="Fill in the description of the offer you are looking for..." class="glyphicon glyphicon-question-sign"></span>
-		<label style="vertical-align:middle"><input type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" id="offers_search_submit" name="offers_search_submit" value="' . __('Search', 'buddypress') . '" />
+       		<label style="margin-right:130px; margin-top:20px; width:220px;">Description keywords<input type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
+		<input type="submit" style="width:150px; height:120px; margin-top:28px; margin-right:30px;" id="offers_search_submit" name="offers_search_submit" value="' . __('Show results', 'buddypress') . '" />
 	</form>';
 
     echo apply_filters('bp_directory_offers_search_form', $search_form_html);

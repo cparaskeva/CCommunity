@@ -479,10 +479,6 @@ function wp_authenticate($username, $password) {
 	if (is_wp_error($user) && !in_array($user->get_error_code(), $ignore_codes) ) {
 		do_action('wp_login_failed', $username);
 	}
-        else{
-               $user= CECOM_Organization::check_user_organization_membership($user);
-        }
-
 
 	return $user;
 }

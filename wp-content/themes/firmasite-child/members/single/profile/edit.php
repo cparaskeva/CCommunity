@@ -7,16 +7,8 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 
 	<?php do_action( 'bp_before_profile_field_content' ); ?>
 
-		<h4 ><?php printf( __( "Editing '%s' Profile Group", 'firmasite' ), bp_get_the_profile_group_name() ); ?></h4>
-
-		<ul class="nav nav-tabs">
-
-			<?php bp_profile_group_tabs(); ?>
-
-		</ul>
-
 		<div class="clear"></div>
-		<div class="panel panel-default">
+		<div class="standard-form">
         <div class="panel-body">
 		<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
@@ -24,9 +16,9 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 
 				<?php if ( 'textbox' == bp_get_the_profile_field_type() ) : ?>
                 	<div class="form-group">
-                        <label class="control-label col-xs-12 col-md-3" for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'firmasite' ); ?><?php endif; ?></label>
-                        <div class="col-xs-12 col-md-9">
-                            <input type="text" class="form-control" name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" value="<?php bp_the_profile_field_edit_value(); ?>" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>/>
+                        <label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'firmasite' ); ?><?php endif; ?></label>
+                        <div>
+                            <input type="text" style="width:300px;" class="form-control" name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" value="<?php bp_the_profile_field_edit_value(); ?>" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>/>
                             <?php firmasite_profile_field_custom_change_field_visibility(); ?>
                         </div>
                     </div>
