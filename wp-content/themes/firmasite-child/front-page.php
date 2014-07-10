@@ -88,7 +88,7 @@ if (is_user_logged_in()) {
 	                	<li>
 	                		<button class="btn-sm" title="Login">Login</button>
 	                		
-	                		<input id="rcb"  type="checkbox" class="checkbox" name="rememberme" value="forever" />
+	                		<input id="rcb" type="checkbox" class="checkbox" name="rememberme" value="forever" />
 	                		<label for="rcb"> Remember Me </span>
 	                	</li>
 	                	
