@@ -5,6 +5,6 @@
     <?php do_action('template_notices'); ?>
     <?php do_action('bp_before_account_details_fields'); ?>
     <p><?php _e('Please check your email and click the validation link in the email we just sent you to access LifeScienceRoom.', 'firmasite'); ?></p>
-    <br><p><strong><em><?php _e('Please note that if your organisation is already registered, you also have to be recognized as a member of it by the administrator of your organisation.', 'firmasite'); ?></strong></em></p>
+    <br><p><strong><em><?php _e('Please note that if your organisation is already registered, you also have to be recognised as a member of it by the administrator of your organisation. If instead you are the first member of a newly registered organisation, you will be the administrator of the organisation in the LifeScienceRoom platform. It means you will have the ability to perform some operations in the platform on behalf of your organisation.', 'firmasite'); ?></strong></em></p>
     <p align="right" id="backtoblog"><br><br><a href="<?php bloginfo('wpurl'); ?>" title="Are you lost?">&larr; Back to Home</a></p>
 </div>

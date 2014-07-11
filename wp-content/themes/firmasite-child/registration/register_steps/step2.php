@@ -7,7 +7,7 @@
 
         <?php do_action('template_notices'); ?>
 
-        <p><?php _e('In the case that the organisation you belong to is not listed, you can register it manually or automatically fill in information about it from its Linkedin account.', 'firmasite'); ?></p>
+        <p><?php _e('In the case that the organisation you belong to is not listed, you can register it manually or automatically fill in information from the organisation Linkedin profile.', 'firmasite'); ?></p>
 
         <?php do_action('bp_before_account_details_fields'); ?>
 
@@ -189,7 +189,7 @@
 
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_collaboration"><?php _e('Is the organisation available for collaboration? ', 'firmasite'); ?><span data-toggle="tooltip" data-placement="left" title="Choose Yes if the organisation is willing to collaborate with other organisations to develop new products or services or to work on funded projects. " class="glyphicon glyphicon-question-sign"></span> </label>
                     <div class="col-xs-12 col-md-9">
                         <input type="radio" checked="yes"  name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                         <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
@@ -198,7 +198,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_transaction"><?php _e('Is the organisation available for transaction?', 'firmasite'); ?> </label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_transaction"><?php _e('Is the organisation available for transaction? ', 'firmasite'); ?> <span data-toggle="tooltip" data-placement="left" title="Choose Yes if the organisation is willing to offer or accept fundings. " class="glyphicon glyphicon-question-sign"></span></label>
                     <div class="col-xs-12 col-md-9">
                         <input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                         <input type="radio" checked="yes" name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
