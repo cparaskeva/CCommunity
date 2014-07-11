@@ -61,8 +61,13 @@ function custom_register_user() {
             if (preg_match("/[^A-Za-z'-\s]/", $profile_name))
                 $errors[] = 'Invalid first name|';
         }
+
+
+
         //Validate Profile Surname
-        if (!empty($_POST['profile_surname'])) {
+        if (empty($_POST['profile_surname']))
+            $errors[] = 'Profile surname is required|';
+        else {
             if (preg_match("/[^A-Za-z'-\s]/", $_POST['profile_surname']))
                 $errors[] = 'Invalid last name|';
         }
@@ -129,8 +134,8 @@ function custom_register_user() {
             if (empty($organization['name']))
                 $errors[] = 'You must provide the name of the organization you belong|';
             //Validate Organization Website
-            /*if (empty($organization['website']))
-                $errors[] = 'You must provide the website of your organization|';*/
+            /* if (empty($organization['website']))
+              $errors[] = 'You must provide the website of your organization|'; */
 
             //Validate Country
             if (empty($organization['country']))
@@ -167,7 +172,7 @@ function custom_register_user() {
 
         //Print the errors (if found)
         if (!empty($errors)) {
-            
+
             foreach ($errors as &$value) {
                 echo($value);
             }

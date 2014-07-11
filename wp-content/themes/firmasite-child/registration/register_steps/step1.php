@@ -66,7 +66,7 @@
 
 
         <div class="form-group">
-            <label class="control-label col-xs-12 col-md-3" for="profile_surname"><?php _e('Surname', 'firmasite'); ?></label>
+            <label class="control-label col-xs-12 col-md-3" for="profile_surname"><?php _e('Surname ', 'firmasite'); ?><?php _e('(required)', 'firmasite'); ?></label>
             <div class="col-xs-12 col-md-9">
                 <input type="text" class="form-control" name="profile_surname" id="profile_surname" value="<?php bp_signup_username_value();?>" aria-required="false"/>
                 <p class="field-visibility-settings-toggle text-muted" id="xprofile-surname">

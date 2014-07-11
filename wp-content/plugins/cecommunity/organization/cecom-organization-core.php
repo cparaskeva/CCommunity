@@ -156,8 +156,7 @@ class CECOM_Organization {
             return nil;
         return $organizations;
     }
-    
-    
+
     //Returns the group ID which is associated with the organization
     public static function getUserGroupID($organization_id = 0) {
         global $wpdb;
@@ -464,6 +463,10 @@ function registerOrganization($organization) {
         //Force user to active the account
         //TODO: Create a function in order to change the user_status
         $wpdb->update($wpdb->users, array(sanitize_key("user_status") => 2), array('ID' => $user_id));
+
+
+        //Update display_name field @wp_users table 
+        wp_update_user(array('ID' => $user_id, 'display_name' => trim($organization['firstname']) . " " . trim($organization['surname'])));
 
         //Buddypress xprofile data
         xprofile_set_field_data('Name', $user_id, trim($organization['firstname'], " \t\n\r\0\x0B\"\'"));
