@@ -3,18 +3,18 @@
     <form action="" name="organization_form" id="register_step2" class="standard-form form-horizontal" method="post" enctype="multipart/form-data">
 
         <h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/2.png" height="60" width="60">        
-            <?php _e('Register an Organization', 'firmasite'); ?></h2>
+            <?php _e('Register an Organisation', 'firmasite'); ?></h2>
 
         <?php do_action('template_notices'); ?>
 
-        <p><?php _e('In the case that the organization tha you belong is not listed, you can register it manually or get your organization info using your linked in account.', 'firmasite'); ?></p>
+        <p><?php _e('In the case that the organisation you belong to is not listed, you can register it manually or automatically fill in information about it from its Linkedin account.', 'firmasite'); ?></p>
 
         <?php do_action('bp_before_account_details_fields'); ?>
 
         <div class="register-section" id="basic-details-section">
             <?php /*             * *** Organization Details ***** */ ?>
 
-            <h4 class="page-header"><?php _e('Organization Details', 'firmasite'); ?></h4>
+            <h4 class="page-header"><?php _e('Organisation Details', 'firmasite'); ?></h4>
 
             <div hidden="true" id="organization_exist_div">
                 <span class="label label-warning">Organisation Exist!</span>
@@ -49,7 +49,7 @@
 
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_name"><?php _e('Company Name', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_name"><?php _e('Organisation Name', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
                         <!-- <input type="hidden" class="form-control" name="cecom_organization_id" id="cecom_organization_id" value="undefined"/> -->
                         <input type="hidden" class="form-control" name="organization_id" id="organization_id" value=""/>
@@ -67,7 +67,7 @@
 
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_description"><?php _e('Company Description', 'firmasite'); ?> </label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_description"><?php _e('Organisation Description', 'firmasite'); ?> </label>
                     <div class="col-xs-12 col-md-9">
                         <input type="text" class="form-control" name="organization_description" id="organization_description" value="" aria-required="false"/>
                     </div>
@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_size"><?php _e('Organization Size', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_size"><?php _e('Organisation Size', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
                         <select  class="form-control" name="organization_size" id="organization_size" value="select" aria-required="false">
                             <option value="none">Please select...</option>
@@ -209,7 +209,7 @@
 
             <div align="right" class="submit" >
                 <hr>
-                <div align="left"><a align="left" href="<?php bloginfo('wpurl'); ?>" title="Are you lost?">&larr; Back to Home</a></div>
+                <div align="left"><a align="left" href="<?php bloginfo('wpurl'); ?>" title="Are you lost?">&larr; Back to access page</a></div>
                 <input type="submit" class="btn  btn-primary" name="organization_submit" id="organization_submit" value="<?php _e('Submit', 'firmasite'); ?>" >
             </div>
 

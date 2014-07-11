@@ -18,9 +18,12 @@
             <input type="hidden" class="form-control" name="organization-collaboration" id="organization-collaboration" value=""/>
             <input type="hidden" class="form-control" name="organization-transaction" id="organization-transaction" value=""/>
             <!-- End of Hidden Fields -->
+    	
+ 	    <div class="col-xs-12 col-md-12 col-lg-12">
 
+	
             <!-- Search form first column -->
-            <div class="col-xs-12 col-md-3">
+            <div class="col-xs-12 col-md-3 col-lg-3">
 		 <!-- Organization country field -->
 		<div>
                 <label  for="organization-country"><?php _e('Organisation country', 'firmasite'); ?></label>
@@ -68,10 +71,11 @@
                     }
                     ?>
                 </select>
+		<div style="height:15px;"></div>
             </div>
 
 	    <!-- Search form second column -->
-            <div class="col-xs-12 col-md-4" >
+            <div class="col-xs-12 col-md-4 col-lg-3" >
 	        <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;</label>
                 <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">          
                     <?php
@@ -85,14 +89,15 @@
                     }
                     ?>
                 </select>
-                <br><br>
+                <div style="height:25px;"></div>
                 <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> &nbsp;&nbsp;</label>
                 <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
                 </select>
+		<div style="height:15px;"></div>
             </div>
 
 
-            <div class="col-md-3 pull-right" hidden="true" id="collaboration-commons-extra">
+            <div class="col-md-3 col-lg-3 pull-right" hidden="true" id="collaboration-commons-extra">
                 <br><br><br>
                 <label for="collaboration-description"><?php _e('Description of the offer', 'firmasite'); ?></label>
                 <input placeholder="Type in keywords.." type="text" name="collaboration-description" id="collaboration-description"  />
@@ -148,9 +153,7 @@
 
             <!-- Search checkboxes column -->
 	    
-            <div hidden="false" id="organization-checkboxes" >
-                <br>
-		<div style="height:15px;"></div>
+            <div hidden="false" class="col-xs-12 col-md-6 col-lg-6" id="organization-checkboxes" >
                 <label  for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>
                 <br/><input type="radio" name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                 <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
@@ -161,7 +164,7 @@
                 <input type="radio"  name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
             </div>
 
-            <div hidden="true" id="offer-type-div" class="col-xs-12 col-md-3">
+            <div hidden="true" id="offer-type-div" class="col-xs-12 col-md-3 col-lg-3">
                 <select name="offer-type" id="offer-type">
                     <option value="none"  selected="selected">(Any)</option>
                     <?php
@@ -176,6 +179,7 @@
                 </select>
                 <br/>
             </div>
+	</div>
         </form>
     </div>
 </div>

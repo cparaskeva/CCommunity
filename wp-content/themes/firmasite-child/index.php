@@ -58,7 +58,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
     </style>
     
 	<div class="col-md-12 borders">
-		<h1>Welcome ! </h1>
+		<h1>Welcome <?php echo $current_user->user_nicename ?>! </h1>
 	
 		<div class="row links">
 			<div class="col-md-6">
@@ -117,7 +117,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 			<h3>News from the influencers</h3>
 			
 			
-			<a class="twitter-timeline" href="https://twitter.com/centralcomm1/favorites"  height="400"  data-widget-id="438354056449241088" data-favorites-screen-name="centralcomm1"></a>
+			<a class="twitter-timeline" href="https://twitter.com/centralcomm1/favorites"  height="600"  data-widget-id="438354056449241088" data-favorites-screen-name="centralcomm1"></a>
 			 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 
@@ -155,8 +155,8 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 				if (strlen($desc) > $max_desc_len)
 					$desc = substr($desc, 0, $max_desc_len) . '...';
 				
-				echo "<li><a href='$org_slug'>$org</a> - $off_type :<br>".
-					"<a href='$o_url'>$desc</a></li>";
+				echo "<li class='well'><a href='$org_slug'>$org</a> <span class='pull-right'><a  href='$o_url'>Details</a></span> <br> $off_type <br>".
+					"$desc</li>";
 			}
 			?>
 			
@@ -164,15 +164,16 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 		
 		<div class="borders organisations" style="padding:0 10px">
 			<h3>Last registered organisations</h3>
-			
-			
+			<div style="height:20px;"></div>
+			<ul>
 			<?php 
-			$orgs = getLatestOrganisations();
+		  	$orgs = getLatestOrganisations();
 			foreach ($orgs as $org) {
 				$url = bp_get_root_domain().'/groups/'.$org->slug;
-				echo "<li><a href='$url'>$org->name</a></li>";
+				echo "<li style='list-style-type:disc'><a href='$url'>$org->name</a></li>";
 			}
-			?>
+		       ?>
+		       </ul>
 			
 		</div>
 		

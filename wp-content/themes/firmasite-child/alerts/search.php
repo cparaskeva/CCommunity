@@ -18,7 +18,7 @@
         <select name="tool-facility-payment" id="tool-facility-payment">
             <option value="none"  selected="selected"> (ALL)</option>
             <option value = '1'>Active</option>";
-            <option value = '0'>Deactive</option>";
+            <option value = '0'>Inactive</option>";
         </select>
 
 

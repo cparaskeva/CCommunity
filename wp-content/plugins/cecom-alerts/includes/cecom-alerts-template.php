@@ -277,10 +277,10 @@ function bp_directory_alerts_search_form() {
        <select name="alert-status" id="alert-status">
             <option value="none"  selected="selected"> (All)</option>
             <option value = "1">Active</option>"
-            <option value = "0">Deactive</option>"
+            <option value = "0">Inactive</option>"
         </select>
-                    </label>
-		<input type="submit" id="alerts_search_submit" name="alerts_search_submit" value="' . __('Filter', 'buddypress') . '" /><br><br>
+                    </label>&nbsp;&nbsp;&nbsp;
+		<input style="margin-top:-4px;" type="submit" id="alerts_search_submit" name="alerts_search_submit" value="' . __('Filter', 'buddypress') . '" /><br><br>
 	</form>';
 
     echo apply_filters('bp_directory_alerts_search_form', $search_form_html);

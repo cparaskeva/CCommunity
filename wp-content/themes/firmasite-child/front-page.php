@@ -88,7 +88,7 @@ if (is_user_logged_in()) {
 	                	<li>
 	                		<button class="btn-sm" title="Login">Login</button>
 	                		
-	                		<input id="rcb"  type="checkbox" class="checkbox" name="rememberme" value="forever" />
+	                		<input id="rcb" type="checkbox" class="checkbox" name="rememberme" value="forever" />
 	                		<label for="rcb"> Remember Me </span>
 	                	</li>
 	                	
@@ -106,7 +106,7 @@ if (is_user_logged_in()) {
             <div class="container">
             	
             		<div style="height:30px">
-            			<img width="1000" height="111" src="/cecommunity/wp-content/uploads/2014/07/logo_big.jpg" />
+            			<img width="940" height="111" style="opacity: 0.5;" src="/cecommunity/wp-content/uploads/2014/07/logo_big.jpg" />
             		</div>
             
             	<div class="col-md-8">

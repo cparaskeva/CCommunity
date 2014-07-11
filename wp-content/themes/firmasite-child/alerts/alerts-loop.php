@@ -9,6 +9,22 @@
 <?php if (bp_has_alerts(bp_ajax_querystring('alerts').$extra_arg)) : ?>
     <?php do_action('bp_before_directory_alerts_list'); ?>
 
+<div id="pag-bottom" class="pagination text-muted">
+
+        <div class="pag-count" id="alerts-dir-count-bottom">
+
+            <?php bp_alerts_pagination_count(); ?>
+
+        </div>
+
+        <div class="pagination-links lead" id="example-dir-pag-bottom">
+
+            <?php bp_alerts_pagination_links(); ?>
+
+        </div>
+
+    </div>
+
     <ul id="alerts-list" class="item-list" role="main">
 
         <?php while (bp_alerts()) : bp_the_alert(); ?>
@@ -29,9 +45,7 @@
                             Alert set by <a href="<?php bp_alerts_owner_permalink(); ?>"><?php bp_alerts_owner_name(); ?></a>
                             &nbsp;&nbsp;
                         <?php endif; ?>
-		<span class="item-content"> 
-                        <b> <?php echo bp_alerts_content(); ?></b>
-                    </span>&nbsp;&nbsp;&nbsp;
+		
                 <!-- View tool & facility <a href="<?php bp_alert_permalink(); ?>">details</a>&nbsp;&nbsp; -->
                 <!-- <span class="highlight label label-default"><?php //bp_alert_type();    ?></span> -->
                         <?php if (bp_alert_active()): ?>
@@ -48,7 +62,12 @@
                     </div>
 
 <div style="height:10px;"></div>
-                    The alert has been triggered <span class="badge"><?php echo bp_alert_triggered_times(); ?></span> times!
+
+<div class="item-content"> 
+                        <b> <?php echo bp_alerts_content(); ?></b>
+                    </div>
+			<div style="height:20px;"></div>
+                    <div>The alert has been triggered <span class="badge"><?php echo bp_alert_triggered_times(); ?></span> times!</div>
                     
                     
 

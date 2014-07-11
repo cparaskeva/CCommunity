@@ -47,7 +47,7 @@ global $bp;
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
                     <?php if (current_user_can('manage_options')): ?>
-                    <li  class="<?php echo ($_COOKIE['bp-alerts-scope'] == "all" || (empty($_COOKIE['bp-alerts-scope']) && empty($_COOKIE['bp-alerts-scope']) ) ? "selected" : "") ?>" id="alerts-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_alerts_root_slug()); ?>"><?php printf(__('All Alerts<span>%s</span>', 'buddypress'), bp_get_total_alerts_count()); ?></a></li>
+                    <li  class="<?php echo ($_COOKIE['bp-alerts-scope'] == "all" || (empty($_COOKIE['bp-alerts-scope']) && empty($_COOKIE['bp-alerts-scope']) ) ? "selected" : "") ?>" id="alerts-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_alerts_root_slug()); ?>"><?php printf(__('All Alerts <span>%s</span>', 'buddypress'), bp_get_total_alerts_count()); ?></a></li>
 
                     <?php if (is_user_logged_in() && bp_get_total_alerts_count_for_user(bp_loggedin_user_id())) : ?>
                         <li class="<?php echo ($_COOKIE['bp-alerts-scope'] == "personal" ? "selected" : "") ?>" id="alerts-personal"><a href="<?php echo trailingslashit(bp_loggedin_user_domain() . bp_get_alerts_slug() . '/my-alerts'); ?>"><?php printf(__('My Alerts <span>%s</span>', 'firmasite'), bp_get_total_alerts_count_for_user(bp_loggedin_user_id())); ?></a></li>
