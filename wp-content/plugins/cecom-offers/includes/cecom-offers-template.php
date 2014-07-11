@@ -223,8 +223,8 @@ function bp_directory_offers_search_form() {
     $search_value = !empty($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : $default_search_value;
 
     $search_form_html = '<form action="" method="get" id="search-offers-form"> 
-       		<label style="margin-right:130px; margin-top:20px; width:220px;">Description keywords<input type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
-		<input type="submit" style="width:150px; height:120px; margin-top:28px; margin-right:30px;" id="offers_search_submit" name="offers_search_submit" value="' . __('Show results', 'buddypress') . '" />
+       		<label style="margin-right:130px; width:220px;">Description keywords<input style="margin-top:5px;" type="text" name="s" id="offers_search" placeholder="' . esc_attr($search_value) . '" /></label>
+		<input type="submit" style="width:150px; height:120px; margin-top:46px; margin-right:30px;" id="offers_search_submit" name="offers_search_submit" value="' . __('Show results', 'buddypress') . '" />
 	</form>';
 
     echo apply_filters('bp_directory_offers_search_form', $search_form_html);

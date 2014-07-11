@@ -8,7 +8,7 @@
 
 <?php $group_id = bp_get_group_id(); ?>
 <h4> Collaboration Offers</h4>
-<h5> Develop products and services</h5>
+<h5> &nbsp;&nbsp;&nbsp; - To Develop Products and Services</h5>
 <?php if (bp_has_offers("group_id=" . $group_id . "&offer_type=1")) : ?>
     <ul id="offers-list" class="item-list" role="main">
         <?php while (bp_offers()) : bp_the_offer(); ?>
@@ -49,7 +49,7 @@ else: echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>No <b>Develop products and services
 endif;
 ?>
 
-<h5> Funded Projects</h5>
+<h5> &nbsp;&nbsp;&nbsp; - On Funded Projects</h5>
 <?php if (bp_has_offers("group_id=" . $group_id . "&offer_type=2")) : ?>
     <ul id="offers-list" class="item-list" role="main">
         <?php while (bp_offers()) : bp_the_offer(); ?>

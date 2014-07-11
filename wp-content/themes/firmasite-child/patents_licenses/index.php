@@ -70,8 +70,8 @@ global $bp;
                     <li id="patents_licenses-order-select" class="last pull-right filter">
                         <label for="patents_licenses-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
                         <select id="patents_licenses-order-by">
-                            <option <?php echo ($_COOKIE['bp-patents_licenses-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
-                            <option <?php echo ($_COOKIE['bp-patents_licenses-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-patents_licenses-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Recently posted', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-patents_licenses-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest', 'firmasite'); ?></option>
                             <option <?php echo ($_COOKIE['bp-patents_licenses-filter'] == "patent_licensetype" ? "selected='selected'" : "") ?> value="patent_licensetype"><?php _e('Type', 'firmasite'); ?></option> 
 
 <?php do_action('bp_patents_licenses_directory_order_options'); ?>

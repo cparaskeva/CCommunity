@@ -127,7 +127,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 		<div class="col-md-6">
 		
 		<div class="borders offers" style="padding:0 10px">
-			<h3>Last offers</h3>
+			<h3>Latest offers</h3>
 			
 			<?php 
 			
@@ -163,7 +163,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 		</div>
 		
 		<div class="borders organisations" style="padding:0 10px">
-			<h3>Last registered organisations</h3>
+			<h3>Latest registered organisations</h3>
 			<div style="height:20px;"></div>
 			<ul>
 			<?php 

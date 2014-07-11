@@ -134,7 +134,7 @@
                 </div>
                 <!-- Offer type: Collaboration to participate to funded projects -->
                 <div hidden="true" id="collaboration-participate">
-                    <label for="collaboration-programs"><?php _e('Grant Programms', 'firmasite'); ?></label>
+                    <label for="collaboration-programs"><?php _e('Grant Programs', 'firmasite'); ?></label>
                     <select name="collaboration-programs" id="collaboration-programs">
                         <option value="none">(Any)</option>
                         <?php

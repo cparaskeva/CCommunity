@@ -67,7 +67,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                         <label for="groups-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
                         <select id="groups-order-by">
                             
-                            <option value="popular"><?php _e('With many members', 'firmasite'); ?></option>
+                            <option value="popular"><?php _e('Organisation size', 'firmasite'); ?></option>
                             <option value="newest"><?php _e('Newly created', 'firmasite'); ?></option>
                             <option value="alphabetical"><?php _e('Alphabetical', 'firmasite'); ?></option>
 

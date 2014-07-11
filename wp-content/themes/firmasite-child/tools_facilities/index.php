@@ -68,8 +68,8 @@ global $bp;
                     <li id="tools_facilities-order-select" class="last pull-right filter">
                         <label for="tools_facilities-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
                         <select id="tools_facilities-order-by">
-                            <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
-                            <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Recently posted', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-tools_facilities-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest', 'firmasite'); ?></option>
 
 <?php do_action('bp_tools_facilities_directory_order_options'); ?>
 

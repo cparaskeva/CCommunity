@@ -71,9 +71,9 @@ global $bp;
                     <li id="challenges-order-select" class="last pull-right filter">
                         <label for="challenges-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
                         <select id="challenges-order-by">
-                            <option <?php echo ($_COOKIE['bp-challenges-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
-                            <option <?php echo ($_COOKIE['bp-challenges-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
-                            <option <?php echo ($_COOKIE['bp-challenges-filter'] == "challengetype" ? "selected='selected'" : "") ?> value="challengetype"><?php _e('Deadline', 'firmasite'); ?></option> 
+                            <option <?php echo ($_COOKIE['bp-challenges-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Recently posted', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-challenges-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-challenges-filter'] == "challengetype" ? "selected='selected'" : "") ?> value="challengetype"><?php _e('With nearest deadlines', 'firmasite'); ?></option> 
 
 <?php do_action('bp_challenges_directory_order_options'); ?>
 

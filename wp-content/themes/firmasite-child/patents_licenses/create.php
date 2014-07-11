@@ -56,7 +56,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                     ?>
                 </select>
                 <br><br>
-                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> </label>
+                <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
                 </select>
                 <br/><br/>

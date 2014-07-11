@@ -62,7 +62,7 @@ global $bp;
             
 	    <div id="offer-dir-search" class="dir-search" role="search">
 
-                <br>  <?php bp_directory_offers_search_form(); ?> 
+                  <?php bp_directory_offers_search_form(); ?> 
 
             </div><!-- #offer-dir-search -->
 
@@ -80,9 +80,9 @@ global $bp;
                     <li id="offers-order-select" class="last pull-right filter">
                         <label for="offers-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
                         <select id="offers-order-by">
-                            <option <?php echo ($_COOKIE['bp-offers-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
-                            <option <?php echo ($_COOKIE['bp-offers-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
-                            <option <?php echo ($_COOKIE['bp-offers-filter'] == "offertype" ? "selected='selected'" : "") ?> value="offertype"><?php _e('Offer Type', 'firmasite'); ?></option> 
+                            <option <?php echo ($_COOKIE['bp-offers-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Recently posted', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-offers-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest', 'firmasite'); ?></option>
+                           
 
 <?php do_action('bp_offers_directory_order_options'); ?>
 

@@ -95,7 +95,7 @@
                 <input placeholder="Type in keywords.." type="text" name="organization-name" id="organization-name"  />
                 <!-- Organization country field -->
                 <!-- Organization type field -->
-                <br/><label  for="organization-type"><?php _e('Type of Organization', 'firmasite'); ?> </label>
+                <br/><label  for="organization-type"><?php _e('Type of Organisation', 'firmasite'); ?> </label>
                 <select  class="form-control" name="organization-type" id="organization-type" aria-required="false">
                     <option value="none">(Any)</option>
                     <?php

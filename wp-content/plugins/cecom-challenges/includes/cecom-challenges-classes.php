@@ -538,7 +538,7 @@ class BP_Challenge {
                 break;
 
             case 'challengetype' :
-                $order = 'DESC';
+                $order = 'ASC';
                 $orderby = 'challengetype';
                 break;
         }

@@ -478,7 +478,7 @@ function registerOrganization($organization) {
             $key = sha1($user_id . time());
             $activation_link = bp_get_activation_page() . "?key=$key";
             add_user_meta($user_id, 'activation_key', $key, true);
-            wp_mail($organization['email'], 'CECommunity ACTIVATION', 'You have successfully registered to LifeScienceRoom platform. Activate your account using this link: ' . $activation_link);
+            wp_mail($organization['email'], 'LifeScienceRoom activation', 'You have successfully registered to LifeScienceRoom platform. Activate your account using this link: ' . $activation_link);
         }
 
         $group_id = $organization['id'];

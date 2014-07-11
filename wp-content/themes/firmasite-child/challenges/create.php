@@ -18,7 +18,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
     <div class="padder">
         <form action="" method="post" id="challenge-form" class="standard-form" enctype="multipart/form-data">
-            <h3  id="challenges-header" class="page-header"><?php _e('Publish a Challenge  ', 'firmasite'); ?> &nbsp;</h3>
+            <h3  id="challenges-header" class="page-header"><?php _e('Launch an Open Innovation Challenge', 'firmasite'); ?> &nbsp;</h3>
             <?php do_action('template_notices'); ?>
             <div class="item-body" id="group-create-body">
                 <!-- Hidden Fields for Organization Sectors and Subsectors covered-->   
@@ -27,7 +27,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 <br/>
                 <label for="challenge-description"><?php _e('Title of the challenge you propose (required)', 'firmasite'); ?></label>
                 <input class="form-control" name="challenge-title" id="challenge-title" />
-                <label for="challenge-description"><?php _e('Describe the challenge you want to publish (required)', 'firmasite'); ?></label>
+                <br><label for="challenge-description"><?php _e('Describe the challenge you want to publish (required)', 'firmasite'); ?></label>
                 <textarea rows="3" type="text" name="challenge-description" id="challenge-description" aria-required="true" ></textarea> 
                 <br/>
                 <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -44,7 +44,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                     ?>
                 </select>
                 <br><br>
-                <label for="challenge-deadline"><?php _e('Deadline of answering in YYYY/MM/DD format (required)', 'firmasite'); ?></label>
+                <label for="challenge-deadline"><?php _e('Deadline for answering in YYYY/MM/DD format (required)', 'firmasite'); ?></label>
                 <input class="form-control" name="challenge-deadline" id="challenge-deadline" />
                 <br><br>
                 <label for="challenge-reward"><?php _e('Amount of the reward in Euro (required)', 'firmasite'); ?></label>
