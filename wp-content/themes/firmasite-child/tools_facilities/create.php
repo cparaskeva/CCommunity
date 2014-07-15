@@ -17,7 +17,7 @@ wp_enqueue_style('bootstrapformhelpers-style');
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
     <div class="padder">
         <form action="" method="post" id="tool_facility-form" class="standard-form" enctype="multipart/form-data">
-            <h3  id="tools_facilities-header" class="page-header"><?php _e('Publish a Tool/Facility rent offer  ', 'firmasite'); ?> &nbsp;</h3>
+            <h3  id="tools_facilities-header" class="page-header"><?php _e('Create an offer <h4>(Tool/Facility rent)</h4>', 'firmasite'); ?> &nbsp;</h3>
             <?php do_action('template_notices'); ?>
             <div class="item-body" id="group-create-body">
                 <!-- Country Hidden Field -->

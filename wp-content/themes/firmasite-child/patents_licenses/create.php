@@ -18,7 +18,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
     <div class="padder">
         <form action="" method="post" id="patent_license-form" class="standard-form" enctype="multipart/form-data">
-            <h3  id="patents_licenses-header" class="page-header"><?php _e('Publish a Patent or License  ', 'firmasite'); ?> &nbsp;</h3>
+            <h3  id="patents_licenses-header" class="page-header"><?php _e('Create an offer <h4>(Patent or License)</h4> ', 'firmasite'); ?> &nbsp;</h3>
             <?php do_action('template_notices'); ?>
             <div class="item-body" id="group-create-body">
                 <!-- Hidden Fields for Organization Sectors and Subsectors covered-->   
