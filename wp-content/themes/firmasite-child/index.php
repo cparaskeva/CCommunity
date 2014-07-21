@@ -84,7 +84,7 @@ $notifications_count = bp_notifications_get_unread_notification_count( $current_
 						Search for <a href="/cecommunity/patents_licenses/">patents</a>, <a href="/cecommunity/offers/?offer_type=3">fundings</a>, <a href="/cecommunity/tools_facilities/">tools for rent</a>.
 					</li>
 					<li> 
-						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
+						<img src="/cecommunity/wp-content/uploads/2014/07/challenge-2.png" width="25" height="25"> 
 						Search for <a href="/cecommunity/challenges/">challenges</a>.
 					</li>
 			</div>
@@ -101,7 +101,7 @@ $notifications_count = bp_notifications_get_unread_notification_count( $current_
 						Offer <a href="<?php echo $create_patent; ?>">patents</a>, <a href="<?php echo $create_offer_funding; ?>">fundings</a>, <a href="<?php echo $create_tool; ?>">tools for rent</a>.
 					</li>
 					<li>
-						<img src="/cecommunity/wp-content/uploads/2014/03/Licences.png" width="25" height="25"> 
+						<img src="/cecommunity/wp-content/uploads/2014/07/challenge-2.png" width="25" height="25"> 
 						Launch an <a href="<?php echo $create_challenge; ?>">Open Innovation challenge</a>.
 					</li>
 				</ul>
