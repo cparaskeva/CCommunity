@@ -58,7 +58,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
     </style>
     
 	<div class="col-md-12 borders">
-		<h1>Welcome <?php echo $current_user->user_nicename ?>! </h1>
+		<h1>Welcome <?php echo $current_user->display_name ?>! </h1>
 	
 		<div class="row links">
 			<div class="col-md-6">
