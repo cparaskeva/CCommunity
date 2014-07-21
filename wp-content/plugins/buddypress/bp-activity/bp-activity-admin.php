@@ -853,7 +853,7 @@ function bp_activity_admin_index() {
 			$messages[] = sprintf( _n( '%s activity item has been successfully unspammed.', '%s activity items have been successfully unspammed.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
 
 		if ( $updated > 0 )
-			$messages[] = __( 'The activity item has been updated succesfully.', 'buddypress' );
+			$messages[] = __( 'The activity item has been updated successfully.', 'buddypress' );
 	}
 
 	// Prepare the activity items for display

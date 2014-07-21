@@ -192,7 +192,7 @@ function tools_facilities_screen_tool_facility_admin_edit_details() {
         'date' => date('Y-m-d H:i:s')
         );
         if (bp_tools_facilities_update_tool_facility($tool_facility_update))
-            bp_core_add_message(__('Your tool/facility has been succesfuly updated!', 'bp-example'), 'success');
+            bp_core_add_message(__('Your tool/facility has been successfully updated!', 'bp-example'), 'success');
         else
             bp_core_add_message(__('Unable to update the current tool/facility...', 'bp-example'), 'error');
 

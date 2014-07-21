@@ -193,7 +193,7 @@ function patents_licenses_screen_patent_license_admin_edit_details() {
             )
         );
         if (bp_patents_licenses_update_patent_license($patent_license_update))
-            bp_core_add_message(__('Your patent/license has been succesfuly updated!', 'bp-example'), 'success');
+            bp_core_add_message(__('Your patent/license has been successfully updated!', 'bp-example'), 'success');
         else
             bp_core_add_message(__('Unable to update the current patent/license...', 'bp-example'), 'error');
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2014 BuddyPress
+﻿# Copyright (C) 2014 BuddyPress
 # This file is distributed under the same license as the BuddyPress package.
 msgid ""
 msgstr ""
@@ -378,7 +378,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: bp-activity/bp-activity-admin.php:856
-msgid "The activity item has been updated succesfully."
+msgid "The activity item has been updated successfully."
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:869
