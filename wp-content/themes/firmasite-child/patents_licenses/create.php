@@ -25,7 +25,9 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 <input  type="hidden" class="form-control" name="patent-license-sectors" id="patent-license-sectors" value=""/>
                 <input  type="hidden" class="form-control" name="patent-license-subsectors" id="patent-license-subsectors" value=""/>
                 <!-- End of Hidden Fields -->
-                <label for="patent-license-type"><?php _e('What are you offering? (required)', 'firmasite'); ?></label>
+                <label for="patent-license-type"><?php _e('What are you offering? (required)', 'firmasite'); ?><span data-toggle="tooltip" data-placement="left" 
+			title="Choose 'Licensing in' if you want to buy or get rights of a patent or licence.
+			Choose 'Licensing out' if you want to sell or rent rights on a patent or licence belonging to your organisation" 									class="glyphicon glyphicon-question-sign"></span></label>
                 <select  name="patent-license-type" id="patent-license-type">
                     <option value="none"  selected="selected">Please select..</option>
                     <?php

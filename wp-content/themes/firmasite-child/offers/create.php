@@ -42,7 +42,8 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 </div>
                 <div hidden="true" id="collaboration-commons">
                     <div hidden="true" id="collaboration-commons-extra">
-                        <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?></label>
+                        <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?><span data-toggle="tooltip" data-placement="left" title="If you have 						already started a project or you have an idea of what you want to do, select the option 'Proposing a project'.
+					If you have some competences and expertise you want to share with other organisations, please select the option 'Offering competences'." 					class="glyphicon glyphicon-question-sign"></span></label>
                         <select name="collaboration-type" id="collaboration-type">
                             <option value="none"  selected="selected"> Please select..</option>
                             <?php
