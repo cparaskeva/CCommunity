@@ -86,9 +86,9 @@ function bp_offers_create_offer() {
                     'sectors' => ( empty($_POST['offer-sectors']) ? "null" : array("sector" => explode(",", $_POST['offer-sectors'])))
                 );
                 if (bp_offers_publish_offer($offer_new))
-                    bp_core_add_message(__('Your offer has been succesfuly published!', 'bp-example'), 'success');
+                    bp_core_add_message(__('Your offer has been successfully published!', 'bp-example'), 'success');
                 else
-                    bp_core_add_message(__('Unable to insert infromation to database..', 'bp-example'), 'error');
+                    bp_core_add_message(__('Unable to insert information to database..', 'bp-example'), 'error');
             }
 
 

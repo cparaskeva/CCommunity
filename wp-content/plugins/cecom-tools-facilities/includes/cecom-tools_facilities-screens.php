@@ -79,9 +79,9 @@ function bp_tools_facilities_create_tool_facility() {
                     'date' => date('Y-m-d H:i:s')
                 );
                 if (bp_tools_facilities_publish_tool_facility($tool_facility_new))
-                    bp_core_add_message(__('Your tool/facility has been succesfuly published!', 'bp-example'), 'success');
+                    bp_core_add_message(__('Your tool/facility has been successfully published!', 'bp-example'), 'success');
                 else
-                    bp_core_add_message(__('Unable to insert infromation to database..', 'bp-example'), 'error');
+                    bp_core_add_message(__('Unable to insert information to database..', 'bp-example'), 'error');
             }
 
 

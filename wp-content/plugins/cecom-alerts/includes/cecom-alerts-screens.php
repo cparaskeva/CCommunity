@@ -79,9 +79,9 @@ function bp_alerts_create_alert() {
                     'date' => date('Y-m-d H:i:s')
                 );
                 if (bp_alerts_publish_alert($alert_new))
-                    bp_core_add_message(__('Your tool/facility has been succesfuly published!', 'bp-example'), 'success');
+                    bp_core_add_message(__('Your tool/facility has been successfully published!', 'bp-example'), 'success');
                 else
-                    bp_core_add_message(__('Unable to insert infromation to database..', 'bp-example'), 'error');
+                    bp_core_add_message(__('Unable to insert information to database..', 'bp-example'), 'error');
             }
 
 
@@ -192,7 +192,7 @@ function alerts_screen_alert_admin_edit_details() {
         'date' => date('Y-m-d H:i:s')
         );
         if (bp_alerts_update_alert($alert_update))
-            bp_core_add_message(__('Your tool/facility has been succesfuly updated!', 'bp-example'), 'success');
+            bp_core_add_message(__('Your tool/facility has been successfully updated!', 'bp-example'), 'success');
         else
             bp_core_add_message(__('Unable to update the current tool/facility...', 'bp-example'), 'error');
 

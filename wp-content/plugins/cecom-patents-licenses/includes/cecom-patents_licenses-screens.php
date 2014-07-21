@@ -81,9 +81,9 @@ function bp_patents_licenses_create_patent_license() {
                     )
                 );
                 if (bp_patents_licenses_publish_patent_license($patent_license_new))
-                    bp_core_add_message(__('Your patent/license has been succesfuly published!', 'bp-example'), 'success');
+                    bp_core_add_message(__('Your patent/license has been successfully published!', 'bp-example'), 'success');
                 else
-                    bp_core_add_message(__('Unable to insert infromation to database..', 'bp-example'), 'error');
+                    bp_core_add_message(__('Unable to insert information to database..', 'bp-example'), 'error');
             }
 
 

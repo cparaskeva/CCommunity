@@ -141,9 +141,9 @@ function bp_alerts_check_modifications() {
                 'date' => date('Y-m-d H:i:s')
             ); 
              if (bp_alerts_publish_alert($alert_new))
-                    bp_core_add_message(__('Your alert has been succesfuly set!', 'bp-alerts'), 'success');
+                    bp_core_add_message(__('Your alert has been successfully set!', 'bp-alerts'), 'success');
                 else
-                    bp_core_add_message(__('Unable to insert infromation to database..', 'bp-alerts'), 'error');
+                    bp_core_add_message(__('Unable to insert information to database..', 'bp-alerts'), 'error');
 
             break;
 
