@@ -27,7 +27,7 @@ global $bp;
 
         <form action="" method="post" id="tools_facilities-directory-form" class="dir-form">
             <h3  id="tools_facilities-header"><?php _e('Tools & Facilities', 'firmasite'); ?></h3>
-		<div class="page-header">List of all published offers about renting tools or facilities.</div>
+		<div class="page-header">Searching through the offers published here, you can find organisations that could be interested in your tools or facilities. You can also find organisations offering the resources you are in need of.</div>
 	    <div style="height:20px;"></div>
 
 <?php do_action('bp_before_directory_tools_facilities_content'); ?>

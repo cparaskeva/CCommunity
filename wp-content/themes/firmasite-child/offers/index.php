@@ -37,7 +37,18 @@ global $bp;
 
         <form action="" method="post" id="offers-directory-form" class="dir-form">
             <h3  id="offers-header"><?php _e('Offers', 'firmasite'); ?></h3>
-<div class="page-header">List of all published offers.</div>
+
+
+<?php if ( bp_offers_current_category() == 1 ) : ?>
+	        <div class="page-header">Here you can find organisations looking for your competences or expertise. You can also find organisations whose competences are those you are looking for.</div>
+            <?php elseif ( bp_offers_current_category() == 2 ) : ?>	
+		<div class="page-header">Searching through the offers published here, you can find organisations that could be interested in being integrated into your consortium, if you have already developed a project idea. You can also publish projects’ ideas you would like to participate in.</div>
+	    <?php elseif ( bp_offers_current_category() == 3 ) : ?>
+		<div class="page-header">If you are a venture capitalist, you can find organisations interested in the opportunities you are proposing. You can also check through this page for fundings opportunities that could interest you.</div>
+	    <?php endif; ?>
+
+
+
 	    <div style="height:20px;"></div>
 
 <?php do_action('bp_before_directory_offers_content'); ?>

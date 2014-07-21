@@ -18,6 +18,8 @@ wp_enqueue_style('bootstrapformhelpers-style');
     <div class="padder">
         <form action="" method="post" id="tool_facility-form" class="standard-form" enctype="multipart/form-data">
             <h3  id="tools_facilities-header" class="page-header"><?php _e('Create an offer <h4>(Tool/Facility rent)</h4>', 'firmasite'); ?> &nbsp;</h3>
+            <p>Creating this kind of offer, you can rent tools and/or facilities. Please provide a description of what your organisation is looking for in order to receive offers from other registered organisations.</p>
+            <br>
             <?php do_action('template_notices'); ?>
             <div class="item-body" id="group-create-body">
                 <!-- Country Hidden Field -->

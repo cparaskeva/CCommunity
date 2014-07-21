@@ -19,6 +19,8 @@ wp_enqueue_style('bootstrap-multiselect-style');
     <div class="padder">
         <form action="" method="post" id="challenge-form" class="standard-form" enctype="multipart/form-data">
             <h3  id="challenges-header" class="page-header"><?php _e('Launch an Open Innovation Challenge', 'firmasite'); ?> &nbsp;</h3>
+	    <p>Creating this kind of offer, you can launch a challenge for other organisations.</p>
+            <br>
             <?php do_action('template_notices'); ?>
             <div class="item-body" id="group-create-body">
                 <!-- Hidden Fields for Organization Sectors and Subsectors covered-->   

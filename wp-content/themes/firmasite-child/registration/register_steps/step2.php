@@ -198,7 +198,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_transaction"><?php _e('Is the organisation available for transaction? ', 'firmasite'); ?> <span data-toggle="tooltip" data-placement="left" title="Choose yes if the organisation is willing to perform some transactions with other companies, like funding or licensing" class="glyphicon glyphicon-question-sign"></span></label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_transaction"><?php _e('Is the organisation available for transaction? ', 'firmasite'); ?> <span data-toggle="tooltip" data-placement="left" title="Choose yes if your organisation would like to close transactions (i.e. funding or licensing) with other companies" class="glyphicon glyphicon-question-sign"></span></label>
                     <div class="col-xs-12 col-md-9">
                         <input type="radio" checked="yes" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                         <input type="radio" name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>

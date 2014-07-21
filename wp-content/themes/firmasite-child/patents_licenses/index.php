@@ -29,7 +29,7 @@ global $bp;
 
         <form action="" method="post" id="patents_licenses-directory-form" class="dir-form">
             <h3  id="patents_licenses-header"><?php _e('Patents & Licenses', 'firmasite'); ?></h3>
-<div class="page-header">List of all published offers about patents and licenses.</div>
+<div class="page-header">Searching through the offers published here, you can find patents or licenses sold by other registered organisations. You can also find organisations looking for your patents or licenses.</div>
 	    <div style="height:20px;"></div>
 
 <?php do_action('bp_before_directory_patents_licenses_content'); ?>

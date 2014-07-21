@@ -19,7 +19,9 @@ wp_enqueue_style('bootstrap-multiselect-style');
     <div class="padder">
         <form action="" method="post" id="patent_license-form" class="standard-form" enctype="multipart/form-data">
             <h3  id="patents_licenses-header" class="page-header"><?php _e('Create an offer <h4>(Patent or License)</h4> ', 'firmasite'); ?> &nbsp;</h3>
-            <?php do_action('template_notices'); ?>
+            <p>Creating this kind of offer, you can propose a license or a patent to interested organisations. You can also search for a patent or license sold by other organisations.</p>
+	    <br>
+	    <?php do_action('template_notices'); ?>
             <div class="item-body" id="group-create-body">
                 <!-- Hidden Fields for Organization Sectors and Subsectors covered-->   
                 <input  type="hidden" class="form-control" name="patent-license-sectors" id="patent-license-sectors" value=""/>

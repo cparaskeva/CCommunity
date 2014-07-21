@@ -30,7 +30,7 @@ global $bp;
         <form action="" method="post" id="challenges-directory-form" class="dir-form">
            
 	 <h3  id="challenges-header"><?php _e('Challenges', 'firmasite'); ?></h3>
-	<div class="page-header">List of all published Open Innovation challenges.</div>
+	<div class="page-header">You can search through the Open Innovation Challenges submitted by other organisations and apply.</div>
 	    <div style="height:20px;"></div>
 
 <?php do_action('bp_before_directory_challenges_content'); ?>

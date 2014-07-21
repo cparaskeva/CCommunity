@@ -19,7 +19,18 @@ wp_enqueue_style('bootstrap-multiselect-style');
     <div class="padder">
         <form action="" method="post" id="offer-collaboration-form" class="standard-form" enctype="multipart/form-data">
             <h3  id="offers-header" class="page-header"><?php _e('Create an Offer ', 'firmasite'); ?> &nbsp;</h3>
-            <?php do_action('template_notices'); ?>
+            
+	    <?php if ( bp_offers_current_category() == 1 ) : ?>
+	        <p>Creating this kind of offer you can find organisations that could be interested in collaborating with you on an already existing project or on a new one. You can also offer, your competences and expertise and be found by organisations which are in need of them.</p>
+            <?php elseif ( bp_offers_current_category() == 2 ) : ?>	
+		<p>Creating this kind of offer, you can find organisations that could be interested in collaborating with you on an already existing project or on a new one. You can also offer your competences and expertise and be found by organisations which are in need of them.</p>
+	    <?php elseif ( bp_offers_current_category() == 3 ) : ?>
+		<p>If you are a venture capitalist, you can propose your funding opportunities. In case you are looking for fundings, you can ask for them here.</p>
+	    <?php endif; ?>
+	
+	    <br>
+	    <?php do_action('template_notices'); ?>
+	    
             <div class="item-body" id="group-create-body">
                 <!-- Hidden Fields for Offer Sectors covered-->  
                 <div hidden="hidden" id="offer-type-div">
@@ -42,8 +53,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
                 </div>
                 <div hidden="true" id="collaboration-commons">
                     <div hidden="true" id="collaboration-commons-extra">
-                        <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?><span data-toggle="tooltip" data-placement="left" title="If you have 						already started a project or you have an idea of what you want to do, select the option 'Proposing a project'.
-					If you have some competences and expertise you want to share with other organisations, please select the option 'Offering competences'." 					class="glyphicon glyphicon-question-sign"></span></label>
+                        <label for="collaboration-type"><?php _e('Type of collaboration (required)', 'firmasite'); ?><span data-toggle="tooltip" data-placement="left" title="If you have already started a project or you have an idea for a new project, select the option 'Proposing a project'. If you have competences and expertise that you want to offer to other organisations, please select the option 'Offering competences'." 					class="glyphicon glyphicon-question-sign"></span></label>
                         <select name="collaboration-type" id="collaboration-type">
                             <option value="none"  selected="selected"> Please select..</option>
                             <?php

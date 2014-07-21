@@ -27,7 +27,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
 
             <h3 id="offers-header"><?php _e('Organisations', 'firmasite'); ?></h3>
 
-	    <div class="page-header">List of all registered organisations.</div>
+	    <div class="page-header">Here you can search through the already registered organisations and find potential clients, suppliers or partners.</div>
 	    <div style="height:20px;"></div>
 
             <?php do_action('bp_before_directory_groups_content'); ?>
