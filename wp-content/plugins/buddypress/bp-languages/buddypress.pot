@@ -4379,7 +4379,7 @@ msgid "Display Sitewide Notices posted by the site administrator"
 msgstr ""
 
 #: bp-notifications/bp-notifications-actions.php:43
-msgid "Notification successfully marked read."
+msgid "Notification successfully marked as read."
 msgstr ""
 
 #: bp-notifications/bp-notifications-actions.php:45
@@ -4388,7 +4388,7 @@ msgid "There was a problem marking that notification."
 msgstr ""
 
 #: bp-notifications/bp-notifications-actions.php:79
-msgid "Notification successfully marked unread."
+msgid "Notification successfully marked as unread."
 msgstr ""
 
 #: bp-notifications/bp-notifications-actions.php:115

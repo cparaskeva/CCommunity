@@ -40,7 +40,7 @@ function bp_notifications_action_mark_read() {
 
 	// Check the nonce and mark the notification
 	if ( bp_verify_nonce_request( 'bp_notification_mark_read_' . $id ) && bp_notifications_mark_notification( $id, false ) ) {
-		bp_core_add_message( __( 'Notification successfully marked read.',         'buddypress' )          );
+		bp_core_add_message( __( 'Notification successfully marked as read.',         'buddypress' )          );
 	} else {
 		bp_core_add_message( __( 'There was a problem marking that notification.', 'buddypress' ), 'error' );
 	}
@@ -76,7 +76,7 @@ function bp_notifications_action_mark_unread() {
 
 	// Check the nonce and mark the notification
 	if ( bp_verify_nonce_request( 'bp_notification_mark_unread_' . $id ) && bp_notifications_mark_notification( $id, true ) ) {
-		bp_core_add_message( __( 'Notification successfully marked unread.',       'buddypress' )          );
+		bp_core_add_message( __( 'Notification successfully marked as unread.',       'buddypress' )          );
 	} else {
 		bp_core_add_message( __( 'There was a problem marking that notification.', 'buddypress' ), 'error' );
 	}

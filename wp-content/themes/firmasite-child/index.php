@@ -17,6 +17,10 @@ $create_tool = "/cecommunity/members/".$current_user->user_nicename."/tools_faci
 $create_challenge = "/cecommunity/members/".$current_user->user_nicename."/challenges/create-challenge/";
 
 $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
+$member_profile = "/cecommunity/members/".$current_user->user_nicename."/profile/";
+
+$notifications_count = bp_notifications_get_unread_notification_count( $current_user->id );
+//$alerts_count = bp_get_total_alerts_count_for_user( $current_user->id );
 
 ?>
 
@@ -58,7 +62,10 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
     </style>
     
 	<div class="col-md-12 borders">
-		<h1>Welcome <?php echo $current_user->display_name ?>! </h1>
+		<h1>Welcome <?php echo $current_user->display_name ?>!</h1>
+	       <?php if ( $notifications_count > 0 ) : ?>
+		<h3><a href="<?php echo $member_profile; ?>"><?php echo $notifications_count; ?> unread notifications</a></h3>
+		<?php endif; ?>
 	
 		<div class="row links">
 			<div class="col-md-6">
@@ -101,7 +108,7 @@ $org_profile = "/cecommunity/members/".$current_user->user_nicename."/groups/";
 				
 				<h4>YOUR PROFILE</h4>
 				<ul>
-					<li>
+				     <li>
 						<img src="/cecommunity/wp-content/uploads/2014/03/LifeSciences-Network.png" width="25" height="25"> 
 						Fill in the <a href="<?php echo $org_profile; ?>">profile</a> of your organisation, to be sure you can be found by other organisations.
 					</li>
