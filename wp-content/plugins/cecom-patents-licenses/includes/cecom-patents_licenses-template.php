@@ -230,11 +230,11 @@ function bp_directory_patents_licenses_search_form() {
 
     $search_form_html = '<form action="" method="get" id="search-patents_licenses-form"> 
         
-	<div style="clear:both"><input type="submit" style="width:420px; height:68px; margin-right:20px; margin-left:100px; margin-top:30px;"  id="patents_licenses_search_submit" name="patents_licenses_search_submit" value="' . __('Show results', 'buddypress') . '" /></div>
+<label style="margin-top:25px; margin-right:213px;">Description keywords<input style="width:300px;" type="text" name="s" id="patents_licenses_search" placeholder="' . esc_attr($search_value) . '" /></label>
 
-		<div style="float:left;"><label style="margin-right:32px; margin-left:200px; margin-top:25px; padding-left:20px;">Description keywords<input style="width:300px;" type="text" name="s" id="patents_licenses_search" placeholder="' . esc_attr($search_value) . '" /></label></div>
+	<input type="submit" style="width:420px; height:68px; margin-right:30px; margin-left:100px; margin-top:-5px;"  id="patents_licenses_search_submit" name="patents_licenses_search_submit" value="' . __('Show results', 'buddypress') . '" />
 
-
+		
 		
 	</form>';
 

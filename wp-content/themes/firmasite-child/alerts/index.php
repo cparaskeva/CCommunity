@@ -79,8 +79,8 @@ global $bp;
                     <li id="alerts-order-select" class="last pull-right filter">
                         <label for="alerts-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
                         <select id="alerts-order-by">
-                            <option <?php echo ($_COOKIE['bp-alerts-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Newly Created', 'firmasite'); ?></option>
-                            <option <?php echo ($_COOKIE['bp-alerts-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest Created', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-alerts-filter'] == "newest" ? "selected='selected'" : "") ?> value="newest"><?php _e('Recently Created', 'firmasite'); ?></option>
+                            <option <?php echo ($_COOKIE['bp-alerts-filter'] == "oldest" ? "selected='selected'" : "") ?> value="oldest"><?php _e('Oldest', 'firmasite'); ?></option>
 
                             <?php do_action('bp_alerts_directory_order_options'); ?>
 

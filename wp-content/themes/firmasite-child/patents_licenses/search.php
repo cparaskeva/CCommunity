@@ -64,8 +64,8 @@
               
             </div>
 
-	    <div class="col-xs-12 col-md-4">
-		<div style="height:36px;"></div>
+	    <div class="col-xs-12 col-md-4" style="padding-left:40px;">
+		<div style="height:109px;"></div>
                 <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;</label>
                 <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">
                     <?php
@@ -89,7 +89,7 @@
 
 
             <div class="col-xs-12 col-md-4">
-		<div style="height:12px;"></div>
+		<div style="height:83px;"></div>
 
                 <label for="organization-name"><?php _e('Organisation name', 'firmasite'); ?></label>
                 <input placeholder="Type in keywords.." type="text" name="organization-name" id="organization-name"  />

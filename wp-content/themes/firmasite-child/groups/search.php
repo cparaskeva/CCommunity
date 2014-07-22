@@ -75,7 +75,7 @@
             </div>
 
 	    <!-- Search form second column -->
-            <div class="col-xs-12 col-md-4 col-lg-3" >
+            <div class="col-xs-12 col-md-4 col-lg-4" style="margin-top:107px; padding-left:30px;">
 	        <label  for="organization_sector"><?php _e('Sector', 'firmasite'); ?>&nbsp;&nbsp;&nbsp;</label>
                 <select name="organization_sector" id="organization_sector"  class="multiselect" multiple="multiple">          
                     <?php
@@ -89,7 +89,7 @@
                     }
                     ?>
                 </select>
-                <div style="height:25px;"></div>
+                <div style="height:45px;"></div>
                 <label for="organization_subsector"><?php _e('Subsector', 'firmasite'); ?> &nbsp;&nbsp;</label>
                 <select  class="multiselect" name="organization_subsector" id="organization_subsector" multiple="multiple">
                 </select>
@@ -153,12 +153,12 @@
 
             <!-- Search checkboxes column -->
 	    
-            <div hidden="false" class="col-xs-12 col-md-6 col-lg-6" id="organization-checkboxes" >
+            <div hidden="false" class="col-xs-12 col-md-6 col-lg-5" id="organization-checkboxes" style="margin-top:100px;">
                 <label  for="organization_collaboration"><?php _e('Is the organisation available for collaboration?', 'firmasite'); ?> </label>
                 <br/><input type="radio" name="organization_collaboration_y" id="organization_collaboration_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                 <input type="radio"  name="organization_collaboration_n" id="organization_collaboration_n"  aria-required="false"> &nbsp;<strong>No</strong>
                 <br>
-		<div style="height:15px;"></div>
+		<div style="height:40px;"></div>
                 <label  for="organization_transaction"><?php _e('Is the organisation available for transaction?', 'firmasite'); ?>&nbsp;&nbsp;</label>
                 <br/><input type="radio" name="organization_transaction_y" id="organization_transaction_y" aria-required="false"> &nbsp;<strong>Yes</strong>&nbsp;&nbsp;
                 <input type="radio"  name="organization_transaction_n" id="organization_transaction_n" ria-required="false"> &nbsp;<strong>No</strong>
@@ -284,6 +284,6 @@
         setSubsctorValues();
         jQuery("#offer-type").val(<?php echo (!empty($_GET['offer_type']) ? $_GET['offer_type'] : "'none'" ) ?>).change();
         if (jQuery("#offer-type").val() != "none")
-            jQuery("#offers-header").append("<h4>(Search orgnisations offering '" + jQuery("#offer-type option:selected").text() + "')</h4>");
+            jQuery("#offers-header").append("<h4>(Search organisations offering '" + jQuery("#offer-type option:selected").text() + "')</h4>");
     });
 </script>
