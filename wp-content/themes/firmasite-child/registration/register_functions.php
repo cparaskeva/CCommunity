@@ -126,13 +126,13 @@ function custom_register_user() {
         if ($organization['notlisted'] == "false") {
             //User has not selected an organization from the list
             if ($organization['id'] == "undefined")
-                $errors[] = "Please select your organization..";
+                $errors[] = "Please select your organisation..";
         }
         else {
 
             //Validate Organization Name 
             if (empty($organization['name']))
-                $errors[] = 'You must provide the name of the organization you belong|';
+                $errors[] = 'You must provide the name of the organisation you belong to|';
             //Validate Organization Website
             /* if (empty($organization['website']))
               $errors[] = 'You must provide the website of your organization|'; */
@@ -143,18 +143,18 @@ function custom_register_user() {
 
             //Validate Organization Size
             if (empty($organization['size']) || $organization['size'] == 'none' || !($organization['size'] >= 'A' && $organization['size'] <= 'I'))
-                $errors[] = 'You must select the size of your organization|';
+                $errors[] = 'You must select the size of your organisation|';
             //Validate Organization Type
             if (empty($organization['type']) || $organization['type'] == 'none' || !(preg_match("(C|D|E|G|N|O|P|S)", $organization['type'])))
-                $errors[] = 'You must select the type of your organization|';
+                $errors[] = 'You must select the type of your organisation|';
             //Validate Sector 
             $sectors = $organization['sectors'];
             $subsectors = $organization['subsectors'];
             if (empty($organization['sectors']) || $sectors[0] == 'null')
-                $errors[] = 'You must select at least one sector for your organization|';
+                $errors[] = 'You must select at least one sector for your organisation|';
             //Validate Subsector  
             if (empty($organization['subsectors']) || $subsectors [0] == 'null')
-                $errors[] = 'You must select  at least one  subsector for your organization|';
+                $errors[] = 'You must select at least one subsector for your organisation|';
 
 
 

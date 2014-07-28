@@ -534,7 +534,7 @@ function groups_screen_group_admin_edit_details() {
             } else {
                 //Buddypress has checked for data validation, time to validate CEComunity Organization fields
                 if ($_POST['organization_sectors'] == "" || $_POST['organization_subsectors'] == "")
-                    bp_core_add_message(__('Please select at least one sector and one subsector for your organization.', 'buddypress'), 'error');
+                    bp_core_add_message(__('Please select at least one sector and one subsector for your organisation.', 'buddypress'), 'error');
                 else {
                     global $cecom;
                     $collaboration = 0;

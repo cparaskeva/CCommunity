@@ -219,7 +219,7 @@ jQuery("#register_step2").submit(function(event) {
 
      //Check if a valid organization id is set
      if(organizationID == null || organizationID <=0)
-        alert("Organization could not be imported. Please select a proper organization");
+        alert("Organisation could not be imported. Please select a proper organisation");
     else
     //Implementation of importing a linkedin company
     {

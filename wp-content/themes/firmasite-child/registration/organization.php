@@ -10,11 +10,11 @@
 			<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 
 				<h2>                        <img src="<?php bloginfo('stylesheet_directory'); ?>/assets/img/step2.jpg" height="60" width="60">        
-<?php _e( 'Register an Organization', 'firmasite' ); ?></h2>
+<?php _e( 'Register an Organisation', 'firmasite' ); ?></h2>
 
 				<?php do_action( 'template_notices' ); ?>
 
-				<p><?php _e( 'In the case tha the organization tha you belong is not listed, you can register it manually or get your organization info using your linked in account.', 'firmasite' ); ?></p>
+				<p><?php _e( 'In the case that the organisation you belong to is not listed, you can register it manually or get your organisation info using your LinkedIn account.', 'firmasite' ); ?></p>
 
 				<?php do_action( 'bp_before_account_details_fields' ); ?>
 
@@ -22,7 +22,7 @@
 
 					<?php /***** Basic Account Details ******/ ?>
 
-					<h4 class="page-header"><?php _e( 'Organization Details', 'firmasite' ); ?></h4>
+					<h4 class="page-header"><?php _e( 'Organisation Details', 'firmasite' ); ?></h4>
 
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-md-3" for="signup_username"><?php _e( 'Username', 'firmasite' ); ?> <?php _e( '(required)', 'firmasite' ); ?></label>

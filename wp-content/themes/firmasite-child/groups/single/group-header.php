@@ -57,7 +57,7 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
      </span><br/><br/><br/>
         <div>
             <strong>Type</strong></br> <?php echo $cecom->organization->details['type'] ?></br></br>
-            <strong>Organization Size</strong></br>
+            <strong>Organisation Size</strong></br>
             <?php
             $minus = "-";
             $max = $cecom->organization->details['size_max'];
@@ -122,12 +122,12 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
             }
             echo substr($subsectors, 0,-2);
             ?><br/><br/>
-            <i>Organization is available for collaboration</i>&nbsp;  <?php
+            <i>Organisation is available for collaboration</i>&nbsp;  <?php
             if ($cecom->organization->details['collaboration']) : echo "<span class=\"glyphicon glyphicon-ok\"></span>";
             else : echo "<span class=\"glyphicon glyphicon-remove\"></span>";
             endif;
             ?></br>
-            <i>Organization is available for transaction</i>&nbsp; <?php
+            <i>Organisation is available for transaction</i>&nbsp; <?php
             if ($cecom->organization->details['transaction']) : echo "<span class=\"glyphicon glyphicon-ok\"></span>";
             else : echo "<span class=\"glyphicon glyphicon-remove\"></span>";
             endif;

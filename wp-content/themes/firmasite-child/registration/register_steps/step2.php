@@ -83,7 +83,7 @@
 
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_website"><?php _e('Organization Website', 'firmasite'); ?></label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_website"><?php _e('Organisation Website', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
                         <input  class="form-control" name="organization_website" id="organization_website" value="" aria-required="false"/>
                     </div>
@@ -139,7 +139,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-md-3" for="organization_type"><?php _e('Type of Organization', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
+                    <label class="control-label col-xs-12 col-md-3" for="organization_type"><?php _e('Type of Organisation', 'firmasite'); ?> <?php _e('(required)', 'firmasite'); ?></label>
                     <div class="col-xs-12 col-md-9">
                         <select  class="form-control" name="organization_type" id="organization_type" aria-required="false">
                             <option value="none">Please select...</option>
