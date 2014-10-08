@@ -51,7 +51,7 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
      <span>
 	<a href="<?php bp_group_permalink(); ?>" title="<?php bp_group_name(); ?>">
 
-        <?php bp_group_avatar(); ?>
+        <?php bp_group_avatar();?>
 
     	</a>
      </span><br/><br/><br/>
@@ -72,9 +72,9 @@ $cecom->organization->setOrganizationDetails(bp_get_current_group_id());
             }
             echo $min . $minus . $max . " Employees";
             
-            $gr_creator_id = bp_get_group_creator_id();
+            $gr_creator_id = bp_group_admin_ids(); //bp_get_group_creator_id();
             /* dirty :-( */
-            global $wpdb;
+            global $wpdb;  
             $admins = $wpdb->get_results("SELECT user_login, user_email  FROM wp_users WHERE ID = $gr_creator_id");
             $adm = $admins[0];
             $admin_name = $adm->user_login;
