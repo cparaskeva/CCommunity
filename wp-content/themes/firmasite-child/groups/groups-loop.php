@@ -103,7 +103,7 @@
                     		$type = $org->details['type'];
                     		
                     		
-                    		$gr_creator_id = bp_get_group_creator_id();
+                    		$gr_creator_id = bp_group_admin_ids(); //bp_get_group_creator_id();
                     		                    		
                     		/* dirty :-( */
                     		global $wpdb;
