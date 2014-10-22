@@ -69,6 +69,7 @@ $notifications_count = bp_notifications_get_unread_notification_count( $current_
 	
 		<div class="row links">
 			<div class="col-md-6">
+                            <h4>Please <a href="http://goo.gl/forms/T6nurRZFD4" target="_blank">fill in a very short questionnaire</a> to provide us your feedback on the platform </h4>
 				<h4>SEARCH</h4>
 				<ul>
 					<li>
