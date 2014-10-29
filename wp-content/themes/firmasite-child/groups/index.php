@@ -15,76 +15,77 @@ wp_enqueue_script('bootstrap-multiselect');
 /* Import CSS files */
 wp_enqueue_style('bootstrapformhelpers-style');
 wp_enqueue_style('bootstrap-multiselect-style');
+
+echo "Group: " . $_COOKIE['bp-groups-filter'];
 ?>
 <?php do_action('bp_before_directory_groups_page'); ?>
 
 <div id="primary" class="content-area <?php echo $firmasite_settings["layout_primary_class"]; ?>">
     <div class="padder">
 
-        <?php do_action('bp_before_directory_groups'); ?>
+<?php do_action('bp_before_directory_groups'); ?>
 
         <form action="" method="post" id="groups-directory-form" class="dir-form">
 
             <h3 id="offers-header"><?php _e('Organisations', 'firmasite'); ?></h3>
 
-	    <div class="page-header">Here you can search through the already registered organisations and find potential clients, suppliers or partners.</div>
-	    <div style="height:20px;"></div>
+            <div class="page-header">Here you can search through the already registered organisations and find potential clients, suppliers or partners.</div>
+            <div style="height:20px;"></div>
 
-            <?php do_action('bp_before_directory_groups_content'); ?>
+<?php do_action('bp_before_directory_groups_content'); ?>
 
             <div class="item-list-tabs tabs-top" role="navigation">
                 <ul class="nav nav-pills">
                     <li class="selected" id="groups-all"><a href="<?php echo trailingslashit(bp_get_root_domain() . '/' . bp_get_groups_root_slug()); ?>"><?php printf(__('All Organisations <span>%s</span>', 'firmasite'), bp_get_total_group_count()); ?></a></li>
 
-     
-                    <?php do_action('bp_groups_directory_group_filter'); ?>
+
+<?php do_action('bp_groups_directory_group_filter'); ?>
 
                 </ul>
- 		</div><!-- .item-list-tabs -->
-		
-		<div id="group-dir-search" class="dir-search" role="search">
+            </div><!-- .item-list-tabs -->
 
-                  <br/> <?php bp_directory_groups_search_form(); ?>
+            <div id="group-dir-search" class="dir-search" role="search">
 
-                </div><!-- #group-dir-search -->
+                <br/> <?php bp_directory_groups_search_form(); ?>
 
-           
+            </div><!-- #group-dir-search -->
 
-            
+
+
+
 
             <!-- Include the UI for the search form -->
-            <?php include(get_stylesheet_directory() . "/groups/search.php"); ?>
+<?php include(get_stylesheet_directory() . "/groups/search.php"); ?>
 
             <?php do_action('template_notices'); ?>
-            
+
             <div class="item-list-tabs" id="subnav" role="navigation">
                 <ul class="nav nav-pills">
 
-		    <?php do_action('bp_groups_directory_group_types'); ?>
+<?php do_action('bp_groups_directory_group_types'); ?>
 
                     <li id="groups-order-select" class="last pull-right filter">
 
                         <label for="groups-order-by"><?php _e('Order By:', 'firmasite'); ?></label>
                         <select id="groups-order-by">
-                            
+                            <option selected="selected" value="newest"><?php _e('Alphabetical', 'firmasite'); ?></option>
                             <option value="popular"><?php _e('Organisation size', 'firmasite'); ?></option>
-                            <option value="newest"><?php _e('Recently created', 'firmasite'); ?></option>
-                            <option value="alphabetical"><?php _e('Alphabetical', 'firmasite'); ?></option>
+                            <option value="alphabetical"><?php _e('Recently created', 'firmasite'); ?></option>
 
-                            <?php do_action('bp_groups_directory_order_options'); ?>
+<?php do_action('bp_groups_directory_order_options'); ?>
 
                         </select>
                     </li>
                 </ul>
             </div>
-	    
+
             <div id="groups-dir-list" class="groups dir-list">
 
-                <?php locate_template(array('groups/groups-loop.php'), true); ?>
+<?php locate_template(array('groups/groups-loop.php'), true); ?>
 
             </div><!-- #groups-dir-list -->
 
-            <?php do_action('bp_directory_groups_content'); ?>
+<?php do_action('bp_directory_groups_content'); ?>
 
             <?php wp_nonce_field('directory_groups', '_wpnonce-groups-filter'); ?>
 
@@ -92,7 +93,7 @@ wp_enqueue_style('bootstrap-multiselect-style');
 
         </form><!-- #groups-directory-form -->
 
-        <?php do_action('bp_after_directory_groups'); ?>
+<?php do_action('bp_after_directory_groups'); ?>
 
     </div><!-- .padder -->
 </div><!-- #content -->

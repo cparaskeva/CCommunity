@@ -885,8 +885,8 @@ class BP_Groups_Group {
 
 		switch ( $type ) {
 			case 'newest' :
-				$order   = 'DESC';
-				$orderby = 'date_created';
+				$order   = 'ASC';
+				$orderby = 'name';
 				break;
 
 			case 'active' :
@@ -900,8 +900,8 @@ class BP_Groups_Group {
 				break;
 
 			case 'alphabetical' :
-				$order   = 'ASC';
-				$orderby = 'name';
+                                $order   = 'DESC';
+				$orderby = 'date_created';
 				break;
 
 			case 'random' :
