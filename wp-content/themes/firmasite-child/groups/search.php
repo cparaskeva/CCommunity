@@ -27,7 +27,7 @@
 		 <!-- Organization country field -->
 		<div>
                 <label  for="organization-country"><?php _e('Organisation country', 'firmasite'); ?></label>
-                 <div id="organization-country" class="bfh-selectbox bfh-countries" data-country="" data-flags="true"> </div>
+                 <div id="organization-country" class="bfh-selectbox bfh-countries" data-country="" data-flags="false"> </div>
 		</div>
            	 <br/>
 		 <!-- Organization size field -->
