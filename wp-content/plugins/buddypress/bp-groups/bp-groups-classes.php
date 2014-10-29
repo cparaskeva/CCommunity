@@ -719,6 +719,7 @@ class BP_Groups_Group {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
 		}
 
+                            
 		// Get paginated results
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql, $r );
 		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
@@ -780,15 +781,16 @@ class BP_Groups_Group {
 		$total_sql['where'][] = "gm2.meta_key = 'last_activity'";
 
 		$t_sql = $total_sql['select'];
-
+    
 		if ( ! empty( $total_sql['where'] ) ) {
 			$t_sql .= " WHERE " . join( ' AND ', (array) $total_sql['where'] );
 		}
-
+                
+               
 		// Get total group results
 		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r );
 		$total_groups     = $wpdb->get_var( $total_groups_sql );
-                //echo "<br>Count query: " . $total_groups_sql."<br><br>";
+                
 
 		$group_ids = array();
 		foreach ( (array) $paged_groups as $group ) {
@@ -908,6 +910,8 @@ class BP_Groups_Group {
 				$order   = '';
 				$orderby = 'random';
 				break;
+                            
+                            break;
 		}
 
 		return array( 'order' => $order, 'orderby' => $orderby );

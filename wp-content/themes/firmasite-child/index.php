@@ -3,7 +3,7 @@
  * @package firmasite
  */
 global $firmasite_settings;
-
+setcookie( 'bp-groups-filter',"newest");
 get_header();
 
 $current_user = wp_get_current_user();
