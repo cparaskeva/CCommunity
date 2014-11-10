@@ -248,7 +248,7 @@ class CECOM_Organization {
                 //Take into account organization type field
                 $search_extras_query.= ($search_extras_args['organization-type'] != 'none' ? "AND type_id='{$search_extras_args['organization-type']}' " : "");
                 //Take into account organization country field
-                $search_extras_query.= ($search_extras_args['organization-country'] != '' ? "AND country_id='{$search_extras_args['organization-country']}' " : "");
+                $search_extras_query.= ($search_extras_args['organization_country'] != '' ? "AND country_id='{$search_extras_args['organization_country']}' " : "");
                 //Take into account collaboration field
                 $search_extras_query.= ($search_extras_args['organization-collaboration'] != '' ? "AND collaboration='{$search_extras_args['organization-collaboration']}' " : "");
                 //Take into account transaction field

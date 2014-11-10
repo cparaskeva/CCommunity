@@ -27,8 +27,9 @@ function completeSearchExtras(current_component){
         search_extras =jQuery('#offer_serach_extras').serialize().replace(/=/g,";").replace(/&/g,"|");
         break;
     case "organizations":
+        //search_extras =(jQuery('#organization_serach_extras').serialize()+"&organization-country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
         search_extras =(jQuery('#organization_serach_extras').serialize()+"&organization-country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
-        break;
+            break;
     case "patents_licenses":
         search_extras =(jQuery('#patent_license_serach_extras').serialize()+"&organization-country="+jQuery(".bfh-selectbox").val()).replace(/=/g,";").replace(/&/g,"|");
         break;
